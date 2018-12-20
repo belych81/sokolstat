@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Hello {{ name }}</h1>
+{% for cup in cups %}
+<p>{{ cup.team.name }}</p>
+{% endfor %}
 {% endblock %}
