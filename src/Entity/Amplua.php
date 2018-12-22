@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +23,16 @@ class Amplua
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="amplua")
+     */
+    private $players;
+
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +46,37 @@ class Amplua
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setAmplua($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+            // set the owning side to null (unless already changed)
+            if ($player->getAmplua() === $this) {
+                $player->setAmplua(null);
+            }
+        }
 
         return $this;
     }

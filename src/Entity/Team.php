@@ -39,9 +39,21 @@ class Team
      */
     private $cups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="team")
+     */
+    private $tours;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="team")
+     */
+    private $rfplmatches;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
+        $this->tours = new ArrayCollection();
+        $this->rfplmatches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +122,68 @@ class Team
             // set the owning side to null (unless already changed)
             if ($cup->getTeam() === $this) {
                 $cup->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tour[]
+     */
+    public function getTours(): Collection
+    {
+        return $this->tours;
+    }
+
+    public function addTour(Tour $tour): self
+    {
+        if (!$this->tours->contains($tour)) {
+            $this->tours[] = $tour;
+            $tour->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTour(Tour $tour): self
+    {
+        if ($this->tours->contains($tour)) {
+            $this->tours->removeElement($tour);
+            // set the owning side to null (unless already changed)
+            if ($tour->getTeam() === $this) {
+                $tour->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rfplmatch[]
+     */
+    public function getRfplmatches(): Collection
+    {
+        return $this->rfplmatches;
+    }
+
+    public function addRfplmatch(Rfplmatch $rfplmatch): self
+    {
+        if (!$this->rfplmatches->contains($rfplmatch)) {
+            $this->rfplmatches[] = $rfplmatch;
+            $rfplmatch->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRfplmatch(Rfplmatch $rfplmatch): self
+    {
+        if ($this->rfplmatches->contains($rfplmatch)) {
+            $this->rfplmatches->removeElement($rfplmatch);
+            // set the owning side to null (unless already changed)
+            if ($rfplmatch->getTeam() === $this) {
+                $rfplmatch->setTeam(null);
             }
         }
 

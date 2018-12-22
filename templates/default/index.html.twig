@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% for cup in cups %}
-<p>{{ cup.team.name }}</p>
-{% endfor %}
+  <table>
+    {% for team, score in rating %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ team }}</td>
+        <td>{{ score }}</td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}

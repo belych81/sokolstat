@@ -33,9 +33,21 @@ class Country
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="country")
+     */
+    private $tours;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="country")
+     */
+    private $players;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->tours = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +104,68 @@ class Country
             // set the owning side to null (unless already changed)
             if ($team->getCountry() === $this) {
                 $team->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tour[]
+     */
+    public function getTours(): Collection
+    {
+        return $this->tours;
+    }
+
+    public function addTour(Tour $tour): self
+    {
+        if (!$this->tours->contains($tour)) {
+            $this->tours[] = $tour;
+            $tour->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTour(Tour $tour): self
+    {
+        if ($this->tours->contains($tour)) {
+            $this->tours->removeElement($tour);
+            // set the owning side to null (unless already changed)
+            if ($tour->getCountry() === $this) {
+                $tour->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+            // set the owning side to null (unless already changed)
+            if ($player->getCountry() === $this) {
+                $player->setCountry(null);
             }
         }
 

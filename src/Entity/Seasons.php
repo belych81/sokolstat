@@ -28,9 +28,21 @@ class Seasons
      */
     private $cups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="season")
+     */
+    private $tours;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="season")
+     */
+    private $rfplmatches;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
+        $this->tours = new ArrayCollection();
+        $this->rfplmatches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +87,68 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($cup->getSeason() === $this) {
                 $cup->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tour[]
+     */
+    public function getTours(): Collection
+    {
+        return $this->tours;
+    }
+
+    public function addTour(Tour $tour): self
+    {
+        if (!$this->tours->contains($tour)) {
+            $this->tours[] = $tour;
+            $tour->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTour(Tour $tour): self
+    {
+        if ($this->tours->contains($tour)) {
+            $this->tours->removeElement($tour);
+            // set the owning side to null (unless already changed)
+            if ($tour->getSeason() === $this) {
+                $tour->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rfplmatch[]
+     */
+    public function getRfplmatches(): Collection
+    {
+        return $this->rfplmatches;
+    }
+
+    public function addRfplmatch(Rfplmatch $rfplmatch): self
+    {
+        if (!$this->rfplmatches->contains($rfplmatch)) {
+            $this->rfplmatches[] = $rfplmatch;
+            $rfplmatch->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRfplmatch(Rfplmatch $rfplmatch): self
+    {
+        if ($this->rfplmatches->contains($rfplmatch)) {
+            $this->rfplmatches->removeElement($rfplmatch);
+            // set the owning side to null (unless already changed)
+            if ($rfplmatch->getSeason() === $this) {
+                $rfplmatch->setSeason(null);
             }
         }
 
