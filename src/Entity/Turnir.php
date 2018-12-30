@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StadiaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TurnirRepository")
  */
-class Stadia
+class Turnir
 {
     /**
      * @ORM\Id()
@@ -29,18 +29,17 @@ class Stadia
     private $alias;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="stadia")
+     * @ORM\Column(type="string", length=255)
      */
-    private $cups;
+    //private $russianAlias;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="stadia")
+     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="turnir")
      */
     private $eurocups;
 
     public function __construct()
     {
-        $this->cups = new ArrayCollection();
         $this->eurocups = new ArrayCollection();
     }
 
@@ -73,36 +72,17 @@ class Stadia
         return $this;
     }
 
-    /**
-     * @return Collection|Cup[]
-     */
-    public function getCups(): Collection
+    /*public function getRussianAlias(): ?string
     {
-        return $this->cups;
+        return $this->russianAlias;
     }
 
-    public function addCup(Cup $cup): self
+    public function setRussianAlias(string $russianAlias): self
     {
-        if (!$this->cups->contains($cup)) {
-            $this->cups[] = $cup;
-            $cup->setStadia($this);
-        }
+        $this->russianAlias = $russianAlias;
 
         return $this;
-    }
-
-    public function removeCup(Cup $cup): self
-    {
-        if ($this->cups->contains($cup)) {
-            $this->cups->removeElement($cup);
-            // set the owning side to null (unless already changed)
-            if ($cup->getStadia() === $this) {
-                $cup->setStadia(null);
-            }
-        }
-
-        return $this;
-    }
+    }*/
 
     /**
      * @return Collection|Eurocup[]
@@ -116,7 +96,7 @@ class Stadia
     {
         if (!$this->eurocups->contains($eurocup)) {
             $this->eurocups[] = $eurocup;
-            $eurocup->setStadia($this);
+            $eurocup->setTurnir($this);
         }
 
         return $this;
@@ -127,8 +107,8 @@ class Stadia
         if ($this->eurocups->contains($eurocup)) {
             $this->eurocups->removeElement($eurocup);
             // set the owning side to null (unless already changed)
-            if ($eurocup->getStadia() === $this) {
-                $eurocup->setStadia(null);
+            if ($eurocup->getTurnir() === $this) {
+                $eurocup->setTurnir(null);
             }
         }
 

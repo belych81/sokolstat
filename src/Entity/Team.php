@@ -49,11 +49,23 @@ class Team
      */
     private $rfplmatches;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="team")
+     */
+    private $eurocups;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shipplayer", mappedBy="team")
+     */
+    private $shipplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
         $this->tours = new ArrayCollection();
         $this->rfplmatches = new ArrayCollection();
+        $this->eurocups = new ArrayCollection();
+        $this->shipplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +196,68 @@ class Team
             // set the owning side to null (unless already changed)
             if ($rfplmatch->getTeam() === $this) {
                 $rfplmatch->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Eurocup[]
+     */
+    public function getEurocups(): Collection
+    {
+        return $this->eurocups;
+    }
+
+    public function addEurocup(Eurocup $eurocup): self
+    {
+        if (!$this->eurocups->contains($eurocup)) {
+            $this->eurocups[] = $eurocup;
+            $eurocup->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEurocup(Eurocup $eurocup): self
+    {
+        if ($this->eurocups->contains($eurocup)) {
+            $this->eurocups->removeElement($eurocup);
+            // set the owning side to null (unless already changed)
+            if ($eurocup->getTeam() === $this) {
+                $eurocup->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shipplayer[]
+     */
+    public function getShipplayers(): Collection
+    {
+        return $this->shipplayers;
+    }
+
+    public function addShipplayer(Shipplayer $shipplayer): self
+    {
+        if (!$this->shipplayers->contains($shipplayer)) {
+            $this->shipplayers[] = $shipplayer;
+            $shipplayer->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShipplayer(Shipplayer $shipplayer): self
+    {
+        if ($this->shipplayers->contains($shipplayer)) {
+            $this->shipplayers->removeElement($shipplayer);
+            // set the owning side to null (unless already changed)
+            if ($shipplayer->getTeam() === $this) {
+                $shipplayer->setTeam(null);
             }
         }
 

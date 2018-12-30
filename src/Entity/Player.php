@@ -90,9 +90,15 @@ class Player
      */
     private $rfplmatches;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shipplayer", mappedBy="player")
+     */
+    private $shipplayers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
+        $this->shipplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +287,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($rfplmatch->getPlayer() === $this) {
                 $rfplmatch->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shipplayer[]
+     */
+    public function getShipplayers(): Collection
+    {
+        return $this->shipplayers;
+    }
+
+    public function addShipplayer(Shipplayer $shipplayer): self
+    {
+        if (!$this->shipplayers->contains($shipplayer)) {
+            $this->shipplayers[] = $shipplayer;
+            $shipplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShipplayer(Shipplayer $shipplayer): self
+    {
+        if ($this->shipplayers->contains($shipplayer)) {
+            $this->shipplayers->removeElement($shipplayer);
+            // set the owning side to null (unless already changed)
+            if ($shipplayer->getPlayer() === $this) {
+                $shipplayer->setPlayer(null);
             }
         }
 

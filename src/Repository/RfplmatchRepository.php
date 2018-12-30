@@ -31,15 +31,13 @@ class RfplmatchRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Rfplmatch
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    public function getNewMatches() {
+      return $this->createQueryBuilder('r')
+          ->where('DATE_DIFF(r.data, :data) = 0')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('r.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
     }
-    */
 }
