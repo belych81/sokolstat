@@ -5,3 +5,7 @@ steam_fbstat_homepage:
 rating:
   path: /rating/
   controller: App\Controller\DefaultController::rating
+
+nhl_add:
+  path: /nhl/add/
+  controller: App\Controller\NhlController::add
