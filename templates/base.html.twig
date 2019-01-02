@@ -1,202 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-
         <title>
             {% block title %}
                 Футбольная статистика, чемпионаты, кубки, еврокубки
             {% endblock %}
         </title>
-            {% block keywords %}
-                <meta name="keywords" content="футбольная статистика, бомбардиры, ближайшие матчи,
-                    прошедшие матчи, дни рождения футболистов">
-            {% endblock %}
-
             {% block description %}
                 <meta name="description" content="Футбольная статистика, лучшие бомбардиры пяти ведущих
                     чемпионатов, дни рождения футболистов, ближайшие и прошедшие матчи">
             {% endblock %}
         <meta name="yandex-verification" content="7321bd4fcece7b51" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('bundles/steamfbstat/css/main.css') }}" type="text/css" media="all" />
-        {% endblock %}
-        {% block javascripts %}
-            <script src="{{ asset('bundles/steamfbstat/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
-            <script src="{{ asset('bundles/steamfbstat/js/menuShow.js')}}" type="text/javascript"></script>
-            <script src="{{ asset('bundles/steamfbstat/js/search.js')}}" type="text/javascript"></script>
-        {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('bundles/steamfbstat/images/i4.jpg') }}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+          <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     </head>
 
-<body>
-     <!-- Rating@Mail.ru counter -->
-     <!--script src="{{ asset('bundles/steamfbstat/js/countermailru.js') }}"></script>
-<noscript><div style="position:absolute;left:-10000px;">
-<img src="//top-fwz1.mail.ru/counter?id=2706976;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
-</div></noscript-->
-<!-- //Rating@Mail.ru counter -->
-
-<!--LiveInternet counter--><!--script src="{{ asset('bundles/steamfbstat/js/counterliveinternet.js') }}"></script--><!--/LiveInternet-->
-
-        <div class="panel-box">
-            <a href="{{ path('steam_fbstat_homepage') }}" class="logo-a">
-                        <img src="{{ asset('bundles/steamfbstat/images/i.jpg') }}"
-                             alt="SokolTeam" class="logo" />
-            </a>
-            <a href="{{ path('steam_fbstat_homepage') }}" class="logo-text-a">
-                <img src="{{ asset('bundles/steamfbstat/images/rrr.jpg') }}"
-                    alt="SokolTeam" class="logo-text" />
-            </a>
-            <a class="menu-trigger" href="javascript:void(0);">
-                <span class="menu-trigger-icon"></span>
-            </a>
-            <div class="panel-drop">
-                <ul>
-                    <li><a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">НАЦИОНАЛЬНЫЕ ТУРНИРЫ</a>
-                        <ul>
-                        <li> <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a></li>
-                        <li> <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a></li>
-                        <li> <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a></li>
-                        <li> <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a></li>
-                        <li> <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a></li>
-                        <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': '2017-2018'}) }}">ЕВРОКУБКИ</a>
-                        <ul>
-                        <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
-                        <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
-                        <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a></li>
-                        <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2016', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">СБОРНЫЕ</a>
-                    <ul>
-                     <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">ЧЕМПИОНАТЫ МИРА</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a></li>
-                     <li><a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">СБОРНАЯ РОССИИ</a></li>
-                    </ul></li>
-                    <li><a href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
-                    </li>
-                    <li class="header-login">
-                        {% if is_granted("ROLE_USER") %}
-                            <a href="{{ path('fos_user_profile_show') }}" class="registerLink">{{ app.user.username }}</a> |
-                            <a href="{{ path('fos_user_security_logout') }}"  class="registerLink">Выйти</a>
-                        {% else %}
-                            <a href="{{ path('fos_user_registration_register') }}" class="registerLink">Регистрация</a> |
-                            <a href="{{ path('fos_user_security_login') }}"  class="registerLink">Войти</a>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="container">
-            <header>
-                <div class="logo">
-                    <a href="{{ path('steam_fbstat_homepage') }}">
-                        <img src="{{ asset('bundles/steamfbstat/images/i.jpg') }}"
-                             alt="SokolTeam" />
-                    </a>
-                </div>
-                <div class="top-menu">
-                {% block menu %}
-
-                <ul class="menuPrimary">
-                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('championships', {'country': 'russia', 'season': '2017-2018'}) }}">НАЦИОНАЛЬНЫЕ ТУРНИРЫ</a>
-                    <div class="dropdown-inside">
-                     <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a>
-                     <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a>
-                     <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a>
-                     <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a>
-                     <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a>
-                     <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a>
-                    </div></li>
-                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': '2017-2018'}) }}">ЕВРОКУБКИ</a>
-                        <div class="dropdown-inside">
-                        <a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a>
-                        <a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a>
-                        <a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a>
-                        <a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2017', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a>
-                        </div></li>
-                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2014'}) }}">СБОРНЫЕ</a>
-                    <div class="dropdown-inside">
-                     <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">ЧЕМПИОНАТЫ МИРА</a>
-                     <a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a>
-                     <a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a>
-                     <a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">СБОРНАЯ РОССИИ</a>
-                    </div></li>
-                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
-                    </li>
-                    <li class="dropdown-top">
-                        {% if is_granted("ROLE_USER") %}
-                            <a href="{{ path('fos_user_profile_show') }}" class="registerLink">{{ app.user.username }}</a>
-                            <a href="{{ path('fos_user_security_logout') }}"  class="registerLink">Выйти</a>
-                        {% else %}
-                            <a href="{{ path('fos_user_registration_register') }}" class="registerLink">Регистрация</a>
-                            <a href="{{ path('fos_user_security_login') }}"  class="registerLink">Войти</a>
-                        {% endif %}
-                    </li>
-                </ul>
-                {% endblock %}
-                </div>
-            </header>
+    <body>
 
 
-            <table class="primaryFone">
-                <tr>
 
-                        {% block sidebar %}
-                        {% endblock %}
-                    <td class="scLink">
-{% if path('steam_fbstat_homepage') != path(app.request.attributes.get('_route'),
-     app.request.attributes.get('_route_params')) %}
 
-                        <table>
-                            <tr>
-                                <td>
-                                  {% block zagolovok %}
-                                  {% endblock %}
-                                </td>
-                                <td class="seasons">
-                                  {% block seasons %}
-                                  {% endblock %}
-                                </td>
-                            </tr>
-                        </table>
-{% endif %}
-                        {% block content %}
-                        {% endblock %}
-                    </td>
-                </tr>
-            </table>
-                <div id="footer">
 
-            <table>
-                        <tr>
-                            <td>
-                              <!-- Rating@Mail.ru logo -->
-<!--a href="http://top.mail.ru/jump?from=2706976">
-<img src="//top-fwz1.mail.ru/counter?id=2706976;t=337;l=1"
-style="border:0;" height="18" width="88" alt="Рейтинг@Mail.ru" /></a-->
-<!-- //Rating@Mail.ru logo -->
-
-                                <!--LiveInternet logo--><!--a href="//www.liveinternet.ru/click"
-target="_blank"><img src="//counter.yadro.ru/logo?16.15"
-title="LiveInternet: number of pageviews for 24 hours, of visitors for 24 hours and for today is shown"
-alt="" border="0" width="88" height="31"/></a--><!--/LiveInternet-->
-
-                            </td>
-                            <td>
-
-                        © SokolTeam 2012-{{ "now" | date("Y") }}</td>
-            <td><div class="">Вопросы и предложения присылайте <a href="mailto:info@sokolstat.ru">сюда</a></div></td>
-                        </tr>
-                    </table>
-                </div>
-       </div>
    </body>
 </html>

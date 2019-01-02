@@ -117,4 +117,9 @@ class NhlTeam
 
         return $this;
     }
+
+    public function __toString()
+    {
+      return $this->name;
+    }
 }

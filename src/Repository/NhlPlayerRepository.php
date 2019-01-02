@@ -19,32 +19,37 @@ class NhlPlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, NhlPlayer::class);
     }
 
-    // /**
-    //  * @return NhlPlayer[] Returns an array of NhlPlayer objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function updateNhlPlayer($playerId, $goal, $turnir)
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+      if($turnir == 1)
+      {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+                ->update('App\Entity\NhlPlayer', 'p')
+                ->set('p.goalReg', 'p.goalReg + ?3')
+                ->set('p.goalSum', 'p.goalSum + ?2')
+                ->where('p.id = ?1')
+                ->setParameter(1, $playerId)
+                ->setParameter(2, $goal)
+                ->setParameter(3, $goal)
+                ->getQuery();
+      }
+      elseif($turnir == 2)
+      {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+                ->update('App\Entity\NhlPlayer', 'p')
+                ->set('p.goalPlayOff', 'p.goalPlayOff + ?3')
+                ->set('p.goalSum', 'p.goalSum + ?2')
+                ->where('p.id = ?1')
+                ->setParameter(1, $playerId)
+                ->setParameter(2, $goal)
+                ->setParameter(3, $goal)
+                ->getQuery();
+      }
+      else
+      {
+        return;
+      }
 
-    /*
-    public function findOneBySomeField($value): ?NhlPlayer
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+          $qb->execute();
     }
-    */
 }
