@@ -9,3 +9,33 @@ rating:
 nhl_add:
   path: /nhl/add/
   controller: App\Controller\NhlController::add
+
+championships:
+    path:  /championships/{country}/{season}/{tour}
+    controller: App\Controller\Shiptable:index
+    defaults:
+        tour: false
+    requirements:
+        country: russia|england|spain|italy|germany|france|fnl
+        tour: \d+
+
+eurocup:
+    path:  /eurocup/{turnir}/{season}/{stadia}
+    controller: App\Controller\Eurocup:index
+    defaults:
+      turnir: leagueChampions
+      stadia: null
+    requirements:
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+
+supercup:
+    path:  /supercup/{country}
+    controller: App\Controller\UefaSupercup:index
+
+sbornie:
+    path:  /sbornie/{turnir}/{year}
+    controller: App/Controller/Mundial:index
+
+sbornieRus:
+    path:  /sbornie/{season}
+    controller: App/Controller/Mundial:showRus
