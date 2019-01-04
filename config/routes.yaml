@@ -39,3 +39,12 @@ sbornie:
 sbornieRus:
     path:  /sbornie/{season}
     controller: App/Controller/Mundial:showRus
+
+player:
+    path:  /player/russia/{page}/{sort}
+    controller: App/Controller/Rusplayer:index
+    defaults:
+      page: 1
+      sort: game
+    requirements:
+        page: \d+

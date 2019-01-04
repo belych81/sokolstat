@@ -19,32 +19,14 @@ class CupRepository extends ServiceEntityRepository
         parent::__construct($registry, Cup::class);
     }
 
-    // /**
-    //  * @return Cup[] Returns an array of Cup objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getYesterdayMatches()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) = -1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Cup
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

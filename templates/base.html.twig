@@ -29,6 +29,7 @@
     </head>
 
     <body>
+      <div class="wrapper">
       <div class="panel-box">
         <a href="{{ path('steam_fbstat_homepage') }}" class="logo-a">
           <img src="{{ asset('images/i.jpg') }}"
@@ -53,7 +54,7 @@
                         <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': '2017-2018'}) }}">ЕВРОКУБКИ</a>
+                    <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЕВРОКУБКИ</a>
                         <ul>
                         <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
                         <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
@@ -72,17 +73,18 @@
                     </li>
                     <li class="header-login">
                         {% if is_granted("ROLE_USER") %}
-                            <a href="{{ path('fos_user_profile_show') }}" class="registerLink">{{ app.user.username }}</a> |
-                            <a href="{{ path('fos_user_security_logout') }}"  class="registerLink">Выйти</a>
+                            <a href="" class="registerLink">{{ app.user.username }}</a> |
+                            <a href=""  class="registerLink">Выйти</a>
                         {% else %}
-                            <a href="{{ path('fos_user_registration_register') }}" class="registerLink">Регистрация</a> |
-                            <a href="{{ path('fos_user_security_login') }}"  class="registerLink">Войти</a>
+                            <a href="" class="registerLink">Регистрация</a> |
+                            <a href=""  class="registerLink">Войти</a>
                         {% endif %}
                     </li>
                 </ul>
             </div>
       </div>
-      <div class="container">
+
+
           <header>
               <div class="logo">
                   <a href="{{ path('steam_fbstat_homepage') }}">
@@ -90,8 +92,92 @@
                            alt="SokolTeam" />
                   </a>
               </div>
-          </header>
-      </div>
+              <div class="top-menu">
+                {% block menu %}
 
+                <ul class="menuPrimary">
+                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('championships', {'country': 'russia', 'season': season}) }}">НАЦИОНАЛЬНЫЕ ТУРНИРЫ</a>
+                    <div class="dropdown-inside">
+                     <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a>
+                     <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a>
+                     <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a>
+                     <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a>
+                     <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a>
+                     <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a>
+                    </div></li>
+                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЕВРОКУБКИ</a>
+                        <div class="dropdown-inside">
+                        <a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a>
+                        <a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a>
+                        <a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a>
+                        <a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2017', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a>
+                        </div></li>
+                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2014'}) }}">СБОРНЫЕ</a>
+                    <div class="dropdown-inside">
+                     <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">ЧЕМПИОНАТЫ МИРА</a>
+                     <a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a>
+                     <a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a>
+                     <a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">СБОРНАЯ РОССИИ</a>
+                    </div></li>
+                    <li class="dropdown-top"><a class="dropdown-top" href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
+                    </li>
+                    <li class="dropdown-top">
+                        {% if is_granted("ROLE_USER") %}
+                            <a href="" class="registerLink">{{ app.user.username }}</a>
+                            <a href=""  class="registerLink">Выйти</a>
+                        {% else %}
+                            <a href="" class="registerLink">Регистрация</a>
+                            <a href=""  class="registerLink">Войти</a>
+                        {% endif %}
+                    </li>
+                </ul>
+                {% endblock %}
+                </div>
+          </header>
+          <div class="content">
+            <div class="container">
+          <table class="primaryFone">
+                <tr>
+
+                        {% block sidebar %}
+                        {% endblock %}
+                    <td class="scLink">
+{% if path('steam_fbstat_homepage') != path(app.request.attributes.get('_route'),
+     app.request.attributes.get('_route_params')) %}
+
+                        <table>
+                            <tr>
+                                <td>
+                                  {% block zagolovok %}
+                                  {% endblock %}
+                                </td>
+                                <td class="seasons">
+                                  {% block seasons %}
+                                  {% endblock %}
+                                </td>
+                            </tr>
+                        </table>
+{% endif %}
+                        {% block content %}
+                        {% endblock %}
+                    </td>
+                </tr>
+            </table>
+          </div>
+        </div>
+            <footer>
+
+            <table>
+                        <tr>
+
+                            <td>
+
+                        © SokolTeam 2012-{{ "now" | date("Y") }}</td>
+            <td><div class="">Вопросы и предложения присылайте <a href="mailto:info@sokolstat.ru">сюда</a></div></td>
+                        </tr>
+                    </table>
+                </footer>
+      </div>
+    
    </body>
 </html>

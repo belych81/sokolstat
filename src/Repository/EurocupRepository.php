@@ -35,15 +35,14 @@ class EurocupRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Eurocup
+    public function getYesterdayMatches()
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+      return $this->createQueryBuilder('e')
+          ->where('DATE_DIFF(e.data, :data) = -1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('e.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
     }
-    */
 }

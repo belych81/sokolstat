@@ -1,8 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
 body,td,th {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
-body {background-color: #759e1a}
+body {
+	background-color: #759e1a;
+	width: 100%;
+}
 a.dropdown-top:hover { padding: 2px 10px 5px; }
 header {
     width: 100%;
@@ -69,8 +80,9 @@ a:active {
     position: absolute;
     left: 220px;
 }
-#footer {
-    background-color: #CCCCCC
+footer {
+    background-color: #CCCCCC;
+		flex: 0 0 auto;
 }
 #menuChamp {
     width: 150px;
@@ -150,9 +162,10 @@ a:active {
     margin-right: auto;
     width: 100%;
 }
-.content {
-    width: 100%;
-    background-color: #FFFFFF
+.content{
+    flex: 1 0 auto;
+    background-color: #FFFFFF;
+    text-align: center;
 }
 .choosed-player {
     font-weight: bold;
@@ -179,7 +192,7 @@ a:active {
     left: -9999px;
     background: #bb3388;
  }
-.dropdown-inside a:hover { 
+.dropdown-inside a:hover {
     background: #663377;
     text-decoration: none;
 }
@@ -612,7 +625,7 @@ a:active {
     list-style-type: none;
     line-height: 30px;
     display: block;
-    padding: 10px; 
+    padding: 10px;
 }
 .sidebarMenu li:hover {
     background: #de59bf;
@@ -643,7 +656,7 @@ a:active {
     font-size: 14px;
 }
 .stadia-name a {
-    color: #F55;    
+    color: #F55;
 }
 .tableGoal {
     text-align: center;
@@ -662,11 +675,11 @@ a:active {
 }
 .teamlch {
     display: inline-block;
-    margin-right: 20px; 
+    margin-right: 20px;
     font-size: 12px;
 }
 .teamNameSostav {
-    font-style: italic; 
+    font-style: italic;
     font-weight: bold;
 }
 .teamPlayers {
@@ -677,7 +690,7 @@ a:active {
 }
 .teamStat {
     vertical-align: top;
-    
+
 }
 .teamStatGoal {
     min-width: 35px;
@@ -835,6 +848,11 @@ a:active {
 }
 .winsTable {
     width: 20px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .zagolovok {
     font-weight: bold;

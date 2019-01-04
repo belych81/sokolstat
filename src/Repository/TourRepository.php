@@ -35,16 +35,15 @@ class TourRepository extends ServiceEntityRepository
         ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Tour
+    public function getYesterdayMatches5()
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+      return $this->createQueryBuilder('t')
+          ->where('DATE_DIFF(t.data, :data) = -1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('t.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
     }
-    */
+
 }

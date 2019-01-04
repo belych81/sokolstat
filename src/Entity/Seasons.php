@@ -48,6 +48,11 @@ class Seasons
      */
     private $shipplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NationSupercup", mappedBy="season")
+     */
+    private $nationSupercups;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -55,6 +60,7 @@ class Seasons
         $this->rfplmatches = new ArrayCollection();
         $this->eurocups = new ArrayCollection();
         $this->shipplayers = new ArrayCollection();
+        $this->nationSupercups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +229,37 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($shipplayer->getSeason() === $this) {
                 $shipplayer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NationSupercup[]
+     */
+    public function getNationSupercups(): Collection
+    {
+        return $this->nationSupercups;
+    }
+
+    public function addNationSupercup(NationSupercup $nationSupercup): self
+    {
+        if (!$this->nationSupercups->contains($nationSupercup)) {
+            $this->nationSupercups[] = $nationSupercup;
+            $nationSupercup->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNationSupercup(NationSupercup $nationSupercup): self
+    {
+        if ($this->nationSupercups->contains($nationSupercup)) {
+            $this->nationSupercups->removeElement($nationSupercup);
+            // set the owning side to null (unless already changed)
+            if ($nationSupercup->getSeason() === $this) {
+                $nationSupercup->setSeason(null);
             }
         }
 
