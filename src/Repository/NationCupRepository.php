@@ -2,29 +2,29 @@
 
 namespace App\Repository;
 
-use App\Entity\Cup;
+use App\Entity\NationCup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Cup|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cup|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cup[]    findAll()
- * @method Cup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method NationCup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method NationCup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method NationCup[]    findAll()
+ * @method NationCup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CupRepository extends ServiceEntityRepository
+class NationCupRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Cup::class);
+        parent::__construct($registry, NationCup::class);
     }
 
     public function getYesterdayMatches()
     {
-      return $this->createQueryBuilder('c')
-          ->where('DATE_DIFF(c.data, :data) = -1')
+      return $this->createQueryBuilder('n')
+          ->where('DATE_DIFF(n.data, :data) = -1')
           ->setParameter('data', date('Y-m-d', time()))
-          ->orderBy('c.data', 'ASC')
+          ->orderBy('n.data', 'ASC')
           ->getQuery()
           ->getResult()
       ;

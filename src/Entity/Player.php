@@ -95,10 +95,22 @@ class Player
      */
     private $shipplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rusplayer", mappedBy="player")
+     */
+    private $rusplayers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gamers", mappedBy="player")
+     */
+    private $gamers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
         $this->shipplayers = new ArrayCollection();
+        $this->rusplayers = new ArrayCollection();
+        $this->gamers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -318,6 +330,68 @@ class Player
             // set the owning side to null (unless already changed)
             if ($shipplayer->getPlayer() === $this) {
                 $shipplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rusplayer[]
+     */
+    public function getRusplayers(): Collection
+    {
+        return $this->rusplayers;
+    }
+
+    public function addRusplayer(Rusplayer $rusplayer): self
+    {
+        if (!$this->rusplayers->contains($rusplayer)) {
+            $this->rusplayers[] = $rusplayer;
+            $rusplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRusplayer(Rusplayer $rusplayer): self
+    {
+        if ($this->rusplayers->contains($rusplayer)) {
+            $this->rusplayers->removeElement($rusplayer);
+            // set the owning side to null (unless already changed)
+            if ($rusplayer->getPlayer() === $this) {
+                $rusplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Gamers[]
+     */
+    public function getGamers(): Collection
+    {
+        return $this->gamers;
+    }
+
+    public function addGamer(Gamers $gamer): self
+    {
+        if (!$this->gamers->contains($gamer)) {
+            $this->gamers[] = $gamer;
+            $gamer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamer(Gamers $gamer): self
+    {
+        if ($this->gamers->contains($gamer)) {
+            $this->gamers->removeElement($gamer);
+            // set the owning side to null (unless already changed)
+            if ($gamer->getPlayer() === $this) {
+                $gamer->setPlayer(null);
             }
         }
 

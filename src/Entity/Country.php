@@ -48,12 +48,18 @@ class Country
      */
     private $nationSupercups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="country")
+     */
+    private $nationCups;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
         $this->tours = new ArrayCollection();
         $this->players = new ArrayCollection();
         $this->nationSupercups = new ArrayCollection();
+        $this->nationCups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +209,37 @@ class Country
             // set the owning side to null (unless already changed)
             if ($nationSupercup->getCountry() === $this) {
                 $nationSupercup->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NationCup[]
+     */
+    public function getNationCups(): Collection
+    {
+        return $this->nationCups;
+    }
+
+    public function addNationCup(NationCup $nationCup): self
+    {
+        if (!$this->nationCups->contains($nationCup)) {
+            $this->nationCups[] = $nationCup;
+            $nationCup->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNationCup(NationCup $nationCup): self
+    {
+        if ($this->nationCups->contains($nationCup)) {
+            $this->nationCups->removeElement($nationCup);
+            // set the owning side to null (unless already changed)
+            if ($nationCup->getCountry() === $this) {
+                $nationCup->setCountry(null);
             }
         }
 

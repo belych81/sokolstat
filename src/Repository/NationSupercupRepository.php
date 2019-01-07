@@ -29,4 +29,26 @@ class NationSupercupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getCurMatches()
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) = 0')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
+    public function getTomMatches()
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) = 1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
 }

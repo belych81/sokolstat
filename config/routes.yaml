@@ -48,3 +48,7 @@ player:
       sort: game
     requirements:
         page: \d+
+
+player_show:
+    path:  /player/{id}
+    controller: App/Controller/RusplayerController:show

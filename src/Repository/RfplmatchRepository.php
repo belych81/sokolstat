@@ -31,11 +31,34 @@ class RfplmatchRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getNewMatches() {
+    public function getCurMatches()
+    {
       return $this->createQueryBuilder('r')
           ->where('DATE_DIFF(r.data, :data) = 0')
           ->setParameter('data', date('Y-m-d', time()))
           ->orderBy('r.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
+    public function getYesterdayMatches()
+    {
+      return $this->createQueryBuilder('r')
+          ->where('DATE_DIFF(r.data, :data) = -1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('r.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
+    public function getTomMatches()
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) = 1')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
           ->getQuery()
           ->getResult()
       ;

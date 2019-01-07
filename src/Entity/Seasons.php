@@ -53,6 +53,26 @@ class Seasons
      */
     private $nationSupercups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RusSupercup", mappedBy="season")
+     */
+    private $rusSupercups;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="season")
+     */
+    private $nationCups;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UefaSupercup", mappedBy="season")
+     */
+    private $uefaSupercups;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gamers", mappedBy="season")
+     */
+    private $gamers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -61,6 +81,10 @@ class Seasons
         $this->eurocups = new ArrayCollection();
         $this->shipplayers = new ArrayCollection();
         $this->nationSupercups = new ArrayCollection();
+        $this->rusSupercups = new ArrayCollection();
+        $this->nationCups = new ArrayCollection();
+        $this->uefaSupercups = new ArrayCollection();
+        $this->gamers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -260,6 +284,130 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($nationSupercup->getSeason() === $this) {
                 $nationSupercup->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RusSupercup[]
+     */
+    public function getRusSupercups(): Collection
+    {
+        return $this->rusSupercups;
+    }
+
+    public function addRusSupercup(RusSupercup $rusSupercup): self
+    {
+        if (!$this->rusSupercups->contains($rusSupercup)) {
+            $this->rusSupercups[] = $rusSupercup;
+            $rusSupercup->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRusSupercup(RusSupercup $rusSupercup): self
+    {
+        if ($this->rusSupercups->contains($rusSupercup)) {
+            $this->rusSupercups->removeElement($rusSupercup);
+            // set the owning side to null (unless already changed)
+            if ($rusSupercup->getSeason() === $this) {
+                $rusSupercup->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NationCup[]
+     */
+    public function getNationCups(): Collection
+    {
+        return $this->nationCups;
+    }
+
+    public function addNationCup(NationCup $nationCup): self
+    {
+        if (!$this->nationCups->contains($nationCup)) {
+            $this->nationCups[] = $nationCup;
+            $nationCup->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNationCup(NationCup $nationCup): self
+    {
+        if ($this->nationCups->contains($nationCup)) {
+            $this->nationCups->removeElement($nationCup);
+            // set the owning side to null (unless already changed)
+            if ($nationCup->getSeason() === $this) {
+                $nationCup->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UefaSupercup[]
+     */
+    public function getUefaSupercups(): Collection
+    {
+        return $this->uefaSupercups;
+    }
+
+    public function addUefaSupercup(UefaSupercup $uefaSupercup): self
+    {
+        if (!$this->uefaSupercups->contains($uefaSupercup)) {
+            $this->uefaSupercups[] = $uefaSupercup;
+            $uefaSupercup->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUefaSupercup(UefaSupercup $uefaSupercup): self
+    {
+        if ($this->uefaSupercups->contains($uefaSupercup)) {
+            $this->uefaSupercups->removeElement($uefaSupercup);
+            // set the owning side to null (unless already changed)
+            if ($uefaSupercup->getSeason() === $this) {
+                $uefaSupercup->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Gamers[]
+     */
+    public function getGamers(): Collection
+    {
+        return $this->gamers;
+    }
+
+    public function addGamer(Gamers $gamer): self
+    {
+        if (!$this->gamers->contains($gamer)) {
+            $this->gamers[] = $gamer;
+            $gamer->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamer(Gamers $gamer): self
+    {
+        if ($this->gamers->contains($gamer)) {
+            $this->gamers->removeElement($gamer);
+            // set the owning side to null (unless already changed)
+            if ($gamer->getSeason() === $this) {
+                $gamer->setSeason(null);
             }
         }
 

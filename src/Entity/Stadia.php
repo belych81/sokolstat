@@ -38,10 +38,16 @@ class Stadia
      */
     private $eurocups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="stadia")
+     */
+    private $nationCups;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
         $this->eurocups = new ArrayCollection();
+        $this->nationCups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +135,37 @@ class Stadia
             // set the owning side to null (unless already changed)
             if ($eurocup->getStadia() === $this) {
                 $eurocup->setStadia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NationCup[]
+     */
+    public function getNationCups(): Collection
+    {
+        return $this->nationCups;
+    }
+
+    public function addNationCup(NationCup $nationCup): self
+    {
+        if (!$this->nationCups->contains($nationCup)) {
+            $this->nationCups[] = $nationCup;
+            $nationCup->setStadia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNationCup(NationCup $nationCup): self
+    {
+        if ($this->nationCups->contains($nationCup)) {
+            $this->nationCups->removeElement($nationCup);
+            // set the owning side to null (unless already changed)
+            if ($nationCup->getStadia() === $this) {
+                $nationCup->setStadia(null);
             }
         }
 

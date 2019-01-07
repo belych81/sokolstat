@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TourRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\NationCupRepository")
  */
-class Tour
+class NationCup
 {
     /**
      * @ORM\Id()
@@ -17,56 +17,52 @@ class Tour
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="tours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="nationCups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $season;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="tours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="nationCups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="tours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="nationCups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team2;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="tours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="nationCups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $country;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Stadia", inversedBy="nationCups")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $tour;
+    private $stadia;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $goal1;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $goal2;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $bomb;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $score;
+
+    /**
+     * @ORM\Column(type="datetime")
      */
     private $data;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $status;
 
@@ -123,38 +119,14 @@ class Tour
         return $this;
     }
 
-    public function getTour(): ?int
+    public function getStadia(): ?Stadia
     {
-        return $this->tour;
+        return $this->stadia;
     }
 
-    public function setTour(int $tour): self
+    public function setStadia(?Stadia $stadia): self
     {
-        $this->tour = $tour;
-
-        return $this;
-    }
-
-    public function getGoal1(): ?int
-    {
-        return $this->goal1;
-    }
-
-    public function setGoal1(int $goal1): self
-    {
-        $this->goal1 = $goal1;
-
-        return $this;
-    }
-
-    public function getGoal2(): ?int
-    {
-        return $this->goal2;
-    }
-
-    public function setGoal2(int $goal2): self
-    {
-        $this->goal2 = $goal2;
+        $this->stadia = $stadia;
 
         return $this;
     }
@@ -164,9 +136,21 @@ class Tour
         return $this->bomb;
     }
 
-    public function setBomb(?string $bomb): self
+    public function setBomb(string $bomb): self
     {
         $this->bomb = $bomb;
+
+        return $this;
+    }
+
+    public function getScore(): ?string
+    {
+        return $this->score;
+    }
+
+    public function setScore(string $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }
@@ -176,7 +160,7 @@ class Tour
         return $this->data;
     }
 
-    public function setData(?\DateTimeInterface $data): self
+    public function setData(\DateTimeInterface $data): self
     {
         $this->data = $data;
 
@@ -188,15 +172,10 @@ class Tour
         return $this->status;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus(bool $status): self
     {
         $this->status = $status;
 
         return $this;
-    }
-
-    public function getScore(): ?string
-    {
-        return $this->getGoal1()."-".$this->getGoal2();
     }
 }

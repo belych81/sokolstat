@@ -19,32 +19,41 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    // /**
-    //  * @return Player[] Returns an array of Player objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getBirthdayPlayer($data)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('p.name, p.id, p.translit')
+            ->where("p.born LIKE '%$data%'")
+            ->orderBy('p.born', 'ASC')
+            ->setMaxResults(30)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Player
+    public function getAge($name)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('p')
+                ->select('p.born')
+                ->where("p.name = :name")
+                ->setParameter('name', $name);
+
+        $query = $qb->getQuery();
+        $age = $query->getScalarResult();
+        $year = \substr($age[0]['born'], 0, 4);
+
+        return \date('Y') - $year;
     }
-    */
+
+    public function getLastPlayer() {
+
+        $qb = $this->createQueryBuilder('p')
+                ->select('p.name, p.id, p.translit')
+                ->orderBy('p.id', 'DESC')
+                ->setMaxResults(11);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }
