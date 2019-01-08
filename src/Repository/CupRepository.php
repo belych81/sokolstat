@@ -51,4 +51,33 @@ class CupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getSeasons()
+    {
+        return $this->createQueryBuilder('c')
+                ->select('c','s')
+                ->join('c.season', 's')
+                ->join('c.team', 't')
+                ->groupBy('s')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function findAllBySeasonAndStadia($season, $stadia)
+    {
+        return $this->createQueryBuilder('c')
+                ->select('c', 'st', 't', 't2', 's')
+                ->join('c.season', 's')
+                ->join('c.stadia', 'st')
+                ->join('c.team', 't')
+                ->join('c.team2', 't2')
+                ->where('s.name = :season')
+                ->andWhere('st.id = :stadia')
+                ->setParameters([
+                    'season' => $season,
+                    'stadia' => $stadia
+                    ])
+                ->getQuery()
+                ->getResult();
+    }
 }

@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GamersRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\FnlplayerRepository")
  */
-class Gamers
+class Fnlplayer
 {
     /**
      * @ORM\Id()
@@ -17,19 +17,19 @@ class Gamers
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="gamers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="fnlplayers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $season;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="gamers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="fnlplayers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="gamers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="fnlplayers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $player;
@@ -43,10 +43,6 @@ class Gamers
      * @ORM\Column(type="integer")
      */
     private $goal;
-
-    private $gameTeam;
-
-    private $goalTeam;
 
     public function getId(): ?int
     {
@@ -111,29 +107,5 @@ class Gamers
         $this->goal = $goal;
 
         return $this;
-    }
-
-    public function setGameTeam($gameTeam)
-    {
-        $this->gameTeam = $gameTeam;
-
-        return $this;
-    }
-
-    public function getGameTeam()
-    {
-        return $this->gameTeam;
-    }
-
-    public function setGoalTeam($goalTeam)
-    {
-        $this->goalTeam = $goalTeam;
-
-        return $this;
-    }
-
-    public function getGoalTeam()
-    {
-        return $this->goalTeam;
     }
 }

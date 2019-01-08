@@ -12,16 +12,30 @@ nhl_add:
 
 championships:
     path:  /championships/{country}/{season}/{tour}
-    controller: App\Controller\Shiptable:index
+    controller: App\Controller\ShiptableController:index
     defaults:
         tour: false
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
         tour: \d+
 
+championships_show:
+    path:  /championships/{country}/{season}/{id}
+    controller: App\Controller\ShiptableController:show
+    requirements:
+        country: russia|england|spain|italy|germany|france|fnl
+
+cup:
+    path:     /cup/{season}
+    controller: App\Controller\CupController:index
+
+nationcup:
+    path:     /nationcup/{country}/{season}
+    controller: App\Controller\NationcupController:index
+
 eurocup:
     path:  /eurocup/{turnir}/{season}/{stadia}
-    controller: App\Controller\Eurocup:index
+    controller: App\Controller\EurocupController:index
     defaults:
       turnir: leagueChampions
       stadia: null

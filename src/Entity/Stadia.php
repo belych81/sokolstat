@@ -171,4 +171,21 @@ class Stadia
 
         return $this;
     }
+
+    private $stadia_matches;
+
+    public function setStadiaMatches($matches)
+    {
+        $this->stadia_matches = $matches;
+    }
+
+    public function getStadiaMatches()
+    {
+        return $this->stadia_matches;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

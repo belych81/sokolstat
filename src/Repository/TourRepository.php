@@ -68,4 +68,76 @@ class TourRepository extends ServiceEntityRepository
       ;
     }
 
+    public function getLastSeason($country)
+    {
+        $qb = $this->createQueryBuilder('t')
+                ->select('s.name')
+                ->join('t.country', 'c')
+                ->join('t.season', 's')
+                ->where("c.name = :country")
+                ->setParameter('country', $country)
+                ->orderBy('t.id', 'DESC')
+                ->setMaxResults(1);
+
+        $query = $qb->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getMaxTour($country, $season) {
+
+        $qb = $this->createQueryBuilder('t')
+                ->select('t.tour')
+                ->join('t.country', 'c')
+                ->join('t.season', 's')
+                ->where("c.name = :country")
+                ->setParameter('country', $country)
+                ->andWhere("s.name = :season")
+                ->setParameter('season', $season)
+                ->orderBy('t.id', 'DESC')
+                ->setMaxResults(1);
+
+        $query = $qb->getQuery();
+
+        if ($query->getScalarResult()) {
+            return $query->getSingleScalarResult();
+        }
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function getMatches ($country, $season, $tour)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('t')
+              ->join('t.country', 'c')
+              ->join('t.season', 's')
+              ->join('t.team', 'tm')
+              ->where("c.name = :country")
+              ->setParameter('country', $country)
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("t.tour = :tour")
+              ->setParameter('tour', $tour)
+              ->orderBy('t.data', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function getTours($country, $season)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('DISTINCT t.tour')
+              ->join('t.country', 'c')
+              ->join('t.season', 's')
+              ->join('t.team', 'tm')
+              ->where("c.name = :country")
+              ->setParameter('country', $country)
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->orderBy('t.tour', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
+
 }

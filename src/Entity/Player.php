@@ -105,12 +105,24 @@ class Player
      */
     private $gamers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="player")
+     */
+    private $fnlplayers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Playersteam", mappedBy="player")
+     */
+    private $playersteams;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
         $this->shipplayers = new ArrayCollection();
         $this->rusplayers = new ArrayCollection();
         $this->gamers = new ArrayCollection();
+        $this->fnlplayers = new ArrayCollection();
+        $this->playersteams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -392,6 +404,68 @@ class Player
             // set the owning side to null (unless already changed)
             if ($gamer->getPlayer() === $this) {
                 $gamer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fnlplayer[]
+     */
+    public function getFnlplayers(): Collection
+    {
+        return $this->fnlplayers;
+    }
+
+    public function addFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if (!$this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers[] = $fnlplayer;
+            $fnlplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if ($this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers->removeElement($fnlplayer);
+            // set the owning side to null (unless already changed)
+            if ($fnlplayer->getPlayer() === $this) {
+                $fnlplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Playersteam[]
+     */
+    public function getPlayersteams(): Collection
+    {
+        return $this->playersteams;
+    }
+
+    public function addPlayersteam(Playersteam $playersteam): self
+    {
+        if (!$this->playersteams->contains($playersteam)) {
+            $this->playersteams[] = $playersteam;
+            $playersteam->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayersteam(Playersteam $playersteam): self
+    {
+        if ($this->playersteams->contains($playersteam)) {
+            $this->playersteams->removeElement($playersteam);
+            // set the owning side to null (unless already changed)
+            if ($playersteam->getPlayer() === $this) {
+                $playersteam->setPlayer(null);
             }
         }
 

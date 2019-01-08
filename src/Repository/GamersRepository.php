@@ -19,32 +19,35 @@ class GamersRepository extends ServiceEntityRepository
         parent::__construct($registry, Gamers::class);
     }
 
-    // /**
-    //  * @return Gamers[] Returns an array of Gamers objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getBomb($season)
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('g')
+              ->select('g', 'r')
+              ->join('g.player', 'r')
+              ->join('g.season', 's')
+              ->where("g.goal > 0")
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->orderBy('g.goal DESC, r.name')
+              ->setMaxResults(20)
+              ->getQuery()
+              ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Gamers
+    public function getRusTeamStat($season, $id)
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+      return $this->createQueryBuilder('g')
+              ->select('g', 'r', 'p', 't')
+              ->join('g.player', 'p')
+              ->join('g.season', 's')
+              ->join('g.team', 't')
+              ->leftJoin('p.rusplayers', 'r')
+              ->where("t.translit = :id")
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->setParameter('id', $id)
+              ->orderBy('g.game DESC, p.name')
+              ->getQuery()
+              ->getResult();
     }
-    */
 }

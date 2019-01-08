@@ -53,6 +53,11 @@ class Country
      */
     private $nationCups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="country")
+     */
+    private $shiptables;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -60,6 +65,7 @@ class Country
         $this->players = new ArrayCollection();
         $this->nationSupercups = new ArrayCollection();
         $this->nationCups = new ArrayCollection();
+        $this->shiptables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +246,37 @@ class Country
             // set the owning side to null (unless already changed)
             if ($nationCup->getCountry() === $this) {
                 $nationCup->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shiptable[]
+     */
+    public function getShiptables(): Collection
+    {
+        return $this->shiptables;
+    }
+
+    public function addShiptable(Shiptable $shiptable): self
+    {
+        if (!$this->shiptables->contains($shiptable)) {
+            $this->shiptables[] = $shiptable;
+            $shiptable->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShiptable(Shiptable $shiptable): self
+    {
+        if ($this->shiptables->contains($shiptable)) {
+            $this->shiptables->removeElement($shiptable);
+            // set the owning side to null (unless already changed)
+            if ($shiptable->getCountry() === $this) {
+                $shiptable->setCountry(null);
             }
         }
 

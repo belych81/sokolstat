@@ -28,11 +28,48 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->join('sp.player', 'p')
           ->where('s.name = :season')
           ->setParameter('season', $season)
-          ->orderBy('sp.sum', 'DESC', 'p.name', 'ASC')
+          ->orderBy('sp.sum DESC, p.name')
           ->setMaxResults(20)
           ->getQuery()
           ->getResult()
       ;
     }
-    
+
+    public function getBomb5($season, $country)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->join('t.country', 'c')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->andWhere('c.name = :country')
+          ->setParameter('country', $country)
+          ->orderBy('sp.goal DESC, p.name')
+          ->setMaxResults(20)
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
+    public function getTeamStat($season, $id)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p', 't')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->andWhere('t.translit = :id')
+          ->setParameter('id', $id)
+          ->orderBy('sp.goal DESC, p.name')
+          ->setMaxResults(20)
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
 }

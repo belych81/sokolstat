@@ -1,0 +1,177 @@
+{% extends 'shiptable/show.html.twig' %}
+
+{% block seasons %}
+
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+            <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+{% block playersTeam %}
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th rowspan="2">&nbsp;</th>
+                <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
+                <th colspan="2">{{ app.request.get('season') }}</th>
+                <th colspan="2">Всего в чемпионатах</th>
+                <th colspan="2">Всего за клуб</th>
+                <th colspan="2">Всего</th>
+                <th rowspan="2" class="teamStatGoal">Дата рождения</th>
+                <th rowspan="2" class="teamStatGoal">Страна</th>
+            </tr>
+            <tr class="shipTableTitle">
+
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in players %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ loop.index }}</td>
+                <td>
+                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+               </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                    {% endif %}
+                    {{ player.game }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                    {% endif %}
+                    {{ player.goal }}
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotalChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                    {% endif %}
+                    {{ player.player.rusplayers.0.game }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotalChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotalChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                    {% endif %}
+                    {{ player.player.rusplayers.0.goal }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotalChamp',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotalTeam',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                    {% endif %}
+                    {{ player.gameTeam }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotalTeam',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotalTeam',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                    {% endif %}
+                    {{ player.goalTeam }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotalTeam',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotal',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                    {% endif %}
+                    {{ player.player.rusplayers.0.totalgame }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotal',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editTotal',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                    {% endif %}
+                    {{ player.player.rusplayers.0.totalgoal }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editTotal',
+                 {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+
+                    {{ player.player.born | date('d.m.Y') }}
+
+                </td>
+                <td class="tableGoal">
+
+                    {{ player.player.country.name }}
+
+                </td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('player_newChamp', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить игрока</a> |
+        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить игрока в команду</a> |
+        <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить нового игрока</a> |
+        <a href="{{ path('player_newPlayer', {'country': 'russia',
+        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Создать игрока</a>
+        {% endif %}
+{% endblock %}

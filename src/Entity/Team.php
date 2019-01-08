@@ -84,6 +84,21 @@ class Team
      */
     private $gamers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="team")
+     */
+    private $fnlplayers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="team")
+     */
+    private $shiptables;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Playersteam", mappedBy="team")
+     */
+    private $playersteams;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -96,6 +111,9 @@ class Team
         $this->nationCups = new ArrayCollection();
         $this->uefaSupercups = new ArrayCollection();
         $this->gamers = new ArrayCollection();
+        $this->fnlplayers = new ArrayCollection();
+        $this->shiptables = new ArrayCollection();
+        $this->playersteams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -448,6 +466,99 @@ class Team
             // set the owning side to null (unless already changed)
             if ($gamer->getTeam() === $this) {
                 $gamer->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fnlplayer[]
+     */
+    public function getFnlplayers(): Collection
+    {
+        return $this->fnlplayers;
+    }
+
+    public function addFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if (!$this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers[] = $fnlplayer;
+            $fnlplayer->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if ($this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers->removeElement($fnlplayer);
+            // set the owning side to null (unless already changed)
+            if ($fnlplayer->getTeam() === $this) {
+                $fnlplayer->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shiptable[]
+     */
+    public function getShiptables(): Collection
+    {
+        return $this->shiptables;
+    }
+
+    public function addShiptable(Shiptable $shiptable): self
+    {
+        if (!$this->shiptables->contains($shiptable)) {
+            $this->shiptables[] = $shiptable;
+            $shiptable->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShiptable(Shiptable $shiptable): self
+    {
+        if ($this->shiptables->contains($shiptable)) {
+            $this->shiptables->removeElement($shiptable);
+            // set the owning side to null (unless already changed)
+            if ($shiptable->getTeam() === $this) {
+                $shiptable->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Playersteam[]
+     */
+    public function getPlayersteams(): Collection
+    {
+        return $this->playersteams;
+    }
+
+    public function addPlayersteam(Playersteam $playersteam): self
+    {
+        if (!$this->playersteams->contains($playersteam)) {
+            $this->playersteams[] = $playersteam;
+            $playersteam->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayersteam(Playersteam $playersteam): self
+    {
+        if ($this->playersteams->contains($playersteam)) {
+            $this->playersteams->removeElement($playersteam);
+            // set the owning side to null (unless already changed)
+            if ($playersteam->getTeam() === $this) {
+                $playersteam->setTeam(null);
             }
         }
 

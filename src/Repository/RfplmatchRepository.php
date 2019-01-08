@@ -63,4 +63,47 @@ class RfplmatchRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getMaxTour($season)
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->select('r.tour')
+                ->join('r.season', 's')
+                ->where("s.name = :season")
+                ->setParameter('season', $season)
+                ->orderBy('r.id', 'DESC')
+                ->setMaxResults(1);
+
+        $query = $qb->getQuery();
+
+        return $query->getScalarResult();
+    }
+
+    public function getRusMatches ($season, $tour)
+    {
+      return $this->createQueryBuilder('r')
+              ->select('r')
+              ->join('r.team', 'tm')
+              ->join('r.season', 's')
+              ->where("s.name = :season")
+              ->andWhere("r.tour = :tour")
+              ->setParameter('season', $season)
+              ->setParameter('tour', $tour)
+              ->orderBy('r.data', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function getTours($season)
+    {
+      return $this->createQueryBuilder('r')
+              ->select('DISTINCT r.tour')
+              ->join('r.team', 'tm')
+              ->join('r.season', 's')
+              ->where("s.name = :season")
+              ->setParameter('season', $season)
+              ->orderBy('r.tour', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
 }

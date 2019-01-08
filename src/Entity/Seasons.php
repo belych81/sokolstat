@@ -73,6 +73,16 @@ class Seasons
      */
     private $gamers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="season")
+     */
+    private $fnlplayers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="season")
+     */
+    private $shiptables;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -85,6 +95,8 @@ class Seasons
         $this->nationCups = new ArrayCollection();
         $this->uefaSupercups = new ArrayCollection();
         $this->gamers = new ArrayCollection();
+        $this->fnlplayers = new ArrayCollection();
+        $this->shiptables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -408,6 +420,68 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($gamer->getSeason() === $this) {
                 $gamer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fnlplayer[]
+     */
+    public function getFnlplayers(): Collection
+    {
+        return $this->fnlplayers;
+    }
+
+    public function addFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if (!$this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers[] = $fnlplayer;
+            $fnlplayer->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFnlplayer(Fnlplayer $fnlplayer): self
+    {
+        if ($this->fnlplayers->contains($fnlplayer)) {
+            $this->fnlplayers->removeElement($fnlplayer);
+            // set the owning side to null (unless already changed)
+            if ($fnlplayer->getSeason() === $this) {
+                $fnlplayer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shiptable[]
+     */
+    public function getShiptables(): Collection
+    {
+        return $this->shiptables;
+    }
+
+    public function addShiptable(Shiptable $shiptable): self
+    {
+        if (!$this->shiptables->contains($shiptable)) {
+            $this->shiptables[] = $shiptable;
+            $shiptable->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShiptable(Shiptable $shiptable): self
+    {
+        if ($this->shiptables->contains($shiptable)) {
+            $this->shiptables->removeElement($shiptable);
+            // set the owning side to null (unless already changed)
+            if ($shiptable->getSeason() === $this) {
+                $shiptable->setSeason(null);
             }
         }
 

@@ -19,32 +19,17 @@ class StadiaRepository extends ServiceEntityRepository
         parent::__construct($registry, Stadia::class);
     }
 
-    // /**
-    //  * @return Stadia[] Returns an array of Stadia objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getStadiaCup($season)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('st')
+              ->select('s', 'c', 'sn')
+              ->leftJoin('s.cups', 'c')
+              ->join('s.season', 'sn')
+              ->where("c.stadia = s.id")
+              ->andWhere("sn.name = :season")
+              ->setParameter('season', $season)
+              ->getQuery()
+              ->getResult()
+              ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Stadia
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
