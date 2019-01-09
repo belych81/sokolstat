@@ -83,6 +83,11 @@ class Seasons
      */
     private $shiptables;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cupplayer", mappedBy="season")
+     */
+    private $cupplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -97,6 +102,7 @@ class Seasons
         $this->gamers = new ArrayCollection();
         $this->fnlplayers = new ArrayCollection();
         $this->shiptables = new ArrayCollection();
+        $this->cupplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -482,6 +488,37 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($shiptable->getSeason() === $this) {
                 $shiptable->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cupplayer[]
+     */
+    public function getCupplayers(): Collection
+    {
+        return $this->cupplayers;
+    }
+
+    public function addCupplayer(Cupplayer $cupplayer): self
+    {
+        if (!$this->cupplayers->contains($cupplayer)) {
+            $this->cupplayers[] = $cupplayer;
+            $cupplayer->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCupplayer(Cupplayer $cupplayer): self
+    {
+        if ($this->cupplayers->contains($cupplayer)) {
+            $this->cupplayers->removeElement($cupplayer);
+            // set the owning side to null (unless already changed)
+            if ($cupplayer->getSeason() === $this) {
+                $cupplayer->setSeason(null);
             }
         }
 

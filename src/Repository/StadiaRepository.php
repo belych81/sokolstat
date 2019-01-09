@@ -21,10 +21,10 @@ class StadiaRepository extends ServiceEntityRepository
 
     public function getStadiaCup($season)
     {
-      return $this->createQueryBuilder('st')
+      return $this->createQueryBuilder('s')
               ->select('s', 'c', 'sn')
               ->leftJoin('s.cups', 'c')
-              ->join('s.season', 'sn')
+              ->join('c.season', 'sn')
               ->where("c.stadia = s.id")
               ->andWhere("sn.name = :season")
               ->setParameter('season', $season)

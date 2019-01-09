@@ -115,6 +115,11 @@ class Player
      */
     private $playersteams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cupplayer", mappedBy="player")
+     */
+    private $cupplayers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -123,6 +128,7 @@ class Player
         $this->gamers = new ArrayCollection();
         $this->fnlplayers = new ArrayCollection();
         $this->playersteams = new ArrayCollection();
+        $this->cupplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -466,6 +472,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($playersteam->getPlayer() === $this) {
                 $playersteam->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cupplayer[]
+     */
+    public function getCupplayers(): Collection
+    {
+        return $this->cupplayers;
+    }
+
+    public function addCupplayer(Cupplayer $cupplayer): self
+    {
+        if (!$this->cupplayers->contains($cupplayer)) {
+            $this->cupplayers[] = $cupplayer;
+            $cupplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCupplayer(Cupplayer $cupplayer): self
+    {
+        if ($this->cupplayers->contains($cupplayer)) {
+            $this->cupplayers->removeElement($cupplayer);
+            // set the owning side to null (unless already changed)
+            if ($cupplayer->getPlayer() === $this) {
+                $cupplayer->setPlayer(null);
             }
         }
 

@@ -29,6 +29,10 @@ cup:
     path:     /cup/{season}
     controller: App\Controller\CupController:index
 
+cup_show:
+    path:     /cup/{id}/{season}/show
+    controller: App\Controller\CupController:show
+
 nationcup:
     path:     /nationcup/{country}/{season}
     controller: App\Controller\NationcupController:index

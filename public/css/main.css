@@ -165,7 +165,6 @@ footer {
 .content{
     flex: 1 0 auto;
     background-color: #FFFFFF;
-    text-align: center;
 }
 .choosed-player {
     font-weight: bold;
