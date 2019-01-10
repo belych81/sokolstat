@@ -51,4 +51,15 @@ class UefaSupercupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getEntity()
+    {
+        return $this->createQueryBuilder('u')
+                ->select('u', 's', 'tm')
+                ->join('u.season', 's')
+                ->join('u.team', 'tm')
+                ->orderBy('s.name', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
 }

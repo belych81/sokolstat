@@ -51,4 +51,15 @@ class RusSupercupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getEntity()
+    {        
+        return $this->createQueryBuilder('r')
+                ->select('r', 's', 'tm')
+                ->join('r.season', 's')
+                ->join('r.team', 'tm')
+                ->orderBy('s.name', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
 }

@@ -48,19 +48,23 @@ eurocup:
 
 supercup:
     path:  /supercup/{country}
-    controller: App\Controller\UefaSupercup:index
+    controller: App\Controller\UefaSupercupController:index
+
+supercup_show:
+    path:  /supercup/{country}/{id}
+    controller: App\Controller\UefaSupercupController:show
 
 sbornie:
     path:  /sbornie/{turnir}/{year}
-    controller: App/Controller/Mundial:index
+    controller: App/Controller/MundialController:index
 
 sbornieRus:
     path:  /sbornie/{season}
-    controller: App/Controller/Mundial:showRus
+    controller: App/Controller/MundialController:showRus
 
 player:
     path:  /player/russia/{page}/{sort}
-    controller: App/Controller/Rusplayer:index
+    controller: App/Controller/RusplayerController:index
     defaults:
       page: 1
       sort: game

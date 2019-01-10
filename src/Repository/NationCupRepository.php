@@ -51,4 +51,39 @@ class NationCupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getSeasons()
+    {
+        return $this->createQueryBuilder('c')
+                ->select('c','s')
+                ->join('c.season', 's')
+                ->join('c.team', 't')
+                ->groupBy('s')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function findAllBySeasonAndStadiaAndCountry($season, $stadia, $country)
+    {      
+        $qb = $this->createQueryBuilder('c')
+                ->select('c', 'st', 't', 't2', 's')
+                ->join('c.season', 's')
+                ->join('c.stadia', 'st')
+                ->join('c.country', 'cn')
+                ->join('c.team', 't')
+                ->join('c.team2', 't2')
+                ->where('s.name = :season')
+                ->andWhere('st.id = :stadia')
+                ->andWhere('cn.name = :country')
+                ->setParameters([
+                    'season' => $season,
+                    'stadia' => $stadia,
+                    'country' => $country
+                    ])
+                ;
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }

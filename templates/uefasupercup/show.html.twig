@@ -1,0 +1,41 @@
+{% extends 'uefasupercup/index.html.twig' %}
+
+{% block title %}
+    {{ entity.team.name }} - {{ entity.team2.name }} -
+    Суперкубок {{ rus_country }} {{ entity.season.name }}
+    {% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="суперкубок {{ rus_country }} {{ entity.season.name }},
+          {{ entity.team.name }}, {{ entity.team2.name }}">
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="суперкубок {{ rus_country }} {{ entity.season.name }},
+        {{ entity.team.name }} - {{ entity.team2.name }}">
+{% endblock %}
+
+{% block zagolovok %}
+    <p class="zagolovok">Суперкубок {{ rus_country }} {{ entity.season.name }}</p>
+    {% endblock %}
+
+{% block content %}
+    <div class="odd">
+    <p class="mundialMatch">{{ entity.team.name }} - {{ entity.team2.name }} - {{ entity.score }}</p>
+
+    <p>{{ entity.team.name }}: {{ entity.game }}.</p>
+
+    <p>{{ entity.team2.name }}: {{ entity.game2 }}.</p>
+
+
+    {% if entity.goal %}
+        <p>Голы: {{ entity.goal }}.</p>
+        {% endif %}
+    </div>
+        {% if app.request.get('country') == 'russia' and is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('player_newSc', {'season': entity.season.name,
+         'team': entity.team.id, 'id': entity.id}) }}">{{ entity.team.name }}</a>
+         <a href="{{ path('player_newSc', {'season': entity.season.name,
+         'team': entity.team2.id, 'id': entity.id}) }}">{{ entity.team2.name }}</a>
+        {% endif %}
+{% endblock %}

@@ -44,6 +44,10 @@ class Cupplayer
      */
     private $goal;
 
+    private $gameTeam;
+
+    private $goalTeam;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,5 +111,29 @@ class Cupplayer
         $this->goal = $goal;
 
         return $this;
+    }
+
+    public function setGameTeam($gameTeam)
+    {
+        $this->gameTeam = $gameTeam;
+
+        return $this;
+    }
+
+    public function getGameTeam()
+    {
+        return $this->gameTeam;
+    }
+
+    public function setGoalTeam($goalTeam)
+    {
+        $this->goalTeam = $goalTeam;
+
+        return $this;
+    }
+
+    public function getGoalTeam()
+    {
+        return $this->goalTeam;
     }
 }

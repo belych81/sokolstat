@@ -51,4 +51,18 @@ class NationSupercupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getEntity($country)
+    {
+        return $this->createQueryBuilder('n')
+                ->select('n', 's', 'tm')
+                ->join('n.season', 's')
+                ->join('n.team', 'tm')
+                ->join('n.country', 'c')
+                ->where('c.name = :country')
+                ->setParameter('country', $country)
+                ->orderBy('s.name', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
 }

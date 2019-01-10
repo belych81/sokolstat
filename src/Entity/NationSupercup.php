@@ -41,7 +41,7 @@ class NationSupercup
     private $team2;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $goal;
 
@@ -113,12 +113,12 @@ class NationSupercup
         return $this;
     }
 
-    public function getGoal(): ?int
+    public function getGoal(): ?string
     {
         return $this->goal;
     }
 
-    public function setGoal(int $goal): self
+    public function setGoal(string $goal): self
     {
         $this->goal = $goal;
 

@@ -1,0 +1,47 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Суперкубок {{ rus_country }}
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="суперкубок {{ rus_country }}">
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Матчи суперкубка {{ rus_country }}">
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+    <p class="zagolovok">Суперкубок {{ rus_country }}</p>
+{% endblock %}
+
+{% block content %}
+    <table class="supercup">
+        {% for entity in entities %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="scSeason">
+                    {{ entity.season.name }}
+                </td>
+                <td class="scMatch">
+                    {% if app.request.get('country') == 'russia' or app.request.get('country') == 'uefa' %}
+                    <a href="{{ path('supercup_show', {'id': entity.id,
+                     'country': app.request.get('country')}) }}">
+                        {{ entity.team.name }} - {{ entity.team2 }}</a>
+                        {% else %}
+                            {{ entity.team.name }} - {{ entity.team2 }}
+                        {% endif %}
+                </td>
+                <td class="scScore">
+                    {{ entity.score }}
+                </td>
+                <td class="scBomb">
+                    {{ entity.goal }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
