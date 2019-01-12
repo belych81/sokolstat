@@ -29,18 +29,24 @@ class Turnir
     private $alias;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    //private $russianAlias;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="turnir")
      */
     private $eurocups;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="turnir")
+     */
+    private $ectables;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $russianalias;
+
     public function __construct()
     {
         $this->eurocups = new ArrayCollection();
+        $this->ectables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,17 +78,6 @@ class Turnir
         return $this;
     }
 
-    /*public function getRussianAlias(): ?string
-    {
-        return $this->russianAlias;
-    }
-
-    public function setRussianAlias(string $russianAlias): self
-    {
-        $this->russianAlias = $russianAlias;
-
-        return $this;
-    }*/
 
     /**
      * @return Collection|Eurocup[]
@@ -114,4 +109,53 @@ class Turnir
 
         return $this;
     }
+
+    /**
+     * @return Collection|Ectable[]
+     */
+    public function getEctables(): Collection
+    {
+        return $this->ectables;
+    }
+
+    public function addEctable(Ectable $ectable): self
+    {
+        if (!$this->ectables->contains($ectable)) {
+            $this->ectables[] = $ectable;
+            $ectable->setTurnir($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEctable(Ectable $ectable): self
+    {
+        if ($this->ectables->contains($ectable)) {
+            $this->ectables->removeElement($ectable);
+            // set the owning side to null (unless already changed)
+            if ($ectable->getTurnir() === $this) {
+                $ectable->setTurnir(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRussianalias(): ?string
+    {
+        return $this->russianalias;
+    }
+
+    public function setRussianalias(string $russianalias): self
+    {
+        $this->russianalias = $russianalias;
+
+        return $this;
+    }
+
+    public function __toString(): ?string
+    {
+      return $this->name;
+    }
+
 }

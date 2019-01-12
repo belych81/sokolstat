@@ -120,6 +120,11 @@ class Player
      */
     private $cupplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="player")
+     */
+    private $lchplayers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -129,6 +134,7 @@ class Player
         $this->fnlplayers = new ArrayCollection();
         $this->playersteams = new ArrayCollection();
         $this->cupplayers = new ArrayCollection();
+        $this->lchplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -503,6 +509,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($cupplayer->getPlayer() === $this) {
                 $cupplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lchplayer[]
+     */
+    public function getLchplayers(): Collection
+    {
+        return $this->lchplayers;
+    }
+
+    public function addLchplayer(Lchplayer $lchplayer): self
+    {
+        if (!$this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers[] = $lchplayer;
+            $lchplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLchplayer(Lchplayer $lchplayer): self
+    {
+        if ($this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers->removeElement($lchplayer);
+            // set the owning side to null (unless already changed)
+            if ($lchplayer->getPlayer() === $this) {
+                $lchplayer->setPlayer(null);
             }
         }
 

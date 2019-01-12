@@ -104,6 +104,16 @@ class Team
      */
     private $cupplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="team")
+     */
+    private $ectables;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="team")
+     */
+    private $lchplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -120,6 +130,8 @@ class Team
         $this->shiptables = new ArrayCollection();
         $this->playersteams = new ArrayCollection();
         $this->cupplayers = new ArrayCollection();
+        $this->ectables = new ArrayCollection();
+        $this->lchplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -596,6 +608,68 @@ class Team
             // set the owning side to null (unless already changed)
             if ($cupplayer->getTeam() === $this) {
                 $cupplayer->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ectable[]
+     */
+    public function getEctables(): Collection
+    {
+        return $this->ectables;
+    }
+
+    public function addEctable(Ectable $ectable): self
+    {
+        if (!$this->ectables->contains($ectable)) {
+            $this->ectables[] = $ectable;
+            $ectable->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEctable(Ectable $ectable): self
+    {
+        if ($this->ectables->contains($ectable)) {
+            $this->ectables->removeElement($ectable);
+            // set the owning side to null (unless already changed)
+            if ($ectable->getTeam() === $this) {
+                $ectable->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lchplayer[]
+     */
+    public function getLchplayers(): Collection
+    {
+        return $this->lchplayers;
+    }
+
+    public function addLchplayer(Lchplayer $lchplayer): self
+    {
+        if (!$this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers[] = $lchplayer;
+            $lchplayer->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLchplayer(Lchplayer $lchplayer): self
+    {
+        if ($this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers->removeElement($lchplayer);
+            // set the owning side to null (unless already changed)
+            if ($lchplayer->getTeam() === $this) {
+                $lchplayer->setTeam(null);
             }
         }
 

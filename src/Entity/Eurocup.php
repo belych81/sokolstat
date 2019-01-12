@@ -179,4 +179,21 @@ class Eurocup
         return $this;
     }
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Ecsostav", mappedBy="eurocup")
+     */
+    private $ecsostav;
+
+    public function setEcsostav(?Ecsostav $ecsostav = null): self
+    {
+        $this->ecsostav = $ecsostav;
+
+        return $this;
+    }
+
+    public function getEcsostav(): ?Ecsostav
+    {
+        return $this->ecsostav;
+    }
+
   }

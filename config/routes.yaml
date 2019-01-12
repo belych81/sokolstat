@@ -46,6 +46,27 @@ eurocup:
     requirements:
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
 
+eurocup_show:
+    path:  /eurocup/{turnir}/{season}/{id}/show
+    controller: App\Controller\EurocupController:show
+
+eurocup_showTeam:
+    path:  /eurocup/{season}/{turnir}/{id}/show/team
+    controller: App\Controller\EurocupController:showTeam
+
+eurocup_showmatch:
+    path:  /eurocup/{turnir}/{season}/{id}/showmatch
+    controller: App\Controller\EurocupController:showMatch
+    requirements:
+        id: \d+
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+
+eurocup_edit:
+    path:  /eurocup/{turnir}/{id}/edit
+    controller: App\Controller\EurocupController:edit
+    requirements:
+        id: \d+
+
 supercup:
     path:  /supercup/{country}
     controller: App\Controller\UefaSupercupController:index

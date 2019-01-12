@@ -67,4 +67,80 @@ class EurocupRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getLastStadia($turnir, $season)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('st.name, st.alias')
+                ->join('e.stadia', 'st')
+                ->join('e.season', 's')
+                ->join('e.turnir', 't')
+                ->where("t.alias = :turnir")
+                ->setParameter('turnir', $turnir)
+                ->andWhere("s.name = :season")
+                ->setParameter('season', $season)
+                ->orderBy('e.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getSeasonsByTurnir($turnir)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 's')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->where("t.alias = :turnir")
+                ->setParameter('turnir', $turnir)
+                ->groupBy('s')
+                ->orderBy('s.name')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getEntityByTurnir($turnir, $season, $stadia)
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2', 'es')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->leftJoin('e.ecsostav', 'es')
+                ->where("t.alias = :turnir")
+                ->andWhere("s.name = :season")
+                ->andWhere("st.alias = :stadia")
+                ->setParameters([
+                    'turnir' => $turnir,
+                    'season' => $season,
+                    'stadia' => $stadia,
+                        ])
+                ->orderBy('e.data');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function getStadiaByTurnir($turnir, $season)
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->select('e', 'st')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->where("t.alias = :turnir")
+                ->andWhere("s.name = :season")
+                ->setParameters([
+                    'turnir' => $turnir,
+                    'season' => $season,
+                        ])
+                ->groupBy('st');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }

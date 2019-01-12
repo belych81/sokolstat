@@ -21,7 +21,7 @@ class Seasons
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = '2018-19';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="season")
@@ -88,6 +88,18 @@ class Seasons
      */
     private $cupplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="season")
+     */
+    private $ectables;
+
+    private $laststadia = 'final';
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="season")
+     */
+    private $lchplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -103,6 +115,8 @@ class Seasons
         $this->fnlplayers = new ArrayCollection();
         $this->shiptables = new ArrayCollection();
         $this->cupplayers = new ArrayCollection();
+        $this->ectables = new ArrayCollection();
+        $this->lchplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -519,6 +533,80 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($cupplayer->getSeason() === $this) {
                 $cupplayer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ectable[]
+     */
+    public function getEctables(): Collection
+    {
+        return $this->ectables;
+    }
+
+    public function addEctable(Ectable $ectable): self
+    {
+        if (!$this->ectables->contains($ectable)) {
+            $this->ectables[] = $ectable;
+            $ectable->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEctable(Ectable $ectable): self
+    {
+        if ($this->ectables->contains($ectable)) {
+            $this->ectables->removeElement($ectable);
+            // set the owning side to null (unless already changed)
+            if ($ectable->getSeason() === $this) {
+                $ectable->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setLaststadia($laststadia)
+    {
+        $this->laststadia = $laststadia;
+
+        return $this;
+    }
+
+    public function getLaststadia()
+    {
+        return $this->laststadia;
+    }
+
+    /**
+     * @return Collection|Lchplayer[]
+     */
+    public function getLchplayers(): Collection
+    {
+        return $this->lchplayers;
+    }
+
+    public function addLchplayer(Lchplayer $lchplayer): self
+    {
+        if (!$this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers[] = $lchplayer;
+            $lchplayer->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLchplayer(Lchplayer $lchplayer): self
+    {
+        if ($this->lchplayers->contains($lchplayer)) {
+            $this->lchplayers->removeElement($lchplayer);
+            // set the owning side to null (unless already changed)
+            if ($lchplayer->getSeason() === $this) {
+                $lchplayer->setSeason(null);
             }
         }
 

@@ -1,0 +1,56 @@
+{% extends 'eurocup/index.html.twig' %}
+
+{% block title %}
+    {{ entity.eurocup.turnir.russianAlias }} {{ entity.eurocup.season.name }} -
+        {{ entity.eurocup.team.name }} - {{ entity.eurocup.team2.name }}
+    {% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="{{ entity.eurocup.turnir.russianAlias }}
+            {{ entity.eurocup.season.name }},
+          {{ entity.eurocup.team.name }}, {{ entity.eurocup.team2.name }}, авторы забитых мячей">
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="{{ entity.eurocup.turnir.russianAlias }}
+            {{ entity.eurocup.season.name }},
+          {{ entity.eurocup.team.name }}, {{ entity.eurocup.team2.name }}, авторы забитых мячей">
+{% endblock %}
+
+{% block zagolovok %}
+    <h1><a href="{{ path('eurocup', {'season': app.request.get('season'),
+             'turnir': app.request.get('turnir')}) }}">{{ entity.eurocup.turnir.russianAlias }}
+                {{ entity.eurocup.season.name }}</a></h1>
+{% endblock %}
+
+{% block content %}
+    <div class="odd">
+    <p class="stadia-name"><a href="{{ path('eurocup', {'season': app.request.get('season'),
+             'turnir': app.request.get('turnir'), 'stadia': stadia.stadia.alias }) }}">{{ entity.eurocup.stadia.name }}</a></p>
+
+    <p class="mundialMatch">
+        {% if entity.eurocup.team.country.name == 'Россия' %}
+            <a href="{{ path('eurocup_showTeam', {'id': entity.eurocup.team.translit,
+                'season': entity.eurocup.season.name, 'turnir': entity.eurocup.turnir.alias}) }}">
+                {{ entity.eurocup.team.name }}</a>
+        {% else %}
+        {{ entity.eurocup.team.name }}
+        {% endif %}
+        - {% if entity.eurocup.team2.country.name == 'Россия' %}
+            <a href="{{ path('eurocup_showTeam', {'id': entity.eurocup.team2.translit,
+                'season': entity.eurocup.season.name, 'turnir': entity.eurocup.turnir.alias}) }}">
+                {{ entity.eurocup.team2.name }}</a>
+        {% else %}
+        {{ entity.eurocup.team2.name }}
+        {% endif %}
+        - {{ entity.eurocup.score }}</p>
+
+    <p><div class="teamNameSostav">{{ entity.eurocup.team.name }}:</div> {{ entity.team }}</p>
+
+    <p><div class="teamNameSostav">{{ entity.eurocup.team2.name }}:</div> {{ entity.team2 }}</p>
+
+    {% if entity.eurocup.bomb != '-' %}
+        <p>Голы: {{ entity.eurocup.bomb }}.</p>
+        {% endif %}
+    </div>
+ {% endblock %}
