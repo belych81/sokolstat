@@ -77,15 +77,15 @@ supercup_show:
 
 sbornie:
     path:  /sbornie/{turnir}/{year}
-    controller: App/Controller/MundialController:index
+    controller: App\Controller\MundialController:index
 
 sbornieRus:
     path:  /sbornie/{season}
-    controller: App/Controller/MundialController:showRus
+    controller: App\Controller\MundialController:showRus
 
 player:
     path:  /player/russia/{page}/{sort}
-    controller: App/Controller/RusplayerController:index
+    controller: App\Controller\RusplayerController:index
     defaults:
       page: 1
       sort: game
@@ -94,4 +94,4 @@ player:
 
 player_show:
     path:  /player/{id}
-    controller: App/Controller/RusplayerController:show
+    controller: App\Controller\RusplayerController:show

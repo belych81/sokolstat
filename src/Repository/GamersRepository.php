@@ -50,4 +50,18 @@ class GamersRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function getStatPlayer($id)
+    {
+      return $this->createQueryBuilder('g')
+              ->select('g', 'r', 's', 't')
+              ->join('g.player', 'p')
+              ->join('g.season', 's')
+              ->join('g.team', 't')
+              ->where("p.translit = :id")
+              ->setParameter('id', $id)
+              ->orderBy('s.game')
+              ->getQuery()
+              ->getResult();
+    }
 }

@@ -43,10 +43,16 @@ class Turnir
      */
     private $russianalias;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="turnir")
+     */
+    private $ecplayers;
+
     public function __construct()
     {
         $this->eurocups = new ArrayCollection();
         $this->ectables = new ArrayCollection();
+        $this->ecplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,6 +162,37 @@ class Turnir
     public function __toString(): ?string
     {
       return $this->name;
+    }
+
+    /**
+     * @return Collection|Ecplayer[]
+     */
+    public function getEcplayers(): Collection
+    {
+        return $this->ecplayers;
+    }
+
+    public function addEcplayer(Ecplayer $ecplayer): self
+    {
+        if (!$this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers[] = $ecplayer;
+            $ecplayer->setTurnir($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEcplayer(Ecplayer $ecplayer): self
+    {
+        if ($this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers->removeElement($ecplayer);
+            // set the owning side to null (unless already changed)
+            if ($ecplayer->getTurnir() === $this) {
+                $ecplayer->setTurnir(null);
+            }
+        }
+
+        return $this;
     }
 
 }

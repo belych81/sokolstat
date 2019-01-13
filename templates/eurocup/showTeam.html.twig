@@ -1,0 +1,72 @@
+{% extends 'eurocup/showMatch.html.twig' %}
+
+{% block title %}
+    Еврокубки {{ app.request.get('season') }} - {{ team.name }}
+    {% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="{{ team.name }}, еврокубки, {{ entity.0.turnir.name }},
+          {{ app.request.get('season') }}, кто играл, кто забивал" />
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="{{ team.name }}, еврокубки, {{ entity.0.turnir.name }},
+          {{ app.request.get('season') }}, кто играл, кто забивал" />
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+    <p class="zagolovok">Еврокубки {{ app.request.get('season') }} - {{ team.name }}</p>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
+                <th colspan="2">{{ app.request.get('season') }}</th>
+                <th colspan="2">Всего за клуб</th>
+                <th colspan="2">Всего</th>
+            </tr>
+            <tr class="shipTableTitle">
+
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in entity %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>
+                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+               </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('playeradmin_editEc',
+                    {'id': player.id, 'season': app.request.get('season'),
+                    'team': app.request.get('id'), 'turnir': player.turnir.alias}) }}">
+                        {{ player.game }}</a>
+                    {% else %}
+                    {{ player.game }}
+                    {% endif %}</td>
+                <td class="tableGoal">{{ player.goal }}</td>
+                <td class="tableGoal">{{ player.gameTeam }}</td>
+                <td class="tableGoal">{{ player.goalTeam }}</td>
+                <td class="tableGoal">{{ player.player.rusplayers.0.totalgame }}</td>
+                <td class="tableGoal">{{ player.player.rusplayers.0.totalgoal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('player_newEc', {'season': app.request.get('season'),
+         'team': app.request.get('id'), 'turnir': app.request.get('turnir')}) }}">
+            Добавить игрока</a>
+            {% endif %}
+ {% endblock %}

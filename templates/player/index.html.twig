@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Футболисты чемпионатов России
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="российские футболисты, статистика игроков, сортировка футболистов">
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Футболисты - участники чемпионатов России, статистика игроков,
+          поиск футболистов">
+{% endblock %}
+
+{% block content %}
+    <h1>Футболисты чемпионатов России</h1>
+    <div>
+        <span>Параметры:</span>
+        <form method="post" action="{{ path ('player') }}">
+            <select name="country" onchange="this.form.submit();" placeholder="Страна">
+                <option>Страна</option>
+                {% for stran in country %}
+                <option {% if strana == stran.name %}selected{% endif %}>{{ stran.name }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="teams" onchange="this.form.submit();" placeholder="Команда">
+                <option>Команда</option>
+                {% for team in teams %}
+                <option {% if club == team.name %}selected{% endif %}>{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <p>Всего футболистов: <strong>{{ totalPlayers }}.</strong></p>
+    {% if lastPage > 1 %}
+        {% if app.request.get('page') > 1 %}
+            <a href="{{ path('player', {'page': 1, 'sort': app.request.get('sort')})}}">
+            <img src="{{ asset('bundles/steamfbstat/images/double_arrows2.png') }}"
+                 alt="Первая" title="Первая" class="arrow" /></a>
+
+            <a href="{{ path('player', {'page': previousPage, 'sort': app.request.get('sort')})}}">
+            <img src="{{ asset('bundles/steamfbstat/images/strelkaLeft.png') }}"
+                 alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
+        {% endif %}
+        Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
+        {% if lastPage != app.request.get('page') %}
+            <a href="{{ path('player', {'page': nextPage, 'sort': app.request.get('sort')})}}">
+            <img src="{{ asset('bundles/steamfbstat/images/strelka.png') }}"
+                 alt="Следующая" title="Следующая" class="arrow"/></a>
+
+            <a href="{{ path('player', {'page': lastPage, 'sort': app.request.get('sort')})}}">
+            <img src="{{ asset('bundles/steamfbstat/images/double_arrows1.png') }}"
+                 alt="Последняя" title="Последняя" class="arrow" /></a>
+         {% endif %}
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th rowspan="2">&nbsp;</th>
+                <th rowspan="2" class="playerListName">&nbsp;</th>
+                <th rowspan="2"><a href="{{ path ('player', {'sort': 'born'}) }}">Дата Рождения</a></th>
+                <th colspan="2" class="teamPlayers">
+                    {% if club and club != 'Команда' %}
+                        {{ club }}
+                        {% else %}
+                       В чемпионатах
+                         {% endif %}
+                    </th>
+                <th colspan="2" class="playerListTotal">Всего</th>
+            </tr>
+            <tr class="shipTableTitle">
+                <td class="playerListGame">
+                    {% if club and club != 'Команда' %}
+                    <a href="{{ path ('player', {'sort': 'game'}) }}">
+                        {% else%}
+                           <a href="{{ path ('player', {'sort': 'game'}) }}">
+                            {% endif %}
+                        И</a>
+                </td>
+                <td class="playerListGame">
+                    {% if club and club != 'Команда' %}
+                        <a href="{{ path ('player', {'sort': 'goal'}) }}">
+                    {% else%}
+                        <a href="{{ path ('player', {'sort': 'goal'}) }}">
+                    {% endif %}
+                    Г</a>
+                </td>
+                <td class="playerListTotalGame">
+                    <a href="{{ path ('player', {'sort': 'totalgame'}) }}">И</a>
+                </td>
+                <td class="playerListGame">
+                    <a href="{{ path ('player', {'sort': 'totalgoal'}) }}">Г</a>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ loop.index+(app.request.get('page')-1)*20 }}</td>
+                <td><a href="{{ path ('player_show', {'id': entity.player.translit}) }}" class="spiski">
+                        {{ entity.player.name }}</a></td>
+                <td class="playerListBorn">{{ entity.player.born | date('d.m.Y') }}</td>
+                {% if club and club != 'Команда' %}
+                <td class="playerListGame">{{ entity.gameTeam }}</td>
+                <td class="playerListGame">{{ entity.goalTeam }}</td>
+                {% else %}
+                <td class="playerListGame">{{ entity.game }}</td>
+                <td class="playerListGame">{{ entity.goal }}</td>
+                {% endif %}
+                <td class="playerListGame">{{ entity.totalgame }}</td>
+                <td class="playerListGame">{{ entity.totalgoal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

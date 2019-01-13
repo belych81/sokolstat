@@ -50,6 +50,21 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->orderBy('f.game DESC, f.goal DESC, p.name')
           ->getQuery()
           ->getResult()
-      ;   
+      ;
+    }
+
+    public function getStatPlayer($id)
+    {
+      return $this->createQueryBuilder('f')
+          ->select('f', 'p', 't', 's')
+          ->join('f.season', 's')
+          ->join('f.team', 't')
+          ->join('f.player', 'p')
+          ->andWhere('p.translit = :id')
+          ->setParameter('id', $id)
+          ->orderBy('s.name')
+          ->getQuery()
+          ->getResult()
+      ;
     }
 }

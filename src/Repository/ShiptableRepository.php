@@ -91,4 +91,19 @@ class ShiptableRepository extends ServiceEntityRepository
               ->getResult()
               ;
     }
+
+    public function getTeamsRfpl()
+    {
+        return $this->createQueryBuilder('st')
+                ->select('distinct t.name')
+                ->join('st.team', 't')
+                ->join('t.country', 'c')
+                ->where("c.name = :country")
+                    ->setParameters([
+                    'country' => 'Россия',
+                        ])
+                ->orderBy('t.name')
+                ->getQuery()
+                ->getResult();
+    }
 }

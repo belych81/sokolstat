@@ -62,8 +62,8 @@ class RusplayerRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getTopGoalkeepersCurr($max, $season) {
-
+    public function getTopGoalkeepersCurr($max, $season)
+    {
             $qb = $this->createQueryBuilder('r')
                 ->join('r.player', 'p')
                 ->leftJoin('p.gamers', 'g')
@@ -74,6 +74,123 @@ class RusplayerRepository extends ServiceEntityRepository
                 ->orderBy('r.goal', 'ASC')
                 ->setMaxResults($max)
                 ;
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function countPlayers($country=null, $team=null)
+    {
+        if($team && $team != 'Команда') {
+        $qb = $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ->join('r.player', 'p')
+                ->join('p.country', 'c')
+                ->leftJoin('p.playersteams', 'pt')
+                ->join('pt.team', 'tm')
+                ->where('r.totalgame > 0')
+                ;
+        } else {
+            $qb = $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ->join('r.player', 'p')
+                ->join('p.country', 'c')
+                ->where('r.totalgame > 0');
+        }
+        if($country && $country != 'Страна') {
+            $qb->where('c.name = ?1')
+                ->setParameter(1, $country);
+        }
+        if($team && $team != 'Команда') {
+            $qb->andWhere('tm.name = ?2')
+                ->setParameter(2, $team);
+        }
+        $query = $qb->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getPlayers($max, $sort, $order='desc', $offset=null, $country=null,
+      $team=null)
+    {
+        if($team && $team != 'Команда')
+        {
+            if($sort == 'totalgame')
+            {
+                $sortBy = 'r.totalgame';
+            }
+            elseif($sort == 'totalgoal')
+            {
+                $sortBy = 'r.totalgoal';
+            }
+            else
+            {
+                $sortBy='pt.'.$sort;
+            }
+          if ($sort == 'born')
+          {
+              $qb = $this->createQueryBuilder('r')
+                  ->join('r.player', 'p')
+                  ->join('p.country', 'c')
+                  ->leftJoin('p.playersteams', 'pt')
+                  ->join('pt.team', 'tm')
+                  ->where('r.totalgame > 0')
+                  ->orderBy('p.born', $order)
+                  ->setMaxResults($max);
+          }
+          else
+          {
+              $qb = $this->createQueryBuilder('r')
+                  ->join('r.player', 'p')
+                  ->join('p.country', 'c')
+                  ->leftJoin('p.playersteams', 'pt')
+                  ->join('pt.team', 'tm')
+                  ->where('r.totalgame > 0')
+                  ->orderBy($sortBy, 'DESC')
+                  ->setMaxResults($max)
+                  ;
+          }
+        }
+        else
+        {
+            if ($sort == 'born')
+            {
+            $qb = $this->createQueryBuilder('r')
+                ->join('r.player', 'p')
+                ->join('p.country', 'c')
+                ->where('r.totalgame > 0')
+                ->orderBy('p.born', $order)
+                ->setMaxResults($max);
+            }
+            else
+            {
+              $qb = $this->createQueryBuilder('r')
+                  ->join('r.player', 'p')
+                  ->join('p.country', 'c')
+                  ->where('r.totalgame > 0')
+                  ->orderBy('r.'.$sort, 'DESC')
+                  ->setMaxResults($max)
+                  ;
+            }
+        }
+
+        if($country && $country != 'Страна')
+        {
+            $qb->where('c.name = ?1')
+                ->setParameter(1, $country);
+        }
+
+        if($team && $team != 'Команда')
+        {
+            $qb->andWhere('tm.name = ?2')
+                ->setParameter(2, $team);
+        }
+
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
 
         $query = $qb->getQuery();
 

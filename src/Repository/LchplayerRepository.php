@@ -48,4 +48,18 @@ class LchplayerRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function getLchplayer($id)
+    {
+      return $this->createQueryBuilder('lp')
+              ->select('lp', 'p', 't', 's')
+              ->join('lp.player', 'p')
+              ->join('lp.season', 's')
+              ->join('lp.team', 't')
+              ->where('p.translit = :id')
+              ->setParameter('id', $id)
+              ->orderBy('s.name')
+              ->getQuery()
+              ->getResult();
+    }
 }

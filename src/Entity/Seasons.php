@@ -100,6 +100,11 @@ class Seasons
      */
     private $lchplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="season")
+     */
+    private $ecplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -117,6 +122,7 @@ class Seasons
         $this->cupplayers = new ArrayCollection();
         $this->ectables = new ArrayCollection();
         $this->lchplayers = new ArrayCollection();
+        $this->ecplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -607,6 +613,37 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($lchplayer->getSeason() === $this) {
                 $lchplayer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ecplayer[]
+     */
+    public function getEcplayers(): Collection
+    {
+        return $this->ecplayers;
+    }
+
+    public function addEcplayer(Ecplayer $ecplayer): self
+    {
+        if (!$this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers[] = $ecplayer;
+            $ecplayer->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEcplayer(Ecplayer $ecplayer): self
+    {
+        if ($this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers->removeElement($ecplayer);
+            // set the owning side to null (unless already changed)
+            if ($ecplayer->getSeason() === $this) {
+                $ecplayer->setSeason(null);
             }
         }
 

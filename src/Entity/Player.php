@@ -125,6 +125,11 @@ class Player
      */
     private $lchplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="player")
+     */
+    private $ecplayers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -135,6 +140,7 @@ class Player
         $this->playersteams = new ArrayCollection();
         $this->cupplayers = new ArrayCollection();
         $this->lchplayers = new ArrayCollection();
+        $this->ecplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -540,6 +546,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($lchplayer->getPlayer() === $this) {
                 $lchplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ecplayer[]
+     */
+    public function getEcplayers(): Collection
+    {
+        return $this->ecplayers;
+    }
+
+    public function addEcplayer(Ecplayer $ecplayer): self
+    {
+        if (!$this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers[] = $ecplayer;
+            $ecplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEcplayer(Ecplayer $ecplayer): self
+    {
+        if ($this->ecplayers->contains($ecplayer)) {
+            $this->ecplayers->removeElement($ecplayer);
+            // set the owning side to null (unless already changed)
+            if ($ecplayer->getPlayer() === $this) {
+                $ecplayer->setPlayer(null);
             }
         }
 

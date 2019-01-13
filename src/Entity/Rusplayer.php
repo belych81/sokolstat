@@ -35,12 +35,12 @@ class Rusplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $totalGame;
+    private $totalgame;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $totalGoal;
+    private $totalgoal;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,26 +103,26 @@ class Rusplayer
         return $this;
     }
 
-    public function getTotalGame(): ?int
+    public function getTotalgame(): ?int
     {
-        return $this->totalGame;
+        return $this->totalgame;
     }
 
-    public function setTotalGame(int $totalGame): self
+    public function setTotalgame(int $totalgame): self
     {
-        $this->totalGame = $totalGame;
+        $this->totalgame = $totalgame;
 
         return $this;
     }
 
-    public function getTotalGoal(): ?int
+    public function getTotalgoal(): ?int
     {
-        return $this->totalGoal;
+        return $this->totalgoal;
     }
 
-    public function setTotalGoal(int $totalGoal): self
+    public function setTotalgoal(int $totalgoal): self
     {
-        $this->totalGoal = $totalGoal;
+        $this->totalgoal = $totalGoal;
 
         return $this;
     }
