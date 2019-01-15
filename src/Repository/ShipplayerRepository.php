@@ -72,4 +72,20 @@ class ShipplayerRepository extends ServiceEntityRepository
       ;
     }
 
+    public function getShipplayer($id)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p', 's', 't')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->where('p.translit = :id')
+          ->setParameter('id', $id)
+          ->orderBy('s.name, p.name')
+          ->setMaxResults(20)
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
 }

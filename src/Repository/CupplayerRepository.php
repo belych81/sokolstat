@@ -35,4 +35,16 @@ class CupplayerRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function getCupPlayer($id)
+    {
+      return $this->createQueryBuilder('c')
+              ->select('c', 'p', 's')
+              ->join('c.season', 's')
+              ->join('c.player', 'p')
+              ->where('p.translit = :id')
+              ->setParameter('id', $id)
+              ->getQuery()
+              ->getResult();
+    }
 }

@@ -119,6 +119,11 @@ class Team
      */
     private $ecplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Supercupplayer", mappedBy="team")
+     */
+    private $supercupplayers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -138,6 +143,7 @@ class Team
         $this->ectables = new ArrayCollection();
         $this->lchplayers = new ArrayCollection();
         $this->ecplayers = new ArrayCollection();
+        $this->supercupplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -707,6 +713,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($ecplayer->getTeam() === $this) {
                 $ecplayer->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Supercupplayer[]
+     */
+    public function getSupercupplayers(): Collection
+    {
+        return $this->supercupplayers;
+    }
+
+    public function addSupercupplayer(Supercupplayer $supercupplayer): self
+    {
+        if (!$this->supercupplayers->contains($supercupplayer)) {
+            $this->supercupplayers[] = $supercupplayer;
+            $supercupplayer->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupercupplayer(Supercupplayer $supercupplayer): self
+    {
+        if ($this->supercupplayers->contains($supercupplayer)) {
+            $this->supercupplayers->removeElement($supercupplayer);
+            // set the owning side to null (unless already changed)
+            if ($supercupplayer->getTeam() === $this) {
+                $supercupplayer->setTeam(null);
             }
         }
 

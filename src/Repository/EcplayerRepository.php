@@ -37,4 +37,15 @@ class EcplayerRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+
+    public function getEcPlayer($id)
+    {
+      return $this->createQueryBuilder('ec')
+              ->select('ec')
+              ->join('ec.player', 'r')
+              ->where("r.translit = :id")
+              ->setParameter('id', $id)
+              ->getQuery()
+              ->getResult();
+    }
 }

@@ -12,7 +12,7 @@ use App\Entity\Shiptable;
 use App\Entity\Country;
 use App\Entity\Player;
 use App\Entity\Lchplayer;
-use App\Entity\Gamer;
+use App\Entity\Gamers;
 use App\Entity\Fnlplayer;
 use App\Entity\Shipplayer;
 use App\Entity\Cupplayer;
@@ -92,7 +92,7 @@ class RusplayerController extends AbstractController
           ->findByTranslit($id);
         $lchplayer = $this->getDoctrine()->getRepository(Lchplayer::class)
           ->getLchplayer($id);
-        $entities = $this->getDoctrine()->getRepository(Gamer::class)
+        $entities = $this->getDoctrine()->getRepository(Gamers::class)
           ->getStatPlayer($id);
         $fnlplayer = $this->getDoctrine()->getRepository(Fnlplayer::class)
           ->getStatPlayer($id);

@@ -130,6 +130,16 @@ class Player
      */
     private $ecplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Supercupplayer", mappedBy="player")
+     */
+    private $supercupplayers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sbplayer", mappedBy="player")
+     */
+    private $sbplayers;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -141,6 +151,8 @@ class Player
         $this->cupplayers = new ArrayCollection();
         $this->lchplayers = new ArrayCollection();
         $this->ecplayers = new ArrayCollection();
+        $this->supercupplayers = new ArrayCollection();
+        $this->sbplayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -577,6 +589,68 @@ class Player
             // set the owning side to null (unless already changed)
             if ($ecplayer->getPlayer() === $this) {
                 $ecplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Supercupplayer[]
+     */
+    public function getSupercupplayers(): Collection
+    {
+        return $this->supercupplayers;
+    }
+
+    public function addSupercupplayer(Supercupplayer $supercupplayer): self
+    {
+        if (!$this->supercupplayers->contains($supercupplayer)) {
+            $this->supercupplayers[] = $supercupplayer;
+            $supercupplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupercupplayer(Supercupplayer $supercupplayer): self
+    {
+        if ($this->supercupplayers->contains($supercupplayer)) {
+            $this->supercupplayers->removeElement($supercupplayer);
+            // set the owning side to null (unless already changed)
+            if ($supercupplayer->getPlayer() === $this) {
+                $supercupplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sbplayer[]
+     */
+    public function getSbplayers(): Collection
+    {
+        return $this->sbplayers;
+    }
+
+    public function addSbplayer(Sbplayer $sbplayer): self
+    {
+        if (!$this->sbplayers->contains($sbplayer)) {
+            $this->sbplayers[] = $sbplayer;
+            $sbplayer->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSbplayer(Sbplayer $sbplayer): self
+    {
+        if ($this->sbplayers->contains($sbplayer)) {
+            $this->sbplayers->removeElement($sbplayer);
+            // set the owning side to null (unless already changed)
+            if ($sbplayer->getPlayer() === $this) {
+                $sbplayer->setPlayer(null);
             }
         }
 

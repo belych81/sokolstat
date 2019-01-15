@@ -196,4 +196,15 @@ class RusplayerRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public function findByTranslit($id)
+    {
+      return $this->createQueryBuilder('r')
+              ->select('r', 'p')
+              ->join('r.player', 'p')
+              ->where("p.translit = :id")
+              ->setParameter('id', $id)
+              ->getQuery()
+              ->getResult();
+    }
 }
