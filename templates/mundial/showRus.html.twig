@@ -1,0 +1,49 @@
+{% extends 'mundial/index.html.twig' %}
+
+{% block title %}
+    Сборная России {{ app.request.get('season') }}
+    {% endblock %}
+
+{% block seasons %}
+    {% for season in seasons %}
+        <a href="{{ path('sbornieRus', {'season': season}) }}">{{ season }}</a>
+        {% endfor %}
+{% endblock %}
+
+{% block zagolovok %}
+    <p class="zagolovok">Сборная России {{ app.request.get('season') }}</p>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th class="teamStatPlayer">&nbsp;</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in entity %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>
+                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+               </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('player_editSb',
+                    {'id': player.id, 'season': app.request.get('season')}) }}">
+                        {{ player.game }}</a>
+                    {% else %}
+                    {{ player.game }}
+                    {% endif %}</td>
+                <td class="tableGoal">{{ player.goal }}</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('player_newSb', {'season': app.request.get('season')}) }}">
+            Добавить игрока</a>
+            {% endif %}
+ {% endblock %}

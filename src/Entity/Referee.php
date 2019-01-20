@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RefereeRepository")
  */
-class City
+class Referee
 {
     /**
      * @ORM\Id()
@@ -19,12 +19,18 @@ class City
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="referees")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $country;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="city")
+     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="referee")
      */
     private $mundials;
 
@@ -36,6 +42,18 @@ class City
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -62,7 +80,7 @@ class City
     {
         if (!$this->mundials->contains($mundial)) {
             $this->mundials[] = $mundial;
-            $mundial->setCity($this);
+            $mundial->setReferee($this);
         }
 
         return $this;
@@ -73,8 +91,8 @@ class City
         if ($this->mundials->contains($mundial)) {
             $this->mundials->removeElement($mundial);
             // set the owning side to null (unless already changed)
-            if ($mundial->getCity() === $this) {
-                $mundial->setCity(null);
+            if ($mundial->getReferee() === $this) {
+                $mundial->setReferee(null);
             }
         }
 

@@ -42,4 +42,22 @@ class SbplayerRepository extends ServiceEntityRepository
               ->getQuery()
               ->getSingleScalarResult();
     }
+
+    public function querySbPlayersBySeason($season)
+    {
+        return $query = $this->createQueryBuilder('sb')
+                ->select('sb', 'r')
+                ->join('sb.player', 'r')
+                ->join('sb.season', 's')
+                ->where("s.name = :season")
+                    ->setParameter(
+                    'season', $season
+                    )
+                ->orderBy('sb.game', 'DESC');
+    }
+
+    public function getSbPlayersBySeason($season)
+    {                 
+        return $this->querySbPlayersBySeason($season)->getQuery()->getResult();
+    }
 }

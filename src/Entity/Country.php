@@ -58,6 +58,21 @@ class Country
      */
     private $shiptables;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="country")
+     */
+    private $mundials;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Referee", mappedBy="country")
+     */
+    private $referees;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="country")
+     */
+    private $sostavs;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -66,6 +81,9 @@ class Country
         $this->nationSupercups = new ArrayCollection();
         $this->nationCups = new ArrayCollection();
         $this->shiptables = new ArrayCollection();
+        $this->mundials = new ArrayCollection();
+        $this->referees = new ArrayCollection();
+        $this->sostavs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -277,6 +295,99 @@ class Country
             // set the owning side to null (unless already changed)
             if ($shiptable->getCountry() === $this) {
                 $shiptable->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mundial[]
+     */
+    public function getMundials(): Collection
+    {
+        return $this->mundials;
+    }
+
+    public function addMundial(Mundial $mundial): self
+    {
+        if (!$this->mundials->contains($mundial)) {
+            $this->mundials[] = $mundial;
+            $mundial->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundial(Mundial $mundial): self
+    {
+        if ($this->mundials->contains($mundial)) {
+            $this->mundials->removeElement($mundial);
+            // set the owning side to null (unless already changed)
+            if ($mundial->getCountry() === $this) {
+                $mundial->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Referee[]
+     */
+    public function getReferees(): Collection
+    {
+        return $this->referees;
+    }
+
+    public function addReferee(Referee $referee): self
+    {
+        if (!$this->referees->contains($referee)) {
+            $this->referees[] = $referee;
+            $referee->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReferee(Referee $referee): self
+    {
+        if ($this->referees->contains($referee)) {
+            $this->referees->removeElement($referee);
+            // set the owning side to null (unless already changed)
+            if ($referee->getCountry() === $this) {
+                $referee->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sostav[]
+     */
+    public function getSostavs(): Collection
+    {
+        return $this->sostavs;
+    }
+
+    public function addSostav(Sostav $sostav): self
+    {
+        if (!$this->sostavs->contains($sostav)) {
+            $this->sostavs[] = $sostav;
+            $sostav->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSostav(Sostav $sostav): self
+    {
+        if ($this->sostavs->contains($sostav)) {
+            $this->sostavs->removeElement($sostav);
+            // set the owning side to null (unless already changed)
+            if ($sostav->getCountry() === $this) {
+                $sostav->setCountry(null);
             }
         }
 

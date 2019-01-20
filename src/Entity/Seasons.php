@@ -115,6 +115,16 @@ class Seasons
      */
     private $sbplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="season")
+     */
+    private $mundials;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="season")
+     */
+    private $sostavs;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -135,6 +145,8 @@ class Seasons
         $this->ecplayers = new ArrayCollection();
         $this->supercupplayers = new ArrayCollection();
         $this->sbplayers = new ArrayCollection();
+        $this->mundials = new ArrayCollection();
+        $this->sostavs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -718,6 +730,68 @@ class Seasons
             // set the owning side to null (unless already changed)
             if ($sbplayer->getSeason() === $this) {
                 $sbplayer->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mundial[]
+     */
+    public function getMundials(): Collection
+    {
+        return $this->mundials;
+    }
+
+    public function addMundial(Mundial $mundial): self
+    {
+        if (!$this->mundials->contains($mundial)) {
+            $this->mundials[] = $mundial;
+            $mundial->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundial(Mundial $mundial): self
+    {
+        if ($this->mundials->contains($mundial)) {
+            $this->mundials->removeElement($mundial);
+            // set the owning side to null (unless already changed)
+            if ($mundial->getSeason() === $this) {
+                $mundial->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sostav[]
+     */
+    public function getSostavs(): Collection
+    {
+        return $this->sostavs;
+    }
+
+    public function addSostav(Sostav $sostav): self
+    {
+        if (!$this->sostavs->contains($sostav)) {
+            $this->sostavs[] = $sostav;
+            $sostav->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSostav(Sostav $sostav): self
+    {
+        if ($this->sostavs->contains($sostav)) {
+            $this->sostavs->removeElement($sostav);
+            // set the owning side to null (unless already changed)
+            if ($sostav->getSeason() === $this) {
+                $sostav->setSeason(null);
             }
         }
 

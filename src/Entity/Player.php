@@ -140,6 +140,11 @@ class Player
      */
     private $sbplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="player")
+     */
+    private $sostavs;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -153,6 +158,7 @@ class Player
         $this->ecplayers = new ArrayCollection();
         $this->supercupplayers = new ArrayCollection();
         $this->sbplayers = new ArrayCollection();
+        $this->sostavs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -651,6 +657,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($sbplayer->getPlayer() === $this) {
                 $sbplayer->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sostav[]
+     */
+    public function getSostavs(): Collection
+    {
+        return $this->sostavs;
+    }
+
+    public function addSostav(Sostav $sostav): self
+    {
+        if (!$this->sostavs->contains($sostav)) {
+            $this->sostavs[] = $sostav;
+            $sostav->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSostav(Sostav $sostav): self
+    {
+        if ($this->sostavs->contains($sostav)) {
+            $this->sostavs->removeElement($sostav);
+            // set the owning side to null (unless already changed)
+            if ($sostav->getPlayer() === $this) {
+                $sostav->setPlayer(null);
             }
         }
 

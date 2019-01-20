@@ -1,0 +1,43 @@
+{% extends 'mundial/index.html.twig' %}
+
+{% block title %}
+    {{ entity.country.name }} - {{ entity.country2.name }} - {{ champ.russianAlias }} {{ app.request.get('year') }}
+    {% endblock %}
+
+{% block content %}
+    <div class="odd">
+    <p class="tableGoal">{{ entity.stadia.name }}</p>
+
+    <p class="mundialMatch">{{ entity.country.name }} - {{ entity.country2.name }} -
+        {% if entity.status %}
+            - : -
+        {% else %}
+            {{ entity.score }}
+        {% endif %}
+    </p>
+
+    <p>{{ entity.data | date('d.m.Y') }}. {{ entity.city.name }}.
+    {% if entity.status == 0 %}
+        Зрители - {{ entity.zriteli }}.
+        Судья - {{ entity.referee.name }} ({{ entity.referee.country.name }}).</p>
+
+    <p>{{ entity.country.name }}: {{ entity.game }}</p>
+
+    <p>{{ entity.country2.name }}: {{ entity.game2 }}</p>
+
+    <p>Предупреждения: {{ entity.penalty }}</p>
+
+    {% if entity.goal%}
+        <p>Голы: {{ entity.goal }}.</p>
+        {% endif %}
+    {% endif %}
+    </div>
+
+    <div class="lch-teams">
+        {% for country in countries %}
+            <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                        'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                        class="spiski teamlch">{{ country.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}

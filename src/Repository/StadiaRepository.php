@@ -49,4 +49,21 @@ class StadiaRepository extends ServiceEntityRepository
               ->getResult()
               ;
     }
+
+    public function getStadiaMundial($turnir, $season)
+    {
+      return $this->createQueryBuilder('s')
+              ->select('s', 't', 'm', 'sn')
+              ->leftJoin('s.mundials', 'm')
+              ->join('m.season', 'sn')
+              ->join('m.turnir', 't')
+              ->where("m.stadia = s.id")
+              ->andWhere("sn.name = :season")
+              ->andWhere("t.alias = :turnir")
+              ->setParameter('season', $season)
+              ->setParameter('turnir', $turnir)
+              ->getQuery()
+              ->getResult()
+              ;              
+    }
 }

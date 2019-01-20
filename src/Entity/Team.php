@@ -124,6 +124,11 @@ class Team
      */
     private $supercupplayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="team")
+     */
+    private $sostavs;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -144,6 +149,7 @@ class Team
         $this->lchplayers = new ArrayCollection();
         $this->ecplayers = new ArrayCollection();
         $this->supercupplayers = new ArrayCollection();
+        $this->sostavs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -744,6 +750,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($supercupplayer->getTeam() === $this) {
                 $supercupplayer->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sostav[]
+     */
+    public function getSostavs(): Collection
+    {
+        return $this->sostavs;
+    }
+
+    public function addSostav(Sostav $sostav): self
+    {
+        if (!$this->sostavs->contains($sostav)) {
+            $this->sostavs[] = $sostav;
+            $sostav->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSostav(Sostav $sostav): self
+    {
+        if ($this->sostavs->contains($sostav)) {
+            $this->sostavs->removeElement($sostav);
+            // set the owning side to null (unless already changed)
+            if ($sostav->getTeam() === $this) {
+                $sostav->setTeam(null);
             }
         }
 

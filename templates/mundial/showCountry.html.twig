@@ -1,0 +1,89 @@
+{% extends 'mundial/index.html.twig' %}
+
+{% block title %}
+    {{ sborn.name }} - {{ champ.russianAlias }} {{ app.request.get('year') }}
+{% endblock %}
+
+
+{% block zagolovok %}
+    <h1>{{ champ.russianAlias }} {{ app.request.get('year') }}</h1>
+        <h2>{{ sborn.name }}</h2>
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th class="teamStatGoal">№</th>
+                <th class="teamStatPlayer">&nbsp;</th>
+                <th class="teamColumn">Клуб</th>
+                <th class="paramColumn">Дата рождения</th>
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in entity %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="tableGoal">
+                    {{ player.number }}
+                </td>
+                <td>
+                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+               </td>
+                <td class="tableGoal">
+                    {{ player.team.name }}
+                </td>
+                <td class="tableGoal">
+                    {{ player.player.born | date('d.m.Y') }}
+                </td>
+                <td class="tableGoal">
+                {% if is_granted("ROLE_ADMIN") %}
+                       <a href="{{ path('playeradmin_editMund',
+                 {'id': player.id, 'year': app.request.get('year'),
+                    'turnir': app.request.get('turnir'),
+                    'country': app.request.get('country'), 'change': 'minusGame'}) }}">-</a>
+                           {{ player.game }}
+                           <a href="{{ path('playeradmin_editMund',
+                 {'id': player.id, 'year': app.request.get('year'),
+                    'turnir': app.request.get('turnir'),
+                    'country': app.request.get('country'), 'change': 'plusGame'}) }}">+</a>
+                {% else %}
+                {{ player.game }}
+                   {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                       <a href="{{ path('playeradmin_editMund',
+                 {'id': player.id, 'year': app.request.get('year'),
+                    'turnir': app.request.get('turnir'),
+                    'country': app.request.get('country'), 'change': 'minusGoal'}) }}">-</a>
+                           {{ player.goal }}
+                           <a href="{{ path('playeradmin_editMund',
+                 {'id': player.id, 'year': app.request.get('year'),
+                    'turnir': app.request.get('turnir'),
+                    'country': app.request.get('country'), 'change': 'plusGoal'}) }}">+</a>
+                   {% else %}
+                   {{ player.goal }}
+                   {% endif %}</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('player_newMund', {'year': app.request.get('year'),
+            'country': app.request.get('country'), 'turnir': app.request.get('turnir')}) }}">
+            Добавить игрока</a>
+            {% endif %}
+
+    <div class="lch-teams">
+        {% for country in countries %}
+            <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                        'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                        class="spiski teamlch">{{ country.name }}</a>
+        {% endfor %}
+    </div>
+ {% endblock %}

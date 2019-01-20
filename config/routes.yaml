@@ -83,6 +83,16 @@ sbornieRus:
     path:  /sbornie/{season}
     controller: App\Controller\MundialController:showRus
 
+sbornie_show:
+    path:  /sbornie/{turnir}/{year}/{id}
+    controller: App\Controller\MundialController:show
+    requirements:
+        id: \d+
+
+sbornieCountry:
+    path:  /sbornie/{turnir}/{year}/{country}
+    controller: App\Controller\MundialController:showCountry
+
 player:
     path:  /player/russia/{page}/{sort}
     controller: App\Controller\RusplayerController:index

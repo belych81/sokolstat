@@ -49,6 +49,7 @@ class Stadia
         $this->eurocups = new ArrayCollection();
         $this->nationCups = new ArrayCollection();
         $this->ectables = new ArrayCollection();
+        $this->mundials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,6 +181,11 @@ class Stadia
      */
     private $ectables;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="stadia")
+     */
+    private $mundials;
+
     public function setStadiaMatches($matches)
     {
         $this->stadia_matches = $matches;
@@ -220,6 +226,37 @@ class Stadia
             // set the owning side to null (unless already changed)
             if ($ectable->getStadia() === $this) {
                 $ectable->setStadia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mundial[]
+     */
+    public function getMundials(): Collection
+    {
+        return $this->mundials;
+    }
+
+    public function addMundial(Mundial $mundial): self
+    {
+        if (!$this->mundials->contains($mundial)) {
+            $this->mundials[] = $mundial;
+            $mundial->setStadia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundial(Mundial $mundial): self
+    {
+        if ($this->mundials->contains($mundial)) {
+            $this->mundials->removeElement($mundial);
+            // set the owning side to null (unless already changed)
+            if ($mundial->getStadia() === $this) {
+                $mundial->setStadia(null);
             }
         }
 
