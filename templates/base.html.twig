@@ -74,10 +74,10 @@
                     <li class="header-login">
                         {% if is_granted("ROLE_USER") %}
                             <a href="" class="registerLink">{{ app.user.username }}</a> |
-                            <a href=""  class="registerLink">Выйти</a>
+                            <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
                         {% else %}
-                            <a href="" class="registerLink">Регистрация</a> |
-                            <a href=""  class="registerLink">Войти</a>
+                            <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a> |
+                            <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -124,10 +124,10 @@
                     <li class="dropdown-top">
                         {% if is_granted("ROLE_USER") %}
                             <a href="" class="registerLink">{{ app.user.username }}</a>
-                            <a href=""  class="registerLink">Выйти</a>
+                            <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
                         {% else %}
-                            <a href="" class="registerLink">Регистрация</a>
-                            <a href=""  class="registerLink">Войти</a>
+                            <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a>
+                            <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -178,6 +178,6 @@
                     </table>
                 </footer>
       </div>
-    
+
    </body>
 </html>

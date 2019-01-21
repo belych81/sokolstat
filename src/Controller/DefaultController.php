@@ -129,20 +129,20 @@ class DefaultController extends AbstractController
         switch ($turnir) {
           case 'ЛЧ' :
           case 'СК' :
-            $coef = 5;
+            $coef = 8;
             break;
             case 'ЛЕ' :
-              $coef = 4;
+              $coef = 7;
               break;
         }
       } else {
         switch ($turnir) {
           case 'ЛЧ' :
           case 'СК' :
-            $coef = 1;
+            $coef = 4;
             break;
             case 'ЛЕ' :
-              $coef = 2;
+              $coef = 5;
               break;
         }
       }
@@ -263,34 +263,34 @@ class DefaultController extends AbstractController
         switch ($country) {
           case 'Англия' :
           case 'Испания' :
-            $coef = 3;
+            $coef = 6;
             break;
             case 'Италия' :
             case 'Германия' :
-              $coef = 3;
+              $coef = 6;
               break;
               case 'Франция' :
-                $coef = 2;
+                $coef = 5;
                 break;
                 case 'Россия' :
-                  $coef = 1;
+                  $coef = 4;
                   break;
         }
       } else {
         switch ($country) {
           case 'Англия' :
           case 'Испания' :
-            $coef = 3;
+            $coef = 6;
             break;
             case 'Италия' :
             case 'Германия' :
-              $coef = 3;
+              $coef = 6;
               break;
               case 'Франция' :
-                $coef = 4;
+                $coef = 7;
                 break;
                 case 'Россия' :
-                  $coef = 5;
+                  $coef = 8;
                   break;
         }
       }

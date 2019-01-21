@@ -105,3 +105,12 @@ player:
 player_show:
     path:  /player/{id}
     controller: App\Controller\RusplayerController:show
+
+admin_area:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
