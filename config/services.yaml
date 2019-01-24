@@ -31,3 +31,9 @@ services:
         arguments: [~, App\Entity\Player, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Player }
+
+    admin.country:
+        class: App\Admin\CountryAdmin
+        arguments: [~, App\Entity\Country, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Country }
