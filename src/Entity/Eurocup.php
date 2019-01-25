@@ -196,4 +196,9 @@ class Eurocup
         return $this->ecsostav;
     }
 
+    public function __toString()
+    {
+      return (string)$this->id;
+    }
+
   }

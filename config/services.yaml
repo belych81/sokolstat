@@ -32,8 +32,50 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Player }
 
+    admin.ecsostav:
+        class: App\Admin\EcsostavAdmin
+        arguments: [~, App\Entity\Ecsostav, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Ecsostav }
+
+    admin.eurocup:
+        class: App\Admin\EurocupAdmin
+        arguments: [~, App\Entity\Eurocup, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Eurocup }
+
     admin.country:
         class: App\Admin\CountryAdmin
         arguments: [~, App\Entity\Country, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Country }
+
+    admin.ectable:
+        class: App\Admin\EctableAdmin
+        arguments: [~, App\Entity\Ectable, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Ectable }
+
+    admin.gamers:
+        class: App\Admin\GamersAdmin
+        arguments: [~, App\Entity\Gamers, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Gamers }
+
+    admin.cupplayer:
+        class: App\Admin\CupplayerAdmin
+        arguments: [~, App\Entity\Cupplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Cupplayer }
+
+    admin.fnlplayer:
+        class: App\Admin\FnlplayerAdmin
+        arguments: [~, App\Entity\Fnlplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Fnlplayer }
+
+    admin.ecplayer:
+        class: App\Admin\EcplayerAdmin
+        arguments: [~, App\Entity\Ecplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Ecplayer }
