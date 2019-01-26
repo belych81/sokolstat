@@ -44,11 +44,59 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Eurocup }
 
+    admin.shipplayer:
+        class: App\Admin\ShipplayerAdmin
+        arguments: [~, App\Entity\Shipplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Shipplayer }
+
+    admin.rfplmatch:
+        class: App\Admin\RfplmatchAdmin
+        arguments: [~, App\Entity\Rfplmatch, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Rfplmatch }
+
     admin.country:
         class: App\Admin\CountryAdmin
         arguments: [~, App\Entity\Country, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Country }
+
+    admin.shiptable:
+        class: App\Admin\ShiptableAdmin
+        arguments: [~, App\Entity\Shiptable, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Shiptable }
+
+    admin.seasons:
+        class: App\Admin\SeasonsAdmin
+        arguments: [~, App\Entity\Seasons, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Seasons }
+
+    admin.rusplayer:
+        class: App\Admin\RusplayerAdmin
+        arguments: [~, App\Entity\Rusplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Rusplayer }
+
+    admin.sbplayer:
+        class: App\Admin\SbplayerAdmin
+        arguments: [~, App\Entity\Sbplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Sbplayer }
+
+    admin.mundial:
+        class: App\Admin\MundialAdmin
+        arguments: [~, App\Entity\Mundial, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Mundial }
+
+    admin.playersteam:
+        class: App\Admin\PlayersteamAdmin
+        arguments: [~, App\Entity\Playersteam, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Playersteam }
 
     admin.ectable:
         class: App\Admin\EctableAdmin
@@ -62,11 +110,35 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Gamers }
 
+    admin.nationcup:
+        class: App\Admin\NationCupAdmin
+        arguments: [~, App\Entity\NationCup, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: NationCup }
+
+    admin.nationsupercup:
+        class: App\Admin\NationSupercupAdmin
+        arguments: [~, App\Entity\NationSupercup, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: NationSupercup }
+
+    admin.russupercup:
+        class: App\Admin\RusSupercupAdmin
+        arguments: [~, App\Entity\RusSupercup, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: RusSupercup }
+
     admin.cupplayer:
         class: App\Admin\CupplayerAdmin
         arguments: [~, App\Entity\Cupplayer, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Cupplayer }
+
+    admin.lchplayer:
+        class: App\Admin\LchplayerAdmin
+        arguments: [~, App\Entity\Lchplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Lchplayer }
 
     admin.fnlplayer:
         class: App\Admin\FnlplayerAdmin
