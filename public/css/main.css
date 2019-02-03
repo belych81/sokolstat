@@ -326,6 +326,32 @@ footer {
 .mobile-main-content{
     display: none;
 }
+.mundialGoal {
+    width: 800px;
+    font-size: 11px;
+}
+.mundialMatch {
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    color: #006600;
+}
+.newmatches {
+    vertical-align: top;
+}
+.newMatchTd {
+    width: 45%;
+}
+.news {
+    font-size: 16px;
+    line-height: 1.5;
+}
+.newsLinkFull {
+    color: #006600;
+}
+.odd {
+    background-color: #FFFFFF;
+}
 .panel-box {
     background-color: #993366;
     height: 60px;
@@ -421,32 +447,7 @@ footer {
 .playerClub {
     width: 170px;
 }
-.mundialGoal {
-    width: 800px;
-    font-size: 11px;
-}
-.mundialMatch {
-    text-align: center;
-    font-weight: bold;
-    font-size: 15px;
-    color: #006600;
-}
-.newmatches {
-    vertical-align: top;
-}
-.newMatchTd {
-    width: 45%;
-}
-.news {
-    font-size: 16px;
-    line-height: 1.5;
-}
-.newsLinkFull {
-    color: #006600;
-}
-.odd {
-    background-color: #FFFFFF;
-}
+
 .paramColumn {
     width: 80px;
 }
@@ -523,8 +524,14 @@ footer {
     font-size: 16px;
     width: 150px;
 }
+.reg-form{
+  text-align: center;
+}
+.reg-form li{
+  list-style-type: none;
+  color: red;
+}
 .reg-submit {
-    display: block;
     width: 130px;
     height: 30px;
     background: #006600;

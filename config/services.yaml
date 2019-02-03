@@ -151,3 +151,9 @@ services:
         arguments: [~, App\Entity\Ecplayer, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Ecplayer }
+
+    admin.supercupplayer:
+        class: App\Admin\SupercupplayerAdmin
+        arguments: [~, App\Entity\Supercupplayer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Supercupplayer }
