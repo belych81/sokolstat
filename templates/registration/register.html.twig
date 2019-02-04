@@ -12,9 +12,9 @@
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.password.first) }}
         {{ form_row(registrationForm.password.second) }}
-
+        <div class="reg-submit-container">
           <input type="submit" value="Отправить" class="reg-submit" />
-
+          </div>
     {{ form_end(registrationForm) }}
     <div>Нажимая кнопку "Отправить" вы подтверждаете согласие на обработку
       <a href="/news/soglasie/" target="_blank">персональных данных</a>
