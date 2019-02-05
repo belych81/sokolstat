@@ -164,7 +164,7 @@ footer {
 }
 .content{
     flex: 1 0 auto;
-    background-color: #FFFFFF;
+    background-color: #FFCCCC;
 }
 .choosed-player {
     font-weight: bold;
@@ -495,7 +495,6 @@ footer {
     width: 15px;
 }
 .primaryFone {
-    background-color: #FFCCCC;
     width: 100%;
 }
 .profile-button-edit {

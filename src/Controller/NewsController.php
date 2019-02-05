@@ -135,6 +135,11 @@ class NewsController extends AbstractController
         ]);
     }
 
+    public function soglasie()
+    {
+
+        return $this->render('news/soglasie.html.twig', []);
+    }
 
 
 }
