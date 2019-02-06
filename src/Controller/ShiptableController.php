@@ -15,6 +15,8 @@ use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
 use App\Entity\Shipplayer;
 use App\Entity\RusSupercup;
+use App\Form\RfplmatchType;
+use App\Form\TourMatchType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -155,5 +157,28 @@ class ShiptableController extends AbstractController
             'club' => $club
             ]);
         }
+    }
+
+    public function newMatch($country, $season)
+    {
+        if($country == 'russia') {
+        $entity = new Rfplmatch();
+
+        $form   = $this->createForm(new RfplmatchType(), $entity, [
+            'country' => $country,
+            'season' => $season
+            ]);
+        } else {
+        $entity = new Tour();
+
+        $form   = $this->createForm(new TourMatchType(), $entity, [
+            'country' => $country,
+            'season' => $season
+            ]);
+        }
+        return $this->render('shiptable/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 }

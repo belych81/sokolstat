@@ -28,4 +28,19 @@ class TeamRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+
+    public function queryTeamsForForm($country, $season) {
+
+        return $query = $this->createQueryBuilder('t')
+                ->leftJoin('t.shiptables', 'st')
+                ->join('st.country', 'c')
+                ->join('st.season', 's')
+                ->where("c.name = :country")
+                ->andWhere("s.name = :season")
+                ->setParameters([
+                    'country' => $country,
+                    'season' => $season,
+                        ])
+                ->orderBy('t.name');
+    }
 }

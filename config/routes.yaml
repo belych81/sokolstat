@@ -29,6 +29,15 @@ championships_show:
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
 
+championships_newMatch:
+    path:  /championships/admin/{country}/{season}
+    controller: App\Controller\ShiptableController:newMatch
+
+championships_createMatch:
+    path:  /championships/admin/create/{country}/{season}
+    controller: App\Controller\ShiptableController:createMatch
+    requirements: { _method: post }
+
 cup:
     path:     /cup/{season}
     controller: App\Controller\CupController:index
