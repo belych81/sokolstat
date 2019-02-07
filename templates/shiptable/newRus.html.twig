@@ -17,39 +17,11 @@
 {% endblock %}
 
 {% block content %}
-
-    <form action="{{ path('championships_createMatch', {'country': app.request.get('country'), 'season': app.request.get('season')}) }}"
-          method="post" >
+    <p>Тур: <b>{{entity.tour}}</b></p>
+    <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
+    <form action="{{ path('championships_createrus', {'id': app.request.get('id')}) }}" method="post" {{ form_enctype(form) }}>
        <table>
             <tbody>
-                <tr>
-                    <th>{{ form_label(form.tour) }}</th>
-                    <td>
-                        {{ form_errors(form.tour) }}
-                        {{ form_widget(form.tour) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.data) }}</th>
-                    <td>
-                        {{ form_errors(form.data) }}
-                        {{ form_widget(form.data) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.team) }}</th>
-                    <td>
-                        {{ form_errors(form.team) }}
-                        {{ form_widget(form.team) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.team2) }}</th>
-                    <td>
-                        {{ form_errors(form.team2) }}
-                        {{ form_widget(form.team2) }}
-                    </td>
-                </tr>
                 <tr>
                     <th>{{ form_label(form.goal1) }}</th>
                     <td>

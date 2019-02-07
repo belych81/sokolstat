@@ -2,15 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Rfplmatch;
+use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
-use Steam\FbstatBundle\Repository\TeamRepository;
+use App\Repository\TeamRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RfplmatchType extends AbstractType
 {
@@ -44,14 +45,12 @@ class RfplmatchType extends AbstractType
             ->add('bomb');
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'Steam\FbstatBundle\Entity\Rfplmatch',
-            ]);
-        $resolver->setOptional(['country', 'season']);
+        $resolver->setDefaults([
+            'data_class' => Rfplmatch::class
+        ]);
+        $resolver->setDefined(['country', 'season']);
     }
 
     /**
