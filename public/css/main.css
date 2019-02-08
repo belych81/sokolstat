@@ -103,7 +103,9 @@ footer {
     position: absolute;
     left: 520px;
 }
-
+#rfplmatch_bomb {
+  width: 600px;
+}
 .arrow {
     width: 25px;
     height: 15px;

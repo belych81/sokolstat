@@ -48,12 +48,12 @@ class Tour
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal1;
+    private $goal1 = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal2;
+    private $goal2 = 0;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

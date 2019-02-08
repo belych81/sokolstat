@@ -19,7 +19,8 @@
 {% block content %}
     <p>Тур: <b>{{entity.tour}}</b></p>
     <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
-    <form action="{{ path('championships_createrus', {'id': app.request.get('id')}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('championships_createrus', {'id': app.request.get('id')}) }}"
+      method="post">
        <table>
             <tbody>
                 <tr>

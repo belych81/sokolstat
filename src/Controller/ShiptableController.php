@@ -15,6 +15,8 @@ use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
 use App\Entity\Shipplayer;
 use App\Entity\RusSupercup;
+use App\Entity\Seasons;
+use App\Entity\Country;
 use App\Form\RfplmatchType;
 use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
@@ -178,17 +180,66 @@ class ShiptableController extends AbstractController
               'season' => $season
               ]);
         }
-        
+
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
+    public function createMatch(Request $request, $country, $season)
+    {
+        switch ($country) {
+            case 'russia' : $country2 = 'Россия'; break;
+            case 'england' : $country2 = 'Англия';  break;
+            case 'spain' : $country2 = 'Испания'; break;
+            case 'italy' : $country2 = 'Италия'; break;
+            case 'germany' : $country2 = 'Германия'; break;
+            case 'france' : $country2 = 'Франция'; break;
+            case 'fnl' : $country2 = 'ФНЛ'; break;
+        }
+        if($country == 'russia') {
+            $ent = RfplmatchType::class;
+            $entity  = new Rfplmatch();
+        } else {
+            $ent = TourMatchType::class;
+            $entity  = new Tour();
+            $strana = $this->getDoctrine()->getRepository(Country::class)
+              ->findOneByName($country2);
+            $entity->setCountry($strana);
+        }
+        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+
+        $entity->setSeason($year);
+        $entity->setStatus(1);
+
+        $form = $this->createForm($ent, $entity, [
+            'country' => $country,
+            'season' => $season
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $_SESSION['tour'] = $entity->getTour();
+            $_SESSION['date'] = $entity->getData();
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('shiptable/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+
     public function newRus($id)
     {
         $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
-        $form   = $this->createForm(new Rfplmatch2Type(), $entity);
+        $form   = $this->createForm(Rfplmatch2Type::class, $entity);
 
         return $this->render('shiptable/newRus.html.twig', array(
             'entity' => $entity,
@@ -199,10 +250,12 @@ class ShiptableController extends AbstractController
     public function createRus(Request $request, $id)
     {
         $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
-        $form = $this->createForm(new Rfplmatch2Type(), $entity);
+        $form = $this->createForm(Rfplmatch2Type::class, $entity);
         $entity->setStatus(0);
-        $form->submit($request);
+        $form->handleRequest($request);
+
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
             $team=$entity->getTeam()->getId();
@@ -222,4 +275,55 @@ class ShiptableController extends AbstractController
             'form'   => $form->createView(),
         ));
     }
+
+    public function new($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form   = $this->createForm(TourType::class, $entity);
+
+        return $this->render('shiptable/new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function create(Request $request, $id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form = $this->createForm(TourType::class, $entity);
+        $entity->setStatus(0);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $team=$entity->getTeam()->getId();
+            $team2=$entity->getTeam2()->getId();
+            $seas=$entity->getSeason()->getId();
+            $country=$entity->getCountry()->getName();
+            switch ($country) {
+            case 'Россия' : $country2 = 'russia'; break;
+            case 'Англия' : $country2 = 'england';  break;
+            case 'Испания' : $country2 = 'spain'; break;
+            case 'Италия' : $country2 = 'italy'; break;
+            case 'Германия' : $country2 = 'germany'; break;
+            case 'Франция' : $country2 = 'france'; break;
+            case 'ФНЛ' : $country2 = 'fnl'; break;
+        }
+            $goal1=$entity->getGoal1();
+            $goal2=$entity->getGoal2();
+
+            $this->getDoctrine()->getRepository(Shiptable::class)
+               ->updateShiptable($team, $team2, $goal1, $goal2, $seas);
+            $season=$entity->getSeason()->getName();
+            return $this->redirect($this->generateUrl('championships', [
+                'season' => $season, 'country' => $country2]));
+        }
+
+        return $this->render('shiptable/new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
 }

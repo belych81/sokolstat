@@ -40,11 +40,20 @@ championships_createMatch:
 
 championships_newrus:
     path:  /championships/admin/new/rus/{id}
-    controller: App\Controller\Shiptable:newRus
+    controller: App\Controller\ShiptableController:newRus
 
 championships_createrus:
     path:  /championships/admin/create/match/rus/{id}
-    controller: App\Controller\Shiptable:createRus
+    controller: App\Controller\ShiptableController:createRus
+    requirements: { _method: post }
+
+championships_new:
+    path:  /championships/admin/{id}
+    controller: App\Controller\ShiptableController:new
+
+championships_create:
+    path:  /championships/admin/create/{id}
+    controller: App\Controller\ShiptableController:create
     requirements: { _method: post }
 
 cup:
