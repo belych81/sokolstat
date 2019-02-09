@@ -56,4 +56,23 @@ class PlayerRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public function queryRusTeamPlayers($season, $team)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.playersteams', 'pt')
+                ->join('pt.team', 't')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->andWhere("pt.game >= 0")
+                ->andWhere("t.translit = :team")
+                ->setParameter('team', $team)
+                ->orderBy('p.name');
+    }
 }

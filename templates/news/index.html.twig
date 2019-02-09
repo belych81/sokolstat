@@ -23,7 +23,7 @@
                 {% endif %}
             </td>
             <td>{% if (ymatch.status == 0) %}
-                    {% if ymatch.score %}
+                    {% if ymatch.score is defined %}
                         {{ ymatch.score }}
                     {% else %}
                         {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
@@ -57,7 +57,7 @@
                 {% endif %}
                         </td>
                         <td>{% if (match.status == 0) %}
-                                {% if match.score %}
+                                {% if match.score is defined %}
                                     {{ match.score }}
                                 {% else %}
                                     {{ match.goal1 }}-{{ match.goal2 }}
@@ -339,4 +339,4 @@
 
 
 
-{% endblock %} 
+{% endblock %}

@@ -207,4 +207,127 @@ class RusplayerRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function updateRusplayer($player, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'r.game';
+                $changeParam2 = 'r.game+1';
+                $changeParam3 = 'r.totalgame';
+                $changeParam4 = 'r.totalgame+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'r.game';
+                $changeParam2 = 'r.game-1';
+                $changeParam3 = 'r.totalgame';
+                $changeParam4 = 'r.totalgame-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'r.goal';
+                $changeParam2 = 'r.goal+1';
+                $changeParam3 = 'r.totalgoal';
+                $changeParam4 = 'r.totalgoal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'r.goal';
+                $changeParam2 = 'r.goal-1';
+                $changeParam3 = 'r.totalgoal';
+                $changeParam4 = 'r.totalgoal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set($changeParam, $changeParam2)
+                ->set($changeParam3, $changeParam4)
+                ->where('r.player = ?2')
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateRusplayerTotalChamp($player, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'r.game';
+                $changeParam2 = 'r.game+1';
+
+                break;
+            case 'minusGame' :
+                $changeParam = 'r.game';
+                $changeParam2 = 'r.game-1';
+
+                break;
+            case 'plusGoal' :
+                $changeParam = 'r.goal';
+                $changeParam2 = 'r.goal+1';
+
+                break;
+            case 'minusGoal' :
+                $changeParam = 'r.goal';
+                $changeParam2 = 'r.goal-1';
+
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set($changeParam, $changeParam2)
+                ->where('r.player = ?2')
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateRusplayerTotal($player, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'r.totalgame';
+                $changeParam2 = 'r.totalgame+1';
+
+                break;
+            case 'minusGame' :
+                $changeParam = 'r.totalgame';
+                $changeParam2 = 'r.totalgame-1';
+
+                break;
+            case 'plusGoal' :
+                $changeParam = 'r.totalgoal';
+                $changeParam2 = 'r.totalgoal+1';
+
+                break;
+            case 'minusGoal' :
+                $changeParam = 'r.totalgoal';
+                $changeParam2 = 'r.totalgoal-1';
+
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set($changeParam, $changeParam2)
+                ->where('r.player = ?2')
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateRusplayerChamp($player, $goal)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Rusplayer', 'r')
+            ->set('r.game', 'r.game+1')
+            ->set('r.goal', 'r.goal+?1')
+            ->set('r.totalgame', 'r.totalgame+1')
+            ->set('r.totalgoal', 'r.totalgoal+?1')
+            ->where('r.player = ?2')
+            ->setParameter(1, $goal)
+            ->setParameter(2, $player)
+            ->getQuery();
+
+        $qb->execute();
+    }
 }

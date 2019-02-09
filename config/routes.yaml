@@ -29,6 +29,15 @@ championships_show:
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
 
+championships_new:
+    path:  /championships/admin/{id}
+    controller: App\Controller\ShiptableController:new
+
+championships_create:
+    path:  /championships/admin/create/{id}
+    controller: App\Controller\ShiptableController:create
+    requirements: { _method: post }
+
 championships_newMatch:
     path:  /championships/admin/{country}/{season}
     controller: App\Controller\ShiptableController:newMatch
@@ -45,15 +54,6 @@ championships_newrus:
 championships_createrus:
     path:  /championships/admin/create/match/rus/{id}
     controller: App\Controller\ShiptableController:createRus
-    requirements: { _method: post }
-
-championships_new:
-    path:  /championships/admin/{id}
-    controller: App\Controller\ShiptableController:new
-
-championships_create:
-    path:  /championships/admin/create/{id}
-    controller: App\Controller\ShiptableController:create
     requirements: { _method: post }
 
 cup:
@@ -136,6 +136,43 @@ player:
 player_show:
     path:  /player/{id}
     controller: App\Controller\RusplayerController:show
+
+player_newChamp:
+    path:  /playeradmin/admin/champ/{season}/{team}
+    controller: App\Controller\PlayerController:newChamp
+
+player_createChamp:
+    path:  /playeradmin/admin/createChamp/{season}/{team}
+    controller: App\Controller\PlayerController:createChamp
+    requirements: { _method: post }
+
+player_newPlayer:
+    path:  /playeradmin/admin/newPlayer/{country}/{season}/{team}
+    controller: App\Controller\PlayerController:newPlayer
+
+player_newRusplayer:
+    path:  /playeradmin/admin/rusplayer/{season}/{team}/{country}
+    controller: App\Controller\PlayerController:newRusplayer
+
+player_newPlayersteam:
+    path:  /playeradmin/admin/playersteam/{season}/{team}
+    controller: App\Controller\PlayerController:newPlayersteam
+
+playeradmin_editChamp:
+    path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editChamp
+
+playeradmin_editTotalChamp:
+    path:  /playeradmin/admin/totalChamp/{id}/edit/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editTotalChamp
+
+playeradmin_editTotal:
+    path:  /playeradmin/admin/total/{id}/edit/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editTotal
+
+playeradmin_editTotalTeam:
+    path:  /playeradmin/admin/totalTeam/{id}/edit/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editTotalTeam
 
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
