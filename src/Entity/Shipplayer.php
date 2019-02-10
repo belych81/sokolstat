@@ -37,27 +37,27 @@ class Shipplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $cup;
+    private $cup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $supercup;
+    private $supercup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $eurocup;
+    private $eurocup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sum;
+    private $sum = 0;
 
     public function getId(): ?int
     {

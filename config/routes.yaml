@@ -150,13 +150,37 @@ player_newPlayer:
     path:  /playeradmin/admin/newPlayer/{country}/{season}/{team}
     controller: App\Controller\PlayerController:newPlayer
 
+player_createPlayer:
+    path:  /admin/createNewPlayer/{country}/{season}/{team}
+    controller: App\Controller\PlayerController:createNewPlayer
+    requirements: { _method: post }
+
+player_newChampNation:
+    path:  /playeradmin/admin/champnation/{season}/{country}/{team}
+    controller: App\Controller\PlayerController:newChampNation
+
+player_createChampNation:
+    path:  /playeradmin/admin/createChampnation/{season}/{country}/{team}
+    controller: App\Controller\PlayerController:createChampNation
+    requirements: { _method: post }
+
 player_newRusplayer:
     path:  /playeradmin/admin/rusplayer/{season}/{team}/{country}
     controller: App\Controller\PlayerController:newRusplayer
 
+player_createRusplayer:
+    path:  /admin/createRusplayer/{season}/{team}/{country}
+    controller: App\Controller\PlayerController:createRusplayer
+    requirements: { _method: post }
+
 player_newPlayersteam:
     path:  /playeradmin/admin/playersteam/{season}/{team}
     controller: App\Controller\PlayerController:newPlayersteam
+
+player_createPlayersteam:
+    path:  /playeradmin/admin/createPlayersteam/{season}/{team}
+    controller: App\Controller\PlayerController:createPlayersteam
+    requirements: { _method: post }
 
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
@@ -173,6 +197,21 @@ playeradmin_editTotal:
 playeradmin_editTotalTeam:
     path:  /playeradmin/admin/totalTeam/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editTotalTeam
+
+playeradmin_editPlayerTurnirs:
+    path:  /playeradmin/admin/editTurnirs/{season}/{country}/{team}
+    controller: App\Controller\PlayerController:editPlayerTurnirs
+
+playeradmin_updatePlayerTurnirs:
+    path:  /playeradmin/admin/updateTurnirs/{season}/{country}/{team}
+    controller: App\Controller\PlayerController:updatePlayerTurnirs
+    requirements: { _method: post|put }
+
+playeradmin_editNation:
+    path:  /playeradmin/admin/{id}/editNation/{country}/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editNation
+    requirements:
+        change: minus|plus
 
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

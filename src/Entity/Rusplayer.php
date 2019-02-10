@@ -25,42 +25,42 @@ class Rusplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $totalgame;
+    private $totalgame = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $totalgoal;
+    private $totalgoal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $fnlGame;
+    private $fnlGame = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $fnlGoal;
+    private $fnlGoal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sbGame;
+    private $sbGame = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sbGoal;
+    private $sbGoal = 0;
 
     public function getId(): ?int
     {

@@ -43,17 +43,17 @@ class Player
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $lch_game;
+    private $lch_game = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $lch_goal;
+    private $lch_goal = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -63,27 +63,27 @@ class Player
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private $image = "-";
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $cup;
+    private $cup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $supercup;
+    private $supercup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $eurocup;
+    private $eurocup = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sum;
+    private $sum = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="player")
