@@ -118,6 +118,32 @@ class ShipplayerRepository extends ServiceEntityRepository
                 ->getQuery();
 
             $qb->execute();
-        }
+    }
+
+    public function updatePlayerTurnirs($player_id, $cup, $eurocup, $supercup, $season,
+      $team)
+    {
+            $sum = $cup + $eurocup + $supercup;
+
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.cup', 's.cup+?2')
+                ->set('s.eurocup', 's.eurocup+?3')
+                ->set('s.supercup', 's.supercup+?4')
+                ->set('s.sum', 's.sum+?7')
+                ->where('s.player = ?1')
+                ->setParameter(1, $player_id)
+                ->andWhere('s.season = ?5')
+                ->setParameter(5, $season)
+                ->andWhere('s.team = ?6')
+                ->setParameter(6, $team)
+                ->setParameter(2, $cup)
+                ->setParameter(3, $eurocup)
+                ->setParameter(4, $supercup)
+                ->setParameter(7, $sum)
+                ->getQuery();
+
+            $qb->execute();
+    }
 
 }

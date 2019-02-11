@@ -162,4 +162,38 @@ class PlayerRepository extends ServiceEntityRepository
                 ->setParameter('team', $team)
                 ->orderBy('p.name');
     }
+
+    public function queryUpdatePlayers($season, $team)
+    {
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.shipplayers', 'sp')
+                ->join('sp.season', 's')
+                ->join('sp.team', 't')
+                ->where("s.name = :season")
+                ->andWhere("t.translit = :team")
+                ->setParameter('season', $season)
+                ->setParameter('team', $team)
+                ->orderBy('p.name');
+    }
+
+    public function updatePlayerTurnirs($player_id, $cup, $eurocup, $supercup)
+    {
+        $sum = $cup + $eurocup + $supercup;
+
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Player', 's')
+            ->set('s.cup', 's.cup+?2')
+            ->set('s.eurocup', 's.eurocup+?3')
+            ->set('s.supercup', 's.supercup+?4')
+            ->set('s.sum', 's.sum+?7')
+            ->where('s.id = ?1')
+            ->setParameter(1, $player_id)
+            ->setParameter(2, $cup)
+            ->setParameter(3, $eurocup)
+            ->setParameter(4, $supercup)
+            ->setParameter(7, $sum)
+            ->getQuery();
+
+        $qb->execute();
+    }
 }

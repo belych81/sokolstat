@@ -14,6 +14,7 @@ use App\Form\FnlType;
 use App\Form\RusplayerType;
 use App\Form\PlayerType;
 use App\Form\ShipplayerType;
+use App\Form\ShipplayerUpdateType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -321,5 +322,54 @@ class PlayerController extends AbstractController
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    public function editPlayerTurnirs($season, $team, $country)
+    {
+        $entity = new Shipplayer();
+
+        $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
+                ['season' => $season, 'team' => $team]);
+
+        return $this->render('rusplayer/editPlayerTurnirs.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView()
+        ));
+    }
+
+    public function updatePlayerTurnirs(Request $request, $season, $team, $country)
+    {
+        $entity = new Shipplayer();
+        $teamOb = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $seasonOb = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
+        $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
+                ['season' => $season, 'team' => $team]);
+        $editForm->handleRequest($request);
+        $player = $editForm['player']->getData();
+
+        if ($editForm->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $player = $editForm["player"]->getData()->getId();
+            $cup= $editForm['cup']->getData();
+            $eurocup= $editForm['eurocup']->getData();
+            $supercup= $editForm['supercup']->getData();
+            $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player, $cup,
+              $eurocup, $supercup, $seasonOb->getId(), $teamOb->getId());
+            $em->getRepository(Player::class)
+               ->updatePlayerTurnirs($player, $cup, $eurocup, $supercup);
+
+            return $this->redirect($this->generateUrl('championships_show', [
+                'id' => $team,
+                'country' => $country,
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('rusplayer/editPlayerTurnirs.html.twig', [
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView()
+            ]);
     }
 }

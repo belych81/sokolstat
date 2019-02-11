@@ -1,0 +1,65 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Добавить игрока
+{% endblock %}
+
+{% block keywords %}
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('playeradmin_updatePlayerTurnirs',
+    {'team': app.request.get('team'), 'season': app.request.get('season'),
+    'country': app.request.get('country')}) }}" method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(edit_form.player) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.player) }}
+                        {{ form_widget(edit_form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(edit_form.cup) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.cup) }}
+                        {{ form_widget(edit_form.cup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(edit_form.supercup) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.supercup) }}
+                        {{ form_widget(edit_form.supercup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(edit_form.eurocup) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.eurocup) }}
+                        {{ form_widget(edit_form.eurocup) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(edit_form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+<a href="{{ path('championships_show', {'id': app.request.get('team'),
+'country': 'russia', 'season': app.request.get('season')}) }}">Назад</a>
+
+{% endblock %}
