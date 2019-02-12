@@ -6,6 +6,7 @@ use App\Entity\Gamers;
 use App\Entity\Team;
 use App\Entity\Rusplayer;
 use App\Entity\Shipplayer;
+use App\Entity\Fnlplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
 use App\Entity\Seasons;
@@ -371,5 +372,63 @@ class PlayerController extends AbstractController
             'entity'      => $entity,
             'edit_form'   => $editForm->createView()
             ]);
+    }
+
+    public function editFnl($id, $season, $team, $change)
+    {
+        $this->getDoctrine()->getRepository(Fnlplayer::class)->updateFnlplayer($id, $change);
+        $entity = $this->getDoctrine()->getRepository(Fnlplayer::class)->find($id);
+        $playerId = $entity->getPlayer()->getId();
+        $this->getDoctrine()->getRepository(Rusplayer::class)
+          ->updateRusplayerFnl($playerId, $change);
+        return $this->redirect($this->generateUrl('championships_show', [
+                'id' => $team,
+                'season' => $season,
+                'country' => 'fnl'
+                    ]));
+    }
+
+    public function newFnl($season, $team)
+    {
+        $entity = new Fnlplayer();
+
+        $form   = $this->createForm(FnlType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        return $this->render('rusplayer/newFnl.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createFnl(Request $request, $team, $season)
+    {
+        $entity  = new Fnlplayer();
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $form = $this->createForm(FnlType::class, $entity, ['season' => $season,
+            'team' => $team]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer();
+            $goal = $entity->getGoal();
+            $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player, $goal);
+            return $this->redirect($this->generateUrl('championships_show', [
+                'id' => $team,
+                'country' => 'fnl',
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('rusplayer/newFnl.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 }

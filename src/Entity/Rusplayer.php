@@ -45,22 +45,22 @@ class Rusplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $fnlGame = 0;
+    private $fnlgame = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $fnlGoal = 0;
+    private $fnlgoal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sbGame = 0;
+    private $sbgame = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sbGoal = 0;
+    private $sbgoal = 0;
 
     public function getId(): ?int
     {
@@ -127,50 +127,50 @@ class Rusplayer
         return $this;
     }
 
-    public function getFnlGame(): ?int
+    public function getFnlgame(): ?int
     {
-        return $this->fnlGame;
+        return $this->fnlgame;
     }
 
-    public function setFnlGame(int $fnlGame): self
+    public function setFnlgame(int $fnlgame): self
     {
-        $this->fnlGame = $fnlGame;
+        $this->fnlgame = $fnlgame;
 
         return $this;
     }
 
-    public function getFnlGoal(): ?int
+    public function getFnlgoal(): ?int
     {
-        return $this->fnlGoal;
+        return $this->fnlgoal;
     }
 
-    public function setFnlGoal(int $fnlGoal): self
+    public function setFnlgoal(int $fnlgoal): self
     {
-        $this->fnlGoal = $fnlGoal;
+        $this->fnlgoal = $fnlgoal;
 
         return $this;
     }
 
-    public function getSbGame(): ?int
+    public function getSbgame(): ?int
     {
-        return $this->sbGame;
+        return $this->sbgame;
     }
 
-    public function setSbGame(int $sbGame): self
+    public function setSbgame(int $sbgame): self
     {
-        $this->sbGame = $sbGame;
+        $this->sbgame = $sbgame;
 
         return $this;
     }
 
-    public function getSbGoal(): ?int
+    public function getSbgoal(): ?int
     {
-        return $this->sbGoal;
+        return $this->sbgoal;
     }
 
-    public function setSbGoal(int $sbGoal): self
+    public function setSbgoal(int $sbgoal): self
     {
-        $this->sbGoal = $sbGoal;
+        $this->sbgoal = $sbgoal;
 
         return $this;
     }

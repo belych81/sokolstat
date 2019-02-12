@@ -13,21 +13,21 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RusplayerType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-            ->add('player', EntityType::class, [
-            'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) {
-              return $repository->queryGamerByLastSeasons();
-            }
-            ]);
-  }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+      $builder
+              ->add('player', EntityType::class, [
+              'class' => Player::class,
+              'query_builder' => function (PlayerRepository $repository) {
+                return $repository->queryPlayersNoRusplayer();
+              }
+              ]);
+    }
 
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults([
-        'data_class' => Rusplayer::class
-    ]);
-  }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+      $resolver->setDefaults([
+          'data_class' => Rusplayer::class
+      ]);
+    }
 }

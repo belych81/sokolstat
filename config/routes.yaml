@@ -146,6 +146,15 @@ player_createChamp:
     controller: App\Controller\PlayerController:createChamp
     requirements: { _method: post }
 
+player_newFnl:
+    path:  /playeradmin/admin/fnl/{season}/{team}
+    controller: App\Controller\PlayerController:newFnl
+
+player_createFnl:
+    path:  /playeradmin/admin/createFnl/{season}/{team}
+    controller: App\Controller\PlayerController:createFnl
+    requirements: { _method: post }
+
 player_newPlayer:
     path:  /playeradmin/admin/newPlayer/{country}/{season}/{team}
     controller: App\Controller\PlayerController:newPlayer
@@ -185,6 +194,10 @@ player_createPlayersteam:
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editChamp
+
+playeradmin_editFnl:
+    path:  /playeradmin/admin/{id}/editFnl/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editFnl
 
 playeradmin_editTotalChamp:
     path:  /playeradmin/admin/totalChamp/{id}/edit/{season}/{team}/{change}

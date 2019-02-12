@@ -60,6 +60,6 @@
         </p>
     </form>
 <a href="{{ path('championships_show', {'id': app.request.get('team'),
-'country': 'russia', 'season': app.request.get('season')}) }}">Назад</a>
+'country': app.request.get('country'), 'season': app.request.get('season')}) }}">Назад</a>
 
 {% endblock %}

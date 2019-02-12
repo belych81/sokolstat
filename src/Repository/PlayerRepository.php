@@ -92,6 +92,14 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
+    public function queryPlayersNoRusplayer()
+    {
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.rusplayers', 'rp')
+                ->where("rp.id is null")
+                ->orderBy('p.name');
+    }
+
     public function queryGamerByLastSeasons()
     {
         return $query = $this->createQueryBuilder('p')

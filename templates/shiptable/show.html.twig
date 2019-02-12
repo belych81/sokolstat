@@ -4,10 +4,6 @@
    {{ club.0.name }} - {{ app.request.get('season') }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="{{ club.0.name }} {{ app.request.get('season') }}, авторы забитых мячей">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="{{ club.0.name }} {{ app.request.get('season') }},
           авторы забитых мячей">

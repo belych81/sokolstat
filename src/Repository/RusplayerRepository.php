@@ -330,4 +330,53 @@ class RusplayerRepository extends ServiceEntityRepository
 
         $qb->execute();
     }
+
+    public function updateRusplayerTotalFnl($player, $goal)
+    {
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set('r.fnlgame', 'r.fnlgame+1')
+                ->set('r.fnlgoal', 'r.fnlgoal+?1')
+                ->where('r.player = ?2')
+                ->setParameter(1, $goal)
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateRusplayerFnl($player, $change)
+    {
+
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'r.fnlgame';
+                $changeParam2 = 'r.fnlgame+1';
+
+                break;
+            case 'minusGame' :
+                $changeParam = 'r.fnlgame';
+                $changeParam2 = 'r.fnlgame-1';
+
+                break;
+            case 'plusGoal' :
+                $changeParam = 'r.fnlgoal';
+                $changeParam2 = 'r.fnlgoal+1';
+
+                break;
+            case 'minusGoal' :
+                $changeParam = 'r.fnlgoal';
+                $changeParam2 = 'r.fnlgoal-1';
+
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set($changeParam, $changeParam2)
+                ->where('r.player = ?2')
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
 }

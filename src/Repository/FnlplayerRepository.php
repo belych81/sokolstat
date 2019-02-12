@@ -67,4 +67,34 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function updateFnlplayer($id, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Fnlplayer', 'g')
+                ->set($changeParam, $changeParam2)
+                ->where('g.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
 }
