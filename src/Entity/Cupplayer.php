@@ -37,12 +37,12 @@ class Cupplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 1;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     private $gameTeam;
 

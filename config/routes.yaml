@@ -64,6 +64,28 @@ cup_show:
     path:     /cup/{id}/{season}/show
     controller: App\Controller\CupController:show
 
+cup_new:
+    path:  /cup/admin/{id}
+    controller: App\Controller\CupController:new
+    requirements:
+        id: \d+
+
+cup_create:
+    path:  /cup/admin/create/{id}
+    controller: App\Controller\CupController:create
+    requirements:
+      _method: post
+      id: \d+
+
+cup_newMatch:
+    path:  /cup/admin/{season}
+    controller: App\Controller\CupController:newMatch
+
+cup_createMatch:
+    path:  /cup/admin/create/{season}
+    controller: App\Controller\CupController:createMatch
+    requirements: { _method: post }
+
 nationcup:
     path:     /nationcup/{country}/{season}
     controller: App\Controller\NationcupController:index
@@ -191,6 +213,24 @@ player_createPlayersteam:
     controller: App\Controller\PlayerController:createPlayersteam
     requirements: { _method: post }
 
+player_newCup:
+    path:  /playeradmin/admin/cup/{season}/{team}
+    controller: App\Controller\PlayerController:newCup
+
+player_createCup:
+    path:  /playeradmin/admin/createCup/{season}/{team}
+    controller: App\Controller\PlayerController:createCup
+    requirements: { _method: post }
+
+player_newSc:
+    path:  /playeradmin/admin/sc/{season}/{team}/{id}
+    controller: App\Controller\PlayerController:newSc
+
+player_createSc:
+    path:  /playeradmin/admin/createSc/{season}/{team}/{id}
+    controller: App\Controller\PlayerController:createSc
+    requirements: { _method: post }
+
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editChamp
@@ -210,6 +250,10 @@ playeradmin_editTotal:
 playeradmin_editTotalTeam:
     path:  /playeradmin/admin/totalTeam/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editTotalTeam
+
+playeradmin_editCup:
+    path:  /playeradmin/admin/cup/{id}/edit/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editCup
 
 playeradmin_editPlayerTurnirs:
     path:  /playeradmin/admin/editTurnirs/{season}/{country}/{team}

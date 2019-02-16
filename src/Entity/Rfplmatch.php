@@ -66,7 +66,7 @@ class Rfplmatch
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $bomb;
+    private $bomb = "-";
 
     /**
      * @ORM\Column(type="boolean")

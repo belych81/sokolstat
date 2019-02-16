@@ -181,7 +181,8 @@
                     </tr>
                     {% else %}
                 <tr><td colspan="4" bgcolor="#FFEEAA">
-                        <a href="{{ path('championships_new', {'id': match.id}) }}">{{ match.data | date('d.m H:i') }}</a></td>
+                        <a href="{{ path('championships_new', {'id': match.id}) }}">
+                          {{ match.data | date('d.m H:i') }}</a></td>
                     </tr>
                     {% endif %}
                 {% else %}
@@ -199,8 +200,20 @@
 
             <tr>
               <td class="champTourTeam">{{ match.team.name }}</td>
-              <td class="champTourScore">{{ match.goal1 }}</td>
-              <td class="champTourScore">{{ match.goal2 }}</td>
+              <td class="champTourScore">
+                {% if match.status == 1 %}
+                  -
+                {% else %}
+                  {{ match.goal1 }}
+                {% endif %}
+              </td>
+              <td class="champTourScore">
+              {% if match.status == 1 %}
+                -
+              {% else %}
+                {{ match.goal2 }}
+              {% endif %}
+              </td>
               <td class="champTourTeam">{{ match.team2.name }}</td>
             </tr>
             <tr>

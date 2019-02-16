@@ -379,4 +379,18 @@ class RusplayerRepository extends ServiceEntityRepository
 
             $qb->execute();
     }
+
+    public function updateRusplayerEc($player, $goal)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Rusplayer', 'r')
+            ->set('r.totalgame', 'r.totalgame+1')
+            ->set('r.totalgoal', 'r.totalgoal+?1')
+            ->where('r.player = ?2')
+            ->setParameter(1, $goal)
+            ->setParameter(2, $player)
+            ->getQuery();
+
+        $qb->execute();
+    }
 }

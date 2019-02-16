@@ -1,0 +1,39 @@
+{% extends 'rusplayer/newChamp.html.twig' %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('player_createSc', {'team': app.request.get('team'),
+     'season': app.request.get('season'), 'id': app.request.get('id')}) }}"
+        method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.player) }}</th>
+                    <td>
+                        {{ form_errors(form.player) }}
+                        {{ form_widget(form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goal) }}</th>
+                    <td>
+                        {{ form_errors(form.goal) }}
+                        {{ form_widget(form.goal) }}
+                    </td>
+                </tr>
+
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+<a href="{{ path('supercup_show', {'id': app.request.get('id'),
+'country': 'russia'}) }}">Назад</a>
+
+{% endblock %}

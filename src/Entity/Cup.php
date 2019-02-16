@@ -43,22 +43,22 @@ class Cup
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $bomb;
+    private $bomb = "-";
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $score;
+    private $score = "-:-";
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $game;
+    private $game = "";
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $game2;
+    private $game2 = "";
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

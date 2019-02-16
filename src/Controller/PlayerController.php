@@ -7,6 +7,8 @@ use App\Entity\Team;
 use App\Entity\Rusplayer;
 use App\Entity\Shipplayer;
 use App\Entity\Fnlplayer;
+use App\Entity\Cupplayer;
+use App\Entity\Supercupplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
 use App\Entity\Seasons;
@@ -430,5 +432,116 @@ class PlayerController extends AbstractController
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    public function newSc($season, $team, $id)
+    {
+        $entity = new Supercupplayer();
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneById($team);
+        $translit = $club->getTranslit();
+        $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $translit]);
+
+        return $this->render('rusplayer/newSc.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createSc(Request $request, $team, $season, $id)
+    {
+        $entity  = new Supercupplayer();
+
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneById($team);
+        $translit = $club->getTranslit();
+        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $form = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $translit]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer();
+            $goal = $entity->getGoal();
+            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+            $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
+            return $this->redirect($this->generateUrl('supercup_show', [
+                'id' => $id,
+                'country' => 'russia'
+                    ]));
+        }
+
+        return $this->render('rusplayer/newSc.html.twig', [
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            ]);
+    }
+
+    public function newCup($season, $team)
+    {
+        $entity = new Cupplayer();
+
+        $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        return $this->render('rusplayer/newCup.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createCup(Request $request, $team, $season)
+    {
+        $entity  = new Cupplayer();
+
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $form = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer()->getId();
+            $goal = $entity->getGoal();
+            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+            $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
+            return $this->redirect($this->generateUrl('cup_show', [
+                'id' => $team,
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('rusplayer/newCup.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function editCup($id, $season, $team, $change)
+    {
+        $em = $this->getDoctrine();
+
+        $em->getRepository(Cupplayer::class)->updateCupplayer($id, $change);
+        $entity = $em->getRepository(Cupplayer::class)->find($id);
+        $playerId = $entity->getPlayer()->getId();
+        $player = $entity->getPlayer();
+        $teamOb = $entity->getTeam();
+        $em->getRepository(Rusplayer::class)->updateRusplayer($playerId, $change);
+        $em->getRepository(Playersteam::class)->updatePlayersteam($player, $teamOb, $change);
+        return $this->redirect($this->generateUrl('cup_show', [
+                'id' => $team,
+                'season' => $season
+                    ]));
     }
 }

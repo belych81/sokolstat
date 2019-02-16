@@ -6,13 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Rfplmatch2Type extends AbstractType
+class Cup2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add('goal1')
-          ->add('goal2')
+          ->add('score')
+          ->add('game')
+          ->add('game2')
           ->add('bomb');
     }
 

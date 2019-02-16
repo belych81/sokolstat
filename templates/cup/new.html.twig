@@ -1,4 +1,4 @@
-{% extends 'shiptable/index.html.twig' %}
+{% extends 'cup/index.html.twig' %}
 
 {% block title %}
     Добавить матч
@@ -14,24 +14,31 @@
 {% endblock %}
 
 {% block content %}
-    <p>Тур: <b>{{entity.tour}}</b></p>
+    <p><b>{{entity.stadia.name}}</b></p>
     <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
-    <form action="{{ path('championships_createrus', {'id': app.request.get('id')}) }}"
+    <form action="{{ path('cup_create', {'id': app.request.get('id')}) }}"
       method="post">
        <table>
             <tbody>
                 <tr>
-                    <th>{{ form_label(form.goal1) }}</th>
+                    <th>{{ form_label(form.score) }}</th>
                     <td>
-                        {{ form_errors(form.goal1) }}
-                        {{ form_widget(form.goal1) }}
+                        {{ form_errors(form.score) }}
+                        {{ form_widget(form.score) }}
                     </td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(form.goal2) }}</th>
+                    <th>{{ form_label(form.game) }}</th>
                     <td>
-                        {{ form_errors(form.goal2) }}
-                        {{ form_widget(form.goal2) }}
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game2) }}</th>
+                    <td>
+                        {{ form_errors(form.game2) }}
+                        {{ form_widget(form.game2) }}
                     </td>
                 </tr>
                 <tr>

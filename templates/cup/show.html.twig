@@ -86,8 +86,13 @@
                <td class="scLink">
 
     {% for team in teams %}
-    <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-     'id': team.translit}) }}" class="spiski">{{ team.name }}</a></p>
+      <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
+       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
+    {% endfor %}
+
+    {% for team in teams2 %}
+      <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
+       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
     {% endfor %}
 
                 </td>

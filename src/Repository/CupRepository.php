@@ -80,4 +80,26 @@ class CupRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+
+    public function getTeams($season, $league = null)
+    {
+      $strJoin = 'c.team2';
+      if($league == 2)
+      {
+        $strJoin = 'c.team';
+      }
+
+      return $this->createQueryBuilder('c')
+              ->select('t.id', 't.name', 't.translit')
+              ->join($strJoin, 't')
+              ->join('c.season', 's')
+              ->join('c.stadia', 'st')
+              ->where("s.name = :season")
+              ->andWhere("st.name = :stadia")
+              ->setParameters(['season' => $season, 'stadia' => '1/16 финала'])
+              ->orderBy('t.name')
+              ->getQuery()
+              ->getResult()
+              ;
+    }
 }

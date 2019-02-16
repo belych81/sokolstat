@@ -26,6 +26,7 @@ class EurocupRepository extends ServiceEntityRepository
             ->join('tm.country', 'c')
             ->where('e.data >= :data')
             ->andWhere('c.name IN (:fnl)')
+            ->andWhere('e.status = 0')
             ->setParameter('data', $data)
             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
               'Франция', 'Россия'])

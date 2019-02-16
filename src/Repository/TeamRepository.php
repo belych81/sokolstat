@@ -43,4 +43,15 @@ class TeamRepository extends ServiceEntityRepository
                         ])
                 ->orderBy('t.name');
     }
+
+    public function queryTeamsForCup($country) {
+
+        return $query = $this->createQueryBuilder('t')
+                ->join('t.country', 'c')
+                ->where("c.name = :country")
+                ->setParameters([
+                    'country' => $country
+                        ])
+                ->orderBy('t.name');
+    }
 }

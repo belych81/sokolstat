@@ -29,18 +29,42 @@
 {% endblock %}
 
 {% block content %}
+{% if is_granted("ROLE_ADMIN") %}
+<p><a href="{{ path('cup_newMatch', {'season': app.request.get('season')}) }}">
+Добавить матч</a></p>
+{% endif %}
     <table>
         <tr>
             <td>
     <table>
       {% for stad in stadies %}
           <tr class="shipTableTitle">
-                <td colspan="3" class="tableGoal">{{ stad.name }}</td>
+                <td colspan="4" class="tableGoal">{{ stad.name }}</td>
           </tr>
         {% for entity in stad.stadiamatches %}
         <tr class="odd">
+            <td class="">
+                <div class="">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('cup_new', {'id': entity.id}) }}">
+                          {{ entity.data | date('d.m H:i') }}</a>
+                    {% else %}
+                          {% if entity.status == 1 %}
+                            {{ entity.data | date('d.m H:i') }}
+                          {% else %}
+                              {{ entity.data | date('d.m') }}
+                          {% endif %}
+                    {% endif %}
+                </div>
+            </td>
             <td class="scMatch">
-                <div class="spiski">{{ entity.team.name }} - {{ entity.team2.name }}</div>
+                <div>
+                  <a href="{{ path('cup_show', {'season': app.request.get('season'),
+                  'id': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
+                   -
+                   <a href="{{ path('cup_show', {'season': app.request.get('season'),
+                   'id': entity.team2.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+                </div>
             </td>
             <td class="scScore">
               {{ entity.score }}
@@ -50,7 +74,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3" class="even">
+            <td colspan="4" class="even">
                 <p><em><b>{{ entity.team.name }}</b></em>: {{ entity.game }}</p>
                 <p><em><b>{{ entity.team2.name }}</b></em>: {{ entity.game2 }}</p>
             </td>
@@ -59,14 +83,7 @@
       {% endfor %}
     </table>
             </td>
-            <td class="scLink">
-
-    {% for team in teams %}
-    <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-     'id': team.translit}) }}" class="spiski">{{ team.name }}</a></p>
-    {% endfor %}
-
-                </td>
+            
         </tr>
     </table>
 {% endblock %}
