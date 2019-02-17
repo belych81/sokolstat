@@ -49,12 +49,12 @@ class NationCup
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $bomb;
+    private $bomb = "-";
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $score;
+    private $score = "0-0";
 
     /**
      * @ORM\Column(type="datetime")

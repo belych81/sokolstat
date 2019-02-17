@@ -6,14 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Cup2Type extends AbstractType
+class NationCup2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
           ->add('score')
-          ->add('game')
-          ->add('game2')
           ->add('bomb');
     }
 

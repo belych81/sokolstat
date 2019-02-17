@@ -4,11 +4,6 @@
    Кубок {{ rusCountry }} {{ app.request.get('season') }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="кубок {{ rusCountry }} {{ app.request.get('season') }},
-          бомбардиры, матчи">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="кубок {{ rusCountry }} {{ app.request.get('season') }},
           бомбардиры, матчи">
@@ -29,22 +24,42 @@
 {% endblock %}
 
 {% block content %}
+
+  {% if is_granted("ROLE_ADMIN") %}
+    <p><a href="{{ path('nationcup_newMatch', {'season': app.request.get('season'),
+    'country': app.request.get('country')}) }}">
+    Добавить матч</a></p>
+  {% endif %}
     <table>
         <tr>
             <td>
     <table>
       {% for stad in stadies %}
           <tr class="shipTableTitle">
-                <td colspan="3" class="tableGoal">{{ stad.name }}</td>
+                <td colspan="4" class="tableGoal">{{ stad.name }}</td>
           </tr>
         {% for entity in stad.stadiamatches %}
         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>
+                <div>
+                  {% if is_granted("ROLE_ADMIN") %}
+                      <a href="{{ path('nationcup_new', {'id': entity.id, 'country': app.request.get('country')}) }}">
+                        {{ entity.data | date('d.m H:i') }}</a>
+                  {% else %}
+                        {% if entity.status == 1 %}
+                          {{ entity.data | date('d.m H:i') }}
+                        {% else %}
+                            {{ entity.data | date('d.m') }}
+                        {% endif %}
+                  {% endif %}
+                </div>
+            </td>
             <td class="scMatch">
                 <div class="spiski">{{ entity.team.name }} - {{ entity.team2.name }}</div>
             </td>
             <td class="scScore">
                 {% if entity.status %}
-                    {{ entity.data | date('d.m H:i') }}
+                    -:-
               {% else %}
                   {{ entity.score }}
                   {% endif %}
