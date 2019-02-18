@@ -11,7 +11,10 @@ use App\Entity\Lchplayer;
 use App\Entity\Ecsostav;
 use App\Entity\Ecplayer;
 use App\Entity\Playersteam;
-
+use App\Entity\Seasons;
+use App\Form\EurocupNewType;
+use App\Form\EurocupType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EurocupController extends AbstractController
@@ -123,6 +126,103 @@ class EurocupController extends AbstractController
             'entity' => $entity,
             'team' => $team
             ]);
+    }
+
+    public function newMatch($season)
+    {
+        $entity = new Eurocup();
+
+        $form   = $this->createForm(EurocupNewType::class, $entity, [
+            'season' => $season
+            ]);
+
+        return $this->render('eurocup/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createMatch(Request $request, $season)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity  = new Eurocup();
+
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+
+        $entity->setSeason($year);
+        $entity->setStatus(1);
+        $form = $this->createForm(EurocupNewType::class, $entity, [
+            'season' => $season
+            ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_SESSION['stadia'] = $entity->getStadia();
+            $_SESSION['data'] = $entity->getData();
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('eurocup/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function new($turnir, $season, $stadia = null)
+    {
+        $entity = new Eurocup();
+        $em = $this->getDoctrine();
+        $laststadia2 = $em->getRepository(Eurocup::class)->getLastStadia($turnir, $season);
+        if (!$stadia) {
+            $stadia = $laststadia2[0]['alias'];
+        }
+        $form   = $this->createForm(EurocupType, $entity, [
+            'season' => $season,
+            'turnir' => $turnir,
+            'stadia' => $stadia
+            ]);
+
+        return $this->render('eurocup/new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createAction(Request $request, $turnir, $season, $stadia)
+    {
+        $entity  = new Eurocup();
+        $em = $this->getDoctrine()->getManager();
+        $cup = $em->getRepository('SteamFbstatBundle:Turnir')->findOneByAlias($turnir);
+        $year = $em->getRepository('SteamFbstatBundle:Season')->findOneByName($season);
+        $group = $em->getRepository('SteamFbstatBundle:Stadia')->findOneByAlias($stadia);
+
+        $entity->setTurnir($cup);
+        $entity->setSeason($year);
+        $entity->setStadia($group);
+        $form = $this->createForm(EurocupType::class, $entity, ['season' => $season,
+            'turnir' => $turnir, 'stadia' => $stadia]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            //$team=$entity->getTeam()->getId();
+            //$team2=$entity->getTeam2()->getId();
+            //$seas=$entity->getSeason()->getId();
+            //$score=$entity->getScore();
+            //$em->getRepository('SteamFbstatBundle:Ectable')->updateEctable($team, $team2, $score, $seas);
+
+            //return $this->redirect($this->generateUrl('eurocup', ['turnir' => $turnir, 'season' => $season,
+              //  'stadia' => $stadia]));
+        }
+
+        return $this->render('eurocup/new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 
 }

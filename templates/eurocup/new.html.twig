@@ -1,0 +1,93 @@
+{% extends 'eurocup/index.html.twig' %}
+
+{% block title %}
+    Добавить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('eurocup_create', {'stadia': app.request.get('stadia'),
+     'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
+        method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.data) }}</th>
+                    <td>
+                        {{ form_errors(form.data) }}
+                        {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team) }}</th>
+                    <td>
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team2) }}</th>
+                    <td>
+                        {{ form_errors(form.team2) }}
+                        {{ form_widget(form.team2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.score) }}</th>
+                    <td>
+                        {{ form_errors(form.score) }}
+                        {{ form_widget(form.score) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.bomb) }}</th>
+                    <td>
+                        {{ form_errors(form.bomb) }}
+                        {{ form_widget(form.bomb) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupA'}) }}">Группа А</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupB'}) }}">Группа B</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupC'}) }}">Группа C</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupD'}) }}">Группа D</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupE'}) }}">Группа E</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupF'}) }}">Группа F</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupG'}) }}">Группа G</a>
+            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupH'}) }}">Группа H</a>
+            {% if app.request.get('turnir') == 'leagueEuropa' %}
+                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupI'}) }}">Группа I</a>
+                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupJ'}) }}">Группа J</a>
+                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupK'}) }}">Группа K</a>
+                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
+                        'season': app.request.get('season'), 'stadia': 'groupL'}) }}">Группа L</a>
+            {% endif %}
+{% endblock %}

@@ -142,6 +142,30 @@ eurocup_edit:
     requirements:
         id: \d+
 
+eurocup_newMatch:
+    path:  /eurocup/admin/{season}
+    controller: App\Controller\EurocupController:newMatch
+
+eurocup_createMatch:
+    path:  /eurocup/admin/create/{season}
+    controller: App\Controller\EurocupController:createMatch
+    requirements: { _method: post }
+
+eurocup_new:
+    path:  /eurocup/admin/{turnir}/{season}/{stadia}
+    controller: App\Controller\EurocupController:new
+    defaults:
+      stadia: null
+    requirements:
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+
+eurocup_create:
+    path:  /eurocup/admin/create/{turnir}/{season}/{stadia}
+    controller: App\Controller\EurocupController:create
+    defaults:
+      stadia: null
+    requirements: { _method: post }
+
 supercup:
     path:  /supercup/{country}
     controller: App\Controller\UefaSupercupController:index
