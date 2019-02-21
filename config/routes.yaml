@@ -137,10 +137,15 @@ eurocup_showmatch:
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
 
 eurocup_edit:
-    path:  /eurocup/{turnir}/{id}/edit
+    path:  /eurocup/{turnir}/{id}/{stadia}/edit
     controller: App\Controller\EurocupController:edit
     requirements:
         id: \d+
+
+eurocup_update:
+    path:  /eurocup/{turnir}/{id}/{stadia}/update
+    controller: App\Controller\EurocupController:update
+    requirements: { _method: post|put }
 
 eurocup_newMatch:
     path:  /eurocup/admin/{season}

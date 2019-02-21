@@ -83,7 +83,7 @@
             </td>
             <td class="scScore">
             {% if entity.status %}
-              <a href="{{ path('eurocup_edit', {'id': entity.id, 'turnir': app.request.get('turnir'),})}}">
+              <a href="{{ path('eurocup_edit', {'id': entity.id, 'turnir': app.request.get('turnir'), 'stadia': rus_stadia.alias })}}">
                   {{ entity.data | date('d.m H:i') }}</a>
               {% else %}
               {{ entity.score }}
