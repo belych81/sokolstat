@@ -246,6 +246,15 @@ player_createChampNation:
     controller: App\Controller\PlayerController:createChampNation
     requirements: { _method: post }
 
+player_newlchplayer:
+    path:  /playeradmin/admin/champnation/{season}/{team}
+    controller: App\Controller\PlayerController:newLchPlayer
+
+player_createlchplayer:
+    path:  /playeradmin/admin/createChampnation/{season}/{team}
+    controller: App\Controller\PlayerController:createLchPlayer
+    requirements: { _method: post }
+
 player_newRusplayer:
     path:  /playeradmin/admin/rusplayer/{season}/{team}/{country}
     controller: App\Controller\PlayerController:newRusplayer
@@ -320,6 +329,10 @@ playeradmin_editNation:
     controller: App\Controller\PlayerController:editNation
     requirements:
         change: minus|plus
+
+playeradmin_editLchplayer:
+    path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editLchplayer
 
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

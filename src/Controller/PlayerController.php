@@ -8,6 +8,7 @@ use App\Entity\Rusplayer;
 use App\Entity\Shipplayer;
 use App\Entity\Fnlplayer;
 use App\Entity\Cupplayer;
+use App\Entity\Lchplayer;
 use App\Entity\Supercupplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
@@ -16,6 +17,7 @@ use App\Form\RusType;
 use App\Form\FnlType;
 use App\Form\RusplayerType;
 use App\Form\PlayerType;
+use App\Form\LchplayerType;
 use App\Form\ShipplayerType;
 use App\Form\ShipplayerUpdateType;
 
@@ -543,5 +545,75 @@ class PlayerController extends AbstractController
                 'id' => $team,
                 'season' => $season
                     ]));
+    }
+
+    public function editLchplayer($id, $season, $team, $change)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $player = $em->getRepository(Lchplayer::class)->find($id);
+        $player_id = $player->getPlayer()->getId();
+        if (strpos($change, 'game') !== false)
+        {
+          $em->getRepository(Lchplayer::class)->updateLchplayerGame($id, $change);
+          $em->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);
+        }
+        elseif (strpos($change, 'goal') !== false)
+        {
+          $em->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
+          $em->getRepository(Player::class)->updatePlayerLchGoal($player_id, $change);
+        }
+        return $this->redirect($this->generateUrl('eurocup_show', [
+                'id' => $team,
+                'season' => $season,
+                'turnir' => 'leagueChampions'
+                    ]));
+    }
+
+    public function newLchPlayer($season, $team)
+    {
+        $entity = new Lchplayer();
+
+        $form   = $this->createForm(LchplayerType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        return $this->render('eurocup/newLchPlayer.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createLchPlayer(Request $request, $team, $season)
+    {
+        $entity  = new Lchplayer();
+        $em = $this->getDoctrine()->getManager();
+        $club = $em->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $entity->setGame(1);
+        $form = $this->createForm(LchplayerType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer()->getId();
+            $goal = $entity->getGoal();
+            $em->getRepository(Player::class)->updatePlayerLch($player, $goal);
+            /*$em->getRepository('SteamFbstatBundle:Rusplayer')
+                    ->updateRusplayerEc($player, $goal);*/
+            return $this->redirect($this->generateUrl('eurocup_show', [
+                'id' => $team,
+                'season' => $season,
+                'turnir' => 'leagueChampions'
+                    ]));
+        }
+
+        return $this->render('eurocup/newLchPlayer.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 }
