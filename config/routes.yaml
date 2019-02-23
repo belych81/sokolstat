@@ -273,6 +273,15 @@ player_createPlayersteam:
     controller: App\Controller\PlayerController:createPlayersteam
     requirements: { _method: post }
 
+player_newEc:
+    path:  /playeradmin/admin/ec/{turnir}/{season}/{team}
+    controller: App\Controller\PlayerController:newEc
+
+player_createEc:
+    path:  /playeradmin/admin/createEc/{turnir}/{season}/{team}
+    controller: App\Controller\PlayerController:createEc
+    requirements: { _method: post }
+
 player_newCup:
     path:  /playeradmin/admin/cup/{season}/{team}
     controller: App\Controller\PlayerController:newCup
@@ -333,6 +342,10 @@ playeradmin_editNation:
 playeradmin_editLchplayer:
     path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editLchplayer
+
+playeradmin_editEc:
+    path:  /playeradmin/admin/{id}/editEc/{season}/{team}/{turnir}/{change}
+    controller: App\Controller\PlayerController:editEc
 
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

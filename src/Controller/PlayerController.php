@@ -9,10 +9,12 @@ use App\Entity\Shipplayer;
 use App\Entity\Fnlplayer;
 use App\Entity\Cupplayer;
 use App\Entity\Lchplayer;
+use App\Entity\Ecplayer;
 use App\Entity\Supercupplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
 use App\Entity\Seasons;
+use App\Entity\Turnir;
 use App\Form\RusType;
 use App\Form\FnlType;
 use App\Form\RusplayerType;
@@ -612,6 +614,73 @@ class PlayerController extends AbstractController
         }
 
         return $this->render('eurocup/newLchPlayer.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function editEc($id, $season, $team, $turnir, $change)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ecplayer = $em->getRepository(Ecplayer::class)->find($id);
+        $player = $ecplayer->getPlayer();
+        $club = $ecplayer->getTeam();
+
+        $em->getRepository(Ecplayer::class)->updateEcplayer($id, $change);
+        $em->getRepository(Rusplayer::class)->updateRusplayerTotal($player, $change);
+        $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $change);
+
+        return $this->redirect($this->generateUrl('eurocup_showTeam', [
+                'id' => $team,
+                'season' => $season,
+                'turnir' => $turnir
+                    ]));
+    }
+
+    public function newEc($season, $team)
+    {
+        $entity = new Ecplayer();
+
+        $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        return $this->render('rusplayer/newEc.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createEc(Request $request, $team, $season, $turnir)
+    {
+        $entity  = new Ecplayer();
+        $em = $this->getDoctrine()->getManager();
+        $club = $em->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+        $cup = $em->getRepository(Turnir::class)->findOneByAlias($turnir);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $entity->setTurnir($cup);
+        $form = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $team]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer();
+            $goal = $entity->getGoal();
+            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+            $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
+            return $this->redirect($this->generateUrl('eurocup_showTeam', [
+                'id' => $team,
+                'turnir' => $turnir,
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('rusplayer/newEc.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));

@@ -48,4 +48,34 @@ class EcplayerRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function updateEcplayer($id, $change)
+    {
+      switch ($change) {
+        case 'plusGame':
+          $param1 = 'e.game';
+          $param2 = 'e.game+1';
+          break;
+        case 'minusGame':
+          $param1 = 'e.game';
+          $param2 = 'e.game-1';
+          break;
+        case 'minusGoal':
+          $param1 = 'e.goal';
+          $param2 = 'e.goal-1';
+          break;
+        case 'plusGoal':
+          $param1 = 'e.goal';
+          $param2 = 'e.goal+1';
+          break;
+      }
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Ecplayer', 'e')
+            ->set($param1, $param2)
+            ->where('e.id = ?1')
+            ->setParameter(1, $id)
+            ->getQuery();
+
+        $qb->execute();
+    }
 }

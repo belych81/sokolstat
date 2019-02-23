@@ -53,12 +53,12 @@
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('playeradmin_editLchplayer',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'gameMinus'}) }}" class="plusMinus">-</a>
-                    {{ player.game }}
-                    <a href="{{ path('playeradmin_editLchplayer',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'gamePlus'}) }}" class="plusMinus">+</a>
+                          {'id': player.id, 'season': app.request.get('season'),
+                          'team': app.request.get('id'), 'change': 'gameMinus'}) }}" class="plusMinus">-</a>
+                      {{ player.game }}
+                        <a href="{{ path('playeradmin_editLchplayer',
+                      {'id': player.id, 'season': app.request.get('season'),
+                      'team': app.request.get('id'), 'change': 'gamePlus'}) }}" class="plusMinus">+</a>
                     {% else %}
                         {{ player.game }}
                     {% endif %}

@@ -48,14 +48,38 @@
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editEc',
-                    {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'turnir': player.turnir.alias}) }}">
-                        {{ player.game }}</a>
+                      <a href="{{ path('playeradmin_editEc',
+                        {'id': player.id, 'season': app.request.get('season'),
+                        'turnir': app.request.get('turnir'),
+                        'team': app.request.get('id'), 'change': 'minusGame'}) }}"
+                        class="plusMinus">-</a>
+                        {{ player.game }}
+                      <a href="{{ path('playeradmin_editEc',
+                        {'id': player.id, 'season': app.request.get('season'),
+                        'turnir': app.request.get('turnir'),
+                        'team': app.request.get('id'), 'change': 'plusGame'}) }}"
+                        class="plusMinus">+</a>
                     {% else %}
-                    {{ player.game }}
-                    {% endif %}</td>
-                <td class="tableGoal">{{ player.goal }}</td>
+                      {{ player.game }}
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                  {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('playeradmin_editEc',
+                      {'id': player.id, 'season': app.request.get('season'),
+                      'turnir': app.request.get('turnir'),
+                      'team': app.request.get('id'), 'change': 'minusGoal'}) }}"
+                      class="plusMinus">-</a>
+                      {{ player.goal }}
+                    <a href="{{ path('playeradmin_editEc',
+                      {'id': player.id, 'season': app.request.get('season'),
+                      'turnir': app.request.get('turnir'),
+                      'team': app.request.get('id'), 'change': 'plusGoal'}) }}"
+                      class="plusMinus">+</a>
+                  {% else %}
+                    {{ player.goal }}
+                  {% endif %}
+                </td>
                 <td class="tableGoal">{{ player.gameTeam }}</td>
                 <td class="tableGoal">{{ player.goalTeam }}</td>
                 <td class="tableGoal">{{ player.player.rusplayers.0.totalgame }}</td>
