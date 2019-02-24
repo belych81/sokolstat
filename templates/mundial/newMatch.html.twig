@@ -1,0 +1,126 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Добавить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('sbornie_createMatch', {'season': app.request.get('season'),
+      'turnir': app.request.get('turnir')}) }}"
+          method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.turnir) }}</th>
+                    <td>
+                        {{ form_errors(form.turnir) }}
+                        {{ form_widget(form.turnir) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.stadia) }}</th>
+                    <td>
+                        {{ form_errors(form.stadia) }}
+                        {{ form_widget(form.stadia) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.data) }}</th>
+                    <td>
+                        {{ form_errors(form.data) }}
+                        {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.country) }}</th>
+                    <td>
+                        {{ form_errors(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.country2) }}</th>
+                    <td>
+                        {{ form_errors(form.country2) }}
+                        {{ form_widget(form.country2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.referee) }}</th>
+                    <td>
+                        {{ form_errors(form.referee) }}
+                        {{ form_widget(form.referee) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.city) }}</th>
+                    <td>
+                        {{ form_errors(form.city) }}
+                        {{ form_widget(form.city) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.zriteli) }}</th>
+                    <td>
+                        {{ form_errors(form.zriteli) }}
+                        {{ form_widget(form.zriteli) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.penalty) }}</th>
+                    <td>
+                        {{ form_errors(form.penalty) }}
+                        {{ form_widget(form.penalty) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.score) }}</th>
+                    <td>
+                        {{ form_errors(form.score) }}
+                        {{ form_widget(form.score) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goal) }}</th>
+                    <td>
+                        {{ form_errors(form.goal) }}
+                        {{ form_widget(form.goal) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game2) }}</th>
+                    <td>
+                        {{ form_errors(form.game2) }}
+                        {{ form_widget(form.game2) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+
+    <a href="{{ path('sbornie', { 'turnir': 'worldcup',
+        'year': app.request.get('season')}) }}">Назад</a>
+
+{% endblock %}

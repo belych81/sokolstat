@@ -35,7 +35,8 @@
 
 {% block content %}
     {% if is_granted("ROLE_ADMIN") %}
-        <p><a href="{{ path('sbornie_newMatch', {'season': app.request.get('year')}) }}">
+        <p><a href="{{ path('sbornie_newMatch', {'season': app.request.get('year'),
+          'turnir': app.request.get('turnir')}) }}">
                 Добавить матч</a></p>
          {% endif %}
     <table>

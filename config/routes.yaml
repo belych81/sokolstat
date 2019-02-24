@@ -179,6 +179,15 @@ supercup_show:
     path:  /supercup/{country}/{id}
     controller: App\Controller\UefaSupercupController:show
 
+sbornie_newMatch:
+    path:  /sbornie/admin/{season}/{turnir}
+    controller: App\Controller\MundialController:newMatch
+
+sbornie_createMatch:
+    path:  /sbornie/admin/create/{season}/{turnir}
+    controller: App\Controller\MundialController:createMatch
+    requirements: { _method: post }
+
 sbornie:
     path:  /sbornie/{turnir}/{year}
     controller: App\Controller\MundialController:index

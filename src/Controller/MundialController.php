@@ -5,20 +5,14 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-//use App\Entity\Rusplayer;
-//use App\Entity\Team;
-//use App\Entity\Playersteam;
-//use App\Entity\Shiptable;
 use App\Entity\Country;
-//use App\Entity\Player;
 use App\Entity\Sbplayer;
-//use App\Entity\Gamers;
-//use App\Entity\Fnlplayer;
-//use App\Entity\Shipplayer;
 use App\Entity\Sostav;
 use App\Entity\Stadia;
 use App\Entity\Turnir;
 use App\Entity\Mundial;
+use App\Entity\Seasons;
+use App\Form\MundialType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -95,5 +89,48 @@ class MundialController extends AbstractController
             'games' => null,
             'goals' => null
             ]);
+    }
+
+    public function newMatch($season, $turnir)
+    {
+        $entity = new Mundial();
+
+        $form   = $this->createForm(MundialType::class, $entity, [
+            'season' => $season
+            ]);
+
+        return $this->render('mundial/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createMatch(Request $request, $season, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity  = new Mundial();
+
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+
+        $entity->setSeason($year);
+        $entity->setStatus(1);
+
+        $form = $this->createForm(MundialType::class, $entity, [
+            'season' => $season
+            ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $_SESSION['stadia'] = $entity->getStadia();
+            $_SESSION['data'] = $entity->getData();
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('mundial/newMatch.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 }

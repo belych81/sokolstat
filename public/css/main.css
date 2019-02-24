@@ -103,7 +103,13 @@ footer {
     position: absolute;
     left: 520px;
 }
-#rfplmatch_bomb {
+#rfplmatch_bomb,
+#rfplmatch2_bomb,
+#tour_bomb,
+#mundial_goal,
+#mundial_game,
+#mundial_game2,
+#mundial_penalty {
   width: 600px;
 }
 .arrow {
