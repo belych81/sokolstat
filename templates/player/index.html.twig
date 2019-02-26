@@ -35,24 +35,33 @@
     </div>
 
     <p>Всего футболистов: <strong>{{ totalPlayers }}.</strong></p>
+    {% if app.request.get('order') == 'desc' %}
+      {% set order = 'asc' %}
+    {% else %}
+      {% set order = 'desc' %}
+    {% endif %}
     {% if lastPage > 1 %}
         {% if app.request.get('page') > 1 %}
-            <a href="{{ path('player', {'page': 1, 'sort': app.request.get('sort')})}}">
-            <img src="{{ asset('bundles/steamfbstat/images/double_arrows2.png') }}"
+            <a href="{{ path('player', {'page': 1, 'sort': app.request.get('sort'),
+             'order': app.request.get('order')})}}">
+              <img src="{{ asset('images/double_arrows2.png') }}"
                  alt="Первая" title="Первая" class="arrow" /></a>
 
-            <a href="{{ path('player', {'page': previousPage, 'sort': app.request.get('sort')})}}">
-            <img src="{{ asset('bundles/steamfbstat/images/strelkaLeft.png') }}"
+            <a href="{{ path('player', {'page': previousPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order')})}}">
+              <img src="{{ asset('images/strelkaLeft.png') }}"
                  alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
         {% endif %}
         Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
         {% if lastPage != app.request.get('page') %}
-            <a href="{{ path('player', {'page': nextPage, 'sort': app.request.get('sort')})}}">
-            <img src="{{ asset('bundles/steamfbstat/images/strelka.png') }}"
+            <a href="{{ path('player', {'page': nextPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order')})}}">
+              <img src="{{ asset('images/strelka.png') }}"
                  alt="Следующая" title="Следующая" class="arrow"/></a>
 
-            <a href="{{ path('player', {'page': lastPage, 'sort': app.request.get('sort')})}}">
-            <img src="{{ asset('bundles/steamfbstat/images/double_arrows1.png') }}"
+            <a href="{{ path('player', {'page': lastPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order')})}}">
+              <img src="{{ asset('images/double_arrows1.png') }}"
                  alt="Последняя" title="Последняя" class="arrow" /></a>
          {% endif %}
     {% endif %}
@@ -62,7 +71,7 @@
             <tr class="shipTableTitle">
                 <th rowspan="2">&nbsp;</th>
                 <th rowspan="2" class="playerListName">&nbsp;</th>
-                <th rowspan="2"><a href="{{ path ('player', {'sort': 'born'}) }}">Дата Рождения</a></th>
+                <th rowspan="2"><a href="{{ path ('player', {'sort': 'born', 'order': order}) }}">Дата Рождения</a></th>
                 <th colspan="2" class="teamPlayers">
                     {% if club and club != 'Команда' %}
                         {{ club }}
