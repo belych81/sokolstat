@@ -207,14 +207,18 @@ sbornieCountry:
     controller: App\Controller\MundialController:showCountry
 
 player:
-    path:  /player/russia/{page}/{sort}/{order}
+    path:  /player/russia/{page}/{sort}/{order}/{team}/{country}
     controller: App\Controller\RusplayerController:index
     defaults:
       page: 1
       sort: game
       order: desc
+      team: all
+      country: false
     requirements:
         page: \d+
+    options:
+        expose: true
 
 player_show:
     path:  /player/{id}

@@ -62,6 +62,34 @@ class Rusplayer
      */
     private $sbgoal = 0;
 
+    private $gameTeam;
+
+    private $goalTeam;
+
+    public function setGameTeam(int $gameTeam)
+    {
+        $this->gameTeam = $gameTeam;
+
+        return $this;
+    }
+
+    public function getGameTeam(): ?int
+    {
+        return $this->gameTeam;
+    }
+
+    public function setGoalTeam(int $goalTeam)
+    {
+        $this->goalTeam = $goalTeam;
+
+        return $this;
+    }
+
+    public function getGoalTeam(): ?int
+    {
+        return $this->goalTeam;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -23,7 +23,9 @@
         {% block javascripts %}
             <script src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
             <script src="{{ asset('js/menuShow.js') }}"></script>
-            <script src="{{ asset('js/script.js') }}"></script>
+            <script src="{{ asset('js/search.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('images/i4.jpg') }}" />
     </head>
@@ -36,7 +38,7 @@
               alt="SokolTeam" class="logo" />
         </a>
         <a href="{{ path('steam_fbstat_homepage') }}" class="logo-text-a">
-                <img src="{{ asset('bundles/steamfbstat/images/rrr.jpg') }}"
+                <img src="{{ asset('images/rrr.jpg') }}"
                     alt="SokolTeam" class="logo-text" />
             </a>
             <a class="menu-trigger" href="javascript:void(0);">
@@ -165,18 +167,59 @@
 
         </div>
             <footer>
-
-            <table>
-                        <tr>
-
-                            <td>
-
-                        © SokolTeam 2012-{{ "now" | date("Y") }}</td>
-            <td><div class="">Вопросы и предложения присылайте <a href="mailto:info@sokolstat.ru">сюда</a></div></td>
-                        </tr>
-                    </table>
-                </footer>
+              <table class="footer">
+              <tr>
+              <ul class="bottom-menu">
+                <li>
+                  <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">
+                      Национальные турниры
+                  </a>
+                  <ul>
+                  <li> <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">Россия</a></li>
+                  <li> <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">Англия</a></li>
+                  <li> <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">Испания</a></li>
+                  <li> <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">Италия</a></li>
+                  <li> <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">Германия</a></li>
+                  <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">Франция</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Еврокубки</a>
+                  <ul>
+                    <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Лига Чемпионов</a></li>
+                    <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">Лига Европы</a></li>
+                    <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">Суперкубок Европы</a></li>
+                    <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2018', 'stadia': 'final'}) }}">Клубный Чемпионат Мира</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Сборные</a>
+                  <ul>
+                    <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Чемпионаты Мира</a></li>
+                    <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">Чемпионаты Европы</a></li>
+                    <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">Кубок Конфедераций</a></li>
+                    <li><a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">Сборная России</a></li>
+                 </ul>
+                </li>
+                <li>
+                  <a href="{{ path('player') }}">Футболисты</a>
+                </li>
+              </ul>
+              </tr>
+                <tr class="footer-bottom">
+                  <td>© SokolTeam 2012-{{ "now" | date("Y") }}</td>
+                  <td>
+                    <div class="">
+                      Вопросы и предложения присылайте
+                        <a href="mailto:info@sokolstat.ru">сюда</a>
+                    </div>
+                  </td>
+                  <td>
+                    <a class="soglasie-link" href="{{ path('soglasie') }}">Пользовательское соглашение</a>
+                  </td>
+                </tr>
+              </table>
+            </footer>
       </div>
-
    </body>
 </html>

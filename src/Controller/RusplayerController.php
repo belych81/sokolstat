@@ -24,45 +24,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RusplayerController extends AbstractController
 {
-    public function index(Request $request, SessionInterface $session, $page, $sort, $order)
+    public function index(Request $request, SessionInterface $session, $page, $sort,
+      $order, $team, $country)
     {
-        if ($request->getMethod() == 'POST') {
-          $country = $request->query->get('country');
-          $team = $request->query->get('team');
-        }
-        if($request->query->get('sort'))
-        {
-            $arSort = explode("_", htmlspecialchars($request->query->get('sort')));
-            $sort = $arSort[0];
-            $order = $arSort[1];
-        }
         $totalPlayers = $this->getDoctrine()->getRepository(Rusplayer::class)
-                            ->countPlayers($session->get('country'), $session->get('teams'));
+                            ->countPlayers($country, $team);
         $lastPage = ceil($totalPlayers / 20);
         $previousPage = $page > 1 ? $page-1 : 1;
         $nextPage = $page < $lastPage ? $page+1 : $lastPage;
+
         $entities = $this->getDoctrine()->getRepository(Rusplayer::class)
-                        ->getPlayers(20, $sort, $order, ($page-1)*20, $session->get('country'),
-                                $session->get('teams'));
-        if($session->get('teams') && $session->get('teams') != 'Команда')
+                        ->getPlayers(20, $sort, $order, ($page-1)*20, $country, $team);
+        if($team && $team != 'Команда' && $team != 'all')
         {
             $sort="pt.game";
             $kom = $this->getDoctrine()->getRepository(Team::class)
-              ->findOneByName($session->get('teams'));
-            $id=$kom->getTranslit();
+              ->findOneByTranslit($team);
             for ($i=0, $cnt=count($entities); $i < $cnt; $i++)
             {
                 $name[$i] = $entities[$i]->getPlayer()->getName();
                 $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'game')[0]->getGame();
+                                 ->getStat($name[$i], $team, 'game')[0]->getGame();
                 $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'goal')[0]->getGoal();
+                                 ->getStat($name[$i], $team, 'goal')[0]->getGoal();
 
                 $entities[$i]->setGameTeam($ptgame[$i]);
                 $entities[$i]->setGoalTeam($ptgoal[$i]);
             }
         }
-        $country = $this->getDoctrine()->getRepository(Country::class)
+        $countries = $this->getDoctrine()->getRepository(Country::class)
           ->getCountryAll();
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeamsRfpl();
@@ -74,10 +64,10 @@ class RusplayerController extends AbstractController
             'currentPage' => $page,
             'nextPage' => $nextPage,
             'totalPlayers' => $totalPlayers,
-            'country' => $country,
-            'strana' => $request->query->get('country'),
+            'country' => $countries,
+            'strana' => $country,
             'teams' => $teams,
-            'club' => $request->query->get('teams')
+            'club' => isset($kom) ? $kom->getName() : ''
             ]);
     }
 

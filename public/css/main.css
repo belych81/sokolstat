@@ -145,6 +145,25 @@ footer {
     padding-bottom: 5px;
     background-color: #fff;
 }
+.bottom-menu{
+  margin: 15px;
+}
+.bottom-menu li{
+  list-style-type: none;
+}
+.bottom-menu > li{
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 15px;
+  font-size: 17px;
+}
+.bottom-menu li a{
+  color: #5c4b4b;
+}
+.bottom-menu li ul{
+  margin-left: 10px;
+  font-size: 15px;
+}
 .calendar-today{
     background-color: #fff;
 }
@@ -166,8 +185,8 @@ footer {
     width: 150px;
 }
 .container {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 20px;
+    margin-right: 20px;
     width: 100%;
 }
 .content{
@@ -220,6 +239,16 @@ footer {
     width: 200px;
     text-align: center;
     display: inline-block;
+}
+.footer{
+  border-spacing: 20px 5px;
+  padding-bottom: 15px;
+}
+.footer-bottom a{
+  color: #4a4040;
+}
+.footer-bottom td{
+  font-size: 14px;
 }
 .lastPlayerTitle {
     font-weight: bold;
@@ -467,6 +496,7 @@ footer {
     text-align: center;
     font-size: 14px;
     font-weight: bold;
+    width: 35px;
 }
 .playerListName {
     width: 200px;
@@ -488,11 +518,21 @@ footer {
     text-align: center;
     background-color: #FFFFFF;
 }
+.player-position{
+  text-align: center;
+  width: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #82376a;
+}
 .player-season {
     width: 70px;
 }
 .player-stat-top-5 {
     width: 500px;
+}
+.players-list tr{
+  height: 25px;
 }
 .plusMinus {
     font-size: 16px;
@@ -685,6 +725,9 @@ footer {
 .soglasie p {
     margin: 15px;
     text-align: justify;
+}
+.soglasie-link {
+  color: #665656;
 }
 .spiski {
     font-weight: bold;

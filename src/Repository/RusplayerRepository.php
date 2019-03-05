@@ -82,8 +82,8 @@ class RusplayerRepository extends ServiceEntityRepository
 
     public function countPlayers($country=null, $team=null)
     {
-        if($team && $team != 'Команда') {
-        $qb = $this->createQueryBuilder('r')
+        if($team && $team != 'all') {
+          $qb = $this->createQueryBuilder('r')
                 ->select('count(r.id)')
                 ->join('r.player', 'p')
                 ->join('p.country', 'c')
@@ -98,12 +98,12 @@ class RusplayerRepository extends ServiceEntityRepository
                 ->join('p.country', 'c')
                 ->where('r.totalgame > 0');
         }
-        if($country && $country != 'Страна') {
-            $qb->where('c.name = ?1')
+        if($country && $country != 'all') {
+            $qb->where('c.translit = ?1')
                 ->setParameter(1, $country);
         }
-        if($team && $team != 'Команда') {
-            $qb->andWhere('tm.name = ?2')
+        if($team && $team != 'all') {
+            $qb->andWhere('tm.translit = ?2')
                 ->setParameter(2, $team);
         }
         $query = $qb->getQuery();
@@ -114,7 +114,7 @@ class RusplayerRepository extends ServiceEntityRepository
     public function getPlayers($max, $sort, $order='desc', $offset=null, $country=null,
       $team=null)
     {
-        if($team && $team != 'Команда')
+        if($team && $team != 'all')
         {
             if($sort == 'totalgame')
             {
@@ -147,7 +147,7 @@ class RusplayerRepository extends ServiceEntityRepository
                   ->leftJoin('p.playersteams', 'pt')
                   ->join('pt.team', 'tm')
                   ->where('r.totalgame > 0')
-                  ->orderBy($sortBy, 'DESC')
+                  ->orderBy($sortBy, $order)
                   ->setMaxResults($max)
                   ;
           }
@@ -169,21 +169,21 @@ class RusplayerRepository extends ServiceEntityRepository
                   ->join('r.player', 'p')
                   ->join('p.country', 'c')
                   ->where('r.totalgame > 0')
-                  ->orderBy('r.'.$sort, 'DESC')
+                  ->orderBy('r.'.$sort, $order)
                   ->setMaxResults($max)
                   ;
             }
         }
 
-        if($country && $country != 'Страна')
+        if($country && $country != 'all')
         {
-            $qb->where('c.name = ?1')
+            $qb->where('c.translit = ?1')
                 ->setParameter(1, $country);
         }
 
-        if($team && $team != 'Команда')
+        if($team && $team != 'all')
         {
-            $qb->andWhere('tm.name = ?2')
+            $qb->andWhere('tm.translit = ?2')
                 ->setParameter(2, $team);
         }
 
