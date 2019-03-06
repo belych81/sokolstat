@@ -113,7 +113,7 @@ class ShiptableRepository extends ServiceEntityRepository
         if ($goal1 == $goal2)
         {
             $qb = $this->_em->createQueryBuilder('Shiptable', 'st')
-                ->update('Shiptable', 'st')
+                ->update('App\Entity\Shiptable', 'st')
                 ->set('st.nich', 'st.nich+1')
                 ->set('st.mz', 'st.mz+?1')
                 ->set('st.mp', 'st.mp+?2')

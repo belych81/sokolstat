@@ -25,17 +25,16 @@
 {% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="teamStat">
 
 
-                <p><b>{{ club.0.name }}</b></p>
+                <h1>{{ club.0.name }}</h1>
 
     {% block playersTeam %}
-    <table>
+    <div class="champ-teams-list">
+    <table class="champ-show-table">
         <thead>
             <tr class="shipTableTitle">
+                <th>&nbsp;</th>
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">Г</th>
                 <th class="teamStatGoal">В сезоне</th>
@@ -46,6 +45,7 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
                 </td>
@@ -84,19 +84,13 @@
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
             Обновить игрока</a>
         {% endif %}
-            </td>
-
-            </tr>
-        </table>
-
-    {% endblock %}
-    <td class="scLink">
-
+</div>
+<div class="champ-teams-list">
     {% for team in teams %}
     <p><a href="{{ path('championships_show', {'season': app.request.get('season'),
      'id': team.translit, 'country': app.request.get('country')}) }}" class="spiski">
             {{ team.name }}</a></p>
     {% endfor %}
-
-                </td>
+</div>
+    {% endblock %}
 {% endblock %}

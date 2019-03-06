@@ -146,18 +146,16 @@
 {% if path('steam_fbstat_homepage') != path(app.request.attributes.get('_route'),
      app.request.attributes.get('_route_params')) %}
 
-                        <table>
-                            <tr>
-                                <td>
+                        <div class="seasons-h1">
+                                <h1>
                                   {% block zagolovok %}
                                   {% endblock %}
-                                </td>
-                                <td class="seasons">
+                                </h1>
+                                <div class="seasons">
                                   {% block seasons %}
                                   {% endblock %}
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                        </div>
 {% endif %}
                         {% block content %}
                         {% endblock %}

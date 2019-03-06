@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block zagolovok %}
-    <h1 class="countryTurnirActive">Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1>
+    Чемпионат {{ rusCountry }} {{ app.request.get('season') }}
 {% endblock %}
 
 {% block seasons %}
@@ -83,7 +83,7 @@
     <table>
         <tr>
             <td class="scLink">
-                <p><b>Турнирная таблица</b></p>
+                <p class="champ-title">Турнирная таблица</p>
     <table class="shipTable">
         <thead>
             <tr class="shipTableTitle">
@@ -117,7 +117,7 @@
     </table>
             </td>
             <td class="scLink">
-                <p class="champBombTitle">Бомбардиры</p>
+                <p class="champ-title">Бомбардиры</p>
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -150,7 +150,7 @@
         </td>
         <td class="scLink">
 
-            <p><b>Туры</b></p>
+            <p class="champ-title">Туры</p>
         {% for tour in tours %}
             {% if app.request.get('tour') != tour.tour %}
                <a href="{{ path('championships', {'country': app.request.get('country'),

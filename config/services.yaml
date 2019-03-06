@@ -32,6 +32,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Player }
 
+    admin.tour:
+        class: App\Admin\TourAdmin
+        arguments: [~, App\Entity\Tour, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Tour }
+
     admin.ecsostav:
         class: App\Admin\EcsostavAdmin
         arguments: [~, App\Entity\Ecsostav, ~]
