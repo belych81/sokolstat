@@ -13,7 +13,8 @@ use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
 use App\Entity\Shipplayer;
 use App\Entity\RusSupercup;
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NewsController extends AbstractController
@@ -137,9 +138,21 @@ class NewsController extends AbstractController
 
     public function soglasie()
     {
-
         return $this->render('news/soglasie.html.twig', []);
     }
 
+    public function search(Request $request)
+    {
+        $query = htmlspecialchars($request->request->get('query'));
+        $arQuery = explode(" ", $query);
+        $em = $this->getDoctrine()->getManager();
+
+        $response = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        $player = [];
+        foreach($response as $val){
+            $player[$val->getTranslit()] = $val->getName();
+        }
+        return new JsonResponse($player);
+    }
 
 }

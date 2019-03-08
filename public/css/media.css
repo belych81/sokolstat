@@ -1,0 +1,56 @@
+@media (max-width: 1130px) {
+  .login-bar{
+    display: block;
+  }
+  .menu-login, .search-top{
+    display: none;
+  }
+  .menuPrimary li.dropdown-top{
+    width: 25%;
+  }
+}
+@media (max-width: 796px) {
+
+}
+@media (max-width: 767px) {
+
+    .main-content{
+        display: none;
+    }
+    .mobile-main-content{
+        display: block;
+    }
+    .sidebar, .right_column, .leader-table{
+        width: 100%
+    }
+}
+@media (max-width: 630px) {
+	.panel-box { display: block; }
+	header { display: none; }
+  .logo {
+    width: 60px;
+    height: 55px;
+  }
+  .container {
+      width: 100%;
+      left: 0;
+  }
+  .primaryFone {
+      background-color: #FFCCCC;
+      width: 100%;
+      margin-top: 60px;
+  }
+  .login-bar{
+    display: block;
+  }
+}
+
+@media (max-width: 435px) {
+    .logo-text-a {
+        display: none;
+    }
+    .container {
+    width: 100%;
+    left: 0;
+    }
+}

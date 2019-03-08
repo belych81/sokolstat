@@ -1,0 +1,15 @@
+{% extends 'player/index.html.twig' %}
+
+{% block content %}
+  <h1>Результаты поиска</h1>
+    <div id="players">
+        {% if players|length > 1 %}
+            {% for entity in players %}
+                <a href="{{ path ('player_show', {'id': entity.translit}) }}" class="spiski">
+                    {{ entity.name }}</a><br/>
+            {% endfor %}
+        {% else %}
+            К сожалению, ничего не найдено.
+        {% endif %}
+    </div>
+{% endblock %}

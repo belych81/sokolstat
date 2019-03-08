@@ -113,4 +113,51 @@ class RusplayerController extends AbstractController
             'goalsSb' => $goalsSb
             ]);
     }
+
+    public function search()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $q = htmlspecialchars($_GET['q']);
+        $arQuery = explode(" ", $q);
+        $players = false;
+        if(strlen($q) > 1){
+            $players = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        }
+        if(!$players || count($players) != 1){
+            return $this->render('rusplayer/search.html.twig', [
+                'players' => $players,
+                'query' => $q
+                ]);
+        } else {
+            $id = $players[0]->getTranslit();
+            $player = $em->getRepository(Player::class)->findByTranslit($id);
+            $rusplayer = $em->getRepository(Rusplayer::class)->findByTranslit($id);
+            $lchplayer = $em->getRepository(Lchplayer::class)->getLchplayer($id);
+            $entities = $em->getRepository(Gamers::class)->getStatPlayer($id);
+            $fnlplayer = $em->getRepository(Fnlplayer::class)->getStatPlayer($id);
+            $shipplayer = $em->getRepository(Shipplayer::class)->getShipplayer($id);
+            $cups = $em->getRepository(Cupplayer::class)->getCupPlayer($id);
+            $eurocups = $em->getRepository(Ecplayer::class)->getEcPlayer($id);
+            $supercups = $em->getRepository(Supercupplayer::class)->getScPlayer($id);
+            $sbplayers = $em->getRepository(Sbplayer::class)->getSbPlayer($id);
+            $gamesSb = $em->getRepository(Sbplayer::class)->getSbSum($id);
+            $goalsSb = $em->getRepository(Sbplayer::class)->getSbSum($id, 'goal');
+
+            return $this->render('rusplayer/show.html.twig', [
+                'entities' => $entities,
+                'cups' => $cups,
+                'eurocups' => $eurocups,
+                'supercups' => $supercups,
+                'sbplayers' => $sbplayers,
+                'player' => $player,
+                'shipplayer' => $shipplayer,
+                'lchplayer' => $lchplayer,
+                'rusplayer' => $rusplayer,
+                'fnlplayer' => $fnlplayer,
+                'gamesSb' => $gamesSb,
+                'goalsSb' => $goalsSb
+                ]);
+        }
+    }
 }

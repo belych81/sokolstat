@@ -18,6 +18,7 @@
 
         {% block stylesheets %}
             <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+            <link href="{{ asset('css/media.css') }}" rel="stylesheet" />
         {% endblock %}
 
         {% block javascripts %}
@@ -123,21 +124,63 @@
                     </div></li>
                     <li class="dropdown-top"><a class="dropdown-top" href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
                     </li>
-                    <li class="dropdown-top">
-                        {% if is_granted("ROLE_USER") %}
-                            <a href="" class="registerLink">{{ app.user.username }}</a>
-                            <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
-                        {% else %}
-                            <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a>
-                            <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
-                        {% endif %}
-                    </li>
-                </ul>
+                  </ul>
+                  <div class="search-top">
+                      <div class="search">
+                          <form action="{{ path('player_search') }}" method="get">
+                              <input type="text" name="q" size="6"
+                                value="{{ app.request.get('query') }}"
+                                placeholder="Поиск"
+                                class="search_keywords" autocomplete="off"/>
+                              <input type="submit" value="OK" class="search-btn" />
+                          </form>
+                      </div>
+                      <div class="search_result">
+                          <div class="search_result_items">
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" menu-login">
+                      {% if is_granted("ROLE_USER") %}
+                          <a href="" class="registerLink">{{ app.user.username }}</a>
+                          <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
+                      {% else %}
+                          <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a>
+                          <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
+                      {% endif %}
+                  </div>
+
                 {% endblock %}
                 </div>
           </header>
+          <div class="login-bar">
+            <div class="search-bar">
+                <div class="search">
+                    <form action="{{ path('player_search') }}" method="get">
+                        <input type="text" name="q" size="6"
+                          value="{{ app.request.get('query') }}"
+                          placeholder="Поиск"
+                          class="search_keywords" autocomplete="off"/>
+                        <input type="submit" value="OK" class="search-btn" />
+                    </form>
+                </div>
+                <div class="search_result">
+                    <div class="search_result_items">
+                    </div>
+                </div>
+            </div>
+            <div class="login-bar-block">
+              {% if is_granted("ROLE_USER") %}
+                  <a href="" class="registerLink">{{ app.user.username }}</a>
+                  <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
+              {% else %}
+                  <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a>
+                  <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
+              {% endif %}
+            </div>
+          </div>
           <div class="content">
-          <table class="primaryFone">
+            <table class="primaryFone">
                 <tr>
 
                         {% block sidebar %}
