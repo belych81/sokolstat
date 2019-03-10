@@ -9,11 +9,23 @@
     width: 25%;
   }
 }
+@media (max-width: 923px) {
+  .champ-country{
+    display: none;
+  }
+}
+@media (max-width: 852px) {
+  .champ-born{
+    display: none;
+  }
+}
 @media (max-width: 796px) {
 
 }
 @media (max-width: 767px) {
-
+    .champ-total-all{
+      display: none;
+    }
     .main-content{
         display: none;
     }
@@ -24,7 +36,15 @@
         width: 100%
     }
 }
+@media (max-width: 690px) {
+    .champ-total-club{
+      display: none;
+    }
+}
 @media (max-width: 630px) {
+  .sidebarMenu{
+    display: none;
+  }
 	.panel-box { display: block; }
 	header { display: none; }
   .logo {
@@ -38,10 +58,9 @@
   .primaryFone {
       background-color: #FFCCCC;
       width: 100%;
-      margin-top: 60px;
   }
   .login-bar{
-    display: block;
+    margin-top: 70px;
   }
 }
 
@@ -53,4 +72,9 @@
     width: 100%;
     left: 0;
     }
+}
+@media (max-width: 435px) {
+  .footer-question{
+    display: none;
+  }
 }

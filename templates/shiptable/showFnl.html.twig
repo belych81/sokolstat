@@ -1,7 +1,17 @@
 {% extends 'shiptable/show.html.twig' %}
+{% block content %}
 
+<h1>{{ club.0.name }}</h1>
+<div class="champ-teams-list">
+  <div class="champ-back">
+    <div class="champ-back-arrow"></div>
+    <a href="{{ path('championships', {'country': app.request.get('country'),
+      'season': app.request.get('season')}) }}">
+      Чемпионат</a>
+  </div>
 {% block playersTeam %}
-    <table>
+<div class="champ-teams-list">
+    <table class="champ-show-table">
         <thead>
             <tr class="shipTableTitle">
                 <th rowspan="2">&nbsp;</th>
@@ -78,4 +88,14 @@
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a>
         {% endif %}
+</div>
+        <div class="champ-teams-list">
+            {% for team in teams %}
+            <p><a href="{{ path('championships_show', {'season': app.request.get('season'),
+             'id': team.translit, 'country': app.request.get('country')}) }}"
+             class="spiski teams-list">
+                    {{ team.name }}</a></p>
+            {% endfor %}
+        </div>
+{% endblock %}
 {% endblock %}

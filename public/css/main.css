@@ -194,7 +194,7 @@ footer {
 .champ-teams-list{
   display: inline-block;
   vertical-align: top;
-  margin-left: 15px;
+  margin-left: 5px;
 }
 .champ-teams-list p a{
   line-height: 24px;
@@ -203,6 +203,49 @@ footer {
   color: #5c4b4b;
   font-size: 13px;
   font-weight: bold;
+}
+.champs{
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 15px;
+}
+.champ-table{
+
+}
+.champ-tours{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.champ-back{
+  margin-left: 15px;
+}
+.champ-back a {
+  font-size: 14px;
+  font-weight: bold;
+  color: #893664;
+  vertical-align: top;
+}
+.champ-back-arrow{
+  display: inline-block;
+  position: relative;
+  margin: 5px auto;
+  width: 20px;
+  height: 5px;
+  background: #936;
+}
+.champ-back-arrow:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left: 0;
+}
+.champ-back-arrow:before {
+  top: -7px;
+  left: -10px;
+  border-right-color: #936;
 }
 .container {
     margin-left: 20px;
@@ -237,6 +280,7 @@ footer {
     position: absolute;
     left: -9999px;
     background: #bb3388;
+    z-index: 100;
  }
 .dropdown-inside a:hover {
     background: #663377;
@@ -303,6 +347,7 @@ footer {
 .search-bar{
   display: inline-block;
   margin-left: 10px;
+  width: 200px;
 }
 .menu-login a{
   color: #fff;
@@ -350,7 +395,7 @@ footer {
 }
 .search-top{
   display: inline-block;
-    width: 200px;
+  width: 200px;
 }
 .menu-login{
   display: inline-block;
@@ -677,9 +722,11 @@ footer {
   background: url("../images/searchH2.png") 10px 50% no-repeat transparent;
   background-color: #fff;
   box-sizing: border-box;
-  padding-left: 42px;
-  height: 35px;
-  width: 200px;
+  padding-left: 35px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  height: 30px;
+  width: 190px;
   border: 0;
 }
 .search-btn{
@@ -687,10 +734,11 @@ footer {
   box-sizing: border-box;
   color: transparent;
   cursor: pointer;
-  height: 35px;
+  height: 30px;
   border: none;
   width: 50px;
   position: absolute;
+  margin-top: 3px;
 }
 .search-btn-old{
     border: 1px solid #c1c1c1;
@@ -831,7 +879,16 @@ footer {
     font-weight: bold;
     color: #006600;
     font-size: 14px;
-    margin-left: 8px;
+}
+.teams-list{
+  margin-left: 8px;
+}
+.champ-team-column{
+  font-size: 13px;
+  text-align: center;
+}
+.total-game{
+  font-size: 14px;
 }
 .stadia-name {
     font-weight: bold;

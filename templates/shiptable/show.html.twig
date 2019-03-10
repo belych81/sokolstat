@@ -26,11 +26,20 @@
 
 {% block content %}
 
+  <h1>{{ club.0.name }}</h1>
 
-                <h1>{{ club.0.name }}</h1>
-
+  {% block champBack %}
+  <div class="champ-teams-list">
+    <div class="champ-back">
+      <div class="champ-back-arrow"></div>
+      <a href="{{ path('championships', {'country': app.request.get('country'),
+        'season': app.request.get('season')}) }}">
+        Чемпионат</a>
+    </div>
+    {% endblock %}
+    
     {% block playersTeam %}
-    <div class="champ-teams-list">
+
     <table class="champ-show-table">
         <thead>
             <tr class="shipTableTitle">
@@ -88,7 +97,8 @@
 <div class="champ-teams-list">
     {% for team in teams %}
     <p><a href="{{ path('championships_show', {'season': app.request.get('season'),
-     'id': team.translit, 'country': app.request.get('country')}) }}" class="spiski">
+     'id': team.translit, 'country': app.request.get('country')}) }}"
+     class="spiski teams-list">
             {{ team.name }}</a></p>
     {% endfor %}
 </div>

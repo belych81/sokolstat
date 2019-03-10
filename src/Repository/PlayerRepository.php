@@ -166,8 +166,6 @@ class PlayerRepository extends ServiceEntityRepository
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
-                ->andWhere("gt.translit = :team OR ss.id > 49 OR ls.id > 49 OR st.translit = :team OR p.id > 9500")
-                ->setParameter('team', $team)
                 ->orderBy('p.name');
     }
 
