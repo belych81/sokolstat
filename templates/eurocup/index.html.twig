@@ -4,11 +4,6 @@
     {{ rus_turnir.russianalias }} {{ app.request.get('season') }} - {{ rus_stadia.name }}
     {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="еврокубки, {{ rus_turnir }} {{ app.request.get('season') }},
-          {{ rus_stadia }}, матчи, авторы забитых мячей">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="еврокубки, {{ rus_turnir }} {{ app.request.get('season') }},
           {{ rus_stadia }}, матчи, авторы забитых мячей">
@@ -82,12 +77,18 @@
                 {% endif %}
             </td>
             <td class="scScore">
-            {% if entity.status %}
-              <a href="{{ path('eurocup_edit', {'id': entity.id, 'turnir': app.request.get('turnir'), 'stadia': rus_stadia.alias })}}">
-                  {{ entity.data | date('d.m H:i') }}</a>
-              {% else %}
-              {{ entity.score }}
-              {% endif %}
+              {{ entity.data | date('d.m H:i') }}
+            </td>
+            <td class="scScore">
+              <a href="{{ path('eurocup_edit', {'id': entity.id,
+                'turnir': app.request.get('turnir'),
+                'stadia': rus_stadia.alias })}}">
+                {% if entity.status %}
+                    -:-
+                {% else %}
+                  {{ entity.score }}
+                {% endif %}
+              </a>
             </td>
             <td class="scBomb">
                 {{ entity.bomb }}

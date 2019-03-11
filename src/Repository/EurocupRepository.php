@@ -118,7 +118,7 @@ class EurocupRepository extends ServiceEntityRepository
                     'season' => $season,
                     'stadia' => $stadia,
                         ])
-                ->orderBy('e.data');
+                ->orderBy('e.data, e.id');
 
         $query = $qb->getQuery();
 

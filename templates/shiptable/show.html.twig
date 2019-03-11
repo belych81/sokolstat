@@ -37,7 +37,7 @@
         Чемпионат</a>
     </div>
     {% endblock %}
-    
+
     {% block playersTeam %}
 
     <table class="champ-show-table">
@@ -91,7 +91,10 @@
             Добавить игрока</a>
             <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-            Обновить игрока</a>
+            Обновить игрока</a>|
+        <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),
+        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Создать игрока</a>
         {% endif %}
 </div>
 <div class="champ-teams-list">

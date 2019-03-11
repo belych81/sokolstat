@@ -74,6 +74,82 @@
  {% endblock %}
 
 {% block content %}
+<div class="champ-tours champs">
+        {% for tour in tours %}
+            {% if app.request.get('tour') != tour.tour %}
+               <a href="{{ path('championships', {'country': app.request.get('country'),
+                 'season': app.request.get('season'), 'tour' : tour.tour}) }}" class="spiski">
+                   {{ tour.tour }}</a>
+            {% else %}
+                <b>{{ tour.tour }}</b>
+            {% endif %}
+        {% endfor %}
+        <p><b>{% if app.request.get('tour') == false %}
+                {{ maxTour }}
+              {% else %}
+                  {{ app.request.get('tour') }}
+              {% endif %}-й тур</b></p>
+              {% if is_granted("ROLE_ADMIN") %}
+        <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
+         'season': app.request.get('season')}) }}">Добавить матч</a></p>
+         {% endif %}
+        <table>
+            <tbody>
+            {% for match in matches %}
+
+                {% if is_granted("ROLE_ADMIN") %}
+                   {% if app.request.get('country')=='russia' %}
+                       <tr><td colspan="4" bgcolor="#FFEEAA">
+                         <a href="{{ path('championships_newrus', {'id': match.id}) }}">
+                             {{ match.data | date('d.m H:i') }}</a></td>
+                    </tr>
+                    {% else %}
+                <tr><td colspan="4" bgcolor="#FFEEAA">
+                        <a href="{{ path('championships_new', {'id': match.id}) }}">
+                          {{ match.data | date('d.m H:i') }}</a></td>
+                    </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                      <td colspan="4" bgcolor="#FFEEAA">
+                          {% if match.status == 1 %}
+                            {{ match.data | date('d.m H:i') }}
+                          {% else %}
+                              {{ match.data | date('d.m') }}
+                          {% endif %}
+                      </td>
+                    </tr>
+                {% endif %}
+
+
+            <tr>
+              <td class="champTourTeam">{{ match.team.name }}</td>
+              <td class="champTourScore">
+                {% if match.status == 1 %}
+                  -
+                {% else %}
+                  {{ match.goal1 }}
+                {% endif %}
+              </td>
+              <td class="champTourScore">
+              {% if match.status == 1 %}
+                -
+              {% else %}
+                {{ match.goal2 }}
+              {% endif %}
+              </td>
+              <td class="champTourTeam">{{ match.team2.name }}</td>
+            </tr>
+            <tr>
+              <td colspan="4" bgcolor="#FFFFCC" class="">{{ match.bomb }}</td>
+            </tr>
+
+
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
 <div class="champ-table champs">
     <table class="shipTable">
         <thead>
@@ -100,89 +176,13 @@
                 <td>{{ entity.nich }}</td>
                 <td>{{ entity.porazh }}</td>
                 <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                <td><b>{{ entity.score }}</b></td>
+                <td class="table-score">{{ entity.score }}</td>
 
             </tr>
         {% endfor %}
         </tbody>
     </table>
     </div>
-
-    <div class="champ-tours champs">
-            {% for tour in tours %}
-                {% if app.request.get('tour') != tour.tour %}
-                   <a href="{{ path('championships', {'country': app.request.get('country'),
-                     'season': app.request.get('season'), 'tour' : tour.tour}) }}" class="spiski">
-                       {{ tour.tour }}</a>
-                {% else %}
-                    <b>{{ tour.tour }}</b>
-                {% endif %}
-            {% endfor %}
-            <p><b>{% if app.request.get('tour') == false %}
-                    {{ maxTour }}
-                  {% else %}
-                      {{ app.request.get('tour') }}
-                  {% endif %}-й тур</b></p>
-                  {% if is_granted("ROLE_ADMIN") %}
-            <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
-             'season': app.request.get('season')}) }}">Добавить матч</a></p>
-             {% endif %}
-            <table>
-                <tbody>
-                {% for match in matches %}
-
-                    {% if is_granted("ROLE_ADMIN") %}
-                       {% if app.request.get('country')=='russia' %}
-                           <tr><td colspan="4" bgcolor="#FFEEAA">
-                             <a href="{{ path('championships_newrus', {'id': match.id}) }}">
-                                 {{ match.data | date('d.m H:i') }}</a></td>
-                        </tr>
-                        {% else %}
-                    <tr><td colspan="4" bgcolor="#FFEEAA">
-                            <a href="{{ path('championships_new', {'id': match.id}) }}">
-                              {{ match.data | date('d.m H:i') }}</a></td>
-                        </tr>
-                        {% endif %}
-                    {% else %}
-                        <tr>
-                          <td colspan="4" bgcolor="#FFEEAA">
-                              {% if match.status == 1 %}
-                                {{ match.data | date('d.m H:i') }}
-                              {% else %}
-                                  {{ match.data | date('d.m') }}
-                              {% endif %}
-                          </td>
-                        </tr>
-                    {% endif %}
-
-
-                <tr>
-                  <td class="champTourTeam">{{ match.team.name }}</td>
-                  <td class="champTourScore">
-                    {% if match.status == 1 %}
-                      -
-                    {% else %}
-                      {{ match.goal1 }}
-                    {% endif %}
-                  </td>
-                  <td class="champTourScore">
-                  {% if match.status == 1 %}
-                    -
-                  {% else %}
-                    {{ match.goal2 }}
-                  {% endif %}
-                  </td>
-                  <td class="champTourTeam">{{ match.team2.name }}</td>
-                </tr>
-                <tr>
-                  <td colspan="4" bgcolor="#FFFFCC" class="">{{ match.bomb }}</td>
-                </tr>
-
-
-                {% endfor %}
-                </tbody>
-            </table>
-            </div>
 
 <div class="champ-bombs champs">
                 <p class="champ-title">Бомбардиры</p>

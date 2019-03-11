@@ -16,8 +16,11 @@ $('.search_keywords').bind("keyup", function() {
                         $(".search_result_items").append("<a href='/player/"+translit+"'>"+name+"</a>");
 
                     });
+                    $("body").not(".search-top").click(function(){
+                      $(".search_result, .search_result_items").hide();
+                    });
                 } else {
-
+                    $(".search_result, .search_result_items").hide();
                 }
                 console.log(data);
            },
@@ -26,6 +29,8 @@ $('.search_keywords').bind("keyup", function() {
         alert(thrownError);
       }
        })
+    } else {
+      $(".search_result, .search_result_items").hide();
     }
 });
 });
