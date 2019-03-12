@@ -145,6 +145,11 @@ class Player
      */
     private $sostavs;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $insertdate;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -697,5 +702,17 @@ class Player
     public function __toString()
     {
       return $this->name;
+    }
+
+    public function getInsertdate(): ?\DateTimeInterface
+    {
+        return $this->insertdate;
+    }
+
+    public function setInsertdate(\DateTimeInterface $insertdate): self
+    {
+        $this->insertdate = $insertdate;
+
+        return $this;
     }
 }

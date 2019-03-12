@@ -242,6 +242,7 @@ class PlayerController extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setInsertdate(new \DateTime());
             $em->persist($entity);
             $em->flush();
             if($country == 'russia' || $country == 'fnl') {
