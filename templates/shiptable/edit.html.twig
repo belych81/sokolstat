@@ -1,0 +1,66 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Обновить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+    <form action="{{ path('championships_update', {'id': app.request.get('id')}) }}"
+      method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.season) }}</th>
+                    <td>
+                        {{ form_errors(form.season) }}
+                        {{ form_widget(form.season) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.tour) }}</th>
+                    <td>
+                        {{ form_errors(form.tour) }}
+                        {{ form_widget(form.tour) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.data) }}</th>
+                    <td>
+                        {{ form_errors(form.data) }}
+                        {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team) }}</th>
+                    <td>
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team2) }}</th>
+                    <td>
+                        {{ form_errors(form.team2) }}
+                        {{ form_widget(form.team2) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Обновить</button>
+
+        </p>
+    </form>
+
+
+{% endblock %}

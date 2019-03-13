@@ -21,6 +21,7 @@ use App\Form\RfplmatchType;
 use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
 use App\Form\TourType;
+use App\Form\TourEditType;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -324,6 +325,50 @@ class ShiptableController extends AbstractController
         }
 
         return $this->render('shiptable/new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function edit(Request $request, $id)
+    {
+      $entity = new Tour();
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form   = $this->createForm(TourEditType::class, $entity);
+
+        return $this->render('shiptable/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form = $this->createForm(TourEditType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $country=$entity->getCountry()->getName();
+            switch ($country) {
+              case 'Россия' : $country2 = 'russia'; break;
+              case 'Англия' : $country2 = 'england';  break;
+              case 'Испания' : $country2 = 'spain'; break;
+              case 'Италия' : $country2 = 'italy'; break;
+              case 'Германия' : $country2 = 'germany'; break;
+              case 'Франция' : $country2 = 'france'; break;
+              case 'ФНЛ' : $country2 = 'fnl'; break;
+            }
+            $season=$entity->getSeason()->getName();
+
+            return $this->redirect($this->generateUrl('championships', [
+                'season' => $season, 'country' => $country2]));
+        }
+
+        return $this->render('shiptable/edit.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));

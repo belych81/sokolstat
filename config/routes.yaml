@@ -38,6 +38,17 @@ championships_create:
     controller: App\Controller\ShiptableController:create
     requirements: { _method: post }
 
+championships_edit:
+    path:  /championships/admin/edit/{id}
+    controller: App\Controller\ShiptableController:edit
+    requirements:
+        id: \d+
+
+championships_update:
+    path:  /championships/admin/update/{id}
+    controller: App\Controller\ShiptableController:update
+    requirements: { _method: post }
+    
 championships_newMatch:
     path:  /championships/admin/{country}/{season}
     controller: App\Controller\ShiptableController:newMatch
