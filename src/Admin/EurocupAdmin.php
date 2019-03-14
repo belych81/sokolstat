@@ -63,6 +63,7 @@ final class EurocupAdmin extends AbstractAdmin
             ->add('turnir.name')
             ->add('stadia.name')
             ->add('score')
+            ->add('bomb')
         ;
     }
 }

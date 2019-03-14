@@ -116,13 +116,18 @@ class ShiptableController extends AbstractController
 
             for ($i=0, $cnt=count($players); $i < $cnt; $i++) {
                 $name[$i] = $players[$i]->getPlayer()->getName();
-                $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'game')[0]->getGame();
-                $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'goal')[0]->getGoal();
 
-                $players[$i]->setGameTeam($ptgame[$i]);
-                $players[$i]->setGoalTeam($ptgoal[$i]);
+                $arPtGame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                                 ->getStat($name[$i], $id, 'game');
+                if(isset($arPtGame[$i][0]))
+                {
+                  $ptgame[$i] = $arPtGame[$i][0]->getGame();
+                  $arPtGoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                                   ->getStat($name[$i], $id, 'goal');
+                  $ptgoal[$i] = $arPtGoal[$i][0]->getGoal();
+                  $players[$i]->setGameTeam($ptgame[$i]);
+                  $players[$i]->setGoalTeam($ptgoal[$i]);
+                }
             }
         } elseif ($country == 'fnl') {
             $players = $this->getDoctrine()->getRepository(Fnlplayer::class)

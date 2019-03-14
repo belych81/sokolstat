@@ -55,7 +55,7 @@ class ShiptableRepository extends ServiceEntityRepository
             ->andWhere('s.name = :season')
             ->setParameter('country', $country)
             ->setParameter('season', $season)
-            ->orderBy('st.score DESC, st.wins DESC, st.mz')
+            ->orderBy('st.score DESC, st.wins DESC, st.mz DESC, st.mp')
             ->getQuery()
             ->getResult();
     }
