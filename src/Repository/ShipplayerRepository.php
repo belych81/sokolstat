@@ -124,7 +124,7 @@ class ShipplayerRepository extends ServiceEntityRepository
       $team)
     {
             $sum = $cup + $eurocup + $supercup;
-
+var_dump($team);
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Shipplayer', 's')
                 ->set('s.cup', 's.cup+?2')

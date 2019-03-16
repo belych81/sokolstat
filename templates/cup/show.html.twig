@@ -14,13 +14,17 @@
     <table>
         <tr>
             <td class="teamStat">
-
-
-                <p><b>{{ club.0.name }}</b></p>
+                <p>
+                  <b>{{ club.0.name }}</b>
+                  <img src="{{ asset('images/clubs/Dynamo_Barnaul2.png') }}"
+                    alt="{{ club.0.name }}" title="{{ club.0.name }}"
+                    class="img-champ-team">
+                </p>
 {% block playersTeam %}
     <table>
         <thead>
             <tr class="shipTableTitle">
+                <th rowspan="2">&nbsp;</th>
                 <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
                 <th colspan="2">{{ app.request.get('season') }}</th>
                 <th colspan="2">Всего за клуб</th>
@@ -39,6 +43,9 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">
+                  {{ loop.index }}
+                </td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
                         {{ player.player.name }}</a>
@@ -79,7 +86,14 @@
     </table>
 	{% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newCup', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Добавить игрока</a>
+            Добавить игрока</a> |
+        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить игрока в команду</a> |
+        <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить нового игрока</a> |
+        <a href="{{ path('player_newPlayer', {'country': 'russia',
+        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Создать игрока</a>
 	{% endif %}
 {% endblock %}
 </td>
@@ -87,12 +101,12 @@
 
     {% for team in teams %}
       <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
+       'id': team.translit}) }}" class="spiski">{{ team.name }}</a></p>
     {% endfor %}
 
     {% for team in teams2 %}
       <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
+       'id': team.translit}) }}" class="spiski">{{ team.name }}</a></p>
     {% endfor %}
 
                 </td>

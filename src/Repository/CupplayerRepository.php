@@ -32,6 +32,7 @@ class CupplayerRepository extends ServiceEntityRepository
                   'season' => $season,
                   'id' => $id
                   ])
+              ->orderBy('c.game DESC, c.goal DESC, r.name')
               ->getQuery()
               ->getResult();
     }
