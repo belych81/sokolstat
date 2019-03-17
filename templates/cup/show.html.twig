@@ -16,10 +16,15 @@
             <td class="teamStat">
                 <p>
                   <b>{{ club.0.name }}</b>
-                  <img src="{{ asset('images/clubs/Dynamo_Barnaul2.png') }}"
+                  <!--img src="{{ asset('images/clubs/Dynamo_Barnaul2.png') }}"
                     alt="{{ club.0.name }}" title="{{ club.0.name }}"
-                    class="img-champ-team">
+                    class="img-champ-team"-->
                 </p>
+
+                {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
+                  <div>{{ lastPlayer }}</div>
+                {% endif %}
+                
 {% block playersTeam %}
     <table>
         <thead>

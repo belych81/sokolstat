@@ -28,6 +28,10 @@
 
   <h1>{{ club.0.name }}</h1>
 
+  {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
+    <div>{{ lastPlayer }}</div>
+  {% endif %}
+  
   {% block champBack %}
   <div class="champ-teams-list">
     <div class="champ-back">

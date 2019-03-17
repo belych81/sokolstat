@@ -22,8 +22,9 @@ use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
 use App\Form\TourType;
 use App\Form\TourEditType;
-use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShiptableController extends AbstractController
@@ -104,7 +105,7 @@ class ShiptableController extends AbstractController
         ]);
     }
 
-    public function show($id, $season, $country)
+    public function show(SessionInterface $session, $id, $season, $country)
     {
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
@@ -145,6 +146,7 @@ class ShiptableController extends AbstractController
           ->getTeams($season, $strana);
         $club = $this->getDoctrine()->getRepository(Team::class)->findByTranslit($id);
 
+        $lastPlayer = $session->get('lastPlayer');
 
         if ($country == 'russia') {
            return $this->render('shiptable/showRus.html.twig', [
@@ -152,6 +154,7 @@ class ShiptableController extends AbstractController
             'seasons' => $seasons,
             'teams' => $teams,
             'club' => $club,
+            'lastPlayer' => $lastPlayer
             ]);
         } elseif ($country == 'fnl') {
            return $this->render('shiptable/showFnl.html.twig', [
@@ -159,13 +162,15 @@ class ShiptableController extends AbstractController
             'seasons' => $seasons,
             'teams' => $teams,
             'club' => $club,
+            'lastPlayer' => $lastPlayer
             ]);
         } else {
         return $this->render('shiptable/show.html.twig', [
             'players'      => $players,
             'seasons' => $seasons,
             'teams' => $teams,
-            'club' => $club
+            'club' => $club,
+            'lastPlayer' => $lastPlayer
             ]);
         }
     }

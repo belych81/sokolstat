@@ -24,11 +24,12 @@ use App\Form\ShipplayerType;
 use App\Form\ShipplayerUpdateType;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerController extends AbstractController
 {
-    public function editChamp($id, $season, $team, $change)
+    public function editChamp(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Gamers::class)->updateGamer($id, $change);
         $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
@@ -39,6 +40,8 @@ class PlayerController extends AbstractController
           ->updateRusplayer($playerId, $change);
         $this->getDoctrine()->getRepository(Playersteam::class)
                 ->updatePlayersteam($player, $teamOb, $change);
+        $session->set('lastPlayer', $entity->getPlayer()->getName());
+
         return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'season' => $season,
@@ -263,7 +266,7 @@ class PlayerController extends AbstractController
             ]);
     }
 
-    public function editNation($id, $country, $season, $team, $change)
+    public function editNation(SessionInterface $session, $id, $country, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoal($id, $change);
@@ -271,6 +274,7 @@ class PlayerController extends AbstractController
         $player_id = $player->getPlayer()->getId();
         $this->getDoctrine()->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change);
+        $session->set('lastPlayer', $player->getPlayer()->getName());
 
         return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
@@ -381,13 +385,16 @@ class PlayerController extends AbstractController
             ]);
     }
 
-    public function editFnl($id, $season, $team, $change)
+    public function editFnl(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Fnlplayer::class)->updateFnlplayer($id, $change);
+        $this->getDoctrine()->getRepository(Fnlplayer::class)
+          ->updateFnlplayer($id, $change);
         $entity = $this->getDoctrine()->getRepository(Fnlplayer::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
         $this->getDoctrine()->getRepository(Rusplayer::class)
           ->updateRusplayerFnl($playerId, $change);
+        $session->set('lastPlayer', $entity->getPlayer()->getName());
+
         return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'season' => $season,

@@ -2,6 +2,11 @@
 {% block content %}
 
 <h1>{{ club.0.name }}</h1>
+
+{% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
+  <div>{{ lastPlayer }}</div>
+{% endif %}
+
 <div class="champ-teams-list">
   <div class="champ-back">
     <div class="champ-back-arrow"></div>
@@ -33,7 +38,7 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index }}</td>
+                <td class="player-position">{{ loop.index }}</td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
                </td>
@@ -65,12 +70,12 @@
                     {% endif %}
                 </td>
 
-                <td class="tableGoal">
+                <td class="champ-team-column total-game">
 
                     {{ player.player.born | date('d.m.Y') }}
 
                 </td>
-                <td class="tableGoal">
+                <td class="champ-team-column total-game">
 
                     {{ player.player.country.name }}
 
