@@ -13,6 +13,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.amplua) }}</th>
+                    <td>
+                        {{ form_errors(form.amplua) }}
+                        {{ form_widget(form.amplua) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.country) }}</th>
                     <td>
                         {{ form_errors(form.country) }}
@@ -24,13 +31,6 @@
                     <td>
                         {{ form_errors(form.born) }}
                         {{ form_widget(form.born) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.amplua) }}</th>
-                    <td>
-                        {{ form_errors(form.amplua) }}
-                        {{ form_widget(form.amplua) }}
                     </td>
                 </tr>
                 <tr>

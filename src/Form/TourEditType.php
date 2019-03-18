@@ -19,7 +19,8 @@ class TourEditType extends AbstractType
             ->add('tour')
             ->add('data')
             ->add('team')
-            ->add('team2');
+            ->add('team2')
+            ->add('bomb');
     }
 
     public function configureOptions(OptionsResolver $resolver)

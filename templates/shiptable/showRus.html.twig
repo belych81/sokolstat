@@ -6,7 +6,10 @@
         {% if app.request.get('season') == season.season.name %}
             <b>{{ season.season.name }}</b>
         {% else %}
-            <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
+        <a href="{{ path('championships_show', {
+          'country': app.request.get('country'), 'season': season.season.name,
+          'id': app.request.get('id')}) }}" class="spiski">
+          {{ season.season.name }}</a>
         {% endif %}
     {% endfor %}
 
@@ -18,7 +21,7 @@
                 {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
                   <div>{{ lastPlayer }}</div>
                 {% endif %}
-                
+
                 <div class="champ-teams-list">
                   <div class="champ-back">
                     <div class="champ-back-arrow"></div>

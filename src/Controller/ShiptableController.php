@@ -137,9 +137,11 @@ class ShiptableController extends AbstractController
         } else {
             $players = $this->getDoctrine()->getRepository(Shipplayer::class)
                           ->getTeamStat($season, $id);
-
         }
-
+        if(empty($players)){
+          return $this->redirect($this->generateUrl('championships', [
+              'season' => $season, 'country' => $country]));
+        }
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
