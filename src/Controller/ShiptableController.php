@@ -18,6 +18,7 @@ use App\Entity\RusSupercup;
 use App\Entity\Seasons;
 use App\Entity\Country;
 use App\Form\RfplmatchType;
+use App\Form\ShiptableType;
 use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
 use App\Form\TourType;
@@ -249,6 +250,60 @@ class ShiptableController extends AbstractController
         ));
     }
 
+    public function newSeason($country)
+    {
+          $entity = new Shiptable();
+
+          $form   = $this->createForm(ShiptableType::class, $entity, [
+              'country' => $country
+              ]);
+
+
+        return $this->render('shiptable/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createSeason(SessionInterface $session, Request $request,
+      $country)
+    {
+        switch ($country) {
+            case 'russia' : $country2 = 'Россия'; break;
+            case 'england' : $country2 = 'Англия';  break;
+            case 'spain' : $country2 = 'Испания'; break;
+            case 'italy' : $country2 = 'Италия'; break;
+            case 'germany' : $country2 = 'Германия'; break;
+            case 'france' : $country2 = 'Франция'; break;
+            case 'fnl' : $country2 = 'ФНЛ'; break;
+        }
+
+            $ent = ShiptableType::class;
+            $entity  = new Shiptable();
+            $strana = $this->getDoctrine()->getRepository(Country::class)
+              ->findOneByName($country2);
+            $entity->setCountry($strana);
+
+
+        $form = $this->createForm($ent, $entity, [
+            'country' => $country
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $session->set('season', $entity->getSeason()->getName());
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('shiptable/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
 
     public function newRus($id)
     {

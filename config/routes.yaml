@@ -49,6 +49,15 @@ championships_update:
     controller: App\Controller\ShiptableController:update
     requirements: { _method: post }
     
+championships_newSeason:
+    path:  /championships/admin/season/{country}
+    controller: App\Controller\ShiptableController:newSeason
+
+championships_createSeason:
+    path:  /championships/admin/season/create/{country}
+    controller: App\Controller\ShiptableController:createSeason
+    requirements: { _method: post }
+
 championships_newMatch:
     path:  /championships/admin/{country}/{season}
     controller: App\Controller\ShiptableController:newMatch

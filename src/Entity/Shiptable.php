@@ -37,32 +37,32 @@ class Shiptable
     /**
      * @ORM\Column(type="integer")
      */
-    private $wins;
+    private $wins = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nich;
+    private $nich = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $porazh;
+    private $porazh = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mz;
+    private $mz = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mp;
+    private $mp = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $score;
+    private $score = 0;
 
     public function getId(): ?int
     {

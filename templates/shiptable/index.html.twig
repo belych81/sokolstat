@@ -211,5 +211,8 @@
         </tbody>
     </table>
     </div>
-
+    {% if is_granted("ROLE_ADMIN") %}
+      <p><a href="{{ path('championships_newSeason', {'country': app.request.get('country')
+      }) }}">Добавить сезон</a></p>
+    {% endif %}
 {% endblock %}
