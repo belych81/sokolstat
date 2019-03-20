@@ -22,7 +22,7 @@ class TeamRepository extends ServiceEntityRepository
     public function findByTranslit($name)
     {
         return $this->createQueryBuilder('t')
-                ->select('t.name, t.translit')
+                ->select('t.id, t.name, t.translit')
                 ->where("t.translit = :name")
                 ->setParameter('name', $name)
                 ->getQuery()

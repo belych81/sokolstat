@@ -60,6 +60,19 @@ class ShiptableRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByTeamAndSeason($teamId, $season)
+    {
+        return $this->createQueryBuilder('st')
+            ->select('st.id')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getSeasons($country)
     {
         return $this->createQueryBuilder('st')

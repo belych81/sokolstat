@@ -108,6 +108,14 @@ class ShiptableController extends AbstractController
 
     public function show(SessionInterface $session, $id, $season, $country)
     {
+        $club = $this->getDoctrine()->getRepository(Team::class)
+          ->findByTranslit($id);
+        $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
+                ->findByTeamAndSeason($club[0]['id'], $season);
+        if(empty($isTeam)){
+          return $this->redirect($this->generateUrl('championships', [
+              'season' => $season, 'country' => $country]));
+        }
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
@@ -139,15 +147,11 @@ class ShiptableController extends AbstractController
             $players = $this->getDoctrine()->getRepository(Shipplayer::class)
                           ->getTeamStat($season, $id);
         }
-        if(empty($players)){
-          return $this->redirect($this->generateUrl('championships', [
-              'season' => $season, 'country' => $country]));
-        }
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
-        $club = $this->getDoctrine()->getRepository(Team::class)->findByTranslit($id);
+
 
         $lastPlayer = $session->get('lastPlayer');
 
