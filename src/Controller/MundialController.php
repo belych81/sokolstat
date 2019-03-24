@@ -81,7 +81,7 @@ class MundialController extends AbstractController
     {
         $entity = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbPlayersBySeason($season);
-        $seasons = range(1992, 2018);
+        $seasons = range(1992, 2024);
 
         return $this->render('mundial/showRus.html.twig', [
             'entity'      => $entity,

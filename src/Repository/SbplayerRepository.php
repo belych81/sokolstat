@@ -50,14 +50,44 @@ class SbplayerRepository extends ServiceEntityRepository
                 ->join('sb.player', 'r')
                 ->join('sb.season', 's')
                 ->where("s.name = :season")
-                    ->setParameter(
+                ->setParameter(
                     'season', $season
                     )
-                ->orderBy('sb.game', 'DESC');
+                ->orderBy('sb.game DESC, sb.goal DESC, r.name');
     }
 
     public function getSbPlayersBySeason($season)
-    {                 
+    {
         return $this->querySbPlayersBySeason($season)->getQuery()->getResult();
+    }
+
+    public function updateSb($id, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Sbplayer', 'g')
+                ->set($changeParam, $changeParam2)
+                ->where('g.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
     }
 }

@@ -95,13 +95,18 @@
                    {% if app.request.get('country')=='russia' %}
                        <tr><td colspan="4" bgcolor="#FFEEAA">
                          <a href="{{ path('championships_newrus', {'id': match.id}) }}">
-                             {{ match.data | date('d.m H:i') }}</a></td>
+                             {{ match.data | date('d.m H:i') }}</a>
+                             <a href="{{ path('championships_edit', {'id': match.id,
+                             'country': app.request.get('country')}) }}">
+                                изменить</a>
+                                </td>
                        </tr>
                     {% else %}
                       <tr><td colspan="4" bgcolor="#FFEEAA">
                         <a href="{{ path('championships_new', {'id': match.id}) }}">
                           {{ match.data | date('d.m H:i') }}</a>
-                          <a href="{{ path('championships_edit', {'id': match.id}) }}">
+                          <a href="{{ path('championships_edit', {'id': match.id,
+                          'country': app.request.get('country')}) }}">
                              изменить</a>
                           </td>
                       </tr>

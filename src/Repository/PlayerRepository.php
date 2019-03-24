@@ -92,6 +92,22 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
+    public function querySbPlayers($season)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->join('p.country', 'c')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->andWhere("c.name = 'Россия'")
+                ->orderBy('p.name');
+    }
+
     public function queryPlayersNoRusplayer()
     {
         return $query = $this->createQueryBuilder('p')

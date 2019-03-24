@@ -247,6 +247,45 @@ class RusplayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updateSbplayer($player, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'r.sbgame';
+                $changeParam2 = 'r.sbgame+1';
+                $changeParam3 = 'r.totalgame';
+                $changeParam4 = 'r.totalgame+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'r.sbgame';
+                $changeParam2 = 'r.sbgame-1';
+                $changeParam3 = 'r.totalgame';
+                $changeParam4 = 'r.totalgame-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'r.sbgoal';
+                $changeParam2 = 'r.sbgoal+1';
+                $changeParam3 = 'r.totalgoal';
+                $changeParam4 = 'r.totalgoal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'r.sbgoal';
+                $changeParam2 = 'r.sbgoal-1';
+                $changeParam3 = 'r.totalgoal';
+                $changeParam4 = 'r.totalgoal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Rusplayer', 'r')
+                ->set($changeParam, $changeParam2)
+                ->set($changeParam3, $changeParam4)
+                ->where('r.player = ?2')
+                ->setParameter(2, $player)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updateRusplayerTotalChamp($player, $change)
     {
         switch ($change) {
@@ -386,6 +425,22 @@ class RusplayerRepository extends ServiceEntityRepository
             ->update('App\Entity\Rusplayer', 'r')
             ->set('r.totalgame', 'r.totalgame+1')
             ->set('r.totalgoal', 'r.totalgoal+?1')
+            ->where('r.player = ?2')
+            ->setParameter(1, $goal)
+            ->setParameter(2, $player)
+            ->getQuery();
+
+        $qb->execute();
+    }
+
+    public function updateRusplayerSb($player, $goal)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Rusplayer', 'r')
+            ->set('r.totalgame', 'r.totalgame+1')
+            ->set('r.totalgoal', 'r.totalgoal+?1')
+            ->set('r.sbgame', 'r.sbgame+1')
+            ->set('r.sbgoal', 'r.sbgoal+?1')
             ->where('r.player = ?2')
             ->setParameter(1, $goal)
             ->setParameter(2, $player)

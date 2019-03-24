@@ -10,6 +10,7 @@ use App\Entity\Fnlplayer;
 use App\Entity\Cupplayer;
 use App\Entity\Lchplayer;
 use App\Entity\Ecplayer;
+use App\Entity\Sbplayer;
 use App\Entity\Supercupplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
@@ -21,6 +22,7 @@ use App\Form\RusplayerType;
 use App\Form\PlayerType;
 use App\Form\LchplayerType;
 use App\Form\ShipplayerType;
+use App\Form\SbplayerType;
 use App\Form\ShipplayerUpdateType;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +48,21 @@ class PlayerController extends AbstractController
                 'id' => $team,
                 'season' => $season,
                 'country' => 'russia'
+                    ]));
+    }
+
+    public function editSb(SessionInterface $session, $id, $season, $change)
+    {
+        $this->getDoctrine()->getRepository(Sbplayer::class)->updateSb($id, $change);
+        $entity = $this->getDoctrine()->getRepository(Sbplayer::class)->find($id);
+        $playerId = $entity->getPlayer()->getId();
+        $player = $entity->getPlayer();
+        $this->getDoctrine()->getRepository(Rusplayer::class)
+          ->updateSbplayer($playerId, $change);
+        $session->set('lastPlayer', $entity->getPlayer()->getName());
+
+        return $this->redirect($this->generateUrl('sbornieRus', [
+                'season' => $season,
                     ]));
     }
 
@@ -692,5 +709,50 @@ class PlayerController extends AbstractController
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    public function newSb($season)
+    {
+        $entity = new Sbplayer();
+        $form   = $this->createForm(SbplayerType::class, $entity,
+         ['season' => $season]);
+
+        return $this->render('rusplayer/newSb.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createSb(Request $request, $season)
+    {
+        $entity  = new Sbplayer();
+        $form = $this->createForm(SbplayerType::class, $entity, ['season' => $season]);
+        $em = $this->getDoctrine()->getManager();
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setSeason($year);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer();
+            $goal = $entity->getGoal();
+            $games = $em->getRepository(Sbplayer::class)
+              ->getSbSum($entity->getPlayer()->getId());
+            $goals = $em->getRepository(Sbplayer::class)
+              ->getSbSum($entity->getPlayer()->getId(), 'goal');
+            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+
+            return $this->redirect($this->generateUrl('sbornieRus', [
+                'season' => $season,
+                'games' => $games,
+                'goals' => $goals
+            ]));
+        }
+
+        return $this->render('rusplayer/newSb.html.twig', [
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            ]);
     }
 }

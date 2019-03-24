@@ -39,7 +39,7 @@ championships_create:
     requirements: { _method: post }
 
 championships_edit:
-    path:  /championships/admin/edit/{id}
+    path:  /championships/admin/edit/{id}/{country}
     controller: App\Controller\ShiptableController:edit
     requirements:
         id: \d+
@@ -48,7 +48,7 @@ championships_update:
     path:  /championships/admin/update/{id}
     controller: App\Controller\ShiptableController:update
     requirements: { _method: post }
-    
+
 championships_newSeason:
     path:  /championships/admin/season/{country}
     controller: App\Controller\ShiptableController:newSeason
@@ -254,6 +254,15 @@ player_show:
     path:  /player/{id}
     controller: App\Controller\RusplayerController:show
 
+player_newSb:
+    path:  /playeradmin/admin/sb/{season}
+    controller: App\Controller\PlayerController:newSb
+
+player_createSb:
+    path:  /playeradmin/admin/createSb/{season}
+    controller: App\Controller\PlayerController:createSb
+    requirements: { _method: post }
+
 player_newChamp:
     path:  /playeradmin/admin/champ/{season}/{team}
     controller: App\Controller\PlayerController:newChamp
@@ -343,6 +352,10 @@ player_createSc:
     path:  /playeradmin/admin/createSc/{season}/{team}/{id}
     controller: App\Controller\PlayerController:createSc
     requirements: { _method: post }
+
+player_editSb:
+    path:  /playeradmin/admin/{id}/editSb/{season}/{change}
+    controller: App\Controller\PlayerController:editSb
 
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}

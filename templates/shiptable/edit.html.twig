@@ -14,7 +14,8 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ path('championships_update', {'id': app.request.get('id')}) }}"
+    <form action="{{ path('championships_update', {'id': app.request.get('id'),
+    'country': app.request.get('country')}) }}"
       method="post">
        <table>
             <tbody>

@@ -18,6 +18,7 @@
     <table>
         <thead>
             <tr class="shipTableTitle">
+                <th class="teamStatGoal">&nbsp;</th>
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
@@ -26,18 +27,34 @@
         <tbody>
         {% for player in entity %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+              <td class="player-position">
+                  {{ loop.index }}
+             </td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('player_editSb',
-                    {'id': player.id, 'season': app.request.get('season')}) }}">
-                        {{ player.game }}</a>
+                          {'id': player.id, 'season': app.request.get('season'),
+                          'change': 'minusGame'}) }}">-</a>
+                          {{ player.game }}
+                        <a href="{{ path('player_editSb',
+                          {'id': player.id, 'season': app.request.get('season'),
+                          'change': 'plusGame'}) }}">+</a>
                     {% else %}
-                    {{ player.game }}
-                    {% endif %}</td>
-                <td class="tableGoal">{{ player.goal }}</td>
+                      {{ player.game }}
+                    {% endif %}
+                </td>
+                <td class="tableGoal">
+                  <a href="{{ path('player_editSb',
+                    {'id': player.id, 'season': app.request.get('season'),
+                    'change': 'minusGoal'}) }}">-</a>
+                    {{ player.goal }}
+                  <a href="{{ path('player_editSb',
+                    {'id': player.id, 'season': app.request.get('season'),
+                    'change': 'plusGoal'}) }}">+</a>
+                </td>
                 </tr>
         {% endfor %}
         </tbody>
