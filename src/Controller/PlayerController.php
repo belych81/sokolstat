@@ -744,9 +744,7 @@ class PlayerController extends AbstractController
             $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
 
             return $this->redirect($this->generateUrl('sbornieRus', [
-                'season' => $season,
-                'games' => $games,
-                'goals' => $goals
+                'season' => $season
             ]));
         }
 

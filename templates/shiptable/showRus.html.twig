@@ -16,6 +16,18 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="teams-list">{{ app.request.get('team') }}
+  {% for team in teams %}
+    {% if team.translit != app.request.get('id') %}
+      <a href="{{ path('championships_show', {'season': app.request.get('season'),
+      'id': team.translit, 'country': app.request.get('country')}) }}"
+      class="">
+            {{ team.name }}</a>
+    {% endif %}
+  {% endfor %}
+</div>
+
                 <h1>{{ club.0.name }}</h1>
 
                 {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
@@ -191,12 +203,6 @@
             Создать игрока</a>
         {% endif %}
     </div>
-    <div class="champ-teams-list">
-      {% for team in teams %}
-      <p><a href="{{ path('championships_show', {'season': app.request.get('season'),
-       'id': team.translit, 'country': app.request.get('country')}) }}" class="spiski">
-              {{ team.name }}</a></p>
-      {% endfor %}
-    </div>
+
   {% endblock %}
 {% endblock %}

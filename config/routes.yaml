@@ -45,7 +45,7 @@ championships_edit:
         id: \d+
 
 championships_update:
-    path:  /championships/admin/update/{id}
+    path:  /championships/admin/update/{id}/{country}
     controller: App\Controller\ShiptableController:update
     requirements: { _method: post }
 

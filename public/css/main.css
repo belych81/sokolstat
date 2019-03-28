@@ -197,9 +197,9 @@ footer {
   height: 25px;
 }
 .champ-teams-list{
-  display: inline-block;
+  display: table;
   vertical-align: top;
-  margin-left: 5px;
+  margin: auto;
 }
 .champ-teams-list p a{
   line-height: 24px;
@@ -867,7 +867,11 @@ footer {
     background: #de59bf;
 }
 .shipTableTitle {
-    background-color: #99FFFF;
+    background-color: #6fbd90;
+}
+.shipTableTitle th{
+    background-color: #6fbd90;
+    padding: 4px;
 }
 .soglasie {
     background: #fff;
@@ -891,7 +895,16 @@ footer {
     font-size: 14px;
 }
 .teams-list{
-  margin-left: 8px;
+  margin: 15px;
+}
+.teams-list a{
+  display: inline-block;
+  background: #f5daea;
+  border: 1px solid #936;
+  border-radius: 4px;
+  color: #ab5487;
+  padding: 4px;
+  font-weight: bold;
 }
 .champ-team-column{
   font-size: 13px;
@@ -947,7 +960,12 @@ footer {
 
 }
 .teamStatGoal {
+  padding: 4px;
     min-width: 35px;
+}
+.teamStatTotalGoal {
+  padding: 4px;
+    min-width: 55px;
 }
 .teamStatPlayer {
     width: 230px;
