@@ -59,6 +59,7 @@
     {% block playersTeam %}
 
     <table class="champ-show-table">
+      {% if is_granted("ROLE_ADMIN") == false %}
         <thead>
             <tr class="shipTableTitle">
                 <th>&nbsp;</th>
@@ -69,9 +70,14 @@
                 <th class="teamStatTotalGoal">Всего за клубы топ-5</th>
             </tr>
         </thead>
+        {% endif %}
         <tbody>
         {% for player in players %}
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}
+              {% if is_granted("ROLE_ADMIN") %}
+                tr-admin
+              {% endif %}
+            ">
                 <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>

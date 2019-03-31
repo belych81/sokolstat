@@ -196,6 +196,9 @@ footer {
 .champ-show-table tbody tr{
   height: 25px;
 }
+.champ-show-table .tr-admin{
+  height: 18px;
+}
 .champ-teams-list{
   display: table;
   vertical-align: top;

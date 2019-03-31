@@ -28,6 +28,7 @@
 {% block playersTeam %}
 <div class="champ-teams-list">
     <table class="champ-show-table">
+      {% if is_granted("ROLE_ADMIN") == false %}
         <thead>
             <tr class="shipTableTitle">
                 <th rowspan="2">&nbsp;</th>
@@ -46,9 +47,14 @@
 
             </tr>
         </thead>
+        {% endif %}
         <tbody>
         {% for player in players %}
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}
+              {% if is_granted("ROLE_ADMIN") %}
+                tr-admin
+              {% endif %}
+            ">
                 <td class="player-position">{{ loop.index }}</td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
