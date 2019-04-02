@@ -124,23 +124,23 @@ class PlayerRepository extends ServiceEntityRepository
                 ->groupBy('p.name');
     }
 
-    public function updatePlayerGoal($id, $change, $goal=false, $cup=false,
-      $supercup=false, $eurocup=false)
+    public function updatePlayerGoal($id, $change, $goal=0, $cup=0,
+      $supercup=0, $eurocup=0)
     {
         switch ($change) {
             case 'plus' :
-                $changeParam = 's.goal+1';
-                $changeParam1 = 's.sum+1';
-                $changeParam2 = "s.cup";
-                $changeParam3 = "s.supercup";
-                $changeParam4 = "s.eurocup";
+                $changeParam = "s.goal+$goal";
+                $changeParam1 = "s.sum+1";
+                $changeParam2 = "s.cup+$cup";
+                $changeParam3 = "s.supercup+$supercup";
+                $changeParam4 = "s.eurocup+$eurocup";
                 break;
             case 'minus' :
-                $changeParam = 's.goal-1';
-                $changeParam1 = 's.sum-1';
-                $changeParam2 = "s.cup";
-                $changeParam3 = "s.supercup";
-                $changeParam4 = "s.eurocup";
+                $changeParam = "s.goal-$goal";
+                $changeParam1 = "s.sum-1";
+                $changeParam2 = "s.cup-$cup";
+                $changeParam3 = "s.supercup-$supercup";
+                $changeParam4 = "s.eurocup-$eurocup";
                 break;
             default :
                 $changeParam = "s.goal+$goal";

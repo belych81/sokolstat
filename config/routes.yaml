@@ -396,6 +396,24 @@ playeradmin_editNation:
     requirements:
         change: minus|plus
 
+playeradmin_editNationCup:
+    path:  /playeradmin/admin/{id}/editNationCup/{country}/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editNationCup
+    requirements:
+        change: minus|plus
+
+playeradmin_editNationSupercup:
+    path:  /playeradmin/admin/{id}/editNationSupercup/{country}/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editNationSupercup
+    requirements:
+        change: minus|plus
+
+playeradmin_editNationEurocup:
+    path:  /playeradmin/admin/{id}/editNationEurocup/{country}/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editNationEurocup
+    requirements:
+        change: minus|plus
+
 playeradmin_editLchplayer:
     path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editLchplayer

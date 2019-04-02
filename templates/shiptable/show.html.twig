@@ -65,6 +65,9 @@
                 <th>&nbsp;</th>
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">Кубок</th>
+                <th class="teamStatGoal">Суперкубок</th>
+                <th class="teamStatGoal">Еврокубки</th>
                 <th class="teamStatGoal">В сезоне</th>
                 <th class="teamStatTotalGoal">Всего в чемпионатах топ-5</th>
                 <th class="teamStatTotalGoal">Всего за клубы топ-5</th>
@@ -82,6 +85,7 @@
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
                 </td>
+
                 <td class="tableGoal">
                    {% if is_granted("ROLE_ADMIN") %}
                        <a href="{{ path('playeradmin_editNation',
@@ -96,6 +100,52 @@
                    {% else %}
                    {{ player.goal }}
                    {% endif %}</td>
+
+                   <td class="tableGoal">
+                      {% if is_granted("ROLE_ADMIN") %}
+                          <a href="{{ path('playeradmin_editNationCup',
+                    {'id': player.id, 'season': app.request.get('season'),
+                       'team': app.request.get('id'),
+                       'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                              {{ player.cup }}
+                              <a href="{{ path('playeradmin_editNationCup',
+                    {'id': player.id, 'season': app.request.get('season'),
+                       'team': app.request.get('id'),
+                       'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                      {% else %}
+                      {{ player.cup }}
+                      {% endif %}</td>
+
+                      <td class="tableGoal">
+                         {% if is_granted("ROLE_ADMIN") %}
+                             <a href="{{ path('playeradmin_editNationSupercup',
+                       {'id': player.id, 'season': app.request.get('season'),
+                          'team': app.request.get('id'),
+                          'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                                 {{ player.supercup }}
+                                 <a href="{{ path('playeradmin_editNationSupercup',
+                       {'id': player.id, 'season': app.request.get('season'),
+                          'team': app.request.get('id'),
+                          'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                         {% else %}
+                         {{ player.supercup }}
+                         {% endif %}</td>
+
+                         <td class="tableGoal">
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <a href="{{ path('playeradmin_editNationEurocup',
+                          {'id': player.id, 'season': app.request.get('season'),
+                             'team': app.request.get('id'),
+                             'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                                    {{ player.eurocup }}
+                                    <a href="{{ path('playeradmin_editNationEurocup',
+                          {'id': player.id, 'season': app.request.get('season'),
+                             'team': app.request.get('id'),
+                             'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                            {% else %}
+                            {{ player.eurocup }}
+                            {% endif %}</td>
+
                 <td class="tableGoal">
                     {{ player.sum }}
                 </td>

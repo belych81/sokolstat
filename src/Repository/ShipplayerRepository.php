@@ -105,6 +105,57 @@ class ShipplayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updateShipplayerGoalCup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.cup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.cup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.cup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayerGoalSupercup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.supercup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.supercup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.supercup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayerGoalEurocup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.eurocup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.eurocup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.eurocup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup)
     {
             $sum = $goal+$cup+$supercup+$eurocup;
