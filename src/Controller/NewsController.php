@@ -136,6 +136,29 @@ class NewsController extends AbstractController
         ]);
     }
 
+    public function newspaper()
+    {
+      $today = date('j.m.Y');
+      $fromDate = new \DateTime('now');
+      $fromDate->setTime(0, 0, 0);
+      $fromDate->modify('-7 days');
+      $em = $this->getDoctrine();
+      $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
+      $rfplTours = [];
+      foreach ($rfplMatch as $value) {
+        $tour = $value->getTour();
+        if(!in_array($tour, $rfplTours))
+        {
+          $rfplTours[] = $tour;
+        }
+      }
+      return $this->render('news/newspaper.html.twig', [
+        'rfplTours' => $rfplTours,
+        'rfplMatch' => $rfplMatch,
+        'today' => $today
+      ]);
+    }
+
     public function soglasie()
     {
         return $this->render('news/soglasie.html.twig', []);

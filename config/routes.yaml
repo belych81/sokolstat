@@ -2,6 +2,10 @@ steam_fbstat_homepage:
     path:     /
     controller: App\Controller\NewsController::index
 
+newspaper:
+      path:     /newspaper/
+      controller: App\Controller\NewsController::newspaper
+      
 soglasie:
     path:     /soglasie/
     controller: App\Controller\NewsController::soglasie

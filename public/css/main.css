@@ -183,14 +183,14 @@ footer {
 .champTourScore {
     text-align: center;
     font-weight: bold;
-    background-color: #663399;
+    background-color: #936;
     width: 17px;
     color: #FFFFFF;
 }
 .champTourTeam {
     text-align: center;
     font-weight: bold;
-    background-color: #99CCFF;
+    background-color: #6fbd90;
     width: 150px;
 }
 .champ-show-table tbody tr{
@@ -224,6 +224,17 @@ footer {
   width: 345px;
   margin-left: 15px;
   margin-right: 15px;
+}
+.champ-tours table{
+  border-collapse: collapse;
+}
+.champ-match-bomb{
+  background: #bad9c8;
+  margin-bottom: 5px;
+  height: 35px;
+}
+.champ-match-title{
+  background: #bad9c8;
 }
 .champ-back{
   margin-left: 15px;
@@ -263,7 +274,7 @@ footer {
 }
 .content{
     flex: 1 0 auto;
-    background-color: #FFCCCC;
+    background-color: #e3d5de;
 }
 .choosed-player {
     font-weight: bold;
@@ -496,7 +507,7 @@ footer {
     color: #006600;
 }
 .odd {
-    background-color: #FFFFFF;
+    background-color: #e3e1e3;
 }
 .panel-box {
     background-color: #993366;
@@ -902,12 +913,13 @@ footer {
 }
 .teams-list a{
   display: inline-block;
-  background: #f5daea;
-  border: 1px solid #936;
+  background: #c1e3c8;
+  border: 1px solid #060;
   border-radius: 4px;
-  color: #ab5487;
+  color: #060;
   padding: 4px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .champ-team-column{
   font-size: 13px;

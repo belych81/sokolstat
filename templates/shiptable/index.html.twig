@@ -91,37 +91,35 @@
         <table>
             <tbody>
             {% for match in matches %}
+            <tr class="champ-match-title">
                 {% if is_granted("ROLE_ADMIN") %}
                    {% if app.request.get('country')=='russia' %}
-                       <tr><td colspan="4" bgcolor="#FFEEAA">
+                       <td colspan="4">
                          <a href="{{ path('championships_newrus', {'id': match.id}) }}">
                              {{ match.data | date('d.m H:i') }}</a>
                              <a href="{{ path('championships_edit', {'id': match.id,
                              'country': app.request.get('country')}) }}">
                                 изменить</a>
                                 </td>
-                       </tr>
                     {% else %}
-                      <tr><td colspan="4" bgcolor="#FFEEAA">
+                      <td colspan="4">
                         <a href="{{ path('championships_new', {'id': match.id}) }}">
                           {{ match.data | date('d.m H:i') }}</a>
                           <a href="{{ path('championships_edit', {'id': match.id,
                           'country': app.request.get('country')}) }}">
                              изменить</a>
                           </td>
-                      </tr>
                     {% endif %}
                 {% else %}
-                    <tr>
-                      <td colspan="4" bgcolor="#FFEEAA">
+                      <td colspan="4">
                           {% if match.status == 1 %}
                             {{ match.data | date('d.m H:i') }}
                           {% else %}
                               {{ match.data | date('d.m') }}
                           {% endif %}
                       </td>
-                    </tr>
                 {% endif %}
+            </tr>
             <tr>
               <td class="champTourTeam">{{ match.team.name }}</td>
               <td class="champTourScore">
@@ -140,8 +138,8 @@
               </td>
               <td class="champTourTeam">{{ match.team2.name }}</td>
             </tr>
-            <tr>
-              <td colspan="4" bgcolor="#FFFFCC" class="">{{ match.bomb }}</td>
+            <tr class="champ-match-bomb">
+              <td colspan="4" class="">{{ match.bomb }}</td>
             </tr>
 
 

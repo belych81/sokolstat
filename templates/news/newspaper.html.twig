@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+        {% block title %}
+            Еженедельник "Классический Футбол"
+        {% endblock %}
+    </title>
+</head>
+<body>
+  <h1>Классический ФУТБОЛ</h1>
+  <span>№1</span>
+  <span>{{ today | date('d.m.y') }}</span>
+  <div>
+  <h3>Российская Премьер-Лига</h3>
+    {% for tour in rfplTours %}
+    <h4>{{ tour }}-й тур</h4>ё
+      {% for match in rfplMatch %}
+        {{ match.team.name }}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</body>
+</html>
