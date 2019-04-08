@@ -129,6 +129,16 @@ class Team
      */
     private $sostavs;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image2;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -783,6 +793,30 @@ class Team
                 $sostav->setTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImage2(): ?string
+    {
+        return $this->image2;
+    }
+
+    public function setImage2(string $image2): self
+    {
+        $this->image2 = $image2;
 
         return $this;
     }

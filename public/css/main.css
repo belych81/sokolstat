@@ -17,7 +17,8 @@ body {
 a.dropdown-top:hover { padding: 2px 10px 5px; }
 h1{
   color: #5c4b4b;
-  text-align: center;
+  display: inline-block;
+  margin-top: 18px;
 }
 header {
     width: 100%;
@@ -274,7 +275,7 @@ footer {
 }
 .content{
     flex: 1 0 auto;
-    background-color: #e3d5de;
+    background-color: #d5dec5;
 }
 .choosed-player {
     font-weight: bold;
@@ -969,6 +970,16 @@ footer {
 }
 .teams-lch-column {
     vertical-align: top;
+}
+.team-show-image{
+  display: flex;
+  height: 60px;
+}
+.team-show-image div{
+  margin: auto;
+}
+.team-show-image img{
+  float: right;
 }
 .teamStat {
     vertical-align: top;
