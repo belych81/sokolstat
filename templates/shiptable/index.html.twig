@@ -94,24 +94,24 @@
             <tr class="champ-match-title">
                 {% if is_granted("ROLE_ADMIN") %}
                    {% if app.request.get('country')=='russia' %}
-                       <td colspan="4">
+                       <td colspan="6">
                          <a href="{{ path('championships_newrus', {'id': match.id}) }}">
                              {{ match.data | date('d.m H:i') }}</a>
                              <a href="{{ path('championships_edit', {'id': match.id,
                              'country': app.request.get('country')}) }}">
                                 изменить</a>
-                                </td>
+                        </td>
                     {% else %}
-                      <td colspan="4">
+                      <td colspan="6">
                         <a href="{{ path('championships_new', {'id': match.id}) }}">
                           {{ match.data | date('d.m H:i') }}</a>
                           <a href="{{ path('championships_edit', {'id': match.id,
                           'country': app.request.get('country')}) }}">
                              изменить</a>
-                          </td>
+                      </td>
                     {% endif %}
                 {% else %}
-                      <td colspan="4">
+                      <td colspan="6">
                           {% if match.status == 1 %}
                             {{ match.data | date('d.m H:i') }}
                           {% else %}
@@ -122,6 +122,12 @@
             </tr>
             <tr>
               <td class="champTourTeam">{{ match.team.name }}</td>
+              <td class="champTourImage">
+                {% if match.team.image2 %}
+                  <img src="{{ asset('images/clubs/') }}{{ match.team.image2 }}"
+                    alt="{{ match.team.name }}" title="{{ match.team.name }}" />
+                {% endif %}
+              </td>
               <td class="champTourScore">
                 {% if match.status == 1 %}
                   -
@@ -136,10 +142,16 @@
                 {{ match.goal2 }}
               {% endif %}
               </td>
+              <td class="champTourImage">
+                {% if match.team2.image2 %}
+                  <img src="{{ asset('images/clubs/') }}{{ match.team2.image2 }}"
+                    alt="{{ match.team2.name }}" title="{{ match.team2.name }}" />
+                {% endif %}
+              </td>
               <td class="champTourTeam">{{ match.team2.name }}</td>
             </tr>
             <tr class="champ-match-bomb">
-              <td colspan="4" class="">{{ match.bomb }}</td>
+              <td colspan="6" class="">{{ match.bomb }}</td>
             </tr>
 
 

@@ -192,7 +192,12 @@ footer {
     text-align: center;
     font-weight: bold;
     background-color: #6fbd90;
-    width: 150px;
+    width: 120px;
+}
+.champTourImage {
+    background-color: #6fbd90;
+    width: 51px;
+    text-align: center;
 }
 .champ-show-table tbody tr{
   height: 25px;
@@ -222,7 +227,6 @@ footer {
 
 }
 .champ-tours{
-  width: 345px;
   margin-left: 15px;
   margin-right: 15px;
 }
@@ -275,7 +279,7 @@ footer {
 }
 .content{
     flex: 1 0 auto;
-    background-color: #d5dec5;
+    background-color: #e8edda;
 }
 .choosed-player {
     font-weight: bold;
@@ -980,6 +984,7 @@ footer {
 }
 .team-show-image img{
   float: right;
+  margin-left: 5px;
 }
 .teamStat {
     vertical-align: top;
