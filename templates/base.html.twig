@@ -186,8 +186,6 @@
                         {% block sidebar %}
                         {% endblock %}
                     <td class="scLink">
-{% if path('steam_fbstat_homepage') != path(app.request.attributes.get('_route'),
-     app.request.attributes.get('_route_params')) %}
 
                         <div class="seasons-h1">
                                 <div class="seasons">
@@ -195,7 +193,6 @@
                                   {% endblock %}
                                 </div>
                         </div>
-{% endif %}
                         {% block content %}
                         {% endblock %}
                     </td>

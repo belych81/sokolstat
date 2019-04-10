@@ -281,6 +281,16 @@ footer {
     flex: 1 0 auto;
     background-color: #e8edda;
 }
+.content-404{
+  display: flex;
+}
+.content-404 div{
+  margin: auto;
+}
+.content-404 p{
+  margin-top: 15px;
+  font-size: 14px;
+}
 .choosed-player {
     font-weight: bold;
 }
