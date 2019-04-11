@@ -64,7 +64,7 @@ class NationCupRepository extends ServiceEntityRepository
     }
 
     public function findAllBySeasonAndStadiaAndCountry($season, $stadia, $country)
-    {      
+    {
         $qb = $this->createQueryBuilder('c')
                 ->select('c', 'st', 't', 't2', 's')
                 ->join('c.season', 's')
@@ -80,6 +80,7 @@ class NationCupRepository extends ServiceEntityRepository
                     'stadia' => $stadia,
                     'country' => $country
                     ])
+                ->orderBy('c.data', 'ASC')
                 ;
 
         $query = $qb->getQuery();

@@ -21,9 +21,18 @@ final class TeamAdmin extends AbstractAdmin
             ->add('name')
             ->add('country')
             ->add('translit')
+            ->add('image')
+            ->add('image2')
         ;
     }
 
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('country')
+            ->add('name')
+        ;
+    }
 
      protected function configureListFields(ListMapper $listMapper)
     {
