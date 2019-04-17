@@ -24,6 +24,7 @@ class LchplayerType extends AbstractType
               return $repository->queryLchPlayers($season, $team);
             }
             ])
+            ->add('game')
             ->add('goal', null, ['data' => 0]);
     }
 

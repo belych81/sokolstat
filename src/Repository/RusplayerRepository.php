@@ -370,15 +370,16 @@ class RusplayerRepository extends ServiceEntityRepository
         $qb->execute();
     }
 
-    public function updateRusplayerTotalFnl($player, $goal)
+    public function updateRusplayerTotalFnl($player, $game, $goal)
     {
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Rusplayer', 'r')
-                ->set('r.fnlgame', 'r.fnlgame+1')
-                ->set('r.fnlgoal', 'r.fnlgoal+?1')
-                ->where('r.player = ?2')
-                ->setParameter(1, $goal)
-                ->setParameter(2, $player)
+                ->set('r.fnlgame', 'r.fnlgame+?1')
+                ->set('r.fnlgoal', 'r.fnlgoal+?2')
+                ->where('r.player = ?3')
+                ->setParameter(1, $game)
+                ->setParameter(2, $goal)
+                ->setParameter(3, $player)
                 ->getQuery();
 
             $qb->execute();

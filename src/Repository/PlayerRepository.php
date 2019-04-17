@@ -253,15 +253,16 @@ class PlayerRepository extends ServiceEntityRepository
         $qb->execute();
     }
 
-    public function updatePlayerLch($player, $goal)
+    public function updatePlayerLch($player, $game, $goal)
     {
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 'r')
-            ->set('r.lch_game', 'r.lch_game+1')
-            ->set('r.lch_goal', 'r.lch_goal+?1')
-            ->where('r.id = ?2')
+            ->set('r.lch_game', 'r.lch_game+?1')
+            ->set('r.lch_goal', 'r.lch_goal+?2')
+            ->where('r.id = ?3')
+            ->setParameter(1, $game)
             ->setParameter(1, $goal)
-            ->setParameter(2, $player)
+            ->setParameter(3, $player)
             ->getQuery();
 
         $qb->execute();

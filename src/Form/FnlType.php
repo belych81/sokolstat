@@ -24,6 +24,7 @@ class FnlType extends AbstractType
             return $repository->queryFnlPlayers($season);
             }
             ])
+            ->add('game')
             ->add('goal');
     }
 

@@ -4,10 +4,6 @@
     {{ player.0.name }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="{{ player.0.name }}, футбольная статистика, матчи, голы, мячи, сезоны">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="{{ player.0.name }}, статистика игрока, дата рождения, гражданство,
           амплуа, история выступлений, количество игр и мячей по сезонам">
@@ -24,6 +20,11 @@
                 <p>{{ player.0.amplua.name }}</p>
                 {% if rusplayer %}
                 <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
+                {% endif %}
+
+                {% if is_granted("ROLE_ADMIN") %}
+                  <a href="{{ path('player_edit', {'id': player.0.id}) }}">
+                     изменить</a>
                 {% endif %}
             </td>
 

@@ -503,7 +503,9 @@ class PlayerController extends AbstractController
             $em->flush();
             $player = $entity->getPlayer();
             $goal = $entity->getGoal();
-            $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player, $goal);
+            $game = $entity->getGame();
+            $em->getRepository(Rusplayer::class)
+              ->updateRusplayerTotalFnl($player, $game, $goal);
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => 'fnl',
@@ -681,8 +683,10 @@ class PlayerController extends AbstractController
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer()->getId();
+            $game = $entity->getGame();
             $goal = $entity->getGoal();
-            $em->getRepository(Player::class)->updatePlayerLch($player, $goal);
+            $em->getRepository(Player::class)
+              ->updatePlayerLch($player, $game, $goal);
             /*$em->getRepository('SteamFbstatBundle:Rusplayer')
                     ->updateRusplayerEc($player, $goal);*/
             return $this->redirect($this->generateUrl('eurocup_show', [

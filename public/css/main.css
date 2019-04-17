@@ -113,6 +113,7 @@ footer {
 #tour_bomb,
 #tour_match_bomb,
 #tour_edit_bomb,
+#nation_cup2_bomb,
 #mundial_goal,
 #mundial_game,
 #mundial_game2,
@@ -195,7 +196,7 @@ footer {
     width: 120px;
 }
 .champTourImage {
-    background-color: #6fbd90;
+    background-color: #fff;
     width: 51px;
     text-align: center;
 }
@@ -229,6 +230,7 @@ footer {
 .champ-tours{
   margin-left: 15px;
   margin-right: 15px;
+  max-width: 380px;
 }
 .champ-tours table{
   border-collapse: collapse;
