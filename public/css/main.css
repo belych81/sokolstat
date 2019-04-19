@@ -175,6 +175,18 @@ footer {
   margin-left: 10px;
   font-size: 15px;
 }
+.btn{
+  display: block;
+  width: 150px;
+  height: 25px;
+  border-radius: 7px;
+  background-color: #366;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  line-height: 25px;
+}
 .calendar-today{
     background-color: #fff;
 }
@@ -968,6 +980,29 @@ footer {
 .table-score{
   font-weight: bold;
   font-size: 14px;
+}
+.task-list{
+  margin: 10px 10px 0 10px;
+}
+.task-list table{
+  width: 100%;
+  border: 1px solid;
+  border-spacing: 5px;
+}
+.task-list table th{
+  background-color: #6fbd90;
+  padding: 4px;
+}
+.task-list table td{
+  padding: 4px;
+  font-size: 14px;
+}
+.task-list-id{
+  width: 30px;
+  text-align: center;
+}
+.task-list-date{
+  width: 100px;
 }
 .teamColumn {
     width: 100px;

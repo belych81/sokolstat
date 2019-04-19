@@ -5,7 +5,24 @@ steam_fbstat_homepage:
 newspaper:
       path:     /newspaper/
       controller: App\Controller\NewsController::newspaper
-      
+
+task:
+      path:     /task/
+      controller: App\Controller\TaskController::index
+
+task_new:
+  path: /task/admin/new/
+  controller: App\Controller\TaskController::new
+
+task_create:
+    path:  /task/admin/create/
+    controller: App\Controller\TaskController:create
+    requirements: { _method: post }
+
+task_close:
+    path:     /task/close/{id}
+    controller: App\Controller\TaskController::close
+
 soglasie:
     path:     /soglasie/
     controller: App\Controller\NewsController::soglasie
