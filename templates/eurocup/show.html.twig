@@ -4,11 +4,6 @@
     {{ club.0.name }} - Лига Чемпионов {{ app.request.get('season') }}
     {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="еврокубки,  {{ app.request.get('season') }},
-           матчи, авторы забитых мячей">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="еврокубки,  {{ app.request.get('season') }},
            матчи, авторы забитых мячей">
@@ -24,11 +19,26 @@
 
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="scLink">
-                <p><b>{{ club.0.name }}</b></p>
-
+<div class="teams-list">{{ app.request.get('team') }}
+  {% for team in teams %}
+    {% if team.team.translit != app.request.get('id') %}
+      <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
+          'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
+      class="">
+            {{ team.team.name }}</a>
+    {% endif %}
+  {% endfor %}
+</div>
+<div class="team-show-image">
+  <div>
+    <h1>{{ club.0.name }}</h1>
+    {% if club.0.image %}
+    <img src="{{ asset('images/clubs/') }}{{ club.0.image }}"
+      alt="{{ club.0.name }}" title="{{ club.0.name }}" />
+    {% endif %}
+  </div>
+</div>
+<div class="champ-table champs">
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -43,7 +53,7 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index }}</td>
+                <td class="player-position">{{ loop.index }}</td>
                 <td>
 
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
@@ -91,12 +101,14 @@
             'team': app.request.get('id')}) }}">
             Добавить игрока</a>
         {% endif %}
-            </td>
-            <td class="teamStat">
+</div>
+
+            <div class="champ-bombs champs">
                 <p><b>Бомбардиры</b></p>
                 <table class="">
         <thead>
             <tr class="shipTableTitle">
+                <th>&nbsp;</th>
                 <th class="bombName">&nbsp;</th>
                 <th>Клуб</th>
                 <th class="teamStatGoal">Г</th>
@@ -107,7 +119,8 @@
         <tbody>
         {% for bomb in bombs %}
 
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <tr class="odd">
+                <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': bomb.player.translit}) }}" class="spiski">
                         {{ bomb.player.name }}</a>
@@ -120,16 +133,6 @@
         {% endfor %}
         </tbody>
     </table>
-            </td>
-        </tr>
-    </table>
-         {% if app.request.get('turnir') == 'leagueChampions' %}
-            <div class="lch-teams">
-                {% for team in teams %}
-                    <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
-                        'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
-                        class="spiski teamlch">{{ team.team.name }}</a>
-                {% endfor %}
             </div>
-        {% endif %}
+
 {% endblock %}

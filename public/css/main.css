@@ -981,6 +981,10 @@ footer {
   font-weight: bold;
   font-size: 14px;
 }
+.task-current{
+  background-color: #366;
+  color: #fff; 
+}
 .task-list{
   margin: 10px 10px 0 10px;
 }

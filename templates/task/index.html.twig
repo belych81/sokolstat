@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           {% for task in tasks %}
-            <tr>
+            <tr {% if(loop.index == 1) %}class="task-current"{% endif %}>
               <td>{{ task.id }}</td>
               <td>{{ task.data | date('d.m.Y H:i:s') }}</td>
               <td>{{ task.title }}</td>
