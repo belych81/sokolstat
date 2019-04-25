@@ -267,6 +267,15 @@ news_search:
     options:
         expose: true
 
+player_edit:
+    path: /player/edit/{id}
+    controller: App\Controller\PlayerController:edit
+
+player_update:
+    path: /player/update/{id}
+    controller: App\Controller\PlayerController:update
+    requirements: { _method: post }
+
 player_search:
     path: /player/search
     controller: App\Controller\RusplayerController:search

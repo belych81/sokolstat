@@ -20,6 +20,7 @@ use App\Form\RusType;
 use App\Form\FnlType;
 use App\Form\RusplayerType;
 use App\Form\PlayerType;
+use App\Form\PlayerEditType;
 use App\Form\LchplayerType;
 use App\Form\ShipplayerType;
 use App\Form\SbplayerType;
@@ -31,6 +32,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerController extends AbstractController
 {
+    public function edit($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Player::class)->find($id);
+        $form   = $this->createForm(PlayerEditType::class, $entity);
+
+        return $this->render('player/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Player::class)->find($id);
+        $form   = $this->createForm(PlayerEditType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $translit = $entity->getTranslit();
+            return $this->redirect($this->generateUrl('player_show', [
+              'id' => $translit]));
+        }
+
+        return $this->render('player/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
     public function editChamp(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Gamers::class)->updateGamer($id, $change);

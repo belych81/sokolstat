@@ -401,9 +401,8 @@ class ShiptableController extends AbstractController
         ));
     }
 
-    public function edit(Request $request, $id, $country)
+    public function edit($id, $country)
     {
-      $entity = new Tour();
         $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
         $form   = $this->createForm(TourEditType::class, $entity);
 

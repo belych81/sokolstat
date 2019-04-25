@@ -11,16 +11,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Repository\PlayerRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class PlayerType extends AbstractType
+class PlayerEditType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
             ->add('name')
+            ->add('amplua')
             ->add('country')
             ->add('translit')
             ->add('born', null, ['years' => \range(\date('Y'), 1920)])
-            ->add('amplua')
+            ->add('goal')
+            ->add('image')
+            ->add('cup')
+            ->add('eurocup')
+            ->add('supercup')
+            ->add('lch_game')
+            ->add('lch_goal')
+            ->add('sum')
         ;
   }
 
