@@ -47,8 +47,7 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->setParameter('season', $season)
           ->andWhere('c.name = :country')
           ->setParameter('country', $country)
-          ->orderBy('sp.goal DESC, p.name')
-          ->setMaxResults(20)
+          ->andWhere('sp.goal > 0')
           ->getQuery()
           ->getResult()
       ;

@@ -29,8 +29,6 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->where('s.name = :season')
           ->setParameter('season', $season)
           ->andWhere('f.goal > 0')
-          ->orderBy('f.goal DESC, p.name')
-          ->setMaxResults(20)
           ->getQuery()
           ->getResult()
       ;

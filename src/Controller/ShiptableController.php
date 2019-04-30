@@ -93,11 +93,37 @@ class ShiptableController extends AbstractController
                     ->getBomb5($season, $strana);
 
         }
+        $bombSum = [];
+        foreach ($bombs as $val) {
+          $name = $val->getPlayer()->getName();
+          $goal = $val->getGoal();
+          $team = $val->getTeam()->getName();
+          if(key_exists($name, $bombSum)){
+            $bombSum[$name]['goal'] += $goal;
+            $bombSum[$name]['team'] .= " / ".$team;
+          } else {
+            $bombSum[$name] = ['player' => $val, 'goal' => $goal, 'team' => $team];
+          }
+        }
+        $sortGoal = function($f1,$f2)
+          {
+             if($f1['goal'] < $f2['goal']){
+                 return 1;
+             }
+             elseif($f1['goal'] > $f2['goal']) {
+                 return -1;
+             }
+             else {
+                 return 0;
+             }
+          };
+        uasort($bombSum, $sortGoal);
+        $bombSum = array_slice($bombSum, 0, 20);
 
         return $this->render('shiptable/index.html.twig', [
             'entities' => $entities,
             'seasons' => $seasons,
-            'bombs' => $bombs,
+            'bombs' => $bombSum,
             'matches' => $matches,
             'tours' => $numberTour,
             'rusCountry' => $rusCountry,

@@ -208,17 +208,16 @@
             </tr>
         </thead>
         <tbody class="shipTable">
-        {% for bomb in bombs %}
+        {% for name, player in bombs %}
 
             <tr class="odd">
                 <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
-                    <a href="{{ path('player_show', {'id': bomb.player.translit}) }}" class="spiski">
-                        {{ bomb.player.name }}</a>
-
+                    <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                        {{ name }}</a>
                 </td>
-                <td class="bombTeam">{{ bomb.team.name }}</td>
-                <td class="tableGoal">{{ bomb.goal }}</td>
+                <td class="bombTeam">{{ player.team }}</td>
+                <td class="tableGoal">{{ player.goal }}</td>
 
 
             </tr>

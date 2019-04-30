@@ -19,7 +19,7 @@ class GamersRepository extends ServiceEntityRepository
         parent::__construct($registry, Gamers::class);
     }
 
-    public function getBomb($season)
+    public function getBombOld($season)
     {
       return $this->createQueryBuilder('g')
               ->select('g', 'r')
@@ -30,6 +30,19 @@ class GamersRepository extends ServiceEntityRepository
               ->setParameter('season', $season)
               ->orderBy('g.goal DESC, r.name')
               ->setMaxResults(20)
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function getBomb($season)
+    {
+      return $this->createQueryBuilder('g')
+              ->select('g', 'r')
+              ->join('g.player', 'r')
+              ->join('g.season', 's')
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere('g.goal > 0')
               ->getQuery()
               ->getResult();
     }
