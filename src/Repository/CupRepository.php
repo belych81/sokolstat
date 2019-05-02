@@ -90,7 +90,7 @@ class CupRepository extends ServiceEntityRepository
       }
 
       return $this->createQueryBuilder('c')
-              ->select('t.id', 't.name', 't.translit')
+              ->select('t.id', 't.name', 't.translit', 't.image2')
               ->join($strJoin, 't')
               ->join('c.season', 's')
               ->join('c.stadia', 'st')
@@ -101,5 +101,18 @@ class CupRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult()
               ;
+    }
+
+    public function findByTeamAndSeason($teamId, $season)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id')
+            ->join('c.season', 's')
+            ->where('c.team = :team OR c.team2 = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
     }
 }

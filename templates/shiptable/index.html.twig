@@ -180,7 +180,10 @@
 
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="player-position">{{ loop.index }}</td>
-                <td class="tableLeft"><a href="{{ path('championships_show', {'id': entity.team.translit, 'season': app.request.get('season'), 'country': app.request.get('country')}) }}" class="shipTableTeam">{{ entity.team.name }}</a></td>
+                <td class="tableLeft"><a href="{{ path('championships_show', {
+                  'id': entity.team.translit, 'season': app.request.get('season'),
+                  'country': app.request.get('country')}) }}" class="shipTableTeam">
+                    {{ entity.team.name }}</a></td>
                 <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
                 <td>{{ entity.wins }}</td>
                 <td>{{ entity.nich }}</td>

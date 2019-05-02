@@ -37,14 +37,21 @@ class CupController extends AbstractController
 
   public function show($id, $season)
   {
+      $club = $this->getDoctrine()->getRepository(Team::class)
+        ->findByTranslit($id);
+      $isTeam = $this->getDoctrine()->getRepository(Cup::class)
+              ->findByTeamAndSeason($club[0]['id'], $season);
+      if(empty($isTeam)){
+        return $this->redirect($this->generateUrl('cup', [
+            'season' => $season]));
+      }
+      $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
       $players = $this->getDoctrine()->getRepository(Cupplayer::class)
         ->getCupTeamStat($season, $id);
       $teams = $this->getDoctrine()->getRepository(Cup::class)
         ->getTeams($season);
       $teams2 = $this->getDoctrine()->getRepository(Cup::class)
           ->getTeams($season, 2);
-      $club = $this->getDoctrine()->getRepository(Team::class)
-        ->findByTranslit($id);
       for ($i=0, $cnt=count($players); $i < $cnt; $i++)
       {
           $name[$i] = $players[$i]->getPlayer()->getName();
@@ -57,6 +64,7 @@ class CupController extends AbstractController
           $players[$i]->setGoalTeam($ptgoal[$i]);
       }
       return $this->render('cup/show.html.twig', [
+          'seasons' => $seasons,
           'players' => $players,
           'teams' => $teams,
           'teams2' => $teams2,

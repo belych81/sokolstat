@@ -22,9 +22,15 @@
     {% for team in teams %}
       {% if team.translit != app.request.get('id') %}
         <a href="{{ path('championships_show', {'season': app.request.get('season'),
-        'id': team.translit, 'country': app.request.get('country')}) }}"
-        class="">
-              {{ team.name }}</a>
+          'id': team.translit, 'country': app.request.get('country')}) }}"
+          class="">
+          {% if team.image2 %}
+            <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
+              alt="{{ team.name }}" title="{{ team.name }}" />
+          {% else %}
+                {{ team.name }}
+          {% endif %}
+        </a>
       {% endif %}
     {% endfor %}
   </div>
@@ -35,6 +41,35 @@
       <img src="{{ asset('images/clubs/') }}{{ club.0.image }}"
         alt="{{ club.0.name }}" title="{{ club.0.name }}" />
       {% endif %}
+      <table class="shipTable showTeam">
+          <thead>
+              <tr class="shipTableTitle">
+                  <th>&nbsp;</th>
+                  <th class="winsTable">И</th>
+                  <th class="winsTable">В</th>
+                  <th class="winsTable">Н</th>
+                  <th class="winsTable">П</th>
+                  <th class="goalsTable">M</th>
+                  <th class="winsTable">О</th>
+
+              </tr>
+          </thead>
+          <tbody>
+            {% for entity in shiptable %}
+              {% if entity.team.name == club.0.name %}
+                <tr class="odd">
+                    <td class="player-position">{{ loop.index }}</td>
+                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                    <td>{{ entity.wins }}</td>
+                    <td>{{ entity.nich }}</td>
+                    <td>{{ entity.porazh }}</td>
+                    <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                    <td class="table-score">{{ entity.score }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+      </table>
     </div>
   </div>
                 {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}

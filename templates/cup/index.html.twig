@@ -4,11 +4,6 @@
    Кубок России {{ app.request.get('season') }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="кубок России {{ app.request.get('season') }},
-          бомбардиры, матчи">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="кубок России {{ app.request.get('season') }},
           бомбардиры, матчи">
@@ -29,6 +24,8 @@
 {% endblock %}
 
 {% block content %}
+  <h1>Кубок России {{ app.request.get('season') }}</h1>
+  
 {% if is_granted("ROLE_ADMIN") %}
 <p><a href="{{ path('cup_newMatch', {'season': app.request.get('season')}) }}">
 Добавить матч</a></p>
@@ -83,7 +80,7 @@
       {% endfor %}
     </table>
             </td>
-            
+
         </tr>
     </table>
 {% endblock %}

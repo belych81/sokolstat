@@ -938,7 +938,7 @@ footer {
     font-size: 14px;
 }
 .teams-list{
-  margin: 15px;
+  margin: 5px;
 }
 .teams-list a{
   display: inline-block;
@@ -956,6 +956,10 @@ footer {
 }
 .total-game{
   font-size: 14px;
+}
+.showTeam{
+  display: inline-table;
+  margin-left: 45px;
 }
 .stadia-name {
     font-weight: bold;
@@ -1034,7 +1038,7 @@ footer {
   margin: auto;
 }
 .team-show-image img{
-  float: right;
+  float: left;
   margin-left: 5px;
 }
 .teamStat {

@@ -73,6 +73,18 @@ class ShiptableRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getShiptableByTeam($teamId, $season)
+    {
+        return $this->createQueryBuilder('st')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getSeasons($country)
     {
         return $this->createQueryBuilder('st')
@@ -92,7 +104,7 @@ class ShiptableRepository extends ServiceEntityRepository
     public function getTeams($season, $country)
     {
       return $this->createQueryBuilder('st')
-              ->select('t.id', 't.name', 't.translit')
+              ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')
               ->join('st.team', 't')
               ->join('st.season', 's')
               ->join('st.country', 'c')

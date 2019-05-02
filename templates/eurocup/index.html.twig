@@ -21,10 +21,6 @@
     {% endfor %}
 {% endblock %}
 
-{% block zagolovok %}
-    <h1 class="zagolovok">{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
-{% endblock %}
-
 {% block sidebar %}
  <td class="sidebarMenu">
      <ul>
@@ -40,6 +36,26 @@
  {% endblock %}
 
 {% block content %}
+
+{% if app.request.get('turnir') == 'leagueChampions' %}
+<div class="teams-list">{{ app.request.get('team') }}
+  {% for team in teams %}
+    {% if team.team.translit != app.request.get('id') %}
+      <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
+          'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
+        class="">
+        {% if team.team.image2 %}
+          <img src="{{ asset('images/clubs/') }}{{ team.team.image2 }}"
+            alt="{{ team.team.name }}" title="{{ team.team.name }}" />
+        {% else %}
+              {{ team.team.name }}
+        {% endif %}
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+<h1>{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
         {% if is_granted("ROLE_ADMIN") %}
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">
                 Добавить матч</a></p>
@@ -133,13 +149,5 @@
             </td>
         </tr>
     </table>
-        {% if app.request.get('turnir') == 'leagueChampions' %}
-            <div class="lch-teams">
-                {% for team in teams %}
-                    <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
-                        'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
-                        class="spiski teamlch">{{ team.team.name }}</a>
-                {% endfor %}
-            </div>
-        {% endif %}
+
  {% endblock %}

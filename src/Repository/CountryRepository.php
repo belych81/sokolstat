@@ -26,4 +26,10 @@ class CountryRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function queryCountryOrderName()
+    {
+        return $query = $this->createQueryBuilder('c')
+                ->orderBy('c.name');
+    }
 }

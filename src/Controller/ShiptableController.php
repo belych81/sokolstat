@@ -146,6 +146,8 @@ class ShiptableController extends AbstractController
                 ->translateCountry($country)['country'];
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getSeasons($strana);
+        $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
+                ->getTable($strana, $season);
         if ($country == 'russia') {
             $players = $this->getDoctrine()->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
@@ -187,7 +189,8 @@ class ShiptableController extends AbstractController
             'seasons' => $seasons,
             'teams' => $teams,
             'club' => $club,
-            'lastPlayer' => $lastPlayer
+            'lastPlayer' => $lastPlayer,
+            'shiptable' => $shiptable
             ]);
         } elseif ($country == 'fnl') {
            return $this->render('shiptable/showFnl.html.twig', [
@@ -195,7 +198,8 @@ class ShiptableController extends AbstractController
             'seasons' => $seasons,
             'teams' => $teams,
             'club' => $club,
-            'lastPlayer' => $lastPlayer
+            'lastPlayer' => $lastPlayer,
+            'shiptable' => $shiptable
             ]);
         } else {
         return $this->render('shiptable/show.html.twig', [
@@ -203,7 +207,8 @@ class ShiptableController extends AbstractController
             'seasons' => $seasons,
             'teams' => $teams,
             'club' => $club,
-            'lastPlayer' => $lastPlayer
+            'lastPlayer' => $lastPlayer,
+            'shiptable' => $shiptable
             ]);
         }
     }
