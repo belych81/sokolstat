@@ -59,7 +59,7 @@ class GamersRepository extends ServiceEntityRepository
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->setParameter('id', $id)
-              ->orderBy('g.game DESC, p.name')
+              ->orderBy('g.game DESC, g.goal DESC, p.name')
               ->getQuery()
               ->getResult();
     }

@@ -33,7 +33,7 @@ class EcplayerRepository extends ServiceEntityRepository
                     'id' => $id,
                     'season' => $season,
                         ])
-                ->orderBy('e.game', 'DESC')
+                ->orderBy('e.game DESC, e.goal DESC, r.name')
                 ->getQuery()
                 ->getResult();
     }

@@ -27,6 +27,7 @@ class LchplayerRepository extends ServiceEntityRepository
               ->join('lp.season', 's')
               ->where("s.name = :season")
               ->setParameter('season', $season)
+              ->andWhere("lp.goal > 0")
               ->orderBy('lp.goal DESC, p.name')
               ->setMaxResults(20)
               ->getQuery()
@@ -44,7 +45,7 @@ class LchplayerRepository extends ServiceEntityRepository
               ->andWhere('t.translit = :id')
               ->setParameter('season', $season)
               ->setParameter('id', $id)
-              ->orderBy('lp.game DESC, p.name')
+              ->orderBy('lp.game DESC, lp.goal DESC, p.name')
               ->getQuery()
               ->getResult();
     }
