@@ -25,6 +25,7 @@ class ShipplayerType extends AbstractType
               return $repository->queryLchPlayers($season, $team);
             }
             ])
+            ->add('game', null, ['data' => 0])
             ->add('goal', null, ['data' => 0])
             ->add('cup', null, ['data' => 0])
             ->add('supercup', null, ['data' => 0])

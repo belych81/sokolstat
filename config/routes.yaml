@@ -424,7 +424,7 @@ playeradmin_editNation:
     path:  /playeradmin/admin/{id}/editNation/{country}/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNation
     requirements:
-        change: minus|plus
+        change: minusGame|plusGame|minusGame|minusGoal|plus|minus
 
 playeradmin_editNationCup:
     path:  /playeradmin/admin/{id}/editNationCup/{country}/{season}/{team}/{change}

@@ -145,16 +145,18 @@
                     <tr class="shipTableTitle">
                         <th class="player-season">Сезон</th>
                         <th class="playerClub">Клуб</th>
-                        <th>Чемпионат</th>
-                        <th>Кубок</th>
-                        <th>Еврокубки</th>
-                        <th>Суперкубок</th>
-                        <th>Всего</th>
+                        <th>Чемпионат (И)</th>
+                        <th>Чемпионат (Г)</th>
+                        <th>Кубок (Г)</th>
+                        <th>Еврокубки (Г)</th>
+                        <th>Суперкубок (Г)</th>
+                        <th>Всего (Г)</th>
                     </tr>
                 {% for sp in shipplayer %}
                     <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                         <td>{{ sp.season.name }}</td>
                         <td>{{ sp.team.name }}</td>
+                        <td>{{ sp.game }}</td>
                         <td>{{ sp.goal }}</td>
                         <td>{{ sp.cup }}</td>
                         <td>{{ sp.eurocup }}</td>
@@ -163,11 +165,11 @@
                     </tr>
                 {% endfor %}
                     <tr>
-                        <td colspan="6"><b>Всего в чемпионатах топ-5</b></td>
-                        <td><b>{{ player.0.goal }}</b></td>
+                        <td colspan="7"><b>Всего в чемпионатах топ-5</b></td>
+                        <td><b>{{ player.0.game }}({{ player.0.goal }})</b></td>
                     </tr>
                     <tr class="even">
-                        <td colspan="6"><b>Всего за клубы топ-5</b></td>
+                        <td colspan="7"><b>Всего за клубы топ-5</b></td>
                         <td><b>{{ player.0.sum }}</b></td>
                     </tr>
                 </table>

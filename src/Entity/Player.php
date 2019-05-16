@@ -150,6 +150,11 @@ class Player
      */
     private $insertdate;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $game = 0;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -712,6 +717,18 @@ class Player
     public function setInsertdate(\DateTimeInterface $insertdate): self
     {
         $this->insertdate = $insertdate;
+
+        return $this;
+    }
+
+    public function getGame(): ?int
+    {
+        return $this->game;
+    }
+
+    public function setGame(int $game): self
+    {
+        $this->game = $game;
 
         return $this;
     }

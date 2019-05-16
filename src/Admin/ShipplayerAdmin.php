@@ -29,6 +29,7 @@ final class ShipplayerAdmin extends AbstractAdmin
             ->add('player')
             ->add('season')
             ->add('team')
+            ->add('game')
             ->add('goal')
             ->add('cup')
             ->add('supercup')

@@ -124,8 +124,31 @@ class PlayerRepository extends ServiceEntityRepository
                 ->groupBy('p.name');
     }
 
+    public function updatePlayerGame($id, $change, $game = 0)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = "s.game+1";
+                 break;
+            case 'minusGame' :
+                $changeParam = "s.game-1";
+                break;
+            default :
+                $changeParam = "s.game+$game";
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.game', $changeParam)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updatePlayerGoal($id, $change, $goal=0, $cup=0,
-      $supercup=0, $eurocup=0)
+      $supercup=0, $eurocup=0, $game=0)
     {
         switch ($change) {
             case 'plus' :
@@ -134,7 +157,8 @@ class PlayerRepository extends ServiceEntityRepository
                 $changeParam2 = "s.cup+$cup";
                 $changeParam3 = "s.supercup+$supercup";
                 $changeParam4 = "s.eurocup+$eurocup";
-                break;
+                $changeParam5 = "s.game";
+                 break;
             case 'minus' :
                 $changeParam = "s.goal-$goal";
                 $changeParam1 = "s.sum-1";
@@ -198,12 +222,15 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
-    public function updatePlayerTurnirs($player_id, $cup, $eurocup, $supercup)
+    public function updatePlayerTurnirs($player_id, $game, $goal, $cup, $eurocup,
+      $supercup)
     {
-        $sum = $cup + $eurocup + $supercup;
+        $sum = $goal + $cup + $eurocup + $supercup;
 
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
+            ->set('s.game', 's.game+?5')
+            ->set('s.goal', 's.goal+?6')
             ->set('s.cup', 's.cup+?2')
             ->set('s.eurocup', 's.eurocup+?3')
             ->set('s.supercup', 's.supercup+?4')
@@ -213,6 +240,8 @@ class PlayerRepository extends ServiceEntityRepository
             ->setParameter(2, $cup)
             ->setParameter(3, $eurocup)
             ->setParameter(4, $supercup)
+            ->setParameter(5, $game)
+            ->setParameter(6, $goal)
             ->setParameter(7, $sum)
             ->getQuery();
 

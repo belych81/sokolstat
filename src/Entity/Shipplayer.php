@@ -59,6 +59,11 @@ class Shipplayer
      */
     private $sum = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $game;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -156,6 +161,18 @@ class Shipplayer
     public function setSum(int $sum): self
     {
         $this->sum = $sum;
+
+        return $this;
+    }
+
+    public function getGame(): ?int
+    {
+        return $this->game;
+    }
+
+    public function setGame(int $game): self
+    {
+        $this->game = $game;
 
         return $this;
     }

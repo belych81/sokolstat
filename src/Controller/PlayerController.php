@@ -322,8 +322,16 @@ class PlayerController extends AbstractController
           ->updateShipplayerGoal($id, $change);
         $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Player::class)
-          ->updatePlayerGoal($player_id, $change, 1);
+        if($change == 'plusGame' || $change == 'minusGame')
+        {
+          $this->getDoctrine()->getRepository(Player::class)
+            ->updatePlayerGame($player_id, $change);
+        }
+        else
+        {
+          $this->getDoctrine()->getRepository(Player::class)
+            ->updatePlayerGoal($player_id, $change, 1);
+        }
         $session->set('lastPlayer', $player->getPlayer()->getName());
 
         return $this->redirect($this->generateUrl('championships_show', [
@@ -420,6 +428,7 @@ class PlayerController extends AbstractController
             $id = $entity->getId();
             $player_id = $entity->getPlayer()->getId();
             $goal = $entity->getGoal();
+            $game = $entity->getGame();
             $cup = $entity->getCup();
             $supercup = $entity->getSupercup();
             $eurocup = $entity->getEurocup();
@@ -427,6 +436,8 @@ class PlayerController extends AbstractController
                ->updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup);
             $em->getRepository(Player::class)
                ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
+               $em->getRepository(Player::class)
+                  ->updatePlayerGame($player_id, false, $game);
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => $country,
@@ -468,13 +479,16 @@ class PlayerController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
             $player = $editForm["player"]->getData()->getId();
+            $game= $editForm['game']->getData();
+            $goal= $editForm['goal']->getData();
             $cup= $editForm['cup']->getData();
             $eurocup= $editForm['eurocup']->getData();
             $supercup= $editForm['supercup']->getData();
-            $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player, $cup,
-              $eurocup, $supercup, $seasonOb->getId(), $teamOb->getId());
+            $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
+              $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
+              $teamOb->getId());
             $em->getRepository(Player::class)
-               ->updatePlayerTurnirs($player, $cup, $eurocup, $supercup);
+               ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
 
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,

@@ -105,13 +105,15 @@
             <tr class="shipTableTitle">
                 <th>&nbsp;</th>
                 <th class="teamStatPlayer">&nbsp;</th>
+                <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
-                <th class="teamStatGoal">Кубок</th>
-                <th class="teamStatGoal">Суперкубок</th>
-                <th class="teamStatGoal">Еврокубки</th>
-                <th class="teamStatGoal">В сезоне</th>
-                <th class="teamStatTotalGoal">Всего в чемпионатах топ-5</th>
-                <th class="teamStatTotalGoal">Всего за клубы топ-5</th>
+                <th class="teamStatGoal">Кубок (Г)</th>
+                <th class="teamStatGoal">Суперкубок (Г)</th>
+                <th class="teamStatGoal">Еврокубки (Г)</th>
+                <th class="teamStatGoal">В сезоне (Г)</th>
+                <th class="teamStatTotalGoal">Всего в чемпионатах топ-5 (И)</th>
+                <th class="teamStatTotalGoal">Всего в чемпионатах топ-5 (Г)</th>
+                <th class="teamStatTotalGoal">Всего за клубы топ-5 (Г)</th>
             </tr>
         </thead>
         {% endif %}
@@ -132,16 +134,31 @@
                        <a href="{{ path('playeradmin_editNation',
                  {'id': player.id, 'season': app.request.get('season'),
                     'team': app.request.get('id'),
-                    'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
-                           {{ player.goal }}
+                    'country': app.request.get('country'), 'change': 'minusGame'}) }}">-</a>
+                           {{ player.game }}
                            <a href="{{ path('playeradmin_editNation',
                  {'id': player.id, 'season': app.request.get('season'),
                     'team': app.request.get('id'),
-                    'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                    'country': app.request.get('country'), 'change': 'plusGame'}) }}">+</a>
                    {% else %}
-                   {{ player.goal }}
-                   {% endif %}</td>
-
+                   {{ player.game }}
+                   {% endif %}
+                  </td>
+                  <td class="tableGoal">
+                     {% if is_granted("ROLE_ADMIN") %}
+                         <a href="{{ path('playeradmin_editNation',
+                   {'id': player.id, 'season': app.request.get('season'),
+                      'team': app.request.get('id'),
+                      'country': app.request.get('country'), 'change': 'minusGoal'}) }}">-</a>
+                             {{ player.goal }}
+                             <a href="{{ path('playeradmin_editNation',
+                   {'id': player.id, 'season': app.request.get('season'),
+                      'team': app.request.get('id'),
+                      'country': app.request.get('country'), 'change': 'plusGoal'}) }}">+</a>
+                     {% else %}
+                     {{ player.goal }}
+                     {% endif %}
+                    </td>
                    <td class="tableGoal">
                       {% if is_granted("ROLE_ADMIN") %}
                           <a href="{{ path('playeradmin_editNationCup',
@@ -189,6 +206,9 @@
 
                 <td class="tableGoal">
                     {{ player.sum }}
+                </td>
+                <td class="tableGoal">
+                    {{ player.player.game }}
                 </td>
                 <td class="tableGoal">
                     {{ player.player.goal }}
