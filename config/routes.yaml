@@ -390,10 +390,14 @@ player_editSb:
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editChamp
+    options:
+        expose: true
 
 playeradmin_editFnl:
     path:  /playeradmin/admin/{id}/editFnl/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editFnl
+    options:
+        expose: true
 
 playeradmin_editTotalChamp:
     path:  /playeradmin/admin/totalChamp/{id}/edit/{season}/{team}/{change}
@@ -421,10 +425,12 @@ playeradmin_updatePlayerTurnirs:
     requirements: { _method: post|put }
 
 playeradmin_editNation:
-    path:  /playeradmin/admin/{id}/editNation/{country}/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNation/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNation
     requirements:
-        change: minusGame|plusGame|minusGame|minusGoal|plus|minus
+        change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
+    options:
+        expose: true
 
 playeradmin_editNationCup:
     path:  /playeradmin/admin/{id}/editNationCup/{country}/{season}/{team}/{change}

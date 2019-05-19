@@ -73,7 +73,7 @@
     </div>
   </div>
                 {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
-                  <div>{{ lastPlayer }}</div>
+                  <div id="lastPlayer">{{ lastPlayer }}</div>
                 {% endif %}
 
                 <div class="champ-teams-list">
@@ -124,29 +124,45 @@
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editChamp',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGame"
+                      data-path="playeradmin_editChamp"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
                     {% endif %}
-                    {{ player.game }}
+                    <span data-id="{{ player.id }}" data-param="game">
+                      {{ player.game }}
+                    </span>
                 {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editChamp',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                  <span class="changeGameGoalPlayer"
+                    data-change="plusGame"
+                    data-path="playeradmin_editChamp"
+                    data-id="{{ player.id }}"
+                    data-season="{{ app.request.get('season') }}"
+                    data-team="{{ app.request.get('id') }}">+</span>
                     {% endif %}
                 </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editChamp',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGoal"
+                      data-path="playeradmin_editChamp"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
                     {% endif %}
-                    {{ player.goal }}
+                    <span data-id="{{ player.id }}" data-param="goal">
+                      {{ player.goal }}
+                    </span>
 
                     {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editChamp',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="plusGoal"
+                      data-path="playeradmin_editChamp"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">+</span>
                     {% endif %}
                 </td>
                 <td class="champ-team-column total-game">

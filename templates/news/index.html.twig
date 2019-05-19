@@ -22,7 +22,9 @@
                     {{ ymatch.country2.name }}
                 {% endif %}
             </td>
-            <td>{% if (ymatch.status == 0) %}
+            <td>
+            
+            {% if (ymatch.status == 0) %}
                     {% if ymatch.score is defined %}
                         {{ ymatch.score }}
                     {% else %}

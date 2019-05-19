@@ -65,7 +65,6 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->andWhere('t.translit = :id')
           ->setParameter('id', $id)
           ->orderBy('sp.game DESC, sp.goal DESC, sp.cup DESC, sp.supercup DESC, sp.eurocup DESC, p.name')
-          ->setMaxResults(20)
           ->getQuery()
           ->getResult()
       ;

@@ -27,6 +27,7 @@ use App\Form\SbplayerType;
 use App\Form\ShipplayerUpdateType;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -77,11 +78,12 @@ class PlayerController extends AbstractController
                 ->updatePlayersteam($player, $teamOb, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => 'russia'
-                    ]));
+        $response = json_encode([
+            'name' => $entity->getPlayer()->getName(),
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function editSb(SessionInterface $session, $id, $season, $change)
@@ -316,7 +318,7 @@ class PlayerController extends AbstractController
             ]);
     }
 
-    public function editNation(SessionInterface $session, $id, $country, $season, $team, $change)
+    public function editNation(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoal($id, $change);
@@ -334,11 +336,12 @@ class PlayerController extends AbstractController
         }
         $session->set('lastPlayer', $player->getPlayer()->getName());
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => $country
-                    ]));
+        $response = json_encode([
+            'name' => $player->getPlayer()->getName(),
+            'game' => $player->getGame(),
+            'goal' => $player->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function editNationCup(SessionInterface $session, $id, $country,
@@ -512,12 +515,12 @@ class PlayerController extends AbstractController
         $this->getDoctrine()->getRepository(Rusplayer::class)
           ->updateRusplayerFnl($playerId, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
-
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => 'fnl'
-                    ]));
+        $response = json_encode([
+            'name' => $entity->getPlayer()->getName(),
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function newFnl($season, $team)

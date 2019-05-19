@@ -28,9 +28,32 @@ $('.search_keywords').bind("keyup", function() {
         alert(xhr.status);
         alert(thrownError);
       }
-       })
+    });
     } else {
       $(".search_result, .search_result_items").hide();
     }
+});
+
+$(".changeGameGoalPlayer").click(function(){
+  var change = $(this).data('change');
+  var id = $(this).data('id');
+  var season = $(this).data('season');
+  var team = $(this).data('team');
+  var route = $(this).data('path');
+  $.ajax({
+      type: 'post',
+      url: Routing.generate(route, {'id': id, 'season': season,
+        'team': team, 'change': change}),
+      dataType: 'json',
+      success: function(data){
+          $("#lastPlayer").text(data['name']);
+          $("[data-id="+id+"][data-param='game']").text(data['game']);
+          $("[data-id="+id+"][data-param='goal']").text(data['goal']);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      }
+});
 });
 });
