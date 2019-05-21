@@ -1,0 +1,96 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Обновить игрока
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+    <form action="{{ path('shipplayer_update', {'id': app.request.get('id'),
+    'country': app.request.get('country'),
+    'season': app.request.get('season'),
+     'team': app.request.get('team')}) }}"
+      method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.player) }}</th>
+                    <td>
+                        {{ form_errors(form.player) }}
+                        {{ form_widget(form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.season) }}</th>
+                    <td>
+                        {{ form_errors(form.season) }}
+                        {{ form_widget(form.season) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team) }}</th>
+                    <td>
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goal) }}</th>
+                    <td>
+                        {{ form_errors(form.goal) }}
+                        {{ form_widget(form.goal) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.cup) }}</th>
+                    <td>
+                        {{ form_errors(form.cup) }}
+                        {{ form_widget(form.cup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.eurocup) }}</th>
+                    <td>
+                        {{ form_errors(form.eurocup) }}
+                        {{ form_widget(form.eurocup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.supercup) }}</th>
+                    <td>
+                        {{ form_errors(form.supercup) }}
+                        {{ form_widget(form.supercup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.sum) }}</th>
+                    <td>
+                        {{ form_errors(form.sum) }}
+                        {{ form_widget(form.sum) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Обновить</button>
+
+        </p>
+    </form>
+
+{% endblock %}

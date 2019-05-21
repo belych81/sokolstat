@@ -23,6 +23,7 @@ use App\Form\PlayerType;
 use App\Form\PlayerEditType;
 use App\Form\LchplayerType;
 use App\Form\ShipplayerType;
+use App\Form\ShipplayerEditType;
 use App\Form\SbplayerType;
 use App\Form\ShipplayerUpdateType;
 
@@ -60,6 +61,37 @@ class PlayerController extends AbstractController
         }
 
         return $this->render('player/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function editShipplayer($id, $season, $country, $team)
+    {
+        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $form   = $this->createForm(ShipplayerEditType::class, $entity);
+
+        return $this->render('player/editShipplayer.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function updateShipplayer(Request $request, $id, $season, $country, $team)
+    {
+        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $form   = $this->createForm(ShipplayerEditType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('championships_show', [
+              'id' => $team, 'season' => $season, 'country' => $country]));
+        }
+
+        return $this->render('player/editShipplayer.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));

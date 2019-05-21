@@ -458,6 +458,17 @@ playeradmin_editEc:
     path:  /playeradmin/admin/{id}/editEc/{season}/{team}/{turnir}/{change}
     controller: App\Controller\PlayerController:editEc
 
+shipplayer_edit:
+    path:  /shipplayer/admin/edit/{id}/{country}/{season}/{team}/
+    controller: App\Controller\PlayerController:editShipplayer
+    requirements:
+        id: \d+
+
+shipplayer_update:
+    path:  /shipplayer/admin/update/{id}/{country}/{season}/{team}/
+    controller: App\Controller\PlayerController:updateShipplayer
+    requirements: { _method: post }
+
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin

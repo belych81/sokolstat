@@ -126,7 +126,13 @@
             ">
                 <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
-                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+                    <a href="{{ path('player_show', {'id': player.player.translit})
+                     }}" class="spiski">{{ player.player.name }}</a>
+                     <a href="{{ path('shipplayer_edit', {
+                      'id': player.id, 'country': app.request.get('country'),
+                      'season': app.request.get('season'),
+                       'team': app.request.get('id')
+                     }) }}">=</a>
                 </td>
 
                 <td class="tableGoal">

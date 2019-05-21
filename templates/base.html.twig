@@ -82,6 +82,9 @@
                             <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a> |
                             <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
                         {% endif %}
+                        {% if is_granted("ROLE_ADMIN") %}
+                          <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>
@@ -147,6 +150,9 @@
                       {% else %}
                           <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a>
                           <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
+                      {% endif %}
+                      {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
                       {% endif %}
                   </div>
 
