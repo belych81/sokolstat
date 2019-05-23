@@ -128,11 +128,13 @@
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': player.player.translit})
                      }}" class="spiski">{{ player.player.name }}</a>
+                     {% if is_granted("ROLE_ADMIN") %}
                      <a href="{{ path('shipplayer_edit', {
                       'id': player.id, 'country': app.request.get('country'),
                       'season': app.request.get('season'),
                        'team': app.request.get('id')
                      }) }}">=</a>
+                     {% endif %}
                 </td>
 
                 <td class="tableGoal">

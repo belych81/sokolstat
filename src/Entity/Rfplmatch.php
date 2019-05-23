@@ -73,6 +73,10 @@ class Rfplmatch
      */
     private $status;
 
+    private $route = 'championships';
+
+    private $country = 'russia';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +90,30 @@ class Rfplmatch
     public function setSeason(?Seasons $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

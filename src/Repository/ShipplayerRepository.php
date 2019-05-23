@@ -191,27 +191,19 @@ class ShipplayerRepository extends ServiceEntityRepository
       $team)
     {
             $sum = $goal + $cup + $eurocup + $supercup;
-
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Shipplayer', 's')
-                ->set('s.game', 's.game+?8')
-                ->set('s.goal', 's.goal+?9')
-                ->set('s.cup', 's.cup+?2')
-                ->set('s.eurocup', 's.eurocup+?3')
-                ->set('s.supercup', 's.supercup+?4')
-                ->set('s.sum', 's.sum+?7')
-                ->where('s.player = ?1')
-                ->setParameter(1, $player_id)
-                ->andWhere('s.season = ?5')
-                ->setParameter(5, $season)
-                ->andWhere('s.team = ?6')
-                ->setParameter(6, $team)
-                ->setParameter(2, $cup)
-                ->setParameter(3, $eurocup)
-                ->setParameter(4, $supercup)
-                ->setParameter(7, $sum)
-                ->setParameter(8, $game)
-                ->setParameter(9, $goal)
+                ->set('s.game', 's.game+:game')
+                ->set('s.goal', 's.goal+:goal')
+                ->set('s.cup', 's.cup+:cup')
+                ->set('s.eurocup', 's.eurocup+:eurocup')
+                ->set('s.supercup', 's.supercup+:supercup')
+                ->set('s.sum', 's.sum+:sum')
+                ->where('s.player = :player')
+                ->andWhere('s.season = :season')
+                ->andWhere('s.team = :team')
+                ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'season'=>$season, 'team'=>$team,
+                'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
                 ->getQuery();
 
             $qb->execute();

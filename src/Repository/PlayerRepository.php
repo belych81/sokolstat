@@ -226,23 +226,16 @@ class PlayerRepository extends ServiceEntityRepository
       $supercup)
     {
         $sum = $goal + $cup + $eurocup + $supercup;
-
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
-            ->set('s.game', 's.game+?5')
-            ->set('s.goal', 's.goal+?6')
-            ->set('s.cup', 's.cup+?2')
-            ->set('s.eurocup', 's.eurocup+?3')
-            ->set('s.supercup', 's.supercup+?4')
-            ->set('s.sum', 's.sum+?7')
-            ->where('s.id = ?1')
-            ->setParameter(1, $player_id)
-            ->setParameter(2, $cup)
-            ->setParameter(3, $eurocup)
-            ->setParameter(4, $supercup)
-            ->setParameter(5, $game)
-            ->setParameter(6, $goal)
-            ->setParameter(7, $sum)
+            ->set('s.game', 's.game+:game')
+            ->set('s.goal', 's.goal+:goal')
+            ->set('s.cup', 's.cup+:cup')
+            ->set('s.eurocup', 's.eurocup+:eurocup')
+            ->set('s.supercup', 's.supercup+:supercup')
+            ->set('s.sum', 's.sum+:sum')
+            ->where('s.id = :player')
+            ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
             ->getQuery();
 
         $qb->execute();

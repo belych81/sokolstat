@@ -21,6 +21,7 @@ class PlayerEditType extends AbstractType
             ->add('country')
             ->add('translit')
             ->add('born', null, ['years' => \range(\date('Y'), 1920)])
+            ->add('game')
             ->add('goal')
             ->add('image')
             ->add('cup')

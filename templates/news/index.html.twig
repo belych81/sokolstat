@@ -8,6 +8,18 @@
             <td colspan="3">Вчера</td>
         </tr>
         {% for ymatch in yestmatch %}
+          {% if ymatch.route == 'championships' %}
+            {% if ymatch.country == 'russia' %}
+              {% set route = path('championships', {'country':'russia',
+              'season': ymatch.season.name}) %}
+            {% else %}
+              {% set route = path('championships', {
+                'country':ymatch.country.translit,
+                'season': ymatch.season.name}) %}
+            {% endif %}
+          {% elseif ymatch.route == 'cup' %}
+            {% set route = path('cup', {'season': ymatch.season.name}) %}
+          {% endif %}
         <tr class="spiski calendar-today">
             <td class="newMatchTd">
                 {% if ymatch.team %}
@@ -23,16 +35,17 @@
                 {% endif %}
             </td>
             <td>
-            
-            {% if (ymatch.status == 0) %}
+              <a href="{{ route }}" class="spiski">
+              {% if (ymatch.status == 0) %}
                     {% if ymatch.score is defined %}
                         {{ ymatch.score }}
                     {% else %}
                         {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
                     {% endif%}
-                {% else %}
-                    {{ ymatch.data | date('H:i') }}
-                {% endif %}
+              {% else %}
+                  {{ ymatch.data | date('H:i') }}
+              {% endif %}
+              </a>
             </td>
         </tr>
         {% endfor %}
@@ -45,6 +58,18 @@
                   </td>
                     </tr>
                      {% for match in curmatch %}
+                     {% if match.route == 'championships' %}
+                       {% if match.country == 'russia' %}
+                         {% set route = path('championships', {'country':'russia',
+                         'season': match.season.name}) %}
+                       {% else %}
+                         {% set route = path('championships', {
+                           'country':match.country.translit,
+                           'season': match.season.name}) %}
+                       {% endif %}
+                     {% elseif match.route == 'cup' %}
+                       {% set route = path('cup', {'season': match.season.name}) %}
+                     {% endif %}
                     <tr class="spiski calendar-today">
                         <td class="newMatchTd">{% if match.team %}
                     {{ match.team }}
@@ -58,7 +83,9 @@
                     {{ match.country2.name }}
                 {% endif %}
                         </td>
-                        <td>{% if (match.status == 0) %}
+                        <td>
+                        <a href="{{ route }}" class="spiski">
+                        {% if (match.status == 0) %}
                                 {% if match.score is defined %}
                                     {{ match.score }}
                                 {% else %}
@@ -67,6 +94,7 @@
                             {% else %}
                                 {{ match.data | date('H:i') }}
                             {% endif %}
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -79,6 +107,18 @@
                        </td>
                         </tr>
                         {% for tmatch in tommatch %}
+                        {% if tmatch.route == 'championships' %}
+                          {% if tmatch.country == 'russia' %}
+                            {% set route = path('championships', {'country':'russia',
+                            'season': tmatch.season.name}) %}
+                          {% else %}
+                            {% set route = path('championships', {
+                              'country':tmatch.country.translit,
+                              'season': tmatch.season.name}) %}
+                          {% endif %}
+                        {% elseif tmatch.route == 'cup' %}
+                          {% set route = path('cup', {'season': tmatch.season.name}) %}
+                        {% endif %}
                         <tr class="spiski calendar-today">
                             <td class="newMatchTd">
                                 {% if tmatch.team %}
@@ -93,7 +133,9 @@
                                     {{ tmatch.country2.name }}
                                 {% endif %}
                             </td>
-                            <td>{{ tmatch.data | date('H:i') }}
+                            <td><a href="{{ route }}" class="spiski">
+                            {{ tmatch.data | date('H:i') }}
+                            </a>
                             </td>
                         </tr>
                         {% endfor %}
