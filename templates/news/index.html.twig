@@ -12,6 +12,9 @@
             {% if ymatch.country == 'russia' %}
               {% set route = path('championships', {'country':'russia',
               'season': ymatch.season.name}) %}
+            {% elseif ymatch.country.translit == "" %}
+                {% set route = path('championships', {'country':'fnl',
+                'season': ymatch.season.name}) %}
             {% else %}
               {% set route = path('championships', {
                 'country':ymatch.country.translit,
@@ -19,6 +22,9 @@
             {% endif %}
           {% elseif ymatch.route == 'cup' %}
             {% set route = path('cup', {'season': ymatch.season.name}) %}
+          {% elseif ymatch.route == 'nationcup' %}
+            {% set route = path('nationcup', {'season': ymatch.season.name,
+            'country': ymatch.country.translit}) %}
           {% endif %}
         <tr class="spiski calendar-today">
             <td class="newMatchTd">
@@ -62,6 +68,9 @@
                        {% if match.country == 'russia' %}
                          {% set route = path('championships', {'country':'russia',
                          'season': match.season.name}) %}
+                      {% elseif match.country.translit == "" %}
+                             {% set route = path('championships', {'country':'fnl',
+                             'season': match.season.name}) %}
                        {% else %}
                          {% set route = path('championships', {
                            'country':match.country.translit,
@@ -69,6 +78,9 @@
                        {% endif %}
                      {% elseif match.route == 'cup' %}
                        {% set route = path('cup', {'season': match.season.name}) %}
+                    {% elseif match.route == 'nationcup' %}
+                         {% set route = path('nationcup', {'season': match.season.name,
+                         'country': match.country.translit}) %}
                      {% endif %}
                     <tr class="spiski calendar-today">
                         <td class="newMatchTd">{% if match.team %}
@@ -111,6 +123,9 @@
                           {% if tmatch.country == 'russia' %}
                             {% set route = path('championships', {'country':'russia',
                             'season': tmatch.season.name}) %}
+                          {% elseif tmatch.country.translit == "" %}
+                                {% set route = path('championships', {'country':'fnl',
+                                'season': tmatch.season.name}) %}
                           {% else %}
                             {% set route = path('championships', {
                               'country':tmatch.country.translit,
@@ -118,6 +133,9 @@
                           {% endif %}
                         {% elseif tmatch.route == 'cup' %}
                           {% set route = path('cup', {'season': tmatch.season.name}) %}
+                        {% elseif tmatch.route == 'nationcup' %}
+                            {% set route = path('nationcup', {'season': tmatch.season.name,
+                            'country': tmatch.country.translit}) %}
                         {% endif %}
                         <tr class="spiski calendar-today">
                             <td class="newMatchTd">
