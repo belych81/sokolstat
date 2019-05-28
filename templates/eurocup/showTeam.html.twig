@@ -1,12 +1,7 @@
 {% extends 'eurocup/showMatch.html.twig' %}
 
 {% block title %}
-    Еврокубки {{ app.request.get('season') }} - {{ team.name }}
-    {% endblock %}
-
-{% block keywords %}
-    <meta name="keywords" content="{{ team.name }}, еврокубки, {{ entity.0.turnir.name }},
-          {{ app.request.get('season') }}, кто играл, кто забивал" />
+    Состав команды {{ team.name }} в еврокубках сезона {{ app.request.get('season') }}
 {% endblock %}
 
 {% block description %}
@@ -17,11 +12,8 @@
 {% block seasons %}
 {% endblock %}
 
-{% block zagolovok %}
-    <p class="zagolovok">Еврокубки {{ app.request.get('season') }} - {{ team.name }}</p>
-{% endblock %}
-
 {% block content %}
+<h1>Еврокубки {{ app.request.get('season') }}. {{ team.name }}</h1>
     <table>
         <thead>
             <tr class="shipTableTitle">

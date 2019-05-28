@@ -1,8 +1,8 @@
 {% extends 'eurocup/index.html.twig' %}
 
 {% block title %}
-    {{ club.0.name }} - Лига Чемпионов {{ app.request.get('season') }}
-    {% endblock %}
+    Состав команды {{ club.0.name }} в Лиге Чемпионов сезона {{ app.request.get('season') }}
+{% endblock %}
 
 {% block description %}
     <meta name="description" content="еврокубки,  {{ app.request.get('season') }},

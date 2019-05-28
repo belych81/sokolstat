@@ -207,6 +207,10 @@ footer {
     background-color: #6fbd90;
     width: 120px;
 }
+.champTourTeam a{
+  color: #000;
+  text-decoration: none;
+}
 .champTourImage {
     background-color: #fff;
     width: 51px;

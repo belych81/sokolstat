@@ -1,9 +1,5 @@
 {% extends 'shiptable/showRus.html.twig' %}
 
-{% block title %}
-   {{ club.0.name }} - {{ app.request.get('season') }}
-{% endblock %}
-
 {% block seasons %}
   {% for season in seasons %}
       {% if app.request.get('season') == season.season.name %}
