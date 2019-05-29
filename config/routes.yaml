@@ -7,8 +7,10 @@ newspaper:
       controller: App\Controller\NewsController::newspaper
 
 task:
-      path:     /task/
+      path:     /task/{id}
       controller: App\Controller\TaskController::index
+      defaults:
+          id: false
 
 task_new:
   path: /task/admin/new/

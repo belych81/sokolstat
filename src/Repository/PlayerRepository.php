@@ -293,7 +293,8 @@ class PlayerRepository extends ServiceEntityRepository
     public function searchPlayers($arQuery)
     {
         $q = $this->createQueryBuilder('p')
-            ->where("p.name LIKE '%$arQuery[0]%'")
+            ->where("p.born LIKE '%$arQuery[0]%'")
+            ->orWhere("p.name LIKE '%$arQuery[0]%'")
             ->setMaxResults(20);
 
         foreach($arQuery as $key => $val){

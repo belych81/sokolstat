@@ -10,12 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    public function index()
+    public function index($id)
     {
       $tasks = $this->getDoctrine()->getRepository(Task::class)
               ->findActiveTask();
       return $this->render('task/index.html.twig', [
-        'tasks' => $tasks
+        'tasks' => $tasks,
+        'id' => $id
       ]);
     }
 
@@ -42,8 +43,8 @@ class TaskController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('task'));
+            $lastId = $entity->getId();
+            return $this->redirect($this->generateUrl('task', ['id' => $lastId]));
         }
 
         return $this->render('task/new.html.twig', array(

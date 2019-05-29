@@ -6,6 +6,9 @@
 
 {% block content %}
   {% if is_granted("ROLE_ADMIN") %}
+    {% if id != false %}
+      <span class="spiski">ID новой задачи: {{ id }}</span>
+    {% endif %}
     <a href="{{ path('task_new') }}" class="btn">
         Создать задачу
     </a>
