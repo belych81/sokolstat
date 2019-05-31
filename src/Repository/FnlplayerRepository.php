@@ -41,6 +41,7 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->join('f.season', 's')
           ->join('f.team', 't')
           ->join('f.player', 'p')
+          ->leftJoin('p.rusplayers', 'r')
           ->where('s.name = :season')
           ->setParameter('season', $season)
           ->andWhere('t.translit = :id')

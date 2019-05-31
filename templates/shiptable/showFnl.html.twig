@@ -77,14 +77,14 @@
                 <th rowspan="2">&nbsp;</th>
                 <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
                 <th colspan="2">{{ app.request.get('season') }}</th>
-                <!--th colspan="2">Всего в чемпионатах</th>
-                <th colspan="2">Всего за клуб</th>
-                <th colspan="2">Всего</th-->
+                <th colspan="2">Всего в ФНЛ</th>
                 <th rowspan="2" class="teamStatGoal">Дата рождения</th>
                 <th rowspan="2" class="teamStatGoal">Страна</th>
             </tr>
             <tr class="shipTableTitle">
 
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
 
@@ -142,6 +142,12 @@
                     data-season="{{ app.request.get('season') }}"
                     data-team="{{ app.request.get('id') }}">+</span>
                     {% endif %}
+                </td>
+                <td class="tableGoal">
+                    {{ player.player.rusplayers.0.fnlgame }}
+                </td>
+                <td class="tableGoal">
+                      {{ player.player.rusplayers.0.fnlgoal }}
                 </td>
 
                 <td class="champ-team-column total-game">
