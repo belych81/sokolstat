@@ -655,6 +655,9 @@ footer {
     font-weight: bold;
     width: 35px;
 }
+.playerListGame a{
+  color: #000;
+}
 .playerListName {
     width: 200px;
 }
@@ -980,7 +983,7 @@ footer {
     text-align: center;
     font-size: 15px;
     font-weight: bold;
-    width: 40px;
+    width: 50px;
 }
 .tableLeft {
     text-align: left;
