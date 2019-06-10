@@ -66,6 +66,26 @@ class Rusplayer
 
     private $goalTeam;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ecgame;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ecgoal;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $cupgame;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $cupgoal;
+
     public function setGameTeam(int $gameTeam)
     {
         $this->gameTeam = $gameTeam;
@@ -199,6 +219,54 @@ class Rusplayer
     public function setSbgoal(int $sbgoal): self
     {
         $this->sbgoal = $sbgoal;
+
+        return $this;
+    }
+
+    public function getEcgame(): ?int
+    {
+        return $this->ecgame;
+    }
+
+    public function setEcgame(?int $ecgame): self
+    {
+        $this->ecgame = $ecgame;
+
+        return $this;
+    }
+
+    public function getEcgoal(): ?int
+    {
+        return $this->ecgoal;
+    }
+
+    public function setEcgoal(?int $ecgoal): self
+    {
+        $this->ecgoal = $ecgoal;
+
+        return $this;
+    }
+
+    public function getCupgame(): ?int
+    {
+        return $this->cupgame;
+    }
+
+    public function setCupgame(?int $cupgame): self
+    {
+        $this->cupgame = $cupgame;
+
+        return $this;
+    }
+
+    public function getCupgoal(): ?int
+    {
+        return $this->cupgoal;
+    }
+
+    public function setCupgoal(?int $cupgoal): self
+    {
+        $this->cupgoal = $cupgoal;
 
         return $this;
     }

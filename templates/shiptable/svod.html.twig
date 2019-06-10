@@ -1,0 +1,46 @@
+{% extends 'shiptable/show.html.twig' %}
+
+{% block title %}
+   Сводная таблица чемпионатов {{ country }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Сводная таблица чемпионатов {{ country }} по футболу">
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+<table class="shipTable">
+    <thead>
+        <tr class="shipTableTitle">
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th class="winsTable">И</th>
+            <th class="winsTable">В</th>
+            <th class="winsTable">Н</th>
+            <th class="winsTable">П</th>
+            <th class="goalsTable">M</th>
+            <th class="winsTable">О</th>
+
+        </tr>
+    </thead>
+    <tbody>
+{% for team in entity %}
+  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+      <td class="player-position">{{ loop.index }}</td>
+      <td class="tableLeft shipTableTeam">
+          {{ team.name }}</td>
+      <td>{{ team.game }}</td>
+      <td>{{ team.wins }}</td>
+      <td>{{ team.nich }}</td>
+      <td>{{ team.porazh }}</td>
+      <td>{{ team.mz }}-{{ team.mp }}</td>
+      <td class="table-score">{{ team.score }}</td>
+
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

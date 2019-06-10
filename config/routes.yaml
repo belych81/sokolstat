@@ -6,6 +6,12 @@ newspaper:
       path:     /newspaper/
       controller: App\Controller\NewsController::newspaper
 
+svod:
+      path:     /svod/{country}/
+      controller: App\Controller\ShiptableController::svod
+      requirements:
+          country: russia|england|spain|italy|germany|france|fnl
+          
 task:
       path:     /task/{id}
       controller: App\Controller\TaskController::index
@@ -70,6 +76,17 @@ championships_edit:
 championships_update:
     path:  /championships/admin/update/{id}/{country}
     controller: App\Controller\ShiptableController:update
+    requirements: { _method: post }
+
+championships_confirm_delete:
+    path:  /championships/admin/confirm/{id}/{country}
+    controller: App\Controller\ShiptableController:confirm
+    requirements:
+        id: \d+
+
+championships_delete:
+    path:  /championships/admin/delete/{id}/{country}
+    controller: App\Controller\ShiptableController:delete
     requirements: { _method: post }
 
 championships_newSeason:

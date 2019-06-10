@@ -70,7 +70,11 @@
                         <td>{{ cup.goal }}</td>
                     </tr>
                 {% endfor %}
-
+                <tr>
+                    <td colspan="2"><b>Всего в кубке России</b></td>
+                    <td><b>{{ rusplayer.0.cupgame }}</b></td>
+                    <td><b>{{ rusplayer.0.cupgoal }}</b></td>
+                </tr>
                 </table>
                 {% endif %}
 
@@ -93,6 +97,11 @@
                         <td>{{ eurocup.goal }}</td>
                     </tr>
                 {% endfor %}
+                <tr>
+                    <td colspan="3"><b>Всего в еврокубках</b></td>
+                    <td><b>{{ rusplayer.0.ecgame }}</b></td>
+                    <td><b>{{ rusplayer.0.ecgoal }}</b></td>
+                </tr>
                 </table>
                 {% endif %}
 

@@ -23,6 +23,7 @@ use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
 use App\Form\TourType;
 use App\Form\TourEditType;
+use App\Form\RfplmatchEditType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -434,8 +435,13 @@ class ShiptableController extends AbstractController
 
     public function edit($id, $country)
     {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $form   = $this->createForm(RfplmatchEditType::class, $entity);
+      } else {
         $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
         $form   = $this->createForm(TourEditType::class, $entity);
+      }
 
         return $this->render('shiptable/edit.html.twig', array(
             'entity' => $entity,
@@ -445,8 +451,13 @@ class ShiptableController extends AbstractController
 
     public function update(Request $request, $id, $country)
     {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $form   = $this->createForm(RfplmatchEditType::class, $entity);
+      } else {
         $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
-        $form = $this->createForm(TourEditType::class, $entity);
+        $form   = $this->createForm(TourEditType::class, $entity);
+      }
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -472,6 +483,54 @@ class ShiptableController extends AbstractController
         return $this->render('shiptable/edit.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+        ));
+    }
+
+    public function confirm($id, $country)
+    {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+      } else {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+      }
+
+        return $this->render('shiptable/delete.html.twig', array(
+            'entity' => $entity
+        ));
+    }
+
+    public function delete($id, $country)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($country == 'russia') {
+          $entity = $em->getRepository(Rfplmatch::class)->find($id);
+        } else {
+          $entity = $em->getRepository(Tour::class)->find($id);
+        }
+        $season = $entity->getSeason()->getName();
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('championships', [
+            'season' => $season, 'country' => $country]));
+    }
+
+    public function svod($country)
+    {
+        $entity = $this->getDoctrine()->getRepository(Team::class)
+          ->getSvod($country);
+        switch ($country) {
+            case 'russia' : $country2 = 'России'; break;
+            case 'england' : $country2 = 'Англии';  break;
+            case 'spain' : $country2 = 'Испании'; break;
+            case 'italy' : $country2 = 'Италии'; break;
+            case 'germany' : $country2 = 'Германии'; break;
+            case 'france' : $country2 = 'Франции'; break;
+            case 'fnl' : $country2 = 'ФНЛ'; break;
+        }
+        return $this->render('shiptable/svod.html.twig', array(
+            'entity' => $entity,
+            'country' => $country2
         ));
     }
 

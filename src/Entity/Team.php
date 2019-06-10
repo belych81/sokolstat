@@ -139,6 +139,41 @@ class Team
      */
     private $image2;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $game;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $wins;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nich;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $porazh;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $mz;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $mp;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $score;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -817,6 +852,90 @@ class Team
     public function setImage2(string $image2): self
     {
         $this->image2 = $image2;
+
+        return $this;
+    }
+
+    public function getGame(): ?int
+    {
+        return $this->game;
+    }
+
+    public function setGame(?int $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    public function getWins(): ?int
+    {
+        return $this->wins;
+    }
+
+    public function setWins(?int $wins): self
+    {
+        $this->wins = $wins;
+
+        return $this;
+    }
+
+    public function getNich(): ?int
+    {
+        return $this->nich;
+    }
+
+    public function setNich(?int $nich): self
+    {
+        $this->nich = $nich;
+
+        return $this;
+    }
+
+    public function getPorazh(): ?int
+    {
+        return $this->porazh;
+    }
+
+    public function setPorazh(?int $porazh): self
+    {
+        $this->porazh = $porazh;
+
+        return $this;
+    }
+
+    public function getMz(): ?int
+    {
+        return $this->mz;
+    }
+
+    public function setMz(?int $mz): self
+    {
+        $this->mz = $mz;
+
+        return $this;
+    }
+
+    public function getMp(): ?int
+    {
+        return $this->mp;
+    }
+
+    public function setMp(?int $mp): self
+    {
+        $this->mp = $mp;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }

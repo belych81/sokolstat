@@ -29,6 +29,18 @@ class TeamRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function getSvod($country)
+    {
+        return $this->createQueryBuilder('t')
+                ->join('t.country', 'c')
+                ->where("c.translit = :country")
+                ->setParameter('country', $country)
+                ->andWhere('t.game > 0')
+                ->orderBy('t.score', 'desc')
+                ->getQuery()
+                ->getResult();
+    }
+
     public function queryTeamsForForm($country, $season) {
 
         return $query = $this->createQueryBuilder('t')
