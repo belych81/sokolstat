@@ -27,13 +27,15 @@
  <td class="sidebarMenu">
      <ul>
         <li><a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('cup', {'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'russia'}) }}">Суперкубок</a></li>
-
-            <li><a href="{{ path('championships', {'country': 'fnl', 'season': season}) }}">ФНЛ</a></li>
-
-            </ul>
+          <ul>
+              <li><a href="{{ path('cup', {'season': season}) }}">Кубок</a></li>
+              <li><a href="{{ path('supercup', {'country': 'russia'}) }}">Суперкубок
+                </a></li>
+              <li><a href="{{ path('championships', {'country': 'fnl',
+                'season': season}) }}">ФНЛ</a></li>
+              <li><a href="{{ path('svod', {'country': app.request.get('country')})
+               }}">Cводная таблица</a></li>
+          </ul>
         <li><a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a></li>
         <ul>
             <li><a href="{{ path('nationcup', {'country': 'england',
@@ -111,7 +113,7 @@
                           <a href="{{ path('championships_edit', {'id': match.id,
                           'country': app.request.get('country')}) }}">
                              изменить</a>
-                           <a href="{{ path('championships_confirm_delete', 
+                           <a href="{{ path('championships_confirm_delete',
                              {'id': match.id, 'country': app.request.get('country')}) }}">
                               удалить</a>
                       </td>

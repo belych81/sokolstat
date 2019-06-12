@@ -17,7 +17,6 @@
 {% endblock %}
 
 {% block content %}
-
   <div class="teams-list">{{ app.request.get('team') }}
     {% for team in teams %}
       {% if team.translit != app.request.get('id') %}

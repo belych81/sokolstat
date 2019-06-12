@@ -900,7 +900,7 @@ footer {
     width: 372px;
 }
 .sidebarMenu {
-    width: 100px;
+    width: 140px;
     vertical-align: top;
     background: #ad3774;
 }
@@ -908,14 +908,17 @@ footer {
     color: #fff;
     font-weight: bold;
 }
+.sidebarMenu li {
+    line-height: 16px;
+}
 .sidebarMenu a:hover {
     text-decoration: none;
 }
-.sidebarMenu ul {
+.sidebarMenu ul{
     list-style-type: none;
     line-height: 30px;
     display: block;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
 }
 .sidebarMenu li:hover {
     background: #de59bf;
