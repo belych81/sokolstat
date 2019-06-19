@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Все клубы по алфавиту
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Список футбольных клубов">
+{% endblock %}
+
+{% block content %}
+
+<h1>Список футбольных клубов</h1>
+
+<ul>
+{% for team in entities %}
+  <li>{{ team.name }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

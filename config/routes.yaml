@@ -11,7 +11,11 @@ svod:
       controller: App\Controller\ShiptableController::svod
       requirements:
           country: russia|england|spain|italy|germany|france|fnl
-          
+
+team:
+      path:     /team/
+      controller: App\Controller\TeamController::index
+
 task:
       path:     /task/{id}
       controller: App\Controller\TaskController::index
