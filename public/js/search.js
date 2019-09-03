@@ -56,4 +56,39 @@ $(".changeGameGoalPlayer").click(function(){
       }
 });
 });
+
+$(".letters-list li").click(function(){
+  var letter = $(this).text();
+  $.ajax({
+      type: 'post',
+      url: Routing.generate('team_get_by_letter', {'letter':letter}),
+      dataType: 'json',
+      success: function(data){
+          var newHtml = "";
+          console.log(data.teams);
+          for(var i=0, cnt=data.teams.length; i < cnt; i++){
+            var detailUrl = Routing.generate('team_show', {
+              'code': data.teams[i][1]});
+
+            newHtml += "<li><a href='"+ detailUrl +"' class='spiski'>"
+              + data.teams[i][0] + "</a></li>";
+          }
+          $(".clubs-list").html(newHtml);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      }
+    });
+});
+
+$(".tab input:first").prop('checked', true);
+
+$(".tab input").change(function(){
+  var className = $(this).attr('class');
+  console.log(className);
+  $(".tab-content").hide();
+  $(".tab-content."+className).show();
+});
+
 });

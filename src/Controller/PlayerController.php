@@ -26,6 +26,7 @@ use App\Form\ShipplayerType;
 use App\Form\ShipplayerEditType;
 use App\Form\SbplayerType;
 use App\Form\ShipplayerUpdateType;
+use App\Form\FnlplayerUpdateType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -488,10 +489,21 @@ class PlayerController extends AbstractController
 
     public function editPlayerTurnirs($season, $team, $country)
     {
+      if($country == 'fnl')
+      {
+        $entity = new Fnlplayer();
+
+        $editForm = $this->createForm(FnlplayerUpdateType::class, $entity,
+                ['season' => $season, 'team' => $team]);
+      }
+      else
+      {
         $entity = new Shipplayer();
 
         $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
                 ['season' => $season, 'team' => $team]);
+      }
+
 
         return $this->render('rusplayer/editPlayerTurnirs.html.twig', array(
             'entity'      => $entity,
@@ -501,12 +513,22 @@ class PlayerController extends AbstractController
 
     public function updatePlayerTurnirs(Request $request, $season, $team, $country)
     {
+      $teamOb = $this->getDoctrine()->getRepository(Team::class)
+        ->findOneByTranslit($team);
+      $seasonOb = $this->getDoctrine()->getRepository(Seasons::class)
+        ->findOneByName($season);
+      if($country == 'fnl')
+      {
+        $entity = new Fnlplayer();
+        $editForm = $this->createForm(FnlplayerUpdateType::class, $entity,
+                ['season' => $season, 'team' => $team]);
+      }
+      else
+      {
         $entity = new Shipplayer();
-        $teamOb = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $seasonOb = $this->getDoctrine()->getRepository(Seasons::class)
-          ->findOneByName($season);
         $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
                 ['season' => $season, 'team' => $team]);
+      }
         $editForm->handleRequest($request);
         $player = $editForm['player']->getData();
 

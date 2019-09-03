@@ -58,7 +58,7 @@ class Tour
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $bomb;
+    private $bomb = "-";
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

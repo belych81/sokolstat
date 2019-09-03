@@ -132,47 +132,47 @@ class Team
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private $image = "-";
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image2;
+    private $image2 = "-";
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $game;
+    private $game = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $wins;
+    private $wins = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nich;
+    private $nich = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $porazh;
+    private $porazh = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $mz;
+    private $mz = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $mp;
+    private $mp = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $score;
+    private $score = 0;
 
     public function __construct()
     {

@@ -115,4 +115,15 @@ class CupRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getCupByTeam($teamId)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.season', 's')
+            ->where('c.team = :team OR c.team2 = :team')
+            ->setParameter('team', $teamId)
+            ->orderBy('s.name', 'asc', 'c.data', 'asc')
+            ->getQuery()
+            ->getResult();
+    }
 }

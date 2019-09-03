@@ -15,7 +15,9 @@ use App\Entity\Seasons;
 use App\Form\EurocupNewType;
 use App\Form\EurocupType;
 use App\Form\Eurocup2Type;
+use App\Form\EctableType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EurocupController extends AbstractController
@@ -127,6 +129,54 @@ class EurocupController extends AbstractController
             'entity' => $entity,
             'team' => $team
             ]);
+    }
+
+    public function newSeason($turnir, $season)
+    {
+        $entity = new Ectable();
+
+        $form   = $this->createForm(EctableType::class, $entity, [
+            'turnir' => $turnir,
+            'season' => $season
+            ]);
+
+        return $this->render('eurocup/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createSeason(SessionInterface $session, Request $request,
+      $turnir, $season)
+    {
+        $ent = EctableType::class;
+        $entity  = new Ectable();
+        $obSeason = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
+        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)
+            ->findOneByAlias($turnir);
+        $entity->setSeason($obSeason);
+        $entity->setTurnir($obTurnir);
+
+        $form = $this->createForm($ent, $entity, [
+          'turnir' => $turnir,
+          'season' => $season
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $session->set('stadia', $entity->getStadia()->getName());
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('eurocup/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 
     public function newMatch($season)

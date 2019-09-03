@@ -46,4 +46,20 @@ final class ShipplayerAdmin extends AbstractAdmin
             ->add('player')
         ;
     }
+
+  protected function configureListFields(ListMapper $listMapper)
+   {
+       $listMapper
+           ->addIdentifier('id')
+           ->add('player.name')
+           ->add('season.name')
+           ->add('team.name')
+           ->add('game')
+           ->add('goal')
+           ->add('cup')
+           ->add('supercup')
+           ->add('eurocup')
+           ->add('sum')
+       ;
+   }
 }

@@ -11,6 +11,7 @@
 
 {% block content %}
 <div class="container">
+{% block container %}
     <h1>Чемпионаты России. Футболисты</h1>
     <div>
         <span>Параметры:</span>
@@ -136,6 +137,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% endblock %}
 </div>
     <script>
     $(function(){

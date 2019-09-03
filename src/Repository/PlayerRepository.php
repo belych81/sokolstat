@@ -222,6 +222,19 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
+    public function queryUpdateFnlPlayers($season, $team)
+    {
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.fnlplayers', 'f')
+                ->join('f.season', 's')
+                ->join('f.team', 't')
+                ->where("s.name = :season")
+                ->andWhere("t.translit = :team")
+                ->setParameter('season', $season)
+                ->setParameter('team', $team)
+                ->orderBy('p.name');
+    }
+
     public function updatePlayerTurnirs($player_id, $game, $goal, $cup, $eurocup,
       $supercup)
     {

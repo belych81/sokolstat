@@ -41,6 +41,7 @@
                         {{ form_widget(edit_form.goal) }}
                     </td>
                 </tr>
+                {% if app.request.get('country') != 'fnl' %}
                 <tr>
                     <th>{{ form_label(edit_form.cup) }}</th>
                     <td>
@@ -62,6 +63,7 @@
                         {{ form_widget(edit_form.eurocup) }}
                     </td>
                 </tr>
+                {% endif %}
             </tbody>
        </table>
         <p>

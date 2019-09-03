@@ -1,0 +1,79 @@
+{% extends 'team/index.html.twig' %}
+
+{% block title %}
+   {{ team.name }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Статистика клуба {{ team.name }}">
+{% endblock %}
+
+{% block container %}
+<div class="team-show-image">
+  <div>
+    <h1>{{ team.name }}</h1>
+    {% if team.image %}
+      <img src="{{ asset('images/clubs/') }}{{ team.image }}"
+        alt="{{ team.name }}" title="{{ team.name }}" />
+    {% endif %}
+    </div>
+</div>
+<div class="team-country">Страна: {{ team.country.name }}</div>
+<div class="tabs">
+   <div class="tab">
+    <input type="radio" id="tab1" name="tab-group" class="tab-content1" checked>
+    <label for="tab1" class="tab-title">Чемпионат</label>
+
+   </div>
+   <div class="tab">
+    <input type="radio" id="tab2" name="tab-group" class="tab-content2">
+    <label for="tab2" class="tab-title">Кубок</label>
+   </div>
+   <div class="tab">
+    <input type="radio" id="tab3" name="tab-group" class="tab-content3">
+    <label for="tab3" class="tab-title">Еврокубки</label>
+   </div>
+   <section class="tab-content tab-content1">
+   <table class="shipTable showTeam">
+       <thead>
+           <tr class="shipTableTitle">
+               <th>&nbsp;</th>
+               <th class="winsTable">И</th>
+               <th class="winsTable">В</th>
+               <th class="winsTable">Н</th>
+               <th class="winsTable">П</th>
+               <th class="goalsTable">M</th>
+               <th class="winsTable">О</th>
+
+           </tr>
+       </thead>
+       <tbody>
+         {% for champ in champTable %}
+             <tr class="odd">
+                 <td class="player-position">{{ champ.season.name }}</td>
+                 <td>{{ champ.wins+champ.nich+champ.porazh }}</td>
+                 <td>{{ champ.wins }}</td>
+                 <td>{{ champ.nich }}</td>
+                 <td>{{ champ.porazh }}</td>
+                 <td>{{ champ.mz }}-{{ champ.mp }}</td>
+                 <td class="table-score">{{ champ.score }}</td>
+             </tr>
+         {% endfor %}
+       </tbody>
+   </table>
+   </section>
+   <section class="tab-content tab-content2">
+   <table>
+{% for key, cup in cups %}
+<tr>
+<td>{{ cup.season.name }}</td>
+<td>{{ cup.data | date('d.m')}}</td>
+<td>{{ cup.stadia }}</td>
+<td>{{ cup.team }} - {{ cup.team2 }} - {{ cup.score }} ({{ cup.bomb }})</td>
+</tr>
+{% endfor %}
+</table>
+   </section>
+   <section class="tab-content tab-content3">Три</section>
+  </div>
+{% endblock %}

@@ -49,6 +49,21 @@ class TeamRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function queryTeams()
+    {
+        return $this->createQueryBuilder('t')
+                ->orderBy('t.name', 'asc');
+    }
+
+    public function getTeamsByLetter($letter)
+    {
+        return $this->createQueryBuilder('t')
+                ->where("t.name LIKE '$letter%'")
+                ->orderBy('t.name', 'asc')
+                ->getQuery()
+                ->getResult();
+    }
+
     public function queryTeamsForForm($country, $season) {
 
         return $query = $this->createQueryBuilder('t')

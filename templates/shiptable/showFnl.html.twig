@@ -167,6 +167,9 @@
         {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newFnl', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить игрока</a> |
+        <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
+        'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
+            Обновить игрока</a>|
         <a href="{{ path('player_newRusplayer', {'country': 'fnl', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить нового игрока</a> |
         <a href="{{ path('player_newPlayer', {'country': 'fnl',

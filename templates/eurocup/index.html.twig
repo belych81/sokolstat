@@ -113,6 +113,11 @@
     {% endfor %}
     </table>
     <br/>
+    {% if is_granted("ROLE_ADMIN") %}
+      <p><a href="{{ path('eurocup_newSeason', {'turnir': app.request.get('turnir'),
+      'season': app.request.get('season')
+      }) }}">Добавить сезон</a></p>
+    {% endif %}
     {% if ectables %}
         <table class="shipTable">
             <thead>

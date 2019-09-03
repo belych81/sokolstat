@@ -16,6 +16,12 @@ team:
       path:     /team/
       controller: App\Controller\TeamController::index
 
+team_show:
+      path:     /team/{code}/
+      controller: App\Controller\TeamController::show
+      options:
+        expose: true
+
 task:
       path:     /task/{id}
       controller: App\Controller\TaskController::index
@@ -233,6 +239,17 @@ eurocup_create:
     controller: App\Controller\EurocupController:create
     defaults:
       stadia: null
+    requirements: { _method: post }
+
+eurocup_newSeason:
+    path:  /eurocup/admin/season/{turnir}/{season}/
+    controller: App\Controller\EurocupController:newSeason
+    requirements:
+        turnir: leagueChampions|leagueEuropa
+
+eurocup_createSeason:
+    path:  /eurocup/admin/season/create/{turnir}/{season}/
+    controller: App\Controller\EurocupController:createSeason
     requirements: { _method: post }
 
 supercup:
@@ -491,6 +508,12 @@ shipplayer_update:
     path:  /shipplayer/admin/update/{id}/{country}/{season}/{team}/
     controller: App\Controller\PlayerController:updateShipplayer
     requirements: { _method: post }
+
+team_get_by_letter:
+    path:  /team/admin/{letter}/
+    controller: App\Controller\TeamController:getByLetter
+    options:
+        expose: true
 
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

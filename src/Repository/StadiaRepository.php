@@ -64,6 +64,13 @@ class StadiaRepository extends ServiceEntityRepository
               ->setParameter('turnir', $turnir)
               ->getQuery()
               ->getResult()
-              ;              
+              ;
+    }
+
+    public function queryGroupStadia()
+    {
+        return $this->createQueryBuilder('s')
+          ->where("s.alias LIKE '%group%'")
+          ->orderBy('s.name', 'asc');
     }
 }
