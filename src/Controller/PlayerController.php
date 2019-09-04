@@ -538,15 +538,24 @@ class PlayerController extends AbstractController
             $player = $editForm["player"]->getData()->getId();
             $game= $editForm['game']->getData();
             $goal= $editForm['goal']->getData();
-            $cup= $editForm['cup']->getData();
-            $eurocup= $editForm['eurocup']->getData();
-            $supercup= $editForm['supercup']->getData();
-            $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
-              $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
-              $teamOb->getId());
-            $em->getRepository(Player::class)
+            if($country != 'fnl')
+            {
+              $cup= $editForm['cup']->getData();
+              $eurocup= $editForm['eurocup']->getData();
+              $supercup= $editForm['supercup']->getData();
+              $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
+                $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
+                $teamOb->getId());
+              $em->getRepository(Player::class)
                ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
-
+            }
+            else
+            {
+              $em->getRepository(Fnlplayer::class)->updateFullFnlplayer($player,
+                $game, $goal, $seasonOb->getId(), $teamOb->getId());
+              $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player,
+                $game, $goal);
+            }
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => $country,
