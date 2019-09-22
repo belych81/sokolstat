@@ -1005,9 +1005,6 @@ display: inline-block; /* Выстраиваем по горизонтали */
   /*top: 1px;*/ /* Сдвигаем вниз */
   color: #fff;
 }
-.tab-content.tab-content1 {
-  display: block; /* Показываем активную вкладку */
-}
 .team-country{
   margin: 10px;
   font-size: 13px;

@@ -310,15 +310,17 @@ class EurocupController extends AbstractController
             $score=$entity->getScore();
             $season=$entity->getSeason()->getName();
             $stadia=$entity->getStadia()->getAlias();
-            if(strpos('group', $stadia) !== false)
+            if(strpos($stadia, 'group') !== false)
             {
+
               $em->getRepository(Ectable::class)->updateEctable($team, $team2, $score, $seas);
             }
             return $this->redirect($this->generateUrl('eurocup', ['turnir' => $turnir, 'season' => $season,
                 'stadia' => $stadia]));
+
         }
 
-        return $this->render('eurocup/edit.html.twig', array(
+        return $this->render('eurocup/newEurocup.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView()
         ));

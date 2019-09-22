@@ -66,6 +66,8 @@ class Eurocup
      */
     private $turnir;
 
+    private $route = 'eurocup';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +81,18 @@ class Eurocup
     public function setSeason(?Seasons $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
 
         return $this;
     }

@@ -361,11 +361,11 @@ player_createPlayer:
     requirements: { _method: post }
 
 player_newChampNation:
-    path:  /playeradmin/admin/champnation/{season}/{country}/{team}
+    path:  /playeradmin/admin/champnation/{season}/{country}/{team}/{flag}/
     controller: App\Controller\PlayerController:newChampNation
 
 player_createChampNation:
-    path:  /playeradmin/admin/createChampnation/{season}/{country}/{team}
+    path:  /playeradmin/admin/createChampnation/{season}/{country}/{team}/{flag}/
     controller: App\Controller\PlayerController:createChampNation
     requirements: { _method: post }
 

@@ -21,7 +21,7 @@ class Seasons
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name = '2018-19';
+    private $name = '2019-20';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="season")
@@ -124,6 +124,10 @@ class Seasons
      * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="season")
      */
     private $sostavs;
+
+    private $season_matches;
+
+    private $season_cup_matches;
 
     public function __construct()
     {
@@ -801,5 +805,29 @@ class Seasons
     public function __toString()
     {
       return $this->name;
+    }
+
+    public function getSeasonMatches()
+    {
+        return $this->season_matches;
+    }
+
+    public function setSeasonMatches($season_matches): self
+    {
+        $this->season_matches = $season_matches;
+
+        return $this;
+    }
+
+    public function getSeasonCupMatches()
+    {
+        return $this->season_cup_matches;
+    }
+
+    public function setSeasonCupMatches($season_cup_matches): self
+    {
+        $this->season_cup_matches = $season_cup_matches;
+
+        return $this;
     }
 }

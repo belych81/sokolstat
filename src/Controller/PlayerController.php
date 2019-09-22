@@ -23,6 +23,7 @@ use App\Form\PlayerType;
 use App\Form\PlayerEditType;
 use App\Form\LchplayerType;
 use App\Form\ShipplayerType;
+use App\Form\ShipplayerTeamType;
 use App\Form\ShipplayerEditType;
 use App\Form\SbplayerType;
 use App\Form\ShipplayerUpdateType;
@@ -431,12 +432,12 @@ class PlayerController extends AbstractController
                     ]));
     }
 
-    public function newChampNation($season, $team)
+    public function newChampNation($season, $team, $flag)
     {
         $entity = new Shipplayer();
-
-        $form   = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
-            'team' => $team]);
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $form = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
 
         return $this->render('shiptable/newChampNation.html.twig', array(
             'entity' => $entity,
@@ -444,7 +445,7 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function createChampNation(Request $request, $team, $season, $country)
+    public function createChampNation(Request $request, $team, $season, $country, $flag)
     {
         $entity  = new Shipplayer();
 
@@ -453,7 +454,7 @@ class PlayerController extends AbstractController
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
-            'team' => $team]);
+            'team' => $team, 'flag' => $flag]);
 
         $form->handleRequest($request);
 
@@ -792,7 +793,7 @@ class PlayerController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer()->getId();

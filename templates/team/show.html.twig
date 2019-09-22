@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block container %}
+<div><a href="{{ path('team') }}">Клубы</a></div>
 <div class="team-show-image">
   <div>
     <h1>{{ team.name }}</h1>
@@ -20,19 +21,25 @@
 </div>
 <div class="team-country">Страна: {{ team.country.name }}</div>
 <div class="tabs">
-   <div class="tab">
-    <input type="radio" id="tab1" name="tab-group" class="tab-content1" checked>
-    <label for="tab1" class="tab-title">Чемпионат</label>
+    {% if champTable | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab1" name="tab-group" class="tab-content1" checked>
+      <label for="tab1" class="tab-title">Чемпионат</label>
+     </div>
+   {% endif %}
+   {% if cups | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab2" name="tab-group" class="tab-content2">
+      <label for="tab2" class="tab-title">Кубок</label>
+     </div>
+   {% endif %}
+   {% if eurocups | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab3" name="tab-group" class="tab-content3">
+      <label for="tab3" class="tab-title">Еврокубки</label>
+     </div>
+   {% endif %}
 
-   </div>
-   <div class="tab">
-    <input type="radio" id="tab2" name="tab-group" class="tab-content2">
-    <label for="tab2" class="tab-title">Кубок</label>
-   </div>
-   <div class="tab">
-    <input type="radio" id="tab3" name="tab-group" class="tab-content3">
-    <label for="tab3" class="tab-title">Еврокубки</label>
-   </div>
    <section class="tab-content tab-content1">
    <table class="shipTable showTeam">
        <thead>
@@ -63,17 +70,65 @@
    </table>
    </section>
    <section class="tab-content tab-content2">
-   <table>
-{% for key, cup in cups %}
-<tr>
-<td>{{ cup.season.name }}</td>
-<td>{{ cup.data | date('d.m')}}</td>
-<td>{{ cup.stadia }}</td>
-<td>{{ cup.team }} - {{ cup.team2 }} - {{ cup.score }} ({{ cup.bomb }})</td>
-</tr>
-{% endfor %}
-</table>
+         <table class="shipTable">
+         {% for season in cupSeasons %}
+            <tr class="shipTableTitle">
+                  <td colspan="5" class="tableGoal">{{ season.name }}</td>
+            </tr>
+           {% for key, cup in season.seasoncupmatches %}
+             <tr class="odd">
+               <!--td>{{ cup.data | date('d.m')}}</td-->
+               <td>{{ cup.stadia }}</td>
+               <td class="scMatch">
+                 {% if cup.team == team.name %}
+                   <strong>{{ cup.team }}</strong>
+                 {% else %}
+                   {{ cup.team }}
+                 {% endif %}
+                  -
+                 {% if cup.team2 == team.name %}
+                    <strong>{{ cup.team2 }}</strong>
+                 {% else %}
+                    {{ cup.team2 }}
+                 {% endif %}
+               </td>
+               <td class="scScore">{{ cup.score }}</td>
+               <td class="scBomb">{{ cup.bomb }}</td>
+             </tr>
+           {% endfor %}
+           {% endfor %}
+      </table>
    </section>
-   <section class="tab-content tab-content3">Три</section>
+   <section class="tab-content tab-content3">
+     <table class="shipTable">
+      {% for season in euroSeasons %}
+         <tr class="shipTableTitle">
+               <td colspan="5" class="tableGoal">{{ season.name }}</td>
+         </tr>
+        {% for key, eurocup in season.seasonmatches %}
+          <tr class="odd">
+            <td>{{ eurocup.turnir.name }}</td>
+            <!--td>{{ eurocup.data | date('d.m')}}</td-->
+            <td>{{ eurocup.stadia }}</td>
+            <td class="scMatch">
+              {% if eurocup.team == team.name %}
+                <strong>{{ eurocup.team }}</strong>
+              {% else %}
+                {{ eurocup.team }}
+              {% endif %}
+               -
+              {% if eurocup.team2 == team.name %}
+                 <strong>{{ eurocup.team2 }}</strong>
+              {% else %}
+                 {{ eurocup.team2 }}
+              {% endif %}
+            </td>
+            <td class="scScore">{{ eurocup.score }}</td>
+            <td class="scBomb">{{ eurocup.bomb }}</td>
+          </tr>
+        {% endfor %}
+        {% endfor %}
+      </table>
+   </section>
   </div>
 {% endblock %}

@@ -19,16 +19,6 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
-    public function findByTranslit($name)
-    {
-        return $this->createQueryBuilder('t')
-                ->select('t.id, t.name, t.translit, t.image')
-                ->where("t.translit = :name")
-                ->setParameter('name', $name)
-                ->getQuery()
-                ->getResult();
-    }
-
     public function getSvod($country)
     {
         return $this->createQueryBuilder('t')
@@ -106,5 +96,20 @@ class TeamRepository extends ServiceEntityRepository
                     'stadia' => $stadia
                         ])
                 ->orderBy('t.name');
+    }
+
+    public function searchTeams($arQuery)
+    {
+        $q = $this->createQueryBuilder('t')
+            ->orWhere("t.name LIKE '%$arQuery[0]%'")
+            ->setMaxResults(20);
+
+        foreach($arQuery as $key => $val){
+            if($key == 0) continue;
+            $q->andWhere("t.name LIKE '%$val%'");
+        }
+        $qb = $q->getQuery();
+
+        return $qb->getResult();
     }
 }

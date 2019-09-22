@@ -6,6 +6,8 @@ use App\Entity\Tour;
 use App\Entity\Team;
 use App\Entity\Shiptable;
 use App\Entity\Cup;
+use App\Entity\Eurocup;
+use App\Entity\Seasons;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,19 +36,44 @@ class TeamController extends AbstractController
 
     public function show($code)
     {
-      $team = $this->getDoctrine()->getRepository(Team::class)
-        ->findOneByTranslit($code);
-      $country = $team->getCountry()->getName();
-      $champTable =  $this->getDoctrine()->getRepository(Shiptable::class)
-          ->getShiptablesByTeam($team->getId());
-      if($country == 'Россия'){
-        $cup = $this->getDoctrine()->getRepository(Cup::class)
-            ->getCupByTeam($team->getId());
-      }
+        $team = $this->getDoctrine()->getRepository(Team::class)
+          ->findOneByTranslit($code);
+        $country = $team->getCountry()->getName();
+        $champTable =  $this->getDoctrine()->getRepository(Shiptable::class)
+            ->getShiptablesByTeam($team->getId());
+        $cup = [];
+        $eurocup = [];
+        if($country == 'Россия'){
+          $cup = $this->getDoctrine()->getRepository(Cup::class)
+              ->getCupByTeam($team->getId());
+        }
+        $eurocup = $this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEurocupByTeam($team->getId());
+
+        $euroSeasons = $this->getDoctrine()->getRepository(Seasons::class)
+          ->getSeasonsEurocupByTeam($team->getId());
+        foreach ($euroSeasons as &$season)
+        {
+          $season->setSeasonMatches($this->getDoctrine()
+            ->getRepository(Eurocup::class)
+            ->findAllBySeasonAndTeam($season->getName(), $team->getId()));
+        }
+        $cupSeasons = $this->getDoctrine()->getRepository(Seasons::class)
+          ->getSeasonsCupByTeam($team->getId());
+        foreach ($cupSeasons as &$cupSeason)
+        {
+          $cupSeason->setSeasonCupMatches($this->getDoctrine()
+            ->getRepository(Cup::class)
+            ->findByTeamAndSeason($team->getId(), $cupSeason->getName()));
+        }
+
         return $this->render('team/show.html.twig', [
             'team' => $team,
             'champTable' => $champTable,
-            'cups' => $cup
+            'cups' => $cup,
+            'eurocups' => $eurocup,
+            'euroSeasons' => $euroSeasons,
+            'cupSeasons' => $cupSeasons
         ]);
     }
 

@@ -144,4 +144,32 @@ class EurocupRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public function getEurocupByTeam($teamId)
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.season', 's')
+            ->where('e.team = :team OR e.team2 = :team')
+            ->setParameter('team', $teamId)
+            ->orderBy('s.name', 'asc', 'e.data', 'asc')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllBySeasonAndTeam($season, $team)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 't', 't2', 's')
+                ->join('e.season', 's')
+                ->join('e.team', 't')
+                ->join('e.team2', 't2')
+                ->where('s.name = :season')
+                ->andWhere('e.team = :team OR e.team2 = :team')
+                ->setParameters([
+                    'season' => $season,
+                    'team' => $team
+                    ])
+                ->getQuery()
+                ->getResult();
+    }
 }

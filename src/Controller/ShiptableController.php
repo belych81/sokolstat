@@ -136,9 +136,9 @@ class ShiptableController extends AbstractController
     public function show(SessionInterface $session, $id, $season, $country)
     {
         $club = $this->getDoctrine()->getRepository(Team::class)
-          ->findByTranslit($id);
+          ->findOneByTranslit($id);
         $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
-                ->findByTeamAndSeason($club[0]['id'], $season);
+                ->findByTeamAndSeason($club->getId(), $season);
         if(empty($isTeam)){
           return $this->redirect($this->generateUrl('championships', [
               'season' => $season, 'country' => $country]));

@@ -16,7 +16,7 @@
 {% block content %}
 
     <form action="{{ path('player_createChampNation', {'team': app.request.get('team'), 'country': app.request.get('country'),
-    'season': app.request.get('season')}) }}" method="post">
+    'season': app.request.get('season'), 'flag': app.request.get('flag')}) }}" method="post">
        <table>
             <tbody>
                 <tr>

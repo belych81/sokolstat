@@ -6,6 +6,7 @@ use App\Entity\Tour;
 use App\Entity\Player;
 use App\Entity\Rusplayer;
 use App\Entity\Cup;
+use App\Entity\Team;
 use App\Entity\Rfplmatch;
 use App\Entity\Eurocup;
 use App\Entity\NationSupercup;
@@ -80,7 +81,6 @@ class NewsController extends AbstractController
         $yestmatch = array_merge($yesterdayMatches, $yesterdayEcMatches,
           $yesterdayMatches5, $yesterdayRscMatches, $yescup,
           $yessupercup, $yesNcup, $yesUsupercup);
-
         $mySort = function($f1,$f2)
                 {
                    if($f1->getData() < $f2->getData()){
@@ -170,12 +170,17 @@ class NewsController extends AbstractController
         $arQuery = explode(" ", $query);
         $em = $this->getDoctrine()->getManager();
 
-        $response = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
         $player = [];
-        foreach($response as $val){
+        foreach($responsePlayer as $val){
             $player[$val->getTranslit()] = $val->getName();
         }
-        return new JsonResponse($player);
+        $team = [];
+        foreach($responseTeam as $val){
+            $team[$val->getTranslit()] = $val->getName();
+        }
+        return new JsonResponse(array_merge($player, $team));
     }
 
 }

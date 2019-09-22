@@ -59,7 +59,8 @@ class EctableRepository extends ServiceEntityRepository
     {
         $goal1 = substr($score, 0, strpos($score, '-'));
         $goal2 = substr($score, strpos($score, '-')+1);
-
+var_dump($goal1);
+var_dump($goal2);
         if ($goal1 == $goal2) {
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Ectable', 'st')
