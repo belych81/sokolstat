@@ -214,18 +214,11 @@ class PlayerRepository extends ServiceEntityRepository
         return $query = $this->createQueryBuilder('p')
                 ->leftJoin('p.shipplayers', 's')
                 ->join('s.team', 'st')
-                ->join('st.country', 'c')
-                ->join('s.season', 'ss')
-                ->leftJoin('p.lchplayers', 'l')
-                ->join('l.team', 'lt')
-                ->join('l.season', 'ls')
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->andWhere('st.translit = :team')
-                ->andWhere('ss.name != :season')
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
                 ->setParameter('team', $team)
-                ->setParameter('season', $season)
                 ->orderBy('p.name');
     }
 
@@ -240,17 +233,11 @@ class PlayerRepository extends ServiceEntityRepository
                 ->leftJoin('p.shipplayers', 's')
                 ->join('s.team', 'st')
                 ->join('st.country', 'c')
-                ->join('s.season', 'ss')
-                ->leftJoin('p.lchplayers', 'l')
-                ->join('l.team', 'lt')
-                ->join('l.season', 'ls')
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->andWhere('c.name = :country')
-                ->andWhere('st.translit != :team')
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
                 ->setParameter('country', $country)
-                ->setParameter('team', $team)
                 ->orderBy('p.name');
     }
 

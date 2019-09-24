@@ -454,7 +454,7 @@ class PlayerController extends AbstractController
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
-            'team' => $team, 'flag' => $flag]);
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
 
         $form->handleRequest($request);
 
