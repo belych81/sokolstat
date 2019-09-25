@@ -14,7 +14,7 @@ $(function(){
                       $(".search_result, .search_result_items").show();
                       $.each(data, function(translit, name){
                           $(".search_result_items")
-                          .append("<a href='/player/"+translit+"'>"+name+"</a>");
+                          .append("<a href='/"+translit+"'>"+name+"</a>");
 
                       });
                       $("body").not(".search-top").click(function(){

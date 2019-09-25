@@ -38,9 +38,9 @@ class CupController extends AbstractController
   public function show($id, $season)
   {
       $club = $this->getDoctrine()->getRepository(Team::class)
-        ->findByTranslit($id);
+        ->findOneByTranslit($id);
       $isTeam = $this->getDoctrine()->getRepository(Cup::class)
-              ->findByTeamAndSeason($club[0]['id'], $season);
+              ->findByTeamAndSeason($club->getId(), $season);
       if(empty($isTeam)){
         return $this->redirect($this->generateUrl('cup', [
             'season' => $season]));

@@ -174,11 +174,11 @@ class NewsController extends AbstractController
         $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
         $player = [];
         foreach($responsePlayer as $val){
-            $player[$val->getTranslit()] = $val->getName();
+            $player['player/'.$val->getTranslit()] = $val->getName();
         }
         $team = [];
         foreach($responseTeam as $val){
-            $team[$val->getTranslit()] = $val->getName();
+            $team['team/'.$val->getTranslit()] = $val->getName();
         }
         return new JsonResponse(array_merge($player, $team));
     }
