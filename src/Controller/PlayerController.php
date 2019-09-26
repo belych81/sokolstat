@@ -226,7 +226,7 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function newPlayersteam($team, $season)
+    public function newPlayersteam($team, $season, $turnir)
     {
         $entity = new Playersteam();
 
@@ -239,7 +239,7 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function createPlayersteam(Request $request, $team, $season)
+    public function createPlayersteam(Request $request, $team, $season, $turnir)
     {
         $entity = new Playersteam();
         $entity->setGame(0);
@@ -258,11 +258,18 @@ class PlayerController extends AbstractController
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('championships_show', [
+            if($turnir == 'champ'){
+              return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => 'russia',
                 'season' => $season
                     ]));
+            } else {
+              return $this->redirect($this->generateUrl('cup_show', [
+                'id' => $team,
+                'season' => $season
+                    ]));
+            }
         }
 
         return $this->render('rusplayer/newPlayersteam.html.twig', array(

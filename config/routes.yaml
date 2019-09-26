@@ -41,6 +41,15 @@ task_close:
     path:     /task/close/{id}
     controller: App\Controller\TaskController::close
 
+task_edit:
+    path: /task/edit/{id}
+    controller: App\Controller\TaskController:edit
+
+task_update:
+    path: /task/update/{id}
+    controller: App\Controller\TaskController:update
+    requirements: { _method: post }
+    
 soglasie:
     path:     /soglasie/
     controller: App\Controller\NewsController::soglasie
@@ -388,11 +397,11 @@ player_createRusplayer:
     requirements: { _method: post }
 
 player_newPlayersteam:
-    path:  /playeradmin/admin/playersteam/{season}/{team}
+    path:  /playeradmin/admin/playersteam/{season}/{team}/{turnir}/
     controller: App\Controller\PlayerController:newPlayersteam
 
 player_createPlayersteam:
-    path:  /playeradmin/admin/createPlayersteam/{season}/{team}
+    path:  /playeradmin/admin/createPlayersteam/{season}/{team}/{turnir}/
     controller: App\Controller\PlayerController:createPlayersteam
     requirements: { _method: post }
 

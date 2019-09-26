@@ -19,6 +19,7 @@
           <th class="task-list-date">Дата создания</th>
           <th>Название</th>
           <th>Описание</th>
+          <th class="task-list-date">Обновить задачу</th>
           <th class="task-list-date">Закрыть задачу</th>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
               <td>{{ task.data | date('d.m.Y H:i:s') }}</td>
               <td>{{ task.title }}</td>
               <td>{{ task.description }}</td>
+              <td><a href="{{ path('task_edit', {'id': task.id}) }}">Изменить</a></td>
               <td><a href="{{ path('task_close', {'id': task.id}) }}">Закрыть</a></td>
             </tr>
           {% endfor %}

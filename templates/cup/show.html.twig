@@ -116,7 +116,8 @@
 	{% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newCup', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить игрока</a> |
-        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'),
+        'team': app.request.get('id'), 'turnir':'cup'}) }}">
             Добавить игрока в команду</a> |
         <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить нового игрока</a> |

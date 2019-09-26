@@ -35,10 +35,10 @@
   </div>
   <div class="team-show-image">
     <div>
-      <h1>{{ club.0.name }}</h1>
-      {% if club.0.image %}
-      <img src="{{ asset('images/clubs/') }}{{ club.0.image }}"
-        alt="{{ club.0.name }}" title="{{ club.0.name }}" />
+      <h1>{{ club.name }}</h1>
+      {% if club.image %}
+      <img src="{{ asset('images/clubs/') }}{{ club.image }}"
+        alt="{{ club.name }}" title="{{ club.name }}" />
       {% endif %}
       <table class="shipTable showTeam">
           <thead>
@@ -55,7 +55,7 @@
           </thead>
           <tbody>
             {% for entity in shiptable %}
-              {% if entity.team.name == club.0.name %}
+              {% if entity.team.name == club.name %}
                 <tr class="odd">
                     <td class="player-position">{{ loop.index }}</td>
                     <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
@@ -255,11 +255,15 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('player_newChamp', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+        <a href="{{ path('player_newChamp', {'season': app.request.get('season'),
+          'team': app.request.get('id')}) }}">
             Добавить игрока</a> |
-        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+        <a href="{{ path('player_newPlayersteam', {
+        'season': app.request.get('season'), 'team': app.request.get('id'),
+        'turnir' : 'champ'}) }}">
             Добавить игрока в команду</a> |
-        <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+        <a href="{{ path('player_newRusplayer', {'country': 'russia',
+          'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить нового игрока</a> |
         <a href="{{ path('player_newPlayer', {'country': 'russia',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
