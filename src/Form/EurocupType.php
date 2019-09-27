@@ -17,7 +17,6 @@ class EurocupType extends AbstractType
 
         $turnir = $options['turnir'];
         $season = $options['season'];
-        $stadia = $options['stadia'];
 
         if (!in_array('data', $_SESSION)) {
             $date = new \DateTime();
@@ -26,16 +25,17 @@ class EurocupType extends AbstractType
         }
         $builder
             ->add('data', null, ['data' => $_SESSION['data']])
+            ->add('stadia')
             ->add('team', EntityType::class, [
             'class' => Team::class,
-            'query_builder' => function (TeamRepository $repository) use ($turnir, $season, $stadia) {
-              return $repository->queryTeamsForEc($turnir, $season, $stadia);
+            'query_builder' => function (TeamRepository $repository) use ($turnir, $season) {
+              return $repository->queryTeamsForEc($turnir, $season);
             }
             ])
             ->add('team2', EntityType::class, [
             'class' => Team::class,
-            'query_builder' => function (TeamRepository $repository) use ($turnir, $season, $stadia) {
-              return $repository->queryTeamsForEc($turnir, $season, $stadia);
+            'query_builder' => function (TeamRepository $repository) use ($turnir, $season) {
+              return $repository->queryTeamsForEc($turnir, $season);
             }
             ])
             ->add('score')

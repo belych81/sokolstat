@@ -226,14 +226,10 @@ class EurocupController extends AbstractController
     {
         $entity = new Eurocup();
         $em = $this->getDoctrine();
-        $laststadia2 = $em->getRepository(Eurocup::class)->getLastStadia($turnir, $season);
-        if (!$stadia) {
-            $stadia = $laststadia2[0]['alias'];
-        }
+
         $form   = $this->createForm(EurocupType::class, $entity, [
             'season' => $season,
-            'turnir' => $turnir,
-            'stadia' => $stadia
+            'turnir' => $turnir
             ]);
 
         return $this->render('eurocup/new.html.twig', array(
@@ -248,14 +244,12 @@ class EurocupController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $cup = $em->getRepository(Turnir::class)->findOneByAlias($turnir);
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
-        $group = $em->getRepository(Stadia::class)->findOneByAlias($stadia);
 
         $entity->setTurnir($cup);
         $entity->setSeason($year);
-        $entity->setStadia($group);
         $entity->setStatus(1);
         $form = $this->createForm(EurocupType::class, $entity, ['season' => $season,
-            'turnir' => $turnir, 'stadia' => $stadia]);
+            'turnir' => $turnir]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

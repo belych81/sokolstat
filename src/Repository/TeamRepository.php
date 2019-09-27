@@ -80,20 +80,17 @@ class TeamRepository extends ServiceEntityRepository
                 ->orderBy('t.name');
     }
 
-    public function queryTeamsForEc($turnir, $season, $stadia)
+    public function queryTeamsForEc($turnir, $season)
     {
         return $query = $this->createQueryBuilder('t')
                 ->leftJoin('t.ectables', 'e')
                 ->join('e.season', 's')
-                ->join('e.stadia', 'st')
                 ->join('e.turnir', 'tr')
-                ->where("st.alias = :stadia")
-                ->andWhere("s.name = :season")
+                ->where("s.name = :season")
                 ->andWhere("tr.alias = :turnir")
                 ->setParameters([
                     'turnir' => $turnir,
-                    'season' => $season,
-                    'stadia' => $stadia
+                    'season' => $season
                         ])
                 ->orderBy('t.name');
     }
