@@ -373,7 +373,7 @@ class PlayerController extends AbstractController
         else
         {
           $this->getDoctrine()->getRepository(Player::class)
-            ->updatePlayerGoal($player_id, $change, 1);
+            ->updatePlayerTotalGoal($player_id, $change, 1);
         }
         $session->set('lastPlayer', $player->getPlayer()->getName());
 
@@ -720,7 +720,7 @@ class PlayerController extends AbstractController
             $em->flush();
             $player = $entity->getPlayer()->getId();
             $goal = $entity->getGoal();
-            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+            $em->getRepository(Rusplayer::class)->updateRusplayerCup($player, $goal);
             $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
             return $this->redirect($this->generateUrl('cup_show', [
                 'id' => $team,
@@ -832,7 +832,7 @@ class PlayerController extends AbstractController
         $club = $ecplayer->getTeam();
 
         $em->getRepository(Ecplayer::class)->updateEcplayer($id, $change);
-        $em->getRepository(Rusplayer::class)->updateRusplayerTotal($player, $change);
+        $em->getRepository(Rusplayer::class)->updateRusplayerEcTotal($player, $change);
         $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $change);
 
         return $this->redirect($this->generateUrl('eurocup_showTeam', [

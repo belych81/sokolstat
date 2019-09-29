@@ -6,6 +6,7 @@
 /public/bundles/
 /public/images/
 /public/nfl.php
+/public/oop/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

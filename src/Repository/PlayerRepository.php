@@ -147,6 +147,33 @@ class PlayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updatePlayerTotalGoal($id, $change, $goal = 0)
+    {
+        switch ($change) {
+            case 'plusGoal' :
+                $changeParam = "s.goal+1";
+                $changeParam1 = "s.sum+1";
+                 break;
+            case 'minusGoal' :
+                $changeParam = "s.goal-1";
+                $changeParam1 = "s.sum-1";
+                break;
+            default :
+                $changeParam = "s.goal+$goal";
+                $changeParam1 = "s.sum+$goal";
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.goal', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updatePlayerGoal($id, $change, $goal=0, $cup=0,
       $supercup=0, $eurocup=0, $game=0)
     {
