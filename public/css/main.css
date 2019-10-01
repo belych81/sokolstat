@@ -18,7 +18,7 @@ a.dropdown-top:hover { padding: 2px 10px 5px; }
 h1{
   color: #5c4b4b;
   display: inline-block;
-  margin-top: 18px;
+  margin-top: 8px;
   text-align: center;
 }
 header {
@@ -258,6 +258,9 @@ footer {
 .champ-tours table{
   border-collapse: collapse;
 }
+.champ-tours b{
+  font-size: 14px;
+}
 .champ-match-bomb{
   background: #bad9c8;
   margin-bottom: 5px;
@@ -378,6 +381,11 @@ footer {
     width: 200px;
     text-align: center;
     display: inline-block;
+}
+.form-notice span{
+  font-size: 14px;
+  color: green;
+  font-weight: bold;
 }
 .footer{
   border-spacing: 20px 5px;
@@ -845,7 +853,7 @@ footer {
 }
 .seasons {
     text-align: left;
-    margin: 15px;
+    margin: 8px;
     font-size: 14px;
 }
 .scBomb {
@@ -1061,6 +1069,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
   background-color: #366;
   color: #fff;
 }
+.task-current a{
+  color: #fff;
+}
 .task-list{
   margin: 10px 10px 0 10px;
 }
@@ -1106,10 +1117,13 @@ display: inline-block; /* Выстраиваем по горизонтали */
   display: flex;
   height: 60px;
 }
-.team-show-image div{
+.team-show-image-mobile{
+  display: none;
+}
+.team-show-image div, .team-show-image-mobile div{
   margin: auto;
 }
-.team-show-image img{
+.team-show-image img, .team-show-image-mobile img{
   float: left;
   margin-left: 5px;
 }

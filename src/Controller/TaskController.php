@@ -21,6 +21,15 @@ class TaskController extends AbstractController
       ]);
     }
 
+    public function complete()
+    {
+      $tasks = $this->getDoctrine()->getRepository(Task::class)
+              ->findCompleteTask();
+      return $this->render('task/index.html.twig', [
+        'tasks' => $tasks
+      ]);
+    }
+
     public function new()
     {
         $entity  = new Task();

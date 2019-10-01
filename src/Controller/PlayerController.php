@@ -321,9 +321,12 @@ class PlayerController extends AbstractController
         $entity = new Player();
 
         $form   = $this->createForm(PlayerType::class, $entity);
-
+        $maxId = $this->getDoctrine()->getRepository(Player::class)
+                    ->getMaxId();
+                    
         return $this->render('rusplayer/newPlayer.html.twig', array(
             'entity' => $entity,
+            'maxId' => $maxId,
             'form'   => $form->createView()
         ));
     }

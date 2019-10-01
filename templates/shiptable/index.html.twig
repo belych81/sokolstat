@@ -9,10 +9,6 @@
           бомбардиры, турнирная таблица, матчи">
 {% endblock %}
 
-{% block zagolovok %}
-    Чемпионат {{ rusCountry }} {{ app.request.get('season') }}
-{% endblock %}
-
 {% block seasons %}
     {% for season in seasons %}
         {% if app.request.get('season') == season.season.name %}
@@ -71,7 +67,8 @@
  {% endblock %}
 
 {% block content %}
-<div class="champ-tours champs">
+<div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
+<div class="champ-tours champs">Туры: 
         {% for tour in tours %}
             {% if app.request.get('tour') != tour.tour %}
                <a href="{{ path('championships', {'country': app.request.get('country'),

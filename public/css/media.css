@@ -55,10 +55,6 @@
       width: 100%;
       left: 0;
   }
-  .primaryFone {
-      background-color: #FFCCCC;
-      width: 100%;
-  }
   .login-bar{
     margin-top: 70px;
   }
@@ -72,9 +68,21 @@
     width: 100%;
     left: 0;
     }
+    .footer-question{
+      display: none;
+    }
 }
-@media (max-width: 435px) {
-  .footer-question{
+@media (max-width: 415px) {
+  .team-show-image{
     display: none;
+  }
+  .team-show-image-mobile{
+    display: flex;
+  }
+  .showTeam{
+    margin-left: 5px;
+  }
+  .h1{
+    display: block;
   }
 }

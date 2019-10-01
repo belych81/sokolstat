@@ -6,7 +6,9 @@
 
 {% block content %}
   {% if is_granted("ROLE_ADMIN") %}
-    {% if id != false %}
+<a href="{{ path('task') }}">Текущие задачи</a> |
+<a href="{{ path('task_complete') }}">Завершенные задачи</a>
+      {% if id is defined and id != false %}
       <span class="spiski">ID новой задачи: {{ id }}</span>
     {% endif %}
     <a href="{{ path('task_new') }}" class="btn">

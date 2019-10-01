@@ -29,6 +29,16 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findCompleteTask()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.status = 0')
+            ->orderBy('t.data', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function deactiveTask($id, $data)
     {
       $qb = $this->createQueryBuilder('t')

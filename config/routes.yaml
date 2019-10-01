@@ -12,6 +12,10 @@ svod:
       requirements:
           country: russia|england|spain|italy|germany|france|fnl
 
+matches:
+      path:     /matches/
+      controller: App\Controller\MatchController::index
+
 team:
       path:     /team/
       controller: App\Controller\TeamController::index
@@ -22,6 +26,10 @@ team_show:
       options:
         expose: true
 
+task_complete:
+      path:     /task/complete/
+      controller: App\Controller\TaskController::complete
+      
 task:
       path:     /task/{id}
       controller: App\Controller\TaskController::index
@@ -49,7 +57,7 @@ task_update:
     path: /task/update/{id}
     controller: App\Controller\TaskController:update
     requirements: { _method: post }
-    
+
 soglasie:
     path:     /soglasie/
     controller: App\Controller\NewsController::soglasie

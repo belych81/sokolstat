@@ -57,6 +57,15 @@ class PlayerRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getMaxId() {
+
+        $query = $this->createQueryBuilder('p')
+                ->select('MAX(p.id)')
+                ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
     public function queryRusTeamPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);
