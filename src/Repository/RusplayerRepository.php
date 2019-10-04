@@ -385,6 +385,7 @@ class RusplayerRepository extends ServiceEntityRepository
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Rusplayer', 'r')
                 ->set($changeParam, $changeParam2)
+                ->set($changeParam3, $changeParam4)
                 ->where('r.player = ?2')
                 ->setParameter(2, $player)
                 ->getQuery();
