@@ -370,6 +370,8 @@ class ShiptableController extends AbstractController
             $goal2=$entity->getGoal2();
             $this->getDoctrine()->getRepository(Shiptable::class)
                ->updateShiptable($team, $team2, $goal1, $goal2, $seas);
+            $this->getDoctrine()->getRepository(Team::class)
+              ->updateSvod($team, $team2, $goal1, $goal2);
             $season = $entity->getSeason()->getName();
             return $this->redirect($this->generateUrl('championships', [
                 'season' => $season, 'country' => 'russia']));
