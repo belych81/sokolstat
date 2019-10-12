@@ -29,7 +29,7 @@ team_show:
 task_complete:
       path:     /task/complete/
       controller: App\Controller\TaskController::complete
-      
+
 task:
       path:     /task/{id}
       controller: App\Controller\TaskController::index
@@ -359,6 +359,15 @@ player_createChamp:
     controller: App\Controller\PlayerController:createChamp
     requirements: { _method: post }
 
+player_newMund:
+    path:  /playeradmin/admin/mund/{year}/{country}/{turnir}/
+    controller: App\Controller\PlayerController:newMund
+
+player_createMund:
+    path:  /playeradmin/admin/createMund/{year}/{country}/{turnir}/
+    controller: App\Controller\PlayerController:createMund
+    requirements: { _method: post }
+
 player_newFnl:
     path:  /playeradmin/admin/fnl/{season}/{team}
     controller: App\Controller\PlayerController:newFnl
@@ -484,6 +493,14 @@ playeradmin_updatePlayerTurnirs:
 playeradmin_editNation:
     path:  /playeradmin/admin/{id}/editNation/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNation
+    requirements:
+        change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
+    options:
+        expose: true
+
+playeradmin_editMund:
+    path:  /playeradmin/admin/{id}/editMund/{year}/{turnir}/{country}/{change}/
+    controller: App\Controller\PlayerController:editMund
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
     options:

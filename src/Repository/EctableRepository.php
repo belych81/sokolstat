@@ -55,12 +55,26 @@ class EctableRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function getStadiaByTeamAndSeason($season, $id)
+    {
+      return $this->createQueryBuilder('et')
+              ->select('st.alias', 'st.name')
+              ->join('et.season', 's')
+              ->join('et.stadia', 'st')
+              ->join('et.team', 't')
+              ->where("t.translit = :team")
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->setParameter('team', $id)
+              ->orderBy('t.name')
+              ->getQuery()
+              ->getSingleResult();
+    }
+
     public function updateEctable($team, $team2, $score, $season)
     {
         $goal1 = substr($score, 0, strpos($score, '-'));
         $goal2 = substr($score, strpos($score, '-')+1);
-var_dump($goal1);
-var_dump($goal2);
         if ($goal1 == $goal2) {
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Ectable', 'st')

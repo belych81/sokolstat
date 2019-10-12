@@ -9,13 +9,11 @@
         {% if app.request.get('year') == season.season.name %}
             <b>{{ season.season.name }}</b>
         {% else %}
-        <a href="{{ path('sbornie', {'turnir': app.request.get('turnir'), 'year': season.season.name}) }}">{{ season.season.name }}</a>
+        <a href="{{ path('sbornie', {'turnir': app.request.get('turnir'),
+          'year': season.season.name}) }}" class="spiski">
+            {{ season.season.name }}</a>
         {% endif %}
         {% endfor %}
-{% endblock %}
-
-{% block zagolovok %}
-    <p class="zagolovok">{{ champ.russianAlias }} {{ app.request.get('year') }}</p>
 {% endblock %}
 
 {% block sidebar %}
@@ -34,6 +32,7 @@
  {% endblock %}
 
 {% block content %}
+    <h1>{{ champ.russianAlias }} {{ app.request.get('year') }}</h1>
     {% if is_granted("ROLE_ADMIN") %}
         <p><a href="{{ path('sbornie_newMatch', {'season': app.request.get('year'),
           'turnir': app.request.get('turnir')}) }}">

@@ -20,7 +20,7 @@ class SostavRepository extends ServiceEntityRepository
     }
 
     public function getSbPlayersByCountry($season, $country)
-    {    
+    {
         $qb = $this->createQueryBuilder('sv')
                 ->select('sv')
                 ->join('sv.country', 'c')
@@ -37,5 +37,35 @@ class SostavRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    public function updateGamer($id, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Sostav', 'g')
+                ->set($changeParam, $changeParam2)
+                ->where('g.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
     }
 }

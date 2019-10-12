@@ -67,10 +67,12 @@ class MundialController extends AbstractController
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(Mundial::class)
           ->getCountriesBySeason($year);
+        $seasons = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getSeasonsByTurnir($turnir);
 
         return $this->render('mundial/showCountry.html.twig', [
             'entity'      => $entity,
-            'seasons' => $year,
+            'seasons' => $seasons,
             'champ' => $champ,
             'sborn' => $sborn,
             'countries' => $countries

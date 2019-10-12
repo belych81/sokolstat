@@ -22,6 +22,7 @@ class RusplayerRepository extends ServiceEntityRepository
     public function getTopPlayers($max, $type) {
 
             $qb = $this->createQueryBuilder('r')
+                ->select('p.name', 'p.translit', 'r.'.$type)
                 ->join('r.player', 'p')
                 ->orderBy('r.'.$type, 'DESC')
                 ->setMaxResults($max)

@@ -47,8 +47,8 @@ class EurocupController extends AbstractController
           ->findOneByAlias($stadia);
         $rus_turnir = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $ectables = FALSE;
-        if (strpos($stadia, 'group') !== FALSE) {
+        $ectables = false;
+        if (strpos($stadia, 'group') !== false) {
             $ectables = $this->getDoctrine()->getRepository(Ectable::class)
               ->getEcTable($turnir, $season, $stadia);
         }
@@ -81,7 +81,10 @@ class EurocupController extends AbstractController
           ->findByTranslit($id);
         $players = $this->getDoctrine()->getRepository(Lchplayer::class)
           ->getLchTeamStat($season, $id);
-
+        $stadia = $this->getDoctrine()->getRepository(Ectable::class)
+          ->getStadiaByTeamAndSeason($season, $id);
+        $ectables = $this->getDoctrine()->getRepository(Ectable::class)
+          ->getEcTable('leagueChampions', $season, $stadia['alias']);
 
         return $this->render('eurocup/show.html.twig', [
             'entity'      => $entity,
@@ -90,7 +93,9 @@ class EurocupController extends AbstractController
             'teams' => $teams,
             'club' => $club,
             'players' => $players,
-            ]);
+            'ectables' => $ectables,
+            'stadia' => $stadia
+          ]);
     }
 
     public function showMatch($id, $turnir)

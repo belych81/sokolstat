@@ -1,19 +1,11 @@
-{% extends 'shiptable/index.html.twig' %}
-
-{% block title %}
-    Добавить игрока
-{% endblock %}
-
-{% block description %}
-{% endblock %}
-
-{% block seasons %}
-{% endblock %}
+{% extends 'rusplayer/newChamp.html.twig' %}
 
 {% block content %}
 
-    <form action="{{ path('player_createChamp', {'team': app.request.get('team'),
-      'season': app.request.get('season')}) }}" method="post">
+    <form action="{{ path('player_createMund', {
+      'country': app.request.get('country'),
+      'year': app.request.get('year'),
+      'turnir': app.request.get('turnir')}) }}" method="post">
        <table>
             <tbody>
                 <tr>
@@ -39,7 +31,9 @@
 
         </p>
     </form>
-<a href="{{ path('championships_show', {'id': app.request.get('team'),
-'country': 'russia', 'season': app.request.get('season')}) }}">Назад</a>
+<a href="{{ path('sbornieCountry', {
+  'country': app.request.get('country'),
+  'year': app.request.get('year'),
+  'turnir': app.request.get('turnir')}) }}">Назад</a>
 
 {% endblock %}

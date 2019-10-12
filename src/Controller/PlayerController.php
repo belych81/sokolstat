@@ -15,6 +15,7 @@ use App\Entity\Supercupplayer;
 use App\Entity\Player;
 use App\Entity\Playersteam;
 use App\Entity\Seasons;
+use App\Entity\Sostav;
 use App\Entity\Turnir;
 use App\Form\RusType;
 use App\Form\FnlType;
@@ -26,6 +27,7 @@ use App\Form\ShipplayerType;
 use App\Form\ShipplayerTeamType;
 use App\Form\ShipplayerEditType;
 use App\Form\SbplayerType;
+use App\Form\SostavType;
 use App\Form\ShipplayerUpdateType;
 use App\Form\FnlplayerUpdateType;
 
@@ -226,6 +228,54 @@ class PlayerController extends AbstractController
         ));
     }
 
+    public function newMund($year, $country, $turnir)
+    {
+        $entity = new Sostav();
+
+        $form   = $this->createForm(SostavType::class, $entity, ['year' => $year,
+            'country' => $country]);
+
+        return $this->render('rusplayer/newMund.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createMund(Request $request, $year, $country, $turnir)
+    {
+        $entity  = new Sostav();
+        $rusplayer = new RusPlayer();
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $form = $this->createForm(RusType::class, $entity, ['season' => $season,
+            'team' => $team]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $player = $entity->getPlayer();
+            $goal = $entity->getGoal();
+            $this->getDoctrine()->getRepository(Rusplayer::class)
+                ->updateRusplayerChamp($player, $goal);
+            $this->getDoctrine()->getRepository(Playersteam::class)
+                ->updatePlayersteam($player, $club, $goal);
+            return $this->redirect($this->generateUrl('championships_show', [
+                'id' => $team,
+                'country' => 'russia',
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('rusplayer/newMund.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
     public function newPlayersteam($team, $season, $turnir)
     {
         $entity = new Playersteam();
@@ -323,7 +373,7 @@ class PlayerController extends AbstractController
         $form   = $this->createForm(PlayerType::class, $entity);
         $maxId = $this->getDoctrine()->getRepository(Player::class)
                     ->getMaxId();
-                    
+
         return $this->render('rusplayer/newPlayer.html.twig', array(
             'entity' => $entity,
             'maxId' => $maxId,
@@ -841,6 +891,19 @@ class PlayerController extends AbstractController
         return $this->redirect($this->generateUrl('eurocup_showTeam', [
                 'id' => $team,
                 'season' => $season,
+                'turnir' => $turnir
+                    ]));
+    }
+
+    public function editMund($id, $year, $country, $turnir, $change)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $em->getRepository(Sostav::class)->updateGamer($id, $change);
+
+        return $this->redirect($this->generateUrl('sbornieCountry', [
+                'country' => $country,
+                'year' => $year,
                 'turnir' => $turnir
                     ]));
     }

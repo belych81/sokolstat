@@ -4,16 +4,9 @@
     {{ sborn.name }} - {{ champ.russianAlias }} {{ app.request.get('year') }}
 {% endblock %}
 
-
-{% block zagolovok %}
-    <h1>{{ champ.russianAlias }} {{ app.request.get('year') }}</h1>
-        <h2>{{ sborn.name }}</h2>
-{% endblock %}
-
-{% block seasons %}
-{% endblock %}
-
 {% block content %}
+<h1>{{ champ.russianAlias }} {{ app.request.get('year') }}</h1>
+    <h2>{{ sborn.name }}</h2>
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -76,7 +69,7 @@
         {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newMund', {'year': app.request.get('year'),
             'country': app.request.get('country'), 'turnir': app.request.get('turnir')}) }}">
-            Добавить игрока</a>
+            Добавить игрока</a-->
             {% endif %}
 
     <div class="lch-teams">

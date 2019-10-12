@@ -225,8 +225,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatch.player.translit}) }}" class="spiski">
-                           {{ topMatch.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topMatch.translit}) }}" class="spiski">
+                           {{ topMatch.name }}</a></td>
                    <td class="playerListGame">{{ topMatch.game }}</td>
                </tr>
            {% endfor %}
@@ -255,8 +255,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoals.player.translit}) }}" class="spiski">
-                           {{ topGoals.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topGoals.translit}) }}" class="spiski">
+                           {{ topGoals.name }}</a></td>
                    <td class="playerListGame">{{ topGoals.goal }}</td>
                </tr>
            {% endfor %}
@@ -322,8 +322,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatch.player.translit}) }}" class="spiski">
-                           {{ topMatch.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topMatch.translit}) }}" class="spiski">
+                           {{ topMatch.name }}</a></td>
                    <td class="playerListGame">{{ topMatch.game }}</td>
                </tr>
            {% endfor %}
@@ -352,8 +352,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoals.player.translit}) }}" class="spiski">
-                           {{ topGoals.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topGoals.translit}) }}" class="spiski">
+                           {{ topGoals.name }}</a></td>
                    <td class="playerListGame">{{ topGoals.goal }}</td>
                </tr>
            {% endfor %}
