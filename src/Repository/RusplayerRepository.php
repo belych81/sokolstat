@@ -49,6 +49,7 @@ class RusplayerRepository extends ServiceEntityRepository
     public function getTopPlayersCurr($max, $type, $season)
     {
         $qb = $this->createQueryBuilder('r')
+                ->select('DISTINCT r.id', 'p.name', 'p.translit', 'r.'.$type)
                 ->join('r.player', 'p')
                 ->join('p.gamers', 'g')
                 ->join('g.season', 's')
@@ -56,7 +57,7 @@ class RusplayerRepository extends ServiceEntityRepository
                 ->setParameter(1, $season)
                 ->orderBy('r.'.$type, 'DESC')
                 ->setMaxResults($max);
-                
+
         $query = $qb->getQuery();
 
         return $query->getResult();

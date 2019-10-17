@@ -10,7 +10,7 @@ $link = mysqli_connect($host, $user, $password, $database)
 $sql="SET NAMES utf8";
 mysqli_query($link, $sql);
 $query = "SELECT
-r0_.id AS id_0,
+DISTINCT r0_.id AS id_0,
 r0_.game AS game_1,
 r0_.goal AS goal_2,
 r0_.totalgame AS totalgame_3,
