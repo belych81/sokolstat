@@ -6,6 +6,10 @@ newspaper:
       path:     /newspaper/
       controller: App\Controller\NewsController::newspaper
 
+clear_cache:
+      path:     /cache/
+      controller: App\Controller\NewsController::cache
+
 svod:
       path:     /svod/{country}/
       controller: App\Controller\ShiptableController::svod

@@ -162,7 +162,7 @@ class TeamRepository extends ServiceEntityRepository
     {
         $q = $this->createQueryBuilder('t')
             ->orWhere("t.name LIKE '%$arQuery[0]%'")
-            ->setMaxResults(20);
+            ->setMaxResults(10);
 
         foreach($arQuery as $key => $val){
             if($key == 0) continue;

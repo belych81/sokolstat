@@ -17,6 +17,11 @@ use App\Entity\RusSupercup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NewsController extends AbstractController
 {
@@ -106,19 +111,25 @@ class NewsController extends AbstractController
         $birthdays[$i][] =  $age[$i];
         }
 
-        $lastPlayers = $this->getDoctrine()->getRepository(Player::class)->getLastPlayer();
+        $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
+          ->getLastPlayer();
         $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopPlayers(20, 'game');
         $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopPlayersCurr(20, 'game', '2018-19');
+          ->getTopPlayersCurr(7, 'game', '2019-20');
+          foreach ($topMatchesRusCurr as $key => $value) {
+            //var_dump($value->getPlayer()->getName());
+            //echo "<br/>";
+          }
+          //var_dump(count($topMatchesRusCurr));
         $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopPlayers(20, 'goal');
         $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopPlayersCurr(21, 'goal', '2018-19');
+          ->getTopPlayersCurr(20, 'goal', '2019-20');
         $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopGoalkeepers(20);
         $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopGoalkeepersCurr(20, '2018-19');
+          ->getTopGoalkeepersCurr(20, '2019-20');
 
         return $this->render('news/index.html.twig', [
             'yestmatch' => $yestmatch,
@@ -162,6 +173,20 @@ class NewsController extends AbstractController
     public function soglasie()
     {
         return $this->render('news/soglasie.html.twig', []);
+    }
+
+    public function cache(InputInterface $input, OutputInterface $output)
+    {
+      $command = $this->getApplication()->find('cache:pool:list');
+
+      $arguments = array(
+          'command' => 'cache:pool:list'
+      );
+
+      $greetInput = new ArrayInput($arguments);
+      $returnCode = $command->run($greetInput, $output);
+
+      return $this->render('news/index.html.twig', []);
     }
 
     public function search(Request $request)

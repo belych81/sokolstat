@@ -84,6 +84,7 @@
                         {% endif %}
                         {% if is_granted("ROLE_ADMIN") %}
                           <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
+                          <a href="?clear_cache=Y"  class="registerLink">Очистить кэш</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -153,6 +154,7 @@
                       {% endif %}
                       {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
+                        <a href="{{ path('clear_cache') }}"  class="registerLink">Очистить кэш</a>
                       {% endif %}
                   </div>
 

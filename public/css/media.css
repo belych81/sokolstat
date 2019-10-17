@@ -8,6 +8,13 @@
   .menuPrimary li.dropdown-top{
     width: 25%;
   }
+  .search_result{
+    position: absolute;
+    top: 110px;
+    bottom: auto;
+    left: 10px;
+    right: auto;
+  }
 }
 @media (max-width: 923px) {
   .champ-country{
