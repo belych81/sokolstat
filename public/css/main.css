@@ -986,6 +986,9 @@ footer {
     color: #006600;
     font-size: 14px;
 }
+.spiski.selected{
+  color: red;
+}
 .tabs {
 position: relative; /* Относительное позиционирование */
 }

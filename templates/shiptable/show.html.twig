@@ -83,10 +83,6 @@
   </div>
 </div>
 
-  {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
-    <div id="lastPlayer">{{ lastPlayer }}</div>
-  {% endif %}
-
   <div class="champ-teams-list">
     {% block champBack %}
       <div class="champ-back">
@@ -126,7 +122,9 @@
                 <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': player.player.translit})
-                     }}" class="spiski">{{ player.player.name }}</a>
+                     }}" data-id="{{ player.id }}"
+                     class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
+                     {{ player.player.name }}</a>
                      {% if is_granted("ROLE_ADMIN") %}
                      <a href="{{ path('shipplayer_edit', {
                       'id': player.id, 'country': app.request.get('country'),

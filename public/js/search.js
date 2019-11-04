@@ -47,7 +47,8 @@ $(function(){
           'team': team, 'change': change}),
         dataType: 'json',
         success: function(data){
-            $("#lastPlayer").text(data['name']);
+            $(".spiski.selected").removeClass('selected');
+            $(".spiski[data-id="+id+"]").addClass('selected');
             $("[data-id="+id+"][data-param='game']").text(data['game']);
             $("[data-id="+id+"][data-param='goal']").text(data['goal']);
         },
