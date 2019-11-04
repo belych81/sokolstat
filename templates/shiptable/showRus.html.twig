@@ -19,7 +19,6 @@
 {% block content %}
   <div class="teams-list">{{ app.request.get('team') }}
     {% for team in teams %}
-      {% if team.translit != app.request.get('id') %}
         <a href="{{ path('championships_show', {'season': app.request.get('season'),
           'id': team.translit, 'country': app.request.get('country')}) }}"
           class="">
@@ -30,7 +29,6 @@
                 {{ team.name }}
           {% endif %}
         </a>
-      {% endif %}
     {% endfor %}
   </div>
   <div class="team-show-image">
@@ -112,9 +110,6 @@
       </table>
     </div>
   </div>
-                {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
-                  <div id="lastPlayer">{{ lastPlayer }}</div>
-                {% endif %}
 
                 <div class="champ-teams-list">
                   <div class="champ-back">
@@ -160,7 +155,10 @@
             ">
                 <td class="player-position">{{ loop.index }}</td>
                 <td>
-                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+                    <a href="{{ path('player_show', {
+                    'id': player.player.translit}) }}" data-id="{{ player.id }}"
+                    class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
+                    {{ player.player.name }}</a>
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
