@@ -180,6 +180,34 @@ class PlayerController extends AbstractController
                     ]));
     }
 
+    public function newChampLast($season, $team, $country)
+    {
+        $entity = new Shipplayer();
+        $maxId = $this->getDoctrine()->getRepository(Player::class)
+                    ->getMaxId();
+        $club = $this->getDoctrine()->getRepository(Team::class)
+          ->findOneByTranslit($team);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
+        $player = $this->getDoctrine()->getRepository(Player::class)
+          ->getLastOnePlayer();
+
+        $entity->setTeam($club);
+        $entity->setGame(0);
+        $entity->setSeason($year);
+        $entity->setPlayer($player);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('championships_show', [
+            'id' => $team,
+            'country' => $country,
+            'season' => $season
+                ]));
+    }
+
     public function newChamp($season, $team)
     {
         $entity = new Gamers();

@@ -107,8 +107,7 @@
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
-                <th class="teamStatGoal">Кубок (Г)</th>
-                <th class="teamStatGoal">Суперкубок (Г)</th>
+                <th class="teamStatGoal">Кубок-Г (Суперкубок-Г)</th>
                 <th class="teamStatGoal">Еврокубки (Г)</th>
                 <th class="teamStatGoal">В сезоне (Г)</th>
                 <th class="teamStatTotalGoal">Всего в чемпионатах топ-5 (И)</th>
@@ -179,7 +178,7 @@
                      {{ player.goal }}
                      {% endif %}
                     </td>
-                   <td class="tableGoal">
+                   <td class="column-supercup tableGoal">
                       {% if is_granted("ROLE_ADMIN") %}
                           <a href="{{ path('playeradmin_editNationCup',
                     {'id': player.id, 'season': app.request.get('season'),
@@ -190,24 +189,21 @@
                     {'id': player.id, 'season': app.request.get('season'),
                        'team': app.request.get('id'),
                        'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                           (<a href="{{ path('playeradmin_editNationSupercup',
+                     {'id': player.id, 'season': app.request.get('season'),
+                        'team': app.request.get('id'),
+                        'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                               {{ player.supercup }}
+                               <a href="{{ path('playeradmin_editNationSupercup',
+                     {'id': player.id, 'season': app.request.get('season'),
+                        'team': app.request.get('id'),
+                        'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>)
                       {% else %}
-                      {{ player.cup }}
+                        {{ player.cup }}
+                        {% if player.supercup > 0 %}
+                          ({{ player.supercup }})
+                        {% endif %}
                       {% endif %}</td>
-
-                      <td class="tableGoal">
-                         {% if is_granted("ROLE_ADMIN") %}
-                             <a href="{{ path('playeradmin_editNationSupercup',
-                       {'id': player.id, 'season': app.request.get('season'),
-                          'team': app.request.get('id'),
-                          'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
-                                 {{ player.supercup }}
-                                 <a href="{{ path('playeradmin_editNationSupercup',
-                       {'id': player.id, 'season': app.request.get('season'),
-                          'team': app.request.get('id'),
-                          'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
-                         {% else %}
-                         {{ player.supercup }}
-                         {% endif %}</td>
 
                          <td class="tableGoal">
                             {% if is_granted("ROLE_ADMIN") %}
@@ -251,6 +247,9 @@
       'country': app.request.get('country'), 'team': app.request.get('id'),
       'flag':'all'}) }}">
           Добавить игрока</a>
+      <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
+      'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
+          Добавить последнего игрока</a>
             <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
             Обновить игрока</a>|

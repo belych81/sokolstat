@@ -66,6 +66,16 @@ class PlayerRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
+    public function getLastOnePlayer() {
+
+        $query = $this->createQueryBuilder('p')
+                ->orderBy('p.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery();
+
+        return $query->getSingleResult();
+    }
+
     public function queryRusTeamPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);

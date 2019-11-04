@@ -354,6 +354,10 @@ player_createSb:
     controller: App\Controller\PlayerController:createSb
     requirements: { _method: post }
 
+player_newChampLast:
+    path:  /playeradmin/admin/champ-last/{season}/{team}/{country}/
+    controller: App\Controller\PlayerController:newChampLast
+
 player_newChamp:
     path:  /playeradmin/admin/champ/{season}/{team}
     controller: App\Controller\PlayerController:newChamp

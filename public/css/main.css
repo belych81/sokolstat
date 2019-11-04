@@ -1054,6 +1054,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
     font-weight: bold;
     width: 50px;
 }
+.tableGoal.column-supercup{
+  width: 80px;
+}
 .tableLeft {
     text-align: left;
     width: 140px;
