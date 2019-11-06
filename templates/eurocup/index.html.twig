@@ -35,8 +35,9 @@
  </td>
  {% endblock %}
 
-{% block content %}
 
+
+{% block teams %}
 {% if app.request.get('turnir') == 'leagueChampions' %}
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}
@@ -55,6 +56,9 @@
   {% endfor %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block content %}
 <h1>{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
         {% if is_granted("ROLE_ADMIN") %}
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">

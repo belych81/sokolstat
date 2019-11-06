@@ -11,16 +11,7 @@
 
 
 {% block content %}
-<div class="teams-list">{{ app.request.get('team') }}
-  {% for team in teams %}
-    {% if team.team.translit != app.request.get('id') %}
-      <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
-          'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
-      class="">
-            {{ team.team.name }}</a>
-    {% endif %}
-  {% endfor %}
-</div>
+
 <div class="team-show-image">
   <div>
     <h1>Лига Чемпионов {{ app.request.get('season') }}. {{ club.0.name }}</h1>
