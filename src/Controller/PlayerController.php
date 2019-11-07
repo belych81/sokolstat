@@ -832,26 +832,29 @@ class PlayerController extends AbstractController
                     ]));
     }
 
-    public function editLchplayer($id, $season, $team, $change)
+    public function editLchplayer(SessionInterface $session, $id, $season, $team, $change)
     {
-        $em = $this->getDoctrine()->getManager();
-        $player = $em->getRepository(Lchplayer::class)->find($id);
-        $player_id = $player->getPlayer()->getId();
-        if (strpos($change, 'game') !== false)
-        {
-          $em->getRepository(Lchplayer::class)->updateLchplayerGame($id, $change);
-          $em->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);
-        }
-        elseif (strpos($change, 'goal') !== false)
-        {
-          $em->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
-          $em->getRepository(Player::class)->updatePlayerLchGoal($player_id, $change);
-        }
-        return $this->redirect($this->generateUrl('eurocup_show', [
-                'id' => $team,
-                'season' => $season,
-                'turnir' => 'leagueChampions'
-                    ]));
+      $this->getDoctrine()->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
+      $player = $this->getDoctrine()->getRepository(Lchplayer::class)->find($id);
+      $player_id = $player->getPlayer()->getId();
+      
+      if (strpos($change, 'Game') !== false)
+      {
+        $this->getDoctrine()->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);
+      }
+      elseif (strpos($change, 'Goal') !== false)
+      {
+        $this->getDoctrine()->getRepository(Player::class)->updatePlayerLchGoal($player_id, $change);
+      }
+
+      $session->set('lastPlayer', $player->getPlayer()->getName());
+
+      $response = json_encode([
+          'name' => $player->getPlayer()->getName(),
+          'game' => $player->getGame(),
+          'goal' => $player->getGoal()
+      ]);
+      return new Response($response);
     }
 
     public function newLchPlayer($season, $team)

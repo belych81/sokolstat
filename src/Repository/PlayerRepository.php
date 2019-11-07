@@ -352,8 +352,8 @@ class PlayerRepository extends ServiceEntityRepository
     {
         switch ($change)
         {
-            case 'gamePlus' : $changeParam = 's.lch_game+1'; break;
-            case 'gameMinus' : $changeParam = 's.lch_game-1'; break;
+            case 'plusGame' : $changeParam = 's.lch_game+1'; break;
+            case 'minusGame' : $changeParam = 's.lch_game-1'; break;
         }
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
@@ -369,8 +369,8 @@ class PlayerRepository extends ServiceEntityRepository
     {
         switch ($change)
         {
-            case 'goalPlus' : $changeParam = 's.lch_goal+1'; break;
-            case 'goalMinus' : $changeParam = 's.lch_goal-1'; break;
+            case 'plusGoal' : $changeParam = 's.lch_goal+1'; break;
+            case 'minusGoal' : $changeParam = 's.lch_goal-1'; break;
         }
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')

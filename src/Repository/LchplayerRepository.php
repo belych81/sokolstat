@@ -64,37 +64,34 @@ class LchplayerRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function updateLchplayerGame($id, $change)
-    {
-        switch ($change)
-        {
-            case 'gamePlus' : $changeParam = 'g.game+1'; break;
-            case 'gameMinus' : $changeParam = 'g.game-1'; break;
-        }
-        $qb = $this->_em->createQueryBuilder()
-            ->update('App\Entity\Lchplayer', 'g')
-            ->set('g.game', $changeParam)
-            ->where('g.id = ?1')
-            ->setParameter(1, $id)
-            ->getQuery();
-
-        $qb->execute();
-    }
-
     public function updateLchplayerGoal($id, $change)
     {
-        switch ($change)
-        {
-            case 'goalPlus' : $changeParam = 'g.goal+1'; break;
-            case 'goalMinus' : $changeParam = 'g.goal-1'; break;
-        }
-        $qb = $this->_em->createQueryBuilder()
-            ->update('App\Entity\Lchplayer', 'g')
-            ->set('g.goal', $changeParam)
-            ->where('g.id = ?1')
-            ->setParameter(1, $id)
-            ->getQuery();
+      switch ($change) {
+          case 'plusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game+1';
+              break;
+          case 'minusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game-1';
+              break;
+          case 'plusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal+1';
+              break;
+          case 'minusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal-1';
+              break;
+      }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Lchplayer', 's')
+                ->set($changeParam, $changeParam2)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
 
-        $qb->execute();
+            $qb->execute();
     }
+
 }

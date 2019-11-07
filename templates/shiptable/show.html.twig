@@ -124,11 +124,11 @@
                      class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                      {{ player.player.name }}</a>
                      {% if is_granted("ROLE_ADMIN") %}
-                     <a href="{{ path('shipplayer_edit', {
-                      'id': player.id, 'country': app.request.get('country'),
-                      'season': app.request.get('season'),
-                       'team': app.request.get('id')
-                     }) }}">=</a>
+                       <a href="{{ path('shipplayer_edit', {
+                        'id': player.id, 'country': app.request.get('country'),
+                        'season': app.request.get('season'),
+                         'team': app.request.get('id')
+                       }) }}">=</a>
                      {% endif %}
                 </td>
 

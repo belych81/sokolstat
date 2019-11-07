@@ -535,6 +535,10 @@ playeradmin_editNationEurocup:
 playeradmin_editLchplayer:
     path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editLchplayer
+    requirements:
+        change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
+    options:
+        expose: true
 
 playeradmin_editEc:
     path:  /playeradmin/admin/{id}/editEc/{season}/{team}/{turnir}/{change}
