@@ -24,7 +24,7 @@ class EurocupType extends AbstractType
             $_SESSION['data'] = $date;
         }
         $builder
-            ->add('data', null, ['data' => $_SESSION['data']])
+            ->add('data', null, ['data' => $_SESSION['data'], 'years' => \range(1991, \date('Y')+1)])
             ->add('stadia')
             ->add('team', EntityType::class, [
             'class' => Team::class,

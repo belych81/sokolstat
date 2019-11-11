@@ -27,7 +27,7 @@ class ShiptableType extends AbstractType
             case 'italy' : $country = 'Италия'; break;
             case 'germany' : $country = 'Германия'; break;
             case 'france' : $country = 'Франция'; break;
-            case 'fnl' : $country = 'ФНЛ'; break;
+            case 'fnl' : $country = 'Россия'; break;
         }
         $season = "2010-11";
         if(\key_exists('season', $_SESSION)){
