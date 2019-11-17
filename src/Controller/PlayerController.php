@@ -837,7 +837,7 @@ class PlayerController extends AbstractController
       $this->getDoctrine()->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
       $player = $this->getDoctrine()->getRepository(Lchplayer::class)->find($id);
       $player_id = $player->getPlayer()->getId();
-      
+
       if (strpos($change, 'Game') !== false)
       {
         $this->getDoctrine()->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);

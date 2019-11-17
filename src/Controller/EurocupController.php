@@ -16,6 +16,7 @@ use App\Form\EurocupNewType;
 use App\Form\EurocupType;
 use App\Form\Eurocup2Type;
 use App\Form\EctableType;
+use App\Form\EctableEditType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -321,6 +322,41 @@ class EurocupController extends AbstractController
         }
 
         return $this->render('eurocup/newEurocup.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function editEctable($id, $season, $turnir, $stadia=false)
+    {
+        $entity = $this->getDoctrine()->getRepository(Ectable::class)->find($id);
+        $form   = $this->createForm(EctableEditType::class, $entity);
+
+        return $this->render('eurocup/editEctable.html.twig', array(
+            'entity' => $entity,
+            'edit_form'   => $form->createView(),
+        ));
+    }
+
+    public function updateEctable(Request $request, $id, $season, $turnir,
+      $stadia=false)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Ectable::class)->find($id);
+
+        $editForm = $this->createForm(EctableEditType::class, $entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('eurocup', [
+              'turnir' => $turnir, 'season' => $season,
+                'stadia' => $stadia]));
+        }
+
+        return $this->render('eurocup/editEctable.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView()
         ));

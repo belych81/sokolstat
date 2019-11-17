@@ -238,6 +238,21 @@ eurocup_update:
     controller: App\Controller\EurocupController:update
     requirements: { _method: post|put }
 
+ectable_edit:
+    path:  /eurocup/{turnir}/{id}/{season}/editEctable/{stadia}
+    controller: App\Controller\EurocupController:editEctable
+    requirements:
+        id: \d+
+    defaults:
+        stadia: false
+
+ectable_update:
+    path:  /eurocup/{turnir}/{id}/{season}/updateEctable/{stadia}
+    controller: App\Controller\EurocupController:updateEctable
+    requirements: { _method: post|put }
+    defaults:
+        stadia: false
+
 eurocup_newMatch:
     path:  /eurocup/admin/{season}
     controller: App\Controller\EurocupController:newMatch
