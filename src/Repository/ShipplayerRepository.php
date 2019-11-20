@@ -56,7 +56,6 @@ class ShipplayerRepository extends ServiceEntityRepository
     public function getTeamStat($season, $id)
     {
       return $this->createQueryBuilder('sp')
-          ->select('sp', 'p', 't')
           ->join('sp.season', 's')
           ->join('sp.team', 't')
           ->join('sp.player', 'p')
@@ -170,6 +169,18 @@ class ShipplayerRepository extends ServiceEntityRepository
                 ->getQuery();
 
             $qb->execute();
+    }
+
+    public function updateShipplayers($arr)
+    {
+      $qb = $this->_em->createQueryBuilder()
+          ->update('App\Entity\Shipplayer', 's')
+          ->set('s.game', 's.game+'.$arr[2])
+          ->where('s.id = ?1')
+          ->setParameter(1, $arr[0])
+          ->getQuery();
+
+      $qb->execute();
     }
 
     public function updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup)

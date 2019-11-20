@@ -1040,6 +1040,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
 .total-game{
   font-size: 14px;
 }
+.shipplayer-input{
+  width: 20px;
+}
 .showTeam{
   display: inline-table;
   margin-left: 45px;
@@ -1056,6 +1059,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
     font-size: 15px;
     font-weight: bold;
     width: 50px;
+}
+.tableGoal.shipplayer-game{
+  width: 80px;
 }
 .tableGoal.column-supercup{
   width: 80px;

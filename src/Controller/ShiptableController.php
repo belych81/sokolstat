@@ -27,6 +27,7 @@ use App\Form\RfplmatchEditType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShiptableController extends AbstractController
@@ -534,6 +535,23 @@ class ShiptableController extends AbstractController
             'entity' => $entity,
             'country' => $country2
         ));
+    }
+
+    public function shipplayersUpdate(Request $request)
+    {
+      $query = $request->request->get('query');
+      $em = $this->getDoctrine()->getManager();
+      $param = [];
+      foreach ($query as $val) {
+        $em->getRepository(Shipplayer::class)->updateShipplayers($val);
+        $em->getRepository(Player::class)->updateShipplayerSumGame($val);
+        $player = $this->getDoctrine()->getRepository(Shipplayer::class)
+          ->find($val[0]);
+        $param[] = [$val[0], $player->getGame()];
+      }
+      $response = json_encode($param);
+      
+      return new JsonResponse($response);
     }
 
 }

@@ -132,7 +132,7 @@
                      {% endif %}
                 </td>
 
-                <td class="tableGoal">
+                <td class="tableGoal shipplayer-game">
                    {% if is_granted("ROLE_ADMIN") %}
                    <span class="changeGameGoalPlayer"
                      data-change="minusGame"
@@ -149,6 +149,9 @@
                          data-id="{{ player.id }}"
                          data-season="{{ app.request.get('season') }}"
                          data-team="{{ app.request.get('id') }}">+</span>
+                    <input type="text" class="shipplayer-input" value="0"
+                      data-id="{{ player.id }}"
+                      data-player="{{ player.player.id }}" />
                    {% else %}
                     {{ player.game }}
                    {% endif %}
@@ -251,7 +254,9 @@
             Обновить игрока</a>|
         <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Создать игрока</a>
+            Создать игрока</a>|
+        <a href="javascript:void(0)" id="shipplayersUpdate">
+            Обновить игроков</a>
         {% endif %}
 </div>
     {% endblock %}

@@ -100,6 +100,7 @@
               {{ entity.data | date('d.m H:i') }}
             </td>
             <td class="scScore">
+            {% if is_granted("ROLE_ADMIN") %}
               <a href="{{ path('eurocup_edit', {'id': entity.id,
                 'turnir': app.request.get('turnir'),
                 'stadia': rus_stadia.alias })}}">
@@ -109,6 +110,13 @@
                   {{ entity.score }}
                 {% endif %}
               </a>
+              {% else %}
+                {% if entity.status %}
+                    -:-
+                {% else %}
+                  {{ entity.score }}
+                {% endif %}
+              {% endif %}
             </td>
             <td class="scBomb">
                 {{ entity.bomb }}

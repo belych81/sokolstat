@@ -35,6 +35,37 @@ $(function(){
       }
   });
 
+  $("#shipplayersUpdate").click(function(){
+    var arGames = [];
+    $(".shipplayer-input").each(function(){
+      var game = $(this).val();
+      if(game != 0){
+        arGames.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          game
+        ]);
+      }
+    });
+    $.ajax({
+        type: 'post',
+        url: Routing.generate('shipplayers_update'),
+        data: {query: arGames},
+        dataType: 'json',
+        success: function(response){
+          var arr = JSON.parse(response);
+          console.log(arr);
+          arr.forEach(function(item, i, arr) {
+            $("[data-id="+item[0]+"][data-param='game']").text(item[1]);
+          });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        }
+    });
+  });
+
   $(".changeGameGoalPlayer").click(function(){
     var change = $(this).data('change');
     var id = $(this).data('id');
@@ -58,7 +89,7 @@ $(function(){
           console.log(xhr.status);
           console.log(thrownError);
         }
-  });
+      });
   });
 
   $(".letters-list li").click(function(){

@@ -166,6 +166,18 @@ class PlayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updateShipplayerSumGame($arr)
+    {
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.game', 's.game+'.$arr[2])
+                ->where('s.id = ?1')
+                ->setParameter(1, $arr[1])
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updatePlayerTotalGoal($id, $change, $goal = 0)
     {
         switch ($change) {

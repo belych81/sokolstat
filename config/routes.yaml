@@ -576,6 +576,13 @@ team_get_by_letter:
     options:
         expose: true
 
+shipplayers_update:
+    path:  /shipplayers/admin/update/
+    controller: App\Controller\ShiptableController:shipplayersUpdate
+    requirements: { _method: post }
+    options:
+        expose: true
+
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
