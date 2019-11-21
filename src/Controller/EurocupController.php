@@ -327,6 +327,49 @@ class EurocupController extends AbstractController
         ));
     }
 
+    public function editMatch($id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Eurocup::class)->find($id);
+
+        $editForm = $this->createForm(Eurocup2Type::class, $entity);
+
+        return $this->render('eurocup/editEurocup.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function updateMatch(Request $request, $id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Eurocup::class)->find($id);
+
+        $editForm = $this->createForm(Eurocup2Type::class, $entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $stadia=$entity->getStadia()->getAlias();
+            $season=$entity->getSeason()->getName();
+            
+            return $this->redirect($this->generateUrl('eurocup', [
+              'turnir' => $turnir,
+              'season' => $season,
+              'stadia' => $stadia
+            ]));
+
+        }
+
+        return $this->render('eurocup/editEurocup.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
     public function editEctable($id, $season, $turnir, $stadia=false)
     {
         $entity = $this->getDoctrine()->getRepository(Ectable::class)->find($id);

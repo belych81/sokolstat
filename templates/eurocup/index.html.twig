@@ -97,7 +97,15 @@
                 {% endif %}
             </td>
             <td class="scScore">
-              {{ entity.data | date('d.m H:i') }}
+              {% if is_granted("ROLE_ADMIN") %}
+                <a href="{{ path('eurocup_editMatch', {'id': entity.id,
+                  'turnir': app.request.get('turnir'),
+                  'stadia': rus_stadia.alias })}}">
+                  {{ entity.data | date('d.m H:i') }}
+                </a>
+              {% else %}
+                {{ entity.data | date('d.m H:i') }}
+              {% endif %}
             </td>
             <td class="scScore">
             {% if is_granted("ROLE_ADMIN") %}
