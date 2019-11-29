@@ -15,6 +15,7 @@ use App\Entity\Seasons;
 use App\Form\EurocupNewType;
 use App\Form\EurocupType;
 use App\Form\Eurocup2Type;
+use App\Form\EurocupTableType;
 use App\Form\EctableType;
 use App\Form\EctableEditType;
 use Symfony\Component\HttpFoundation\Request;
@@ -285,7 +286,7 @@ class EurocupController extends AbstractController
 
         $entity = $em->getRepository(Eurocup::class)->find($id);
 
-        $editForm = $this->createForm(Eurocup2Type::class, $entity);
+        $editForm = $this->createForm(EurocupTableType::class, $entity);
 
         return $this->render('eurocup/newEurocup.html.twig', array(
             'entity'      => $entity,
@@ -299,11 +300,11 @@ class EurocupController extends AbstractController
 
         $entity = $em->getRepository(Eurocup::class)->find($id);
 
-        $editForm = $this->createForm(Eurocup2Type::class, $entity);
+        $editForm = $this->createForm(EurocupTableType::class, $entity);
         $entity->setStatus(0);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isValid() && $editForm->isSubmitted()) {
             $em->persist($entity);
             $em->flush();
             $team=$entity->getTeam()->getId();
@@ -355,7 +356,7 @@ class EurocupController extends AbstractController
             $em->flush();
             $stadia=$entity->getStadia()->getAlias();
             $season=$entity->getSeason()->getName();
-            
+
             return $this->redirect($this->generateUrl('eurocup', [
               'turnir' => $turnir,
               'season' => $season,

@@ -16,6 +16,7 @@ class DefaultController extends AbstractController
     $fromDate = new \DateTime('now');
     $fromDate->setTime(0, 0, 0);
     $fromDate->modify('-1 year');
+    $club = 'АЙНТРАХТ Ф';
 
     $matches = $this->getDoctrine()->getRepository(Tour::class)
       ->findByLastYear($fromDate);
@@ -33,7 +34,9 @@ class DefaultController extends AbstractController
       $team = $match->getTeam()->getName();
       $team2 = $match->getTeam2()->getName();
       $turnir = $match->getTurnir()->getName();
-
+      if($team == $club || $team2 == $club){
+      echo $team." - ".$team2." - ".$match->getScore();
+    }
       $data = strtotime($match->getData()->format('d.m.Y'));
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
@@ -96,7 +99,7 @@ class DefaultController extends AbstractController
             $score2 = -7;
               break;
               case -1:
-              $score2 = -2;
+              $score2 = 2;
               $score1 = -1;
                 break;
               case -2:
@@ -129,10 +132,10 @@ class DefaultController extends AbstractController
         switch ($turnir) {
           case 'ЛЧ' :
           case 'СК' :
-            $coef = 8;
+            $coef = 9;
             break;
             case 'ЛЕ' :
-              $coef = 7;
+              $coef = 6;
               break;
         }
       } else {
@@ -147,15 +150,65 @@ class DefaultController extends AbstractController
         }
       }
 
+      if($score2 > 0){
+        switch ($turnir) {
+          case 'ЛЧ' :
+          case 'СК' :
+            $coef2 = 9;
+            break;
+            case 'ЛЕ' :
+              $coef2 = 6;
+              break;
+        }
+      } else {
+        switch ($turnir) {
+          case 'ЛЧ' :
+          case 'СК' :
+            $coef2 = 2;
+            break;
+            case 'ЛЕ' :
+              $coef2 = 5;
+              break;
+        }
+      }
+
       if(array_key_exists($team, $teamsRating)){
         $teamsRating[$team] += ($score1 + $addMonth) * $coef;
+        if($team == $club){
+          var_dump($score1);
+          var_dump($addMonth);
+          var_dump($coef);
+          var_dump(($score1 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       } else {
         $teamsRating[$team] = ($score1 + $addMonth)*$coef;
+        if($team == $club){
+          var_dump($score1);
+          var_dump($addMonth);
+          var_dump($coef);
+          var_dump(($score1 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       }
       if(array_key_exists($team2, $teamsRating)){
-        $teamsRating[$team2] += ($score2 + $addMonth)*$coef;
+        if($team2 == $club){
+          var_dump($score2);
+          var_dump($addMonth);
+          var_dump($coef2);
+          var_dump(($score2 + $addMonth) * $coef2);
+          echo "<br/>";
+        }
+        $teamsRating[$team2] += ($score2 + $addMonth)*$coef2;
       } else {
-        $teamsRating[$team2] = ($score2 + $addMonth)*$coef;
+        $teamsRating[$team2] = ($score2 + $addMonth)*$coef2;
+        if($team2 == $club){
+          var_dump($score2);
+          var_dump($addMonth);
+          var_dump($coef2);
+          var_dump(($score2 + $addMonth) * $coef2);
+          echo "<br/>";
+        }
       }
     }
 
@@ -168,6 +221,9 @@ class DefaultController extends AbstractController
       $data = strtotime($match->getData()->format('d.m.Y'));
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
+      if($team == $club || $team2 == $club){
+      echo $team." - ".$team2." - ".$goal1.":".$goal2;
+    }
       if($diffDate > $monthSec*11){
         $addMonth = 0;
       } elseif($diffDate > $monthSec*10){
@@ -297,13 +353,29 @@ class DefaultController extends AbstractController
 
       if(array_key_exists($team, $teamsRating)){
         $teamsRating[$team] += ($score1 + $addMonth) * $coef;
+        if($team == $club){
+          var_dump(($score1 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       } else {
         $teamsRating[$team] = ($score1 + $addMonth)*$coef;
+        if($team == $club){
+          var_dump(($score1 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       }
       if(array_key_exists($team2, $teamsRating)){
         $teamsRating[$team2] += ($score2 + $addMonth)*$coef;
+        if($team2 == $club){
+          var_dump(($score2 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       } else {
         $teamsRating[$team2] = ($score2 + $addMonth)*$coef;
+        if($team2 == $club){
+          var_dump(($score2 + $addMonth) * $coef);
+          echo "<br/>";
+        }
       }
     }
 
