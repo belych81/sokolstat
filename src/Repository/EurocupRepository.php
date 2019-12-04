@@ -23,9 +23,11 @@ class EurocupRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->join('e.team', 'tm')
+            ->join('e.team2', 'tm2')
             ->join('tm.country', 'c')
+            ->join('tm2.country', 'c2')
             ->where('e.data >= :data')
-            ->andWhere('c.name IN (:fnl)')
+            ->andWhere('c.name IN (:fnl) OR c2.name IN (:fnl)')
             ->andWhere('e.status = 0')
             ->setParameter('data', $data)
             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',

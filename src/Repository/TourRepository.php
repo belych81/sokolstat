@@ -26,6 +26,7 @@ class TourRepository extends ServiceEntityRepository
             ->join('tm.country', 'c')
             ->where('t.data >= :data')
             ->andWhere('c.name IN (:fnl)')
+            ->andWhere('t.status = 0')
             ->setParameter('data', $data)
             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
               'Франция'])

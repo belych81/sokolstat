@@ -24,6 +24,7 @@ class RfplmatchRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->join('t.team', 'tm')
             ->where('t.data >= :data')
+            ->andWhere('t.status = 0')
             ->setParameter('data', $data)
             ->orderBy('t.data', 'ASC')
             ->getQuery()
