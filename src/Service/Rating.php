@@ -133,10 +133,10 @@ class Rating
         switch ($turnir) {
           case 'ЛЧ' :
           case 'СК' :
-            $coef = 2;
+            $coef = 1;
             break;
             case 'ЛЕ' :
-              $coef = 4;
+              $coef = 3;
               break;
         }
       }
@@ -166,21 +166,29 @@ class Rating
         switch ($country) {
           case 'Англия' :
           case 'Испания' :
-            $coef = 5;
+            $coef = 4;
             break;
             case 'Италия' :
             case 'Германия' :
-              $coef = 6;
+              $coef = 5;
               break;
               case 'Франция' :
-                $coef = 7;
+                $coef = 6;
                 break;
                 case 'Россия' :
-                  $coef = 8;
+                  $coef = 7;
                   break;
         }
       }
       return $coef;
+    }
+
+    public function checkCountry($country){
+      $arCountry = ['Россия', 'Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
+      if(in_array($country, $arCountry)){
+        return true;
+      }
+      return false;
     }
 
 }

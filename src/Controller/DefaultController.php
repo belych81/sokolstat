@@ -52,42 +52,46 @@ class DefaultController extends AbstractController
       $coef = $rating->getCoefEc($score1, $turnir);
       $coef2 = $rating->getCoefEc($score2, $turnir);
 
-      if(array_key_exists($team, $teamsRating)){
-        $teamsRating[$team] += $score1 * $addMonth * $coef;
-        if($team == $club){
-          /*var_dump($score1);
-          var_dump($addMonth);
-          var_dump($coef);
-          var_dump($score1 * $addMonth * $coef);
-          echo "<br/>";*/
-        }
-      } else {
-        $teamsRating[$team] = $score1 * $addMonth * $coef;
-        if($team == $club){
-          /*var_dump($score1);
-          var_dump($addMonth);
-          var_dump($coef);
-          var_dump($score1 * $addMonth * $coef);
-          echo "<br/>";*/
+      if($rating->checkCountry($match->getTeam2()->getCountry()->getName())){
+        if(array_key_exists($team, $teamsRating)){
+          $teamsRating[$team] += $score1 * $addMonth * $coef;
+          if($team == $club){
+            /*var_dump($score1);
+            var_dump($addMonth);
+            var_dump($coef);
+            var_dump($score1 * $addMonth * $coef);
+            echo "<br/>";*/
+          }
+        } else {
+          $teamsRating[$team] = $score1 * $addMonth * $coef;
+          if($team == $club){
+            /*var_dump($score1);
+            var_dump($addMonth);
+            var_dump($coef);
+            var_dump($score1 * $addMonth * $coef);
+            echo "<br/>";*/
+          }
         }
       }
-      if(array_key_exists($team2, $teamsRating)){
-        if($team2 == $club){
-          /*var_dump($score2);
-          var_dump($addMonth);
-          var_dump($coef2);
-          var_dump($score2 * $addMonth * $coef2);
-          echo "<br/>";*/
-        }
-        $teamsRating[$team2] += $score2 * $addMonth * $coef2;
-      } else {
-        $teamsRating[$team2] = $score2 * $addMonth * $coef2;
-        if($team2 == $club){
-          /*var_dump($score2);
-          var_dump($addMonth);
-          var_dump($coef2);
-          var_dump($score2 * $addMonth * $coef2);
-          echo "<br/>";*/
+      if($rating->checkCountry($match->getTeam2()->getCountry()->getName())){
+        if(array_key_exists($team2, $teamsRating)){
+          if($team2 == $club){
+            /*var_dump($score2);
+            var_dump($addMonth);
+            var_dump($coef2);
+            var_dump($score2 * $addMonth * $coef2);
+            echo "<br/>";*/
+          }
+          $teamsRating[$team2] += $score2 * $addMonth * $coef2;
+        } else {
+          $teamsRating[$team2] = $score2 * $addMonth * $coef2;
+          if($team2 == $club){
+            /*var_dump($score2);
+            var_dump($addMonth);
+            var_dump($coef2);
+            var_dump($score2 * $addMonth * $coef2);
+            echo "<br/>";*/
+          }
         }
       }
     }
@@ -102,7 +106,7 @@ class DefaultController extends AbstractController
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
       if($team == $club || $team2 == $club){
-      echo $team." - ".$team2." - ".$goal1.":".$goal2;
+      //echo $team." - ".$team2." - ".$goal1.":".$goal2;
       }
       $addMonth = $rating->getAddMonth($diffDate, $monthSec);
       $differ = $goal1 - $goal2;
