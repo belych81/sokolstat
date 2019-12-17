@@ -1,0 +1,59 @@
+{% extends 'nhl/index.html.twig' %}
+
+{% block title %}
+   НХЛ в сезоне {{ app.request.get('season') }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="НХЛ в сезоне {{ app.request.get('season') }},
+          бомбардиры, турнирная таблица, матчи">
+{% endblock %}
+
+{% block content %}
+  <div><h1>НХЛ {{ app.request.get('season') }}</h1></div>
+
+  <div>
+    <a href="{{ path('nhl_season', {'season': app.request.get('season')}) }}">
+      МАТЧИ
+    </a>
+    ТАБЛИЦА
+  </div>
+
+  {% for name, divis in division %}
+    <div class="champ-table champs">
+      Дивизион {{ name }}
+        <table class="shipTable">
+            <thead>
+                <tr class="shipTableTitle">
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th class="winsTable">И</th>
+                    <th class="winsTable">В</th>
+                    <th class="winsTable">Н</th>
+                    <th class="winsTable">П</th>
+                    <th class="goalsTable">M</th>
+                    <th class="winsTable">О</th>
+
+                </tr>
+            </thead>
+            <tbody>
+              {% for entity in divis %}
+
+                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td class="player-position">{{ loop.index }}</td>
+                    <td class="tableLeft">
+                        {{ entity.team.name }}</td>
+                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                    <td>{{ entity.wins }}</td>
+                    <td>{{ entity.nich }}</td>
+                    <td>{{ entity.porazh }}</td>
+                    <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                    <td class="table-score">{{ entity.score }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -74,6 +74,68 @@ nhl_add:
   path: /nhl/add/
   controller: App\Controller\NhlController::add
 
+nhl_season:
+    path:  /nhl/{season}/
+    controller: App\Controller\NhlController:index
+
+nhl_standing:
+    path:  /nhl/standing/{season}/
+    controller: App\Controller\NhlController:standing
+
+nhl_player_show:
+    path:  /nhl/player/{id}/
+    controller: App\Controller\NhlController:showPlayer
+
+nhl_show:
+    path:  /nhl/{season}/{id}/
+    controller: App\Controller\NhlController:show
+
+nhl_newSeason:
+    path:  /nhl/admin/season/
+    controller: App\Controller\NhlController:newSeason
+
+nhl_createSeason:
+    path:  /nhl/admin/season/create/
+    controller: App\Controller\NhlController:createSeason
+    requirements: { _method: post }
+
+nhl_newMatch:
+    path:  /nhl/admin/newMatch/{season}/
+    controller: App\Controller\NhlController:newMatch
+
+nhl_createMatch:
+    path:  /nhl/admin/create/newMatch/{season}/
+    controller: App\Controller\NhlController:createMatch
+    requirements: { _method: post }
+
+nhl_newrus:
+    path:  /nhl/admin/new/rus/{id}/
+    controller: App\Controller\NhlController:newRus
+
+nhl_createrus:
+    path:  /nhl/admin/create/match/rus/{id}/
+    controller: App\Controller\NhlController:createRus
+    requirements: { _method: post }
+
+nhl_newPlayer:
+    path:  /nhl/admin/newPlayer/{season}/{team}/
+    controller: App\Controller\NhlController:newPlayer
+
+nhl_createPlayer:
+    path:  /nhl/admin/createNewPlayer/{season}/{team}/
+    controller: App\Controller\NhlController:createNewPlayer
+    requirements: { _method: post }
+
+nhl_newChampLast:
+    path:  /nhl/admin/champ-last/{season}/{team}/
+    controller: App\Controller\NhlController:newChampLast
+
+nhl_editChamp:
+    path:  /nhl/admin/{id}/edit/{season}/{team}/{change}/
+    controller: App\Controller\NhlController:editChamp
+    options:
+        expose: true
+
 championships:
     path:  /championships/{country}/{season}/{tour}
     controller: App\Controller\ShiptableController:index
@@ -96,6 +158,15 @@ championships_new:
 championships_create:
     path:  /championships/admin/create/{id}
     controller: App\Controller\ShiptableController:create
+    requirements: { _method: post }
+
+championships_newMatch:
+    path:  /championships/admin/newMatch/{season}/
+    controller: App\Controller\ShiptableController:newMatch
+
+championships_createMatch:
+    path:  /championships/admin/create/newMatch/{season}/
+    controller: App\Controller\ShiptableController:createMatch
     requirements: { _method: post }
 
 championships_edit:
@@ -127,15 +198,6 @@ championships_newSeason:
 championships_createSeason:
     path:  /championships/admin/season/create/{country}
     controller: App\Controller\ShiptableController:createSeason
-    requirements: { _method: post }
-
-championships_newMatch:
-    path:  /championships/admin/{country}/{season}
-    controller: App\Controller\ShiptableController:newMatch
-
-championships_createMatch:
-    path:  /championships/admin/create/{country}/{season}
-    controller: App\Controller\ShiptableController:createMatch
     requirements: { _method: post }
 
 championships_newrus:
@@ -354,6 +416,10 @@ news_search:
     options:
         expose: true
 
+player_show:
+    path:  /player/{id}
+    controller: App\Controller\RusplayerController:show
+
 player_edit:
     path: /player/edit/{id}
     controller: App\Controller\PlayerController:edit
@@ -366,10 +432,6 @@ player_update:
 player_search:
     path: /player/search
     controller: App\Controller\RusplayerController:search
-
-player_show:
-    path:  /player/{id}
-    controller: App\Controller\RusplayerController:show
 
 player_newSb:
     path:  /playeradmin/admin/sb/{season}

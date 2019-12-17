@@ -84,6 +84,10 @@ $(function(){
             $(".spiski[data-id="+id+"]").addClass('selected');
             $("[data-id="+id+"][data-param='game']").text(data['game']);
             $("[data-id="+id+"][data-param='goal']").text(data['goal']);
+            $("[data-id="+id+"][data-param='assist']").text(data['assist']);
+            $("[data-id="+id+"][data-param='score']").text(data['score']);
+            $("[data-id="+id+"][data-param='missed']").text(data['missed']);
+            $("[data-id="+id+"][data-param='zero']").text(data['zero']);
         },
         error: function (xhr, ajaxOptions, thrownError) {
           console.log(xhr.status);

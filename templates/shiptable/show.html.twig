@@ -180,23 +180,23 @@
                    <td class="column-supercup tableGoal">
                       {% if is_granted("ROLE_ADMIN") %}
                           <a href="{{ path('playeradmin_editNationCup',
-                    {'id': player.id, 'season': app.request.get('season'),
-                       'team': app.request.get('id'),
-                       'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                            {'id': player.id, 'season': app.request.get('season'),
+                              'team': app.request.get('id'),
+                              'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
                               {{ player.cup }}
                               <a href="{{ path('playeradmin_editNationCup',
-                    {'id': player.id, 'season': app.request.get('season'),
-                       'team': app.request.get('id'),
-                       'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                                {'id': player.id, 'season': app.request.get('season'),
+                                  'team': app.request.get('id'),
+                                  'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
                            (<a href="{{ path('playeradmin_editNationSupercup',
-                     {'id': player.id, 'season': app.request.get('season'),
-                        'team': app.request.get('id'),
-                        'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                            {'id': player.id, 'season': app.request.get('season'),
+                              'team': app.request.get('id'),
+                                'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
                                {{ player.supercup }}
                                <a href="{{ path('playeradmin_editNationSupercup',
-                     {'id': player.id, 'season': app.request.get('season'),
-                        'team': app.request.get('id'),
-                        'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>)
+                                {'id': player.id, 'season': app.request.get('season'),
+                                  'team': app.request.get('id'),
+                                    'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>)
                       {% else %}
                         {{ player.cup }}
                         {% if player.supercup > 0 %}

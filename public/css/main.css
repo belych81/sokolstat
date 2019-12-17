@@ -218,6 +218,9 @@ footer {
   color: #000;
   text-decoration: none;
 }
+.champTourTeam.nhl-match-team {
+    width: 220px;
+}
 .champTourImage {
     background-color: #fff;
     width: 51px;
@@ -260,6 +263,9 @@ footer {
 }
 .champ-tours b{
   font-size: 14px;
+}
+.champ-tours.nhl-matches{
+  max-width: 560px;
 }
 .champ-match-bomb{
   background: #bad9c8;
@@ -707,6 +713,9 @@ footer {
     color: #663300;
     font-weight: bold;
     font-size: 22px;
+}
+.player-name{
+  width: 200px;
 }
 .playerStatTable {
     /*width: 300px;*/

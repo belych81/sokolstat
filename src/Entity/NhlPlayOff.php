@@ -39,6 +39,11 @@ class NhlPlayOff
      */
     private $goal;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $assist;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class NhlPlayOff
     public function setGoal(int $goal): self
     {
         $this->goal = $goal;
+
+        return $this;
+    }
+
+    public function getAssist(): ?int
+    {
+        return $this->assist;
+    }
+
+    public function setAssist(int $assist): self
+    {
+        $this->assist = $assist;
 
         return $this;
     }

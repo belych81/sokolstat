@@ -39,6 +39,11 @@ class Seasons
     private $rfplmatches;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlReg", mappedBy="season")
+     */
+    private $nhlRegs;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="season")
      */
     private $eurocups;
@@ -129,6 +134,11 @@ class Seasons
 
     private $season_cup_matches;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlTable", mappedBy="season")
+     */
+    private $nhlTables;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -151,6 +161,7 @@ class Seasons
         $this->sbplayers = new ArrayCollection();
         $this->mundials = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
+        $this->nhlTables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -827,6 +838,37 @@ class Seasons
     public function setSeasonCupMatches($season_cup_matches): self
     {
         $this->season_cup_matches = $season_cup_matches;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NhlTable[]
+     */
+    public function getNhlTables(): Collection
+    {
+        return $this->nhlTables;
+    }
+
+    public function addNhlTable(NhlTable $nhlTable): self
+    {
+        if (!$this->nhlTables->contains($nhlTable)) {
+            $this->nhlTables[] = $nhlTable;
+            $nhlTable->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNhlTable(NhlTable $nhlTable): self
+    {
+        if ($this->nhlTables->contains($nhlTable)) {
+            $this->nhlTables->removeElement($nhlTable);
+            // set the owning side to null (unless already changed)
+            if ($nhlTable->getSeason() === $this) {
+                $nhlTable->setSeason(null);
+            }
+        }
 
         return $this;
     }

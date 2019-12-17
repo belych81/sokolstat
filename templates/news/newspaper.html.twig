@@ -9,15 +9,26 @@
 </head>
 <body>
   <h1>Классический ФУТБОЛ</h1>
-  <span>№1</span>
-  <span>{{ today | date('d.m.y') }}</span>
+  <span>№ <strong>1</strong></span>
+  <span>{{ today | date('d.m.Y') }}</span>
   <div>
   <h3>Российская Премьер-Лига</h3>
     {% for tour in rfplTours %}
-    <h4>{{ tour }}-й тур</h4>ё
+    <h4>{{ tour }}-й тур</h4>
       {% for match in rfplMatch %}
-        {{ match.team.name }}
+        {% if match.tour == tour %}
+          {{ match.team.name }} - {{ match.team2.name }} -
+          {{ match.goal1 }}:{{ match.goal2 }} ({{ match.bomb }})<br/>
+        {% endif %}
       {% endfor %}
+    {% endfor %}
+
+    {% for match in matches %}
+      {% if match.team.country.name == 'Англия' %}
+      <h3>Англия</h3>
+        {{ match.team.name }} - {{ match.team2.name }} -
+        {{ match.goal1 }}:{{ match.goal2 }} ({{ match.bomb }})<br/>
+      {% endif %}
     {% endfor %}
   </div>
 </body>

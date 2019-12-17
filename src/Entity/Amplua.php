@@ -28,9 +28,15 @@ class Amplua
      */
     private $players;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayer", mappedBy="amplua")
+     */
+    private $nhlPlayers;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->nhlPlayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,5 +90,36 @@ class Amplua
     public function __toString()
     {
       return $this->name;
+    }
+
+    /**
+     * @return Collection|NhlPlayer[]
+     */
+    public function getNhlPlayers(): Collection
+    {
+        return $this->nhlPlayers;
+    }
+
+    public function addNhlPlayer(NhlPlayer $nhlPlayer): self
+    {
+        if (!$this->nhlPlayers->contains($nhlPlayer)) {
+            $this->nhlPlayers[] = $nhlPlayer;
+            $nhlPlayer->setAmplua($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNhlPlayer(NhlPlayer $nhlPlayer): self
+    {
+        if ($this->nhlPlayers->contains($nhlPlayer)) {
+            $this->nhlPlayers->removeElement($nhlPlayer);
+            // set the owning side to null (unless already changed)
+            if ($nhlPlayer->getAmplua() === $this) {
+                $nhlPlayer->setAmplua(null);
+            }
+        }
+
+        return $this;
     }
 }

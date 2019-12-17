@@ -142,9 +142,11 @@ class NewsController extends AbstractController
       $today = date('j.m.Y');
       $fromDate = new \DateTime('now');
       $fromDate->setTime(0, 0, 0);
-      $fromDate->modify('-7 days');
+      $fromDate->modify('-3 month');
       $em = $this->getDoctrine();
       $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
+      $matches = $this->getDoctrine()->getRepository(Tour::class)
+        ->findByLastYear($fromDate);
       $rfplTours = [];
       foreach ($rfplMatch as $value) {
         $tour = $value->getTour();
@@ -156,6 +158,7 @@ class NewsController extends AbstractController
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,
+        'matches' => $matches,
         'today' => $today
       ]);
     }

@@ -1,0 +1,49 @@
+{% extends 'nhl/index.html.twig' %}
+
+{% block title %}
+    Добавить сезон
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('nhl_createSeason') }}" method="post" >
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.season) }}</th>
+                    <td>
+                        {{ form_errors(form.season) }}
+                        {{ form_widget(form.season) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.division) }}</th>
+                    <td>
+                        {{ form_errors(form.division) }}
+                        {{ form_widget(form.division) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team) }}</th>
+                    <td>
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+
+
+{% endblock %}

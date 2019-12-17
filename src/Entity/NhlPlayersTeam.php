@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\NhlRegRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\NhlPlayersTeamRepository")
  */
-class NhlReg
+class NhlPlayersTeam
 {
     /**
      * @ORM\Id()
@@ -17,66 +17,118 @@ class NhlReg
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="nhlRegs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $season;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nhlRegs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $team;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlPlayer", inversedBy="nhlRegs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\NhlPlayer", inversedBy="nhlPlayersTeams")
      */
     private $player;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nhlPlayersTeams")
      */
-    private $goal = 0;
+    private $team;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $assist = 0;
+    private $gameReg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $score = 0;
+    private $gamePlayOff = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $game = 0;
+    private $gameSum = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $missed = 0;
+    private $goalReg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $zero = 0;
+    private $goalPlayOff = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $goalSum = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $assistReg = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $assistPlayOff = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $assistSum = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $scoreReg = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $scorePlayOff = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $scoreSum = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $missedReg = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $missedPlayOff = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $missedSum = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zeroReg = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zeroPlayOff = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zeroSum = 0;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSeason(): ?Seasons
+    public function getPlayer(): ?NhlPlayer
     {
-        return $this->season;
+        return $this->player;
     }
 
-    public function setSeason(?Seasons $season): self
+    public function setPlayer(?NhlPlayer $player): self
     {
-        $this->season = $season;
+        $this->player = $player;
 
         return $this;
     }
@@ -93,232 +145,16 @@ class NhlReg
         return $this;
     }
 
-    public function getPlayer(): ?NhlPlayer
+    public function getGameReg(): ?int
     {
-        return $this->player;
+        return $this->gameReg;
     }
 
-    public function setPlayer(?NhlPlayer $player): self
+    public function setGameReg(int $gameReg): self
     {
-        $this->player = $player;
+        $this->gameReg = $gameReg;
 
         return $this;
-    }
-
-    public function getGoal(): ?int
-    {
-        return $this->goal;
-    }
-
-    public function setGoal(int $goal): self
-    {
-        $this->goal = $goal;
-
-        return $this;
-    }
-
-    public function getAssist(): ?int
-    {
-        return $this->assist;
-    }
-
-    public function setAssist(int $assist): self
-    {
-        $this->assist = $assist;
-
-        return $this;
-    }
-
-    public function getScore(): ?int
-    {
-        return $this->score;
-    }
-
-    public function setScore(int $score): self
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
-    public function getGame(): ?int
-    {
-        return $this->game;
-    }
-
-    public function setGame(int $game): self
-    {
-        $this->game = $game;
-
-        return $this;
-    }
-
-    public function getMissed(): ?int
-    {
-        return $this->missed;
-    }
-
-    public function setMissed(int $missed): self
-    {
-        $this->missed = $missed;
-
-        return $this;
-    }
-
-    public function getZero(): ?int
-    {
-        return $this->zero;
-    }
-
-    public function setZero(int $zero): self
-    {
-        $this->zero = $zero;
-
-        return $this;
-    }
-
-    private $gameTeam;
-
-    private $missedTeam;
-
-    private $zeroTeam;
-
-    private $goalTeam;
-
-    private $assistTeam;
-
-    private $scoreTeam;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $gamePlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $gameSum = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $goalPlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $goalSum = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $assistPlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $assistSum = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $scorePlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $scoreSum = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $missedPlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $missedSum = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $zeroPlayOff = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $zeroSum = 0;
-
-    public function setGameTeam($gameTeam)
-    {
-        $this->gameTeam = $gameTeam;
-
-        return $this;
-    }
-
-    public function getGameTeam()
-    {
-        return $this->gameTeam;
-    }
-
-    public function setGoalTeam($goalTeam)
-    {
-        $this->goalTeam = $goalTeam;
-
-        return $this;
-    }
-
-    public function getGoalTeam()
-    {
-        return $this->goalTeam;
-    }
-
-    public function setAssistTeam($assistTeam)
-    {
-        $this->assistTeam = $assistTeam;
-
-        return $this;
-    }
-
-    public function getAssistTeam()
-    {
-        return $this->assistTeam;
-    }
-
-    public function setScoreTeam($scoreTeam)
-    {
-        $this->scoreTeam = $scoreTeam;
-
-        return $this;
-    }
-
-    public function getScoreTeam()
-    {
-        return $this->scoreTeam;
-    }
-
-    public function setZeroTeam($zeroTeam)
-    {
-        $this->zeroTeam = $zeroTeam;
-
-        return $this;
-    }
-
-    public function getZeroTeam()
-    {
-        return $this->zeroTeam;
-    }
-
-    public function setMissedTeam($missedTeam)
-    {
-        $this->missedTeam = $missedTeam;
-
-        return $this;
-    }
-
-    public function getMissedTeam()
-    {
-        return $this->missedTeam;
     }
 
     public function getGamePlayOff(): ?int
@@ -341,6 +177,18 @@ class NhlReg
     public function setGameSum(int $gameSum): self
     {
         $this->gameSum = $gameSum;
+
+        return $this;
+    }
+
+    public function getGoalReg(): ?int
+    {
+        return $this->goalReg;
+    }
+
+    public function setGoalReg(int $goalReg): self
+    {
+        $this->goalReg = $goalReg;
 
         return $this;
     }
@@ -369,6 +217,18 @@ class NhlReg
         return $this;
     }
 
+    public function getAssistReg(): ?int
+    {
+        return $this->assistReg;
+    }
+
+    public function setAssistReg(int $assistReg): self
+    {
+        $this->assistReg = $assistReg;
+
+        return $this;
+    }
+
     public function getAssistPlayOff(): ?int
     {
         return $this->assistPlayOff;
@@ -389,6 +249,18 @@ class NhlReg
     public function setAssistSum(int $assistSum): self
     {
         $this->assistSum = $assistSum;
+
+        return $this;
+    }
+
+    public function getScoreReg(): ?int
+    {
+        return $this->scoreReg;
+    }
+
+    public function setScoreReg(int $scoreReg): self
+    {
+        $this->scoreReg = $scoreReg;
 
         return $this;
     }
@@ -417,6 +289,18 @@ class NhlReg
         return $this;
     }
 
+    public function getMissedReg(): ?int
+    {
+        return $this->missedReg;
+    }
+
+    public function setMissedReg(int $missedReg): self
+    {
+        $this->missedReg = $missedReg;
+
+        return $this;
+    }
+
     public function getMissedPlayOff(): ?int
     {
         return $this->missedPlayOff;
@@ -437,6 +321,18 @@ class NhlReg
     public function setMissedSum(int $missedSum): self
     {
         $this->missedSum = $missedSum;
+
+        return $this;
+    }
+
+    public function getZeroReg(): ?int
+    {
+        return $this->zeroReg;
+    }
+
+    public function setZeroReg(int $zeroReg): self
+    {
+        $this->zeroReg = $zeroReg;
 
         return $this;
     }
@@ -464,5 +360,4 @@ class NhlReg
 
         return $this;
     }
-
 }

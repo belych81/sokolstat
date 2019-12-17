@@ -73,6 +73,11 @@ class Country
      */
     private $sostavs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayer", mappedBy="country")
+     */
+    private $nhlPlayers;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -84,6 +89,7 @@ class Country
         $this->mundials = new ArrayCollection();
         $this->referees = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
+        $this->nhlPlayers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -397,5 +403,36 @@ class Country
     public function __toString()
     {
       return (string)$this->name;
+    }
+
+    /**
+     * @return Collection|NhlPlayer[]
+     */
+    public function getNhlPlayers(): Collection
+    {
+        return $this->nhlPlayers;
+    }
+
+    public function addNhlPlayer(NhlPlayer $nhlPlayer): self
+    {
+        if (!$this->nhlPlayers->contains($nhlPlayer)) {
+            $this->nhlPlayers[] = $nhlPlayer;
+            $nhlPlayer->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNhlPlayer(NhlPlayer $nhlPlayer): self
+    {
+        if ($this->nhlPlayers->contains($nhlPlayer)) {
+            $this->nhlPlayers->removeElement($nhlPlayer);
+            // set the owning side to null (unless already changed)
+            if ($nhlPlayer->getCountry() === $this) {
+                $nhlPlayer->setCountry(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -21,10 +21,6 @@ class PlayersteamRepository extends ServiceEntityRepository
 
     public function getStat($name, $team, $param)
     {
-        switch ($param) {
-            case 'game' : $select = 'p.game'; break;
-            case 'goal' : $select = 'p.goal'; break;
-        }
         $qb = $this->createQueryBuilder('p')
                 ->join('p.team', 't')
                 ->join('p.player', 'n')

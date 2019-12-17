@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   НХЛ в сезоне {{ app.request.get('season') }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="НХЛ в сезоне {{ app.request.get('season') }},
+          бомбардиры, турнирная таблица, матчи">
+{% endblock %}
+
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+            <a href="{{ path('nhl_season', {
+              'season': season.season.name}) }}" class="spiski">
+              {{ season.season.name }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+  <div><h1>НХЛ {{ app.request.get('season') }}</h1></div>
+
+  <div>МАТЧИ
+    <a href="{{ path('nhl_standing', {'season': app.request.get('season')}) }}">
+      ТАБЛИЦА
+    </a>
+  </div>
+
+  <div class="champ-tours nhl-matches champs">
+    {% if is_granted("ROLE_ADMIN") %}
+      <p><a href="{{ path('nhl_newMatch', {'season': app.request.get('season')})
+        }}">Добавить матч</a></p>
+    {% endif %}
+    <table>
+        <tbody>
+        {% for key, data in dates %}
+        <tr class="champ-match-title">
+          <td colspan="6">{{ key }}</td>
+        </tr>
+          {% for match in data %}
+            <tr class="champ-match-title">
+                {% if is_granted("ROLE_ADMIN") %}
+                      <td colspan="6">
+                        <a href="{{ path('nhl_newrus', {'id': match.id}) }}">
+                          {{ match.data | date('d.m H:i') }}
+                        </a>
+                      </td>
+                {% else %}
+                      <td colspan="6">
+                          {% if match.status == 1 %}
+                            {{ match.data | date('d.m H:i') }}
+                          {% else %}
+                              {{ match.data | date('d.m') }}
+                          {% endif %}
+                      </td>
+                {% endif %}
+            </tr>
+            <tr>
+              <td class="champTourTeam nhl-match-team">
+              <a href="{{ path('nhl_show', {
+                'season': app.request.get('season'),
+                'id': match.team.translit}) }}">{{ match.team.name }}</a>
+              </td>
+              <td class="champTourImage">
+              </td>
+              <td class="champTourScore">
+                {% if match.status == 1 %}
+                  -
+                {% else %}
+                  {{ match.goal1 }}
+                {% endif %}
+              </td>
+              <td class="champTourScore">
+              {% if match.status == 1 %}
+                -
+              {% else %}
+                {{ match.goal2 }}
+              {% endif %}
+              </td>
+              <td class="champTourImage">
+              </td>
+              <td class="champTourTeam nhl-match-team">
+              <a href="{{ path('nhl_show', {
+                'season': app.request.get('season'),
+                'id': match.team2.translit}) }}">{{ match.team2.name }}</a>
+              </td>
+            </tr>
+            <tr class="champ-match-bomb">
+              <td colspan="6" class="">{{ match.bomb }}</td>
+            </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+  {% if is_granted("ROLE_ADMIN") %}
+    <p><a href="{{ path('nhl_newSeason') }}">Добавить сезон</a></p>
+  {% endif %}
+{% endblock %}

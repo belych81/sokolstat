@@ -51,8 +51,10 @@ class DefaultController extends AbstractController
 
       $coef = $rating->getCoefEc($score1, $turnir);
       $coef2 = $rating->getCoefEc($score2, $turnir);
-
-      if($rating->checkCountry($match->getTeam2()->getCountry()->getName())){
+//var_dump($match->getTeam2()->getCountry()->getName());
+//var_dump($rating->checkCountry($match->getTeam2()->getCountry()->getName()));
+//echo "<br/>";
+      if($rating->checkCountry($match->getTeam()->getCountry()->getName())){
         if(array_key_exists($team, $teamsRating)){
           $teamsRating[$team] += $score1 * $addMonth * $coef;
           if($team == $club){
