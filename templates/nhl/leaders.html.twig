@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Лидеры НХЛ {{ app.request.get('season') }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Лидеры НХЛ {{ app.request.get('season') }},
+          бомбардиры">
+{% endblock %}
+
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+            <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="champ-bombs champs">
+                <p class="champ-title">Бомбардиры</p>
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th>&nbsp;</th>
+                <th class="bombName">&nbsp;</th>
+                <th>Клуб</th>
+                <th>Г</th>
+                <th>П</th>
+                <th>О</th>
+            </tr>
+        </thead>
+        <tbody class="shipTable">
+        {% for name, player in bombs %}
+
+            <tr class="odd">
+                <td class="player-position">{{ loop.index }}</td>
+                <td class="spiski">
+                    <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                        {{ name }}</a>
+                </td>
+                <td class="bombTeam">{{ player.team }}</td>
+                <td class="tableGoal">{{ player.goal }}</td>
+                <td class="tableGoal">{{ player.assist }}</td>
+                <td class="tableGoal">{{ player.score }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

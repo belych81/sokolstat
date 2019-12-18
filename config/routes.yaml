@@ -82,6 +82,10 @@ nhl_standing:
     path:  /nhl/standing/{season}/
     controller: App\Controller\NhlController:standing
 
+nhl_leaders:
+    path:  /nhl/leaders/{season}/
+    controller: App\Controller\NhlController:leaders
+
 nhl_player_show:
     path:  /nhl/player/{id}/
     controller: App\Controller\NhlController:showPlayer

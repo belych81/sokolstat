@@ -173,4 +173,19 @@ class NhlRegRepository extends ServiceEntityRepository
         }
             $qb->execute();
     }
+
+    public function getBomb($season)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->andWhere('sp.score > 0')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
 }

@@ -58,6 +58,65 @@ class NhlController extends AbstractController
       ]);
   }
 
+  public function leaders($season)
+  {
+      $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+        ->getSeasons();
+      $bombs = $this->getDoctrine()->getRepository(NhlReg::class)
+        ->getBomb($season);
+        $bombSum = [];
+        foreach ($bombs as $val) {
+          $name = $val->getPlayer()->getName();
+          $goal = $val->getGoal();
+          $assist = $val->getAssist();
+          $score = $val->getScore();
+          $team = $val->getTeam()->getName();
+          if(key_exists($name, $bombSum)){
+            $bombSum[$name]['goal'] += $goal;
+            $bombSum[$name]['team'] .= " / ".$team;
+          } else {
+            $bombSum[$name] = ['player' => $val, 'goal' => $goal,
+              'assist' => $assist, 'score' => $score, 'team' => $team,
+              'name' => $name];
+          }
+        }
+        $sortGoal = function($f1,$f2)
+          {
+             if($f1['score'] < $f2['score']){
+                 return 1;
+             }
+             elseif($f1['score'] > $f2['score']) {
+                 return -1;
+             }
+             else {
+               if($f1['goal'] < $f2['goal']){
+                   return 1;
+               }
+               elseif($f1['goal'] > $f2['goal']) {
+                   return -1;
+               }
+               else {
+                 if($f1['name'] < $f2['name']){
+                     return -1;
+                 }
+                 elseif($f1['name'] > $f2['name']) {
+                     return 1;
+                 }
+                 else {
+                     return 0;
+                 }
+               }
+             }
+          };
+        uasort($bombSum, $sortGoal);
+        $bombSum = array_slice($bombSum, 0, 20);
+
+      return $this->render('nhl/leaders.html.twig', [
+          'seasons' => $seasons,
+          'bombs' => $bombSum
+      ]);
+  }
+
   public function show(SessionInterface $session, $id, $season)
   {
       $club = $this->getDoctrine()->getRepository(NhlTeam::class)
