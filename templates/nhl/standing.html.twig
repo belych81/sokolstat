@@ -17,11 +17,14 @@
       МАТЧИ
     </a>
     ТАБЛИЦА
+    <a href="{{ path('nhl_leaders', {'season': app.request.get('season')}) }}">
+      ЛИДЕРЫ
+    </a>
   </div>
 
   {% for name, divis in division %}
     <div class="champ-table champs">
-      Дивизион {{ name }}
+      <p class="champ-title">Дивизион {{ name }}</p>
         <table class="shipTable">
             <thead>
                 <tr class="shipTableTitle">

@@ -6,6 +6,9 @@
             Еженедельник "Классический Футбол"
         {% endblock %}
     </title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/newspaper.css') }}" rel="stylesheet" />
+    {% endblock %}
 </head>
 <body>
   <h1>Классический ФУТБОЛ</h1>
@@ -17,19 +20,28 @@
     <h4>{{ tour }}-й тур</h4>
       {% for match in rfplMatch %}
         {% if match.tour == tour %}
-          {{ match.team.name }} - {{ match.team2.name }} -
-          {{ match.goal1 }}:{{ match.goal2 }} ({{ match.bomb }})<br/>
+          <span>{{ match.team.name }}</span> - <span>{{ match.team2.name }}</span> -
+          {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
         {% endif %}
       {% endfor %}
     {% endfor %}
 
-    {% for match in matches %}
-      {% if match.team.country.name == 'Англия' %}
-      <h3>Англия</h3>
-        {{ match.team.name }} - {{ match.team2.name }} -
-        {{ match.goal1 }}:{{ match.goal2 }} ({{ match.bomb }})<br/>
-      {% endif %}
+    {% for key, country in tours %}
+      <h3>{{ key }}</h3>
+      <div class="np-champ-matches">
+      {% for k, tour in country %}
+        <h4>{{ k }}-й тур</h4>
+        {% for match in tour %}
+          <div>
+            <span class="np-matches-team">&laquo;{{ match.team.name }}&raquo; -
+            &laquo;{{ match.team2.name }}&raquo; -
+            {{ match.goal1 }}:{{ match.goal2 }}</span> (<span>{{ match.bomb }}</span>).
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
     {% endfor %}
+
   </div>
 </body>
 </html>

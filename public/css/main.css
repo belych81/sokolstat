@@ -212,14 +212,15 @@ footer {
     text-align: center;
     font-weight: bold;
     background-color: #6fbd90;
-    width: 120px;
+    min-width: 110px;
+    max-width: 120px;
 }
 .champTourTeam a{
   color: #000;
   text-decoration: none;
 }
 .champTourTeam.nhl-match-team {
-    width: 220px;
+    max-width: 320px;
 }
 .champTourImage {
     background-color: #fff;
@@ -263,9 +264,6 @@ footer {
 }
 .champ-tours b{
   font-size: 14px;
-}
-.champ-tours.nhl-matches{
-  max-width: 560px;
 }
 .champ-match-bomb{
   background: #bad9c8;
@@ -496,6 +494,7 @@ footer {
     display: inline-block;
 }
 .menuPrimary {
+  margin: 0;
 }
 .search-top{
   display: inline-block;
@@ -573,6 +572,11 @@ footer {
     font-size: 15px;
     color: #006600;
 }
+.navbar-nav.submenu li a{
+  color: #936;
+  font-weight: bold;
+  font-size: 14px;
+}
 .newmatches {
     vertical-align: top;
 }
@@ -585,6 +589,29 @@ footer {
 }
 .newsLinkFull {
     color: #006600;
+}
+.nhl-sections{
+  display: flex;
+  width: 100%;
+  height: 35px;
+  background-color: #936;
+}
+.nhl-sections div{
+  display: block;
+  margin: auto;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+}
+.nhl-sections .selected{
+  background-color: #db7fb0;
+}
+.nhl-matches{
+  display: flex;
+}
+.nhl-matches-table{
+  margin: auto;
+  max-width: 760px;
 }
 .odd {
     background-color: #e3e1e3;

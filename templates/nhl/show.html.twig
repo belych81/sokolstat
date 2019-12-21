@@ -20,6 +20,15 @@
 {% endblock %}
 
 {% block content %}
+<a href="{{ path('nhl_season', {'season': app.request.get('season')}) }}">
+МАТЧИ
+</a>
+  <a href="{{ path('nhl_standing', {'season': app.request.get('season')}) }}">
+    ТАБЛИЦА
+  </a>
+<a href="{{ path('nhl_leaders', {'season': app.request.get('season')}) }}">
+  ЛИДЕРЫ
+</a>
   <div class="teams-list">{{ app.request.get('team') }}
     {% for team in teams %}
         <a href="{{ path('nhl_show', {'season': app.request.get('season'),

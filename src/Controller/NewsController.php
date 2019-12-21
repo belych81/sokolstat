@@ -147,6 +147,24 @@ class NewsController extends AbstractController
       $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
       $matches = $this->getDoctrine()->getRepository(Tour::class)
         ->findByLastYear($fromDate);
+      foreach ($matches as &$match) {
+        $match->getTeam()->setName(
+          mb_convert_case($match->getTeam()->getName(), MB_CASE_TITLE, "UTF-8")
+        );
+        $match->getTeam2()->setName(
+          mb_convert_case($match->getTeam2()->getName(), MB_CASE_TITLE, "UTF-8")
+        );
+        $match->setBomb(
+          str_replace("П ", "- с пенальти, ", mb_convert_case(
+            $match->getBomb(), MB_CASE_TITLE, "UTF-8"))
+        );
+      }
+      $tours = [];
+      foreach ($matches as $match) {
+        $country = $match->getCountry()->getName();
+        $tour = $match->getTour();
+        $tours[$country][$tour][] = $match;
+      }
       $rfplTours = [];
       foreach ($rfplMatch as $value) {
         $tour = $value->getTour();
@@ -158,7 +176,7 @@ class NewsController extends AbstractController
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,
-        'matches' => $matches,
+        'tours' => $tours,
         'today' => $today
       ]);
     }

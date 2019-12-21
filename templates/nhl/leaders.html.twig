@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'nhl/index.html.twig' %}
 
 {% block title %}
    Лидеры НХЛ {{ app.request.get('season') }}
@@ -23,9 +23,8 @@
 
 {% block content %}
 
-
 <div class="champ-bombs champs">
-                <p class="champ-title">Бомбардиры</p>
+  <p class="champ-title">Бомбардиры</p>
     <table>
         <thead>
             <tr class="shipTableTitle">
