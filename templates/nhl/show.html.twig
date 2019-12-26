@@ -178,6 +178,9 @@
                     class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                     {{ player.player.name }}
                   </a>
+                  <a href="{{ path('nhl_confirm_delete_player',
+                    {'id': player.id}) }}">
+                     удалить</a>
                </td>
                 <td class="tableGoal shipplayer-game">
                     {% if is_granted("ROLE_ADMIN") %}

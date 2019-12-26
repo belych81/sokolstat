@@ -14,6 +14,7 @@ use App\Form\NhlTableType;
 use App\Form\NhlMatchType;
 use App\Form\NhlPlayerType;
 use App\Form\NhlMatch2Type;
+use App\Form\NhlPlayerEditType;
 use App\Repository\SeasonsRepository;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -171,6 +172,38 @@ class NhlController extends AbstractController
           'lastPlayer' => $lastPlayer,
           'shiptable' => $shiptable
           ]);
+  }
+
+  public function editPlayer($id)
+  {
+      $entity = $this->getDoctrine()->getRepository(NhlPlayer::class)->find($id);
+      $form   = $this->createForm(NhlPlayerEditType::class, $entity);
+
+      return $this->render('nhl/player_edit.html.twig', array(
+          'entity' => $entity,
+          'form'   => $form->createView(),
+      ));
+  }
+
+  public function updatePlayer(Request $request, $id)
+  {
+      $entity = $this->getDoctrine()->getRepository(NhlPlayer::class)->find($id);
+      $form   = $this->createForm(NhlPlayerEditType::class, $entity);
+      $form->handleRequest($request);
+
+      if ($form->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($entity);
+          $em->flush();
+          $translit = $entity->getTranslit();
+          return $this->redirect($this->generateUrl('nhl_player_show', [
+            'id' => $translit]));
+      }
+
+      return $this->render('nhl/player_edit.html.twig', array(
+          'entity' => $entity,
+          'form'   => $form->createView(),
+      ));
   }
 
   public function newSeason()
@@ -437,6 +470,30 @@ class NhlController extends AbstractController
             'zero' => $entity->getZero()
         ]);
         return new Response($response);
+    }
+
+    public function confirm($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(NhlReg::class)->find($id);
+
+        return $this->render('nhl/delete.html.twig', array(
+            'entity' => $entity
+        ));
+    }
+
+    public function delete($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(NhlReg::class)->find($id);
+
+        $season = $entity->getSeason()->getName();
+        $team = $entity->getTeam()->getTranslit();
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('nhl_show', [
+            'season' => $season, 'id' => $team]));
     }
 
 }

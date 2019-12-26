@@ -28,19 +28,64 @@
 
     {% for key, country in tours %}
       <h3>{{ key }}</h3>
-      <div class="np-champ-matches">
-      {% for k, tour in country %}
-        <h4>{{ k }}-й тур</h4>
-        {% for match in tour %}
-          <div>
-            <span class="np-matches-team">&laquo;{{ match.team.name }}&raquo; -
-            &laquo;{{ match.team2.name }}&raquo; -
-            {{ match.goal1 }}:{{ match.goal2 }}</span> (<span>{{ match.bomb }}</span>).
-          </div>
+
+        {% for k, arr in country %}
+          {% if k == 'tour' %}
+            <div class="np-champ-matches">
+              {% for numb, tour in arr %}
+                <h4>{{ numb }}-й тур</h4>
+                {% for match in tour %}
+                  <div>
+                    <span class="np-matches-team">&laquo;{{ match.team.name }}&raquo; -
+                    &laquo;{{ match.team2.name }}&raquo; -
+                    {{ match.goal1 }}:{{ match.goal2 }}</span>
+                    (<span>{{ match.bomb }}</span>).
+                  </div>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if k == 'table' %}
+            <div class="champ-table champs">
+              <table class="shipTable">
+                  <thead>
+                      <tr class="shipTableTitle">
+                          <th>&nbsp;</th>
+                          <th>&nbsp;</th>
+                          <th class="winsTable">И</th>
+                          <th class="winsTable">В</th>
+                          <th class="winsTable">Н</th>
+                          <th class="winsTable">П</th>
+                          <th class="goalsTable">M</th>
+                          <th class="winsTable">О</th>
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for entity in arr %}
+                      <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                          <td class="player-position">{{ loop.index }}.</td>
+                          <td class="tableLeft">&laquo;{{ entity.team.name }}&raquo;</td>
+                          <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                          <td>{{ entity.wins }}</td>
+                          <td>{{ entity.nich }}</td>
+                          <td>{{ entity.porazh }}</td>
+                          <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                          <td class="table-score">{{ entity.score }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+              </div>
+          {% endif %}
         {% endfor %}
-      {% endfor %}
-    </div>
+
+
+
+
     {% endfor %}
+
 
   </div>
 </body>

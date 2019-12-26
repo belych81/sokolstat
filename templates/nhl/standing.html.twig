@@ -12,16 +12,6 @@
 {% block content %}
   <div><h1>НХЛ {{ app.request.get('season') }}</h1></div>
 
-  <div>
-    <a href="{{ path('nhl_season', {'season': app.request.get('season')}) }}">
-      МАТЧИ
-    </a>
-    ТАБЛИЦА
-    <a href="{{ path('nhl_leaders', {'season': app.request.get('season')}) }}">
-      ЛИДЕРЫ
-    </a>
-  </div>
-
   {% for name, divis in division %}
     <div class="champ-table champs">
       <p class="champ-title">Дивизион {{ name }}</p>

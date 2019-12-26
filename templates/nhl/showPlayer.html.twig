@@ -20,7 +20,7 @@
                 <p>{{ player.0.amplua.name }}</p>
 
                 {% if is_granted("ROLE_ADMIN") %}
-                  <a href="{{ path('player_edit', {'id': player.0.id}) }}">
+                  <a href="{{ path('nhl_player_edit', {'id': player.0.id}) }}">
                      изменить</a>
                 {% endif %}
             </td>

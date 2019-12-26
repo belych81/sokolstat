@@ -173,4 +173,20 @@ class NhlPlayerRepository extends ServiceEntityRepository
         }
             $qb->execute();
     }
+
+    public function searchPlayers($arQuery)
+    {
+        $q = $this->createQueryBuilder('p')
+            ->where("p.born LIKE '%$arQuery[0]%'")
+            ->orWhere("p.name LIKE '%$arQuery[0]%'")
+            ->setMaxResults(10);
+
+        foreach($arQuery as $key => $val){
+            if($key == 0) continue;
+            $q->andWhere("p.name LIKE '%$val%'");
+        }
+        $qb = $q->getQuery();
+
+        return $qb->getResult();
+    }
 }

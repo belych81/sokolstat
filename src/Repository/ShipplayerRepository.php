@@ -53,6 +53,22 @@ class ShipplayerRepository extends ServiceEntityRepository
       ;
     }
 
+    public function getBomb5All($season)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->join('t.country', 'c')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->andWhere('sp.goal > 0')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
     public function getTeamStat($season, $id)
     {
       return $this->createQueryBuilder('sp')

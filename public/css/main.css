@@ -394,6 +394,7 @@ footer {
 .footer{
   border-spacing: 20px 5px;
   padding-bottom: 15px;
+  border-collapse: separate;
 }
 .footer-bottom a{
   color: #4a4040;
@@ -1000,6 +1001,7 @@ footer {
 .shipTableTitle th{
     background-color: #6fbd90;
     padding: 4px;
+    text-align: center;
 }
 .soglasie {
     background: #fff;
@@ -1077,7 +1079,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
   font-size: 14px;
 }
 .shipplayer-input{
-  width: 20px;
+  width: 25px;
 }
 .showTeam{
   display: inline-table;
@@ -1094,7 +1096,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
     text-align: center;
     font-size: 15px;
     font-weight: bold;
-    width: 50px;
+    width: 45px;
 }
 .tableGoal.shipplayer-game{
   width: 80px;

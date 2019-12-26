@@ -140,6 +140,26 @@ nhl_editChamp:
     options:
         expose: true
 
+nhl_confirm_delete_player:
+    path:  /nhl/admin/confirm/{id}/
+    controller: App\Controller\NhlController:confirm
+    requirements:
+        id: \d+
+
+nhl_delete_player:
+    path:  /nhl/admin/delete/{id}/
+    controller: App\Controller\NhlController:delete
+    requirements: { _method: post }
+
+nhl_player_edit:
+    path: /nhl/player/edit/{id}
+    controller: App\Controller\NhlController:editPlayer
+
+nhl_player_update:
+    path: /nhl/player/update/{id}
+    controller: App\Controller\NhlController:updatePlayer
+    requirements: { _method: post }
+
 championships:
     path:  /championships/{country}/{season}/{tour}
     controller: App\Controller\ShiptableController:index
@@ -165,11 +185,11 @@ championships_create:
     requirements: { _method: post }
 
 championships_newMatch:
-    path:  /championships/admin/newMatch/{season}/
+    path:  /championships/admin/newMatch/{season}/{country}/
     controller: App\Controller\ShiptableController:newMatch
 
 championships_createMatch:
-    path:  /championships/admin/create/newMatch/{season}/
+    path:  /championships/admin/create/newMatch/{season}/{country}/
     controller: App\Controller\ShiptableController:createMatch
     requirements: { _method: post }
 

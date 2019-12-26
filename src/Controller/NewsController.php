@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tour;
 use App\Entity\Player;
+use App\Entity\NhlPlayer;
 use App\Entity\Rusplayer;
 use App\Entity\Cup;
 use App\Entity\Team;
@@ -13,6 +14,7 @@ use App\Entity\NationSupercup;
 use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
 use App\Entity\Shipplayer;
+use App\Entity\Shiptable;
 use App\Entity\RusSupercup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -142,7 +144,7 @@ class NewsController extends AbstractController
       $today = date('j.m.Y');
       $fromDate = new \DateTime('now');
       $fromDate->setTime(0, 0, 0);
-      $fromDate->modify('-3 month');
+      $fromDate->modify('-4 month');
       $em = $this->getDoctrine();
       $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
       $matches = $this->getDoctrine()->getRepository(Tour::class)
@@ -163,7 +165,7 @@ class NewsController extends AbstractController
       foreach ($matches as $match) {
         $country = $match->getCountry()->getName();
         $tour = $match->getTour();
-        $tours[$country][$tour][] = $match;
+        $tours[$country]['tour'][$tour][] = $match;
       }
       $rfplTours = [];
       foreach ($rfplMatch as $value) {
@@ -173,6 +175,16 @@ class NewsController extends AbstractController
           $rfplTours[] = $tour;
         }
       }
+
+      $entities = $this->getDoctrine()->getRepository(Shiptable::class)
+              ->getTableAll('2019-20');
+      foreach ($entities as $ent) {
+        $tours[$ent->getCountry()->getName()]['table'][] = $ent;
+      }
+
+        $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
+          ->getBomb5All('2019-20');
+
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,
@@ -193,10 +205,14 @@ class NewsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        $responseNhlPlayer = $em->getRepository(NhlPlayer::class)->searchPlayers($arQuery);
         $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
         $player = [];
         foreach($responsePlayer as $val){
-            $player['player/'.$val->getTranslit()] = $val->getName();
+            $player['player/'.$val->getTranslit().'/'] = $val->getName();
+        }
+        foreach($responseNhlPlayer as $val){
+            $player['nhl/player/'.$val->getTranslit().'/'] = $val->getName();
         }
         $team = [];
         foreach($responseTeam as $val){
