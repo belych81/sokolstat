@@ -15,10 +15,10 @@
       </a>
   {% endfor %}
 </div>
-
+<h1>{{ club.name }}</h1>
 <div class="team-show-image">
   <div>
-    <h1>{{ club.name }}</h1>
+
     {% if club.image %}
     <img src="{{ asset('images/clubs/') }}{{ club.image }}"
       alt="{{ club.name }}" title="{{ club.name }}" />
@@ -169,6 +169,9 @@
             Обновить игрока</a>|
         <a href="{{ path('player_newRusplayer', {'country': 'fnl', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить нового игрока</a> |
+        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
+        'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
+            Добавить последнего игрока</a> |
         <a href="{{ path('player_newPlayer', {'country': 'fnl',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a>

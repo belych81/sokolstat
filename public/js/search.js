@@ -1,4 +1,16 @@
-$(function(){
+function parseUrlQuery() {
+	    var data = {};
+	    if(location.search) {
+	        var pair = (location.search.substr(1)).split('&');
+	        for(var i = 0; i < pair.length; i ++) {
+	            var param = pair[i].split('=');
+	            data[param[0]] = param[1];
+	        }
+	    }
+	    return data;
+	}
+
+  $(function(){
 
     //Живой поиск
   $('.search_keywords').bind("keyup", function() {
@@ -137,4 +149,33 @@ $(function(){
     $(".tab-content."+className).show();
   });
 
+  $("#selectPageMatches").change(function(){
+    var maxMatches = $(this).val(),
+      params = parseUrlQuery(),
+      newArr = [];
+
+      params['max'] = maxMatches;
+      for (key in params){
+        newArr.push(key + '=' + params[key]);
+      }
+      console.log(newArr);
+      window.location.search = newArr.join('&');
+  });
+
+	$("#datepicker").datepicker({
+		minDate: new Date(1992, 9, 6),
+		maxDate: new Date(1993, 2, 25),
+		defaultDate: new Date(1992, 9, 6)
+	});
+
+	$(".datepicker-icon").click(function(){
+		$(".datepicker-calend").show();
+	});
+
+	$(document).mouseup(function (e){
+		var div = $(".datepicker-calend");
+		if (!div.is(e.target) && div.has(e.target).length === 0) {
+			div.hide();
+		}
+	});
 });

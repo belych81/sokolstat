@@ -182,7 +182,15 @@ class PlayerController extends AbstractController
 
     public function newChampLast($season, $team, $country)
     {
-        $entity = new Shipplayer();
+        if($country == 'fnl')
+        {
+          $entity = new Fnlplayer();
+        }
+        else
+        {
+          $entity = new Shipplayer();
+        }
+
         $maxId = $this->getDoctrine()->getRepository(Player::class)
                     ->getMaxId();
         $club = $this->getDoctrine()->getRepository(Team::class)

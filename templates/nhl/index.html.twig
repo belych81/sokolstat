@@ -71,12 +71,14 @@
     <p><a href="{{ path('nhl_newMatch', {'season': app.request.get('season')})
       }}">Добавить матч</a></p>
   {% endif %}
+  <img src="{{ asset('images/calend.jpg') }}" class="datepicker-icon">
+  <div id="datepicker" class="datepicker-calend dropdown-menu"></div>
   <div class="nhl-matches champs">
 
     <table class="nhl-matches-table">
         <tbody>
         {% for key, data in dates %}
-        <tr class="champ-match-title">
+        <tr class="champ-match-title match-date">
           <td colspan="6">{{ key }}</td>
         </tr>
           {% for match in data %}

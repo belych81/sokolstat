@@ -33,7 +33,7 @@ class NhlController extends AbstractController
           ->getMatches($season);
       $dates = [];
       foreach ($matches as $key => $match) {
-        $dates[$match->getData()->format("d.m.Y")][] = $match;
+        $dates[$match->getData()->format("d.m")][] = $match;
       }
 
       return $this->render('nhl/index.html.twig', [

@@ -42,9 +42,9 @@
   {% endfor %}
 </div>
 
+<h1>{{ club.name }}</h1>
 <div class="team-show-image">
   <div>
-    <h1>{{ club.name }}</h1>
     {% if club.image %}
     <img src="{{ asset('images/clubs/') }}{{ club.image }}"
       alt="{{ club.name }}" title="{{ club.name }}" />
@@ -101,12 +101,12 @@
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
-                <th class="teamStatGoal">Кубок-Г (Суперкубок-Г)</th>
-                <th class="teamStatGoal">Еврокубки (Г)</th>
+                <th class="teamStatGoal nation-cups">Кубок-Г (Суперкубок-Г)</th>
+                <th class="teamStatGoal nation-cups">Еврокубки (Г)</th>
                 <th class="teamStatGoal">В сезоне (Г)</th>
-                <th class="teamStatTotalGoal">Всего в чемпионатах топ-5 (И)</th>
-                <th class="teamStatTotalGoal">Всего в чемпионатах топ-5 (Г)</th>
-                <th class="teamStatTotalGoal">Всего за клубы топ-5 (Г)</th>
+                <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (И)</th>
+                <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (Г)</th>
+                <th class="teamStatTotalGoal nation-all">Всего за клубы топ-5 (Г)</th>
             </tr>
         </thead>
         {% endif %}
@@ -177,7 +177,7 @@
                      {{ player.goal }}
                      {% endif %}
                     </td>
-                   <td class="column-supercup tableGoal">
+                   <td class="column-supercup tableGoal nation-cups">
                       {% if is_granted("ROLE_ADMIN") %}
                           <a href="{{ path('playeradmin_editNationCup',
                             {'id': player.id, 'season': app.request.get('season'),
@@ -204,7 +204,7 @@
                         {% endif %}
                       {% endif %}</td>
 
-                         <td class="tableGoal">
+                      <td class="tableGoal nation-cups">
                             {% if is_granted("ROLE_ADMIN") %}
                                 <a href="{{ path('playeradmin_editNationEurocup',
                           {'id': player.id, 'season': app.request.get('season'),
@@ -222,13 +222,13 @@
                 <td class="tableGoal">
                     {{ player.sum }}
                 </td>
-                <td class="tableGoal">
+                <td class="tableGoal nation-champs">
                     {{ player.player.game }}
                 </td>
-                <td class="tableGoal">
+                <td class="tableGoal nation-champs">
                     {{ player.player.goal }}
                 </td>
-                <td class="tableGoal">
+                <td class="tableGoal nation-all">
                     {{ player.player.sum }}
                 </td>
             </tr>

@@ -31,9 +31,10 @@
         </a>
     {% endfor %}
   </div>
+  <h1>{{ club.name }}</h1>
   <div class="team-show-image">
     <div>
-      <h1>{{ club.name }}</h1>
+
       {% if club.image %}
       <img src="{{ asset('images/clubs/') }}{{ club.image }}"
         alt="{{ club.name }}" title="{{ club.name }}" />
@@ -72,7 +73,6 @@
 
   <div class="team-show-image-mobile">
     <div>
-      <h1>{{ club.name }}</h1>
       {% if club.image %}
       <img src="{{ asset('images/clubs/') }}{{ club.image }}"
         alt="{{ club.name }}" title="{{ club.name }}" />

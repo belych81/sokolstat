@@ -32,6 +32,23 @@ class RfplmatchRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getList($max, $offset = null)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->join('t.team', 'tm')
+            ->orderBy('t.data', 'ASC')
+            ->setMaxResults($max);
+
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
     public function getCurMatches()
     {
       return $this->createQueryBuilder('r')
@@ -106,5 +123,16 @@ class RfplmatchRepository extends ServiceEntityRepository
               ->orderBy('r.tour', 'ASC')
               ->getQuery()
               ->getResult();
+    }
+
+    public function countMatches()
+    {
+          $qb = $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ;
+
+        $query = $qb->getQuery();
+
+        return $query->getSingleScalarResult();
     }
 }
