@@ -97,6 +97,18 @@ class FnlplayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updateFnlplayers($arr)
+    {
+      $qb = $this->_em->createQueryBuilder()
+          ->update('App\Entity\Fnlplayer', 's')
+          ->set('s.game', 's.game+'.$arr[2])
+          ->where('s.id = ?1')
+          ->setParameter(1, $arr[0])
+          ->getQuery();
+
+      $qb->execute();
+    }
+
     public function updateFullFnlplayer($player_id, $game, $goal, $season, $team)
     {
             $qb = $this->_em->createQueryBuilder()

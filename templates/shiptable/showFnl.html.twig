@@ -99,7 +99,7 @@
                     class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                     {{ player.player.name }}</a>
                </td>
-                <td class="tableGoal">
+                <td class="tableGoal shipplayer-game">
                     {% if is_granted("ROLE_ADMIN") %}
                     <span class="changeGameGoalPlayer"
                     data-change="minusGame"
@@ -116,6 +116,11 @@
                       data-id="{{ player.id }}"
                       data-season="{{ app.request.get('season') }}"
                       data-team="{{ app.request.get('id') }}">+</span>
+
+                      <input type="text" class="shipplayer-input" value="0"
+                        data-id="{{ player.id }}"
+                        data-player="{{ player.player.id }}" />
+
                     {% endif %}
                 </td>
                 <td class="tableGoal">
@@ -162,19 +167,21 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('player_newFnl', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Добавить игрока</a> |
-        <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
-        'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-            Обновить игрока</a>|
-        <a href="{{ path('player_newRusplayer', {'country': 'fnl', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Добавить нового игрока</a> |
-        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
-        'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-            Добавить последнего игрока</a> |
-        <a href="{{ path('player_newPlayer', {'country': 'fnl',
-        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Создать игрока</a>
+            <a href="{{ path('player_newFnl', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Добавить игрока</a> |
+            <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
+            'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
+                Обновить игрока</a>|
+            <a href="{{ path('player_newRusplayer', {'country': 'fnl', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Добавить нового игрока</a> |
+            <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
+            'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
+                Добавить последнего игрока</a> |
+            <a href="{{ path('player_newPlayer', {'country': 'fnl',
+            'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Создать игрока</a> |
+            <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="fnl">
+                Обновить игроков</a>
         {% endif %}
 </div>
 

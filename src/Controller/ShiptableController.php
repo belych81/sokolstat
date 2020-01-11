@@ -540,17 +540,25 @@ class ShiptableController extends AbstractController
     public function shipplayersUpdate(Request $request)
     {
       $query = $request->request->get('query');
+      $champ = $request->request->get('champ');
       $em = $this->getDoctrine()->getManager();
       $param = [];
       foreach ($query as $val) {
-        $em->getRepository(Shipplayer::class)->updateShipplayers($val);
-        $em->getRepository(Player::class)->updateShipplayerSumGame($val);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)
-          ->find($val[0]);
+        if($champ == 'top5'){
+          $em->getRepository(Shipplayer::class)->updateShipplayers($val);
+          $em->getRepository(Player::class)->updateShipplayerSumGame($val);
+          $player = $this->getDoctrine()->getRepository(Shipplayer::class)
+            ->find($val[0]);
+        } else {
+          $em->getRepository(Fnlplayer::class)->updateFnlplayers($val);
+          $player = $this->getDoctrine()->getRepository(Fnlplayer::class)
+            ->find($val[0]);
+          $em->getRepository(Rusplayer::class)->updateFnlSumGame($val);
+        }
         $param[] = [$val[0], $player->getGame()];
       }
       $response = json_encode($param);
-      
+
       return new JsonResponse($response);
     }
 

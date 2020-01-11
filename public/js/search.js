@@ -49,6 +49,7 @@ function parseUrlQuery() {
 
   $("#shipplayersUpdate").click(function(){
     var arGames = [];
+		var champ = $(this).data('champ');
     $(".shipplayer-input").each(function(){
       var game = $(this).val();
       if(game != 0){
@@ -62,7 +63,7 @@ function parseUrlQuery() {
     $.ajax({
         type: 'post',
         url: Routing.generate('shipplayers_update'),
-        data: {query: arGames},
+        data: {query: arGames, champ: champ},
         dataType: 'json',
         success: function(response){
           var arr = JSON.parse(response);
