@@ -139,7 +139,7 @@ class TeamRepository extends ServiceEntityRepository
 
         return $query = $this->createQueryBuilder('t')
                 ->join('t.country', 'c')
-                ->where("c.name = :country")
+                ->where("c.translit = :country")
                 ->setParameters([
                     'country' => $country
                         ])

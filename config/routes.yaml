@@ -289,6 +289,28 @@ nationcup_createMatch:
     controller: App\Controller\NationcupController:createMatch
     requirements: { _method: post }
 
+nationsupercup_newMatch:
+    path:  /nationsupercup/admin/{country}
+    controller: App\Controller\UefaSupercupController:newMatch
+
+nationsupercup_createMatch:
+    path:  /nationsupercup/admin/create/{country}
+    controller: App\Controller\UefaSupercupController:createMatch
+    requirements: { _method: post }
+
+nationsupercup_new:
+    path:  /nationsupercup/admin/{id}/{country}
+    controller: App\Controller\UefaSupercupController:new
+    requirements:
+        id: \d+
+
+nationsupercup_create:
+    path:  /nationsupercup/admin/create/{id}/{country}
+    controller: App\Controller\UefaSupercupController:create
+    requirements:
+      _method: post
+      id: \d+
+
 eurocup:
     path:  /eurocup/{turnir}/{season}/{stadia}
     controller: App\Controller\EurocupController:index

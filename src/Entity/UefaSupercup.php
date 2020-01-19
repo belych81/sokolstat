@@ -37,12 +37,12 @@ class UefaSupercup
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $goal;
+    private $goal = '0-0';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $score;
+    private $score = '-';
 
     /**
      * @ORM\Column(type="string", length=255)

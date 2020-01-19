@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block content %}
-    <p><b>{{entity.stadia.name}}</b></p>
     <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
-    <form action="{{ path('nationcup_create', {'id': app.request.get('id'), 'country': app.request.get('country')}) }}"
+    <form action="{{ path('nationsupercup_create', {'id': app.request.get('id'),
+      'country': app.request.get('country')}) }}"
       method="post">
        <table>
             <tbody>
@@ -25,10 +25,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(form.bomb) }}</th>
+                    <th>{{ form_label(form.goal) }}</th>
                     <td>
-                        {{ form_errors(form.bomb) }}
-                        {{ form_widget(form.bomb) }}
+                        {{ form_errors(form.goal) }}
+                        {{ form_widget(form.goal) }}
                     </td>
                 </tr>
             </tbody>

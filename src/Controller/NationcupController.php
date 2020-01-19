@@ -41,12 +41,9 @@ class NationcupController extends AbstractController
     {
         $entity = new NationCup();
 
-        $stranaOb = $this->getDoctrine()->getRepository(Country::class)
-          ->findOneByTranslit($country);
-        $strana = $stranaOb->getName();
         $form   = $this->createForm(NationCupType::class, $entity, [
               'season' => $season,
-              'country' => $strana
+              'country' => $country
               ]);
 
         return $this->render('nationcup/newMatch.html.twig', array(
@@ -59,18 +56,18 @@ class NationcupController extends AbstractController
     {
         $ent = NationCupType::class;
         $entity  = new NationCup();
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
 
         $entity->setSeason($year);
         $entity->setStatus(1);
         $stranaOb = $this->getDoctrine()->getRepository(Country::class)
           ->findOneByTranslit($country);
-        $strana = $stranaOb->getName();
         $entity->setCountry($stranaOb);
 
         $form = $this->createForm($ent, $entity, [
             'season' => $season,
-            'country' => $strana
+            'country' => $country
             ]);
 
         $form->handleRequest($request);

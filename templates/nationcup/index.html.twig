@@ -19,17 +19,16 @@
     {% endfor %}
 {% endblock %}
 
-{% block zagolovok %}
-    <h3>Кубок {{ rusCountry }} {{ app.request.get('season') }}</h3>
-{% endblock %}
-
 {% block content %}
+
+  <div><h1>Кубок {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
 
   {% if is_granted("ROLE_ADMIN") %}
     <p><a href="{{ path('nationcup_newMatch', {'season': app.request.get('season'),
     'country': app.request.get('country')}) }}">
     Добавить матч</a></p>
   {% endif %}
+  
     <table>
         <tr>
             <td>
