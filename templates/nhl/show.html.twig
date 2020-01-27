@@ -445,6 +445,13 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
+          <a href="{{ path('nhl_newChampPlayer', {'season': app.request.get('season'),
+          'team': app.request.get('id'),
+          'flag':'all'}) }}">
+            Добавить игрока</a> |
+          <a href="{{ path('nhl_newPlayersteam', {
+            'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Добавить игрока в команду</a> |
           <a href="{{ path('nhl_newChampLast', {
             'season': app.request.get('season'),
             'team': app.request.get('id')}) }}">

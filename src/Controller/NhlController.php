@@ -15,6 +15,9 @@ use App\Form\NhlMatchType;
 use App\Form\NhlPlayerType;
 use App\Form\NhlMatch2Type;
 use App\Form\NhlPlayerEditType;
+use App\Form\NhlRegType;
+use App\Form\NhlChampType;
+use App\Form\NhlPlayersteamType;
 use App\Repository\SeasonsRepository;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -494,6 +497,108 @@ class NhlController extends AbstractController
 
         return $this->redirect($this->generateUrl('nhl_show', [
             'season' => $season, 'id' => $team]));
+    }
+
+    public function newChampNation($season, $team, $flag)
+    {
+        $entity = new NhlReg();
+        $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+          ->findOneByTranslit($team);
+        $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
+
+        return $this->render('nhl/newChampNation.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createChampNation(Request $request, $team, $season, $flag)
+    {
+        $entity  = new NhlReg();
+
+        $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+          ->findOneByTranslit($team);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
+        $entity->setTeam($club);
+        $entity->setSeason($year);
+        $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            /*$id = $entity->getId();
+            $player_id = $entity->getPlayer()->getId();
+            $goal = $entity->getGoal();
+            $game = $entity->getGame();
+            $cup = $entity->getCup();
+            $supercup = $entity->getSupercup();
+            $eurocup = $entity->getEurocup();
+            $em->getRepository(Shipplayer::class)
+               ->updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup);
+            $em->getRepository(Player::class)
+               ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
+               $em->getRepository(Player::class)
+                  ->updatePlayerGame($player_id, false, $game);*/
+            return $this->redirect($this->generateUrl('nhl_show', [
+                'id' => $team,
+                'season' => $season
+                    ]));
+        }
+
+        return $this->render('nhl/newChampNation.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function newPlayersteam($team, $season)
+    {
+        $entity = new NhlPlayersTeam();
+
+        $form   = $this->createForm(NhlPlayersteamType::class, $entity, [
+            'season' => $season,
+            'team' => $team]);
+
+        return $this->render('nhl/newPlayersteam.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    public function createPlayersteam(Request $request, $team, $season)
+    {
+        $entity = new NhlPlayersTeam();
+
+        $form = $this->createForm(NhlPlayersteamType::class, $entity, [
+            'season' => $season,
+            'team' => $team]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $team2 = $this->getDoctrine()->getRepository(NhlTeam::class)
+                        ->findOneByTranslit($team);
+            $entity->setTeam($team2);
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('nhl_show', [
+              'id' => $team,
+              'season' => $season
+                  ]));
+        }
+
+        return $this->render('nhl/newPlayersteam.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 
 }

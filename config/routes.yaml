@@ -160,6 +160,24 @@ nhl_player_update:
     controller: App\Controller\NhlController:updatePlayer
     requirements: { _method: post }
 
+nhl_newChampPlayer:
+    path:  /nhl/player/admin/champnation/{season}/{team}/{flag}/
+    controller: App\Controller\NhlController:newChampNation
+
+nhl_createChampPlayer:
+    path:  /nhl/player/admin/createChampnation/{season}/{team}/{flag}/
+    controller: App\Controller\NhlController:createChampNation
+    requirements: { _method: post }
+
+nhl_newPlayersteam:
+    path:  /nhl/player/admin/playersteam/{season}/{team}/
+    controller: App\Controller\NhlController:newPlayersteam
+
+nhl_createPlayersteam:
+    path:  /nhl/player/admin/createPlayersteam/{season}/{team}/
+    controller: App\Controller\NhlController:createPlayersteam
+    requirements: { _method: post }
+
 championships:
     path:  /championships/{country}/{season}/{tour}
     controller: App\Controller\ShiptableController:index
