@@ -238,23 +238,31 @@
      {% if is_granted("ROLE_ADMIN") %}
      <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
      'country': app.request.get('country'), 'team': app.request.get('id'), 'flag':'team'}) }}">
-         Добавить игрока {{ club.name }}</a>
+         Добавить игрока {{ club.name }}</a> |
      <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
      'country': app.request.get('country'), 'team': app.request.get('id'), 'flag':'country'}) }}">
-         Добавить игрока {{ club.country.name }}</a>
+         Добавить игрока {{ club.country.name }}</a> |
+     <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
+     'country': app.request.get('country'), 'team': app.request.get('id'),
+     'flag':'top5'}) }}">
+         Добавить игрока топ-5</a> |
+      <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
+         'country': app.request.get('country'), 'team': app.request.get('id'),
+         'flag':'lch'}) }}">
+             Добавить игрока ЛЧ</a> |
       <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
       'country': app.request.get('country'), 'team': app.request.get('id'),
       'flag':'all'}) }}">
-          Добавить игрока</a>
+          Добавить игрока</a> |
       <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
       'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-          Добавить последнего игрока</a>
+          Добавить последнего игрока</a> |
             <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-            Обновить игрока</a>|
+            Обновить игрока</a> |
         <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Создать игрока</a>|
+            Создать игрока</a> |
         <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5">
             Обновить игроков</a>
         {% endif %}

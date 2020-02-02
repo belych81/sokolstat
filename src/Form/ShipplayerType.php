@@ -32,6 +32,12 @@ class ShipplayerType extends AbstractType
                 case 'country':
                    return $repository->queryCountryPlayers($season, $team, $club->getCountry()->getName());
                    break;
+                case 'top5':
+                    return $repository->queryTop5Players($season);
+                    break;
+                case 'lch':
+                    return $repository->queryLChampPlayers($season);
+                    break;
                 case 'all':
                    return $repository->queryLchPlayers($season, $team, $club->getCountry()->getName());
                    break;
