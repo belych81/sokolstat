@@ -280,7 +280,7 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
-    public function queryTop5Players($season)
+    public function queryTop5Players($season, $country)
     {
         $year = \substr($season, 0, 4);
         $start = $year-39;
@@ -289,9 +289,13 @@ class PlayerRepository extends ServiceEntityRepository
         $str_end = $end.'-12-31';
         return $query = $this->createQueryBuilder('p')
                 ->join('p.shipplayers', 's')
+                ->join('s.team', 't')
+                ->join('t.country', 'c')
                 ->where("p.born BETWEEN :str_start AND :str_end")
+                ->andWhere("c.name != :country")
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
+                ->setParameter('country', $country)
                 ->orderBy('p.name');
     }
 

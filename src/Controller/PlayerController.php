@@ -531,9 +531,12 @@ class PlayerController extends AbstractController
     public function newChampNation($season, $team, $flag)
     {
         $entity = new Shipplayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $form = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
-            'team' => $team, 'flag' => $flag, 'club' => $club]);
+        $club = $this->getDoctrine()->getRepository(Team::class)
+          ->findOneByTranslit($team);
+        $country = $club->getCountry()->getName();
+        $form = $this->createForm(ShipplayerType::class, $entity, [
+          'season' => $season, 'team' => $team, 'flag' => $flag, 'club' => $club,
+          'country' => $country]);
 
         return $this->render('shiptable/newChampNation.html.twig', array(
             'entity' => $entity,
