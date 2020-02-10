@@ -129,6 +129,9 @@
                         'season': app.request.get('season'),
                          'team': app.request.get('id')
                        }) }}">=</a>
+                       <a href="{{ path('shipplayer_confirm_delete',
+                         {'id': player.id, 'country': app.request.get('country')}) }}">
+                          x</a>
                      {% endif %}
                 </td>
 

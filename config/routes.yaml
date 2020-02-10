@@ -613,6 +613,17 @@ player_editSb:
     path:  /playeradmin/admin/{id}/editSb/{season}/{change}
     controller: App\Controller\PlayerController:editSb
 
+shipplayer_confirm_delete:
+    path:  /playeradmin/admin/confirm/{id}/{country}
+    controller: App\Controller\PlayerController:confirm
+    requirements:
+        id: \d+
+
+shipplayer_delete:
+    path:  /playeradmin/admin/delete/{id}/{country}
+    controller: App\Controller\PlayerController:delete
+    requirements: { _method: post }
+
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editChamp

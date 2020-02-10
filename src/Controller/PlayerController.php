@@ -552,8 +552,9 @@ class PlayerController extends AbstractController
         $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
-        $form = $this->createForm(ShipplayerType::class, $entity, ['season' => $season,
-            'team' => $team, 'flag' => $flag, 'club' => $club]);
+        $form = $this->createForm(ShipplayerType::class, $entity, [
+          'season' => $season, 'team' => $team, 'flag' => $flag, 'club' => $club,
+          'country' => $country]);
 
         $form->handleRequest($request);
 
@@ -585,6 +586,31 @@ class PlayerController extends AbstractController
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    public function confirm($id, $country)
+    {
+        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+
+        return $this->render('shiptable/deleteShipplayer.html.twig', array(
+            'entity' => $entity,
+            'country' => $country
+        ));
+    }
+
+    public function delete($id, $country)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Shipplayer::class)->find($id);
+
+        $season = $entity->getSeason()->getName();
+        $team = $entity->getTeam()->getTranslit();
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('championships_show', [
+            'season' => $season, 'id' => $team, 'country' => $country]));
     }
 
     public function editPlayerTurnirs($season, $team, $country)
