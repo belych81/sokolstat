@@ -24,6 +24,7 @@ use App\Form\TourMatchType;
 use App\Form\TourType;
 use App\Form\TourEditType;
 use App\Form\RfplmatchEditType;
+use App\Service\Menu;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -32,7 +33,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShiptableController extends AbstractController
 {
-    public function index($country, $season, $tour)
+    public function index(Menu $serviceMenu, $country, $season, $tour)
     {
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
@@ -42,7 +43,6 @@ class ShiptableController extends AbstractController
                 ->getSeasons($strana);
         $lastSeason = $this->getDoctrine()->getRepository(Tour::class)
                 ->getLastSeason($strana);
-
         if ($country == 'russia') {
 
             $arMaxTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
@@ -61,6 +61,7 @@ class ShiptableController extends AbstractController
             }
            $numberTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
                 ->getTours($season);
+
         } else {
             $maxTour = $this->getDoctrine()->getRepository(Tour::class)
                              ->getMaxTour($strana, $season);
@@ -121,6 +122,7 @@ class ShiptableController extends AbstractController
           };
         uasort($bombSum, $sortGoal);
         $bombSum = array_slice($bombSum, 0, 20);
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/index.html.twig', [
             'entities' => $entities,
@@ -130,11 +132,13 @@ class ShiptableController extends AbstractController
             'tours' => $numberTour,
             'rusCountry' => $rusCountry,
             'lastSeason' => $lastSeason,
-            'maxTour' => $maxTour
+            'maxTour' => $maxTour,
+            'menu' => $menu,
+            'strana' => $strana
         ]);
     }
 
-    public function show(SessionInterface $session, $id, $season, $country)
+    public function show(SessionInterface $session, Menu $serviceMenu, $id, $season, $country)
     {
         $club = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($id);
@@ -182,36 +186,26 @@ class ShiptableController extends AbstractController
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
 
+        $menu = $serviceMenu->generate($country, $season);
 
         $lastPlayer = $session->get('lastPlayer');
 
+        $arParams = [
+         'players' => $players,
+         'seasons' => $seasons,
+         'teams' => $teams,
+         'club' => $club,
+         'lastPlayer' => $lastPlayer,
+         'shiptable' => $shiptable,
+         'menu' => $menu
+       ];
+
         if ($country == 'russia') {
-           return $this->render('shiptable/showRus.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club,
-            'lastPlayer' => $lastPlayer,
-            'shiptable' => $shiptable
-            ]);
+           return $this->render('shiptable/showRus.html.twig', $arParams);
         } elseif ($country == 'fnl') {
-           return $this->render('shiptable/showFnl.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club,
-            'lastPlayer' => $lastPlayer,
-            'shiptable' => $shiptable
-            ]);
+           return $this->render('shiptable/showFnl.html.twig', $arParams);
         } else {
-        return $this->render('shiptable/show.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club,
-            'lastPlayer' => $lastPlayer,
-            'shiptable' => $shiptable
-            ]);
+        return $this->render('shiptable/show.html.twig', $arParams);
         }
     }
 
@@ -518,7 +512,7 @@ class ShiptableController extends AbstractController
             'season' => $season, 'country' => $country]));
     }
 
-    public function svod($country)
+    public function svod(Menu $serviceMenu, $country)
     {
         $entity = $this->getDoctrine()->getRepository(Team::class)
           ->getSvod($country);
@@ -531,6 +525,8 @@ class ShiptableController extends AbstractController
             case 'france' : $country2 = 'Франции'; break;
             case 'fnl' : $country2 = 'ФНЛ'; break;
         }
+        $menu = $serviceMenu->generate($country);
+
         return $this->render('shiptable/svod.html.twig', array(
             'entity' => $entity,
             'country' => $country2

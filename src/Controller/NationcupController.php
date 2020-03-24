@@ -9,12 +9,14 @@ use App\Entity\Country;
 use App\Entity\Seasons;
 use App\Form\NationCupType;
 use App\Form\NationCup2Type;
+use App\Service\Menu;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NationcupController extends AbstractController
 {
-    public function index($country, $season)
+    public function index(Menu $serviceMenu, $country, $season)
     {
         $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
                         ->translateCountry($country)['rusCountry'];
@@ -29,11 +31,13 @@ class NationcupController extends AbstractController
           $stadia->setStadiaMatches($this->getDoctrine()->getRepository(NationCup::class)
                     ->findAllBySeasonAndStadiaAndCountry($season, $stadia, $strana));
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('nationcup/index.html.twig', [
             'rusCountry' => $rusCountry,
             'seasons' => $seasons,
-            'stadies' => $stadies
+            'stadies' => $stadies,
+            'menu' => $menu
         ]);
     }
 

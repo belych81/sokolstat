@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block sidebar %}
-    <td class="sidebar scLink">
+    <div class="sidebar scLink">
     <table class="right_column">
          {% if yestmatch %}
         <tr class="data">
@@ -58,6 +58,7 @@
             </td>
         </tr>
         {% endfor %}
+
 
     {% endif %}
                 {% if curmatch %}
@@ -177,7 +178,6 @@
                        <li><a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a> ({{ birthday.0 }})</li>
                        {% endfor %}
                        </ul>
-                       <hr/>
     <table class="leader-table">
         <caption>Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</caption>
         <thead>
@@ -201,7 +201,6 @@
         {% endfor %}
         </tbody>
     </table>
-        <hr/>
     <table class="leader-table">
         <caption>Последние добавленные фуболисты</caption>
         <tbody>
@@ -216,6 +215,8 @@
     </td>
     </tr>
     </table>
+
+
 
         <div class="mobile-main-content">
         <table class="leader-table">
@@ -308,8 +309,7 @@
            </tbody>
        </table>
  </div>
-
-                        </td>
+ </div>
 {% endblock %}
 
 {% block content %}

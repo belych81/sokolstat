@@ -14,12 +14,14 @@ use App\Entity\Cupplayer;
 use App\Entity\Seasons;
 use App\Form\CupType;
 use App\Form\Cup2Type;
+use App\Service\Menu;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CupController extends AbstractController
 {
-  public function index($season)
+  public function index(Menu $serviceMenu, $season)
   {
       $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
       $stadies = $this->getDoctrine()->getRepository(Stadia::class)->getStadiaCup($season);
@@ -28,14 +30,16 @@ class CupController extends AbstractController
         $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Cup::class)
                   ->findAllBySeasonAndStadia($season, $stadia));
       }
+      $menu = $serviceMenu->generate('russia', $season);
 
       return $this->render('cup/index.html.twig', [
           'seasons' => $seasons,
-          'stadies' => $stadies
+          'stadies' => $stadies,
+          'menu' => $menu
       ]);
   }
 
-  public function show($id, $season)
+  public function show(Menu $serviceMenu, $id, $season)
   {
       $club = $this->getDoctrine()->getRepository(Team::class)
         ->findOneByTranslit($id);
@@ -63,13 +67,17 @@ class CupController extends AbstractController
           $players[$i]->setGameTeam($ptgame[$i]);
           $players[$i]->setGoalTeam($ptgoal[$i]);
       }
+
+      $menu = $serviceMenu->generate('russia', $season);
+
       return $this->render('cup/show.html.twig', [
           'seasons' => $seasons,
           'players' => $players,
           'teams' => $teams,
           'teams2' => $teams2,
-          'club' => $club
-          ]);
+          'club' => $club,
+          'menu' => $menu
+        ]);
   }
 
   public function newMatch($season)

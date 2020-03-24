@@ -46,14 +46,15 @@ class SbplayerRepository extends ServiceEntityRepository
     public function querySbPlayersBySeason($season)
     {
         return $query = $this->createQueryBuilder('sb')
-                ->select('sb', 'r')
-                ->join('sb.player', 'r')
+                ->select('sb', 'r', 'p')
+                ->join('sb.player', 'p')
+                ->join('p.rusplayers', 'r')
                 ->join('sb.season', 's')
                 ->where("s.name = :season")
                 ->setParameter(
                     'season', $season
                     )
-                ->orderBy('sb.game DESC, sb.goal DESC, r.name');
+                ->orderBy('sb.game DESC, sb.goal DESC, p.name');
     }
 
     public function getSbPlayersBySeason($season)

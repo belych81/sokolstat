@@ -9,21 +9,25 @@ use App\Entity\NationSupercup;
 use App\Entity\Country;
 use App\Form\SupercupType;
 use App\Form\Supercup2Type;
+use App\Service\Menu;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UefaSupercupController extends AbstractController
 {
-  public function index($country)
+  public function index(Menu $serviceMenu, $country)
   {
     switch ($country) {
         case 'uefa' :
           $entities = $this->getDoctrine()->getRepository(UefaSupercup::class)
             ->getEntity();
+          $menu = $serviceMenu->generateEurocup();
             break;
         case 'russia' :
           $entities = $this->getDoctrine()->getRepository(RusSupercup::class)
             ->getEntity();
+          $menu = $serviceMenu->generate($country);
             break;
         case 'england';
         case 'spain';
@@ -34,6 +38,7 @@ class UefaSupercupController extends AbstractController
               ->translateCountry($country)['country'];
             $entities = $this->getDoctrine()->getRepository(NationSupercup::class)
               ->getEntity($strana);
+            $menu = $serviceMenu->generate($country);
         }
 
         $rus_country = $this->getDoctrine()->getRepository(Shiptable::class)
@@ -42,10 +47,11 @@ class UefaSupercupController extends AbstractController
         return $this->render('uefasupercup/index.html.twig', [
             'rus_country' => $rus_country,
             'entities' => $entities,
+            'menu' => $menu
         ]);
   }
 
-    public function show($id, $country)
+    public function show(Menu $serviceMenu, $id, $country)
     {
         switch ($country)
         {
@@ -60,10 +66,12 @@ class UefaSupercupController extends AbstractController
                 $rus_country = 'России';
                 break;
         }
+        $menu = $serviceMenu->generate($country);
 
         return $this->render('uefasupercup/show.html.twig', [
             'entity'      => $entity,
-            'rus_country' => $rus_country
+            'rus_country' => $rus_country,
+            'menu' => $menu
             ]);
     }
 

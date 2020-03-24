@@ -11,9 +11,13 @@
     {% endblock %}
 </head>
 <body>
-  <h1>Классический ФУТБОЛ</h1>
+  <div class="container">
+    <div class="np-title">
+      <h1>Классический ФУТБОЛ</h1>
+      <span class="title-year">{{ today | date('y') }}</span>
+    </div>
   <span>№ <strong>1</strong></span>
-  <span>{{ today | date('d.m.Y') }}</span>
+  <span>{{ today | date('d.m') }}</span>
   <div>
   <h3>Российская Премьер-Лига</h3>
     {% for tour in rfplTours %}
@@ -81,12 +85,9 @@
           {% endif %}
         {% endfor %}
 
-
-
-
     {% endfor %}
 
-
+    </div>
   </div>
 </body>
 </html>

@@ -418,7 +418,7 @@ eurocup_newSeason:
     path:  /eurocup/admin/season/{turnir}/{season}/
     controller: App\Controller\EurocupController:newSeason
     requirements:
-        turnir: leagueChampions|leagueEuropa
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
 
 eurocup_createSeason:
     path:  /eurocup/admin/season/create/{turnir}/{season}/

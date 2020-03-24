@@ -1,20 +1,24 @@
 {% extends 'mundial/index.html.twig' %}
 
 {% block title %}
-    Сборная России {{ app.request.get('season') }}
-    {% endblock %}
-
-{% block seasons %}
-    {% for season in seasons %}
-        <a href="{{ path('sbornieRus', {'season': season}) }}">{{ season }}</a>
-        {% endfor %}
+    Сборная России по футболу в {{ app.request.get('season') }} году
 {% endblock %}
 
-{% block zagolovok %}
-    <p class="zagolovok">Сборная России {{ app.request.get('season') }}</p>
+{% block description %}
+    <meta name="description" content="Сборная России по футболу в {{ app.request.get('season') }} году, статистика игроков, игры и голы">
 {% endblock %}
 
 {% block content %}
+  {% block seasons %}
+    <div class="seasons">
+      {% for season in seasons %}
+          <a href="{{ path('sbornieRus', {'season': season}) }}" class="spiski">{{ season }}</a>
+          {% endfor %}
+    </div>
+  {% endblock %}
+
+  <h1>Сборная России {{ app.request.get('season') }}</h1>
+  <div class="champ-teams-list">
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -22,6 +26,8 @@
                 <th class="teamStatPlayer">&nbsp;</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
+                <th class="teamStatGoal">И (всего)</th>
+                <th class="teamStatGoal">Г (всего)</th>
             </tr>
         </thead>
         <tbody>
@@ -47,18 +53,29 @@
                     {% endif %}
                 </td>
                 <td class="tableGoal">
-                  <a href="{{ path('player_editSb',
-                    {'id': player.id, 'season': app.request.get('season'),
-                    'change': 'minusGoal'}) }}">-</a>
+                  {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('player_editSb',
+                      {'id': player.id, 'season': app.request.get('season'),
+                      'change': 'minusGoal'}) }}">-</a>
+                      {{ player.goal }}
+                    <a href="{{ path('player_editSb',
+                      {'id': player.id, 'season': app.request.get('season'),
+                      'change': 'plusGoal'}) }}">+</a>
+                  {% else %}
                     {{ player.goal }}
-                  <a href="{{ path('player_editSb',
-                    {'id': player.id, 'season': app.request.get('season'),
-                    'change': 'plusGoal'}) }}">+</a>
+                  {% endif %}
                 </td>
-                </tr>
+                <td class="tableGoal">
+                  {{ player.player.rusplayers.0.sbgame }}
+                </td>
+                <td class="tableGoal">
+                  {{ player.player.rusplayers.0.sbgoal }}
+                </td>
+              </tr>
         {% endfor %}
         </tbody>
     </table>
+    </div>
         {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newSb', {'season': app.request.get('season')}) }}">
             Добавить игрока</a>

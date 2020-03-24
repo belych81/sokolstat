@@ -1,10 +1,4 @@
 @media (max-width: 1130px) {
-  .login-bar{
-    display: block;
-  }
-  .menu-login, .search-top{
-    display: none;
-  }
   .menuPrimary li.dropdown-top{
     width: 25%;
   }
@@ -14,6 +8,17 @@
     bottom: auto;
     left: 10px;
     right: auto;
+  }
+}
+@media (max-width: 1135px) {
+  .menu-login, .search-top{
+    display: none;
+  }
+  .login-bar-block, .search-bar{
+    display: inline-block;
+  }
+  .login-bar{
+    display: block; 
   }
 }
 @media (max-width: 923px) {

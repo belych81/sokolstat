@@ -18,13 +18,15 @@ use App\Form\Eurocup2Type;
 use App\Form\EurocupTableType;
 use App\Form\EctableType;
 use App\Form\EctableEditType;
+use App\Service\Menu;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EurocupController extends AbstractController
 {
-    public function index($turnir, $season, $stadia = null)
+    public function index(Menu $serviceMenu, $turnir, $season, $stadia = null)
     {
         $laststadia2 = $this->getDoctrine()->getRepository(Eurocup::class)
           ->getLastStadia($turnir, $season);
@@ -56,6 +58,7 @@ class EurocupController extends AbstractController
         }
         $teams = $this->getDoctrine()->getRepository(Ectable::class)
           ->getLchTeams($season);
+        $menu = $serviceMenu->generateEurocup($season);
 
         return $this->render('eurocup/index.html.twig', [
             'seasons' => $seasons,
@@ -65,7 +68,8 @@ class EurocupController extends AbstractController
             'raunds' => $raunds,
             'teams' => $teams,
             'ectables' => $ectables,
-            'laststadia' => $laststadia2
+            'laststadia' => $laststadia2,
+            'menu' => $menu
           ]);
     }
 

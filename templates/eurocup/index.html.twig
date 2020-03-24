@@ -22,17 +22,6 @@
 {% endblock %}
 
 {% block sidebar %}
- <td class="sidebarMenu">
-     <ul>
-        <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">
-            ЛИГА ЧЕМПИОНОВ</a></li>
-        <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">
-            ЛИГА ЕВРОПЫ</a></li>
-        <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК УЕФА</a></li>
-        <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': 2018,
-            'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
-     </ul>
- </td>
  {% endblock %}
 
 
