@@ -30,10 +30,7 @@
        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
          <ul class="nav navbar-nav submenu">
           {% for item in menu %}
-            <li class="{% if app.request.attributes.get('_route') == item.route %}
-                   active
-                 {% endif %}
-                 ">
+            <li>
                <a href="{{ item.url }}">{{ item.name }}</a>
              </li>
            {% endfor %}
@@ -50,7 +47,9 @@
           {% if app.request.get('season') == season.season.name %}
               <b>{{ season.season.name }}</b>
           {% else %}
-              <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
+              <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">
+                {{ season.season.name }}
+              </a>
           {% endif %}
       {% endfor %}
     </div>

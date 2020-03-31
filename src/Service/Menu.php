@@ -14,38 +14,43 @@ class Menu
 
     public function generate($country, $season = '2019-20')
     {
-      $menu = [
-        [
-          'name' => 'Чемпионат',
-          'url' => $this->router->generate('championships', ['country' => $country, 'season' => $season]),
-          'route' => 'championships'
-        ]
-      ];
 
       if ($country == 'russia' || $country == 'fnl') {
+        $menu = [
+          [
+            'name' => 'Чемпионат',
+            'url' => $this->router->generate('championships', ['country' => 'russia', 'season' => $season])
+          ]
+        ];
         $menu[1] = [
                 'name' => 'Кубок',
-                'url' => $this->router->generate('cup', ['season' => $season]),
-                'route' => 'cup'
+                'url' => $this->router->generate('cup', ['season' => $season])
+        ];
+        $menu[2] = [
+                'name' => 'Cуперкубок',
+                'url' => $this->router->generate('supercup', ['country' => 'russia'])
         ];
         $menu[3] = [
                 'name' => 'ФНЛ',
-                'url' => $this->router->generate('championships', ['country' => 'fnl', 'season' => $season]),
-                'route' => 'championships'
+                'url' => $this->router->generate('championships', ['country' => 'fnl', 'season' => $season])
         ];
       } else {
+        $menu = [
+          [
+            'name' => 'Чемпионат',
+            'url' => $this->router->generate('championships', ['country' => $country, 'season' => $season])
+          ]
+        ];
         $menu[1] = [
                 'name' => 'Кубок',
-                'url' => $this->router->generate('nationcup', ['country' => $country, 'season' => $season]),
-                'route' => 'nationcup'
+                'url' => $this->router->generate('nationcup', ['country' => $country, 'season' => $season])
+        ];
+        $menu[2] = [
+                'name' => 'Cуперкубок',
+                'url' => $this->router->generate('supercup', ['country' => $country])
         ];
       }
 
-      $menu[2] = [
-              'name' => 'Cуперкубок',
-              'url' => $this->router->generate('supercup', ['country' => $country]),
-              'route' => 'supercup'
-      ];
       ksort($menu);
 
       return $menu;
