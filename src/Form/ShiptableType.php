@@ -20,14 +20,8 @@ class ShiptableType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
       $country = $options['country'];
-        switch ($country) {
-            case 'russia' : $country = 'Россия'; break;
-            case 'england' : $country = 'Англия';  break;
-            case 'spain' : $country = 'Испания'; break;
-            case 'italy' : $country = 'Италия'; break;
-            case 'germany' : $country = 'Германия'; break;
-            case 'france' : $country = 'Франция'; break;
-            case 'fnl' : $country = 'Россия'; break;
+        if($country == 'fnl'){
+          $country = 'russia';
         }
         $season = "2010-11";
         if(\key_exists('season', $_SESSION)){

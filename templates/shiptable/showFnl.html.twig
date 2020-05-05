@@ -1,6 +1,21 @@
 {% extends 'shiptable/show.html.twig' %}
 {% block content %}
 
+{% block seasons %}
+
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+        <a href="{{ path('championships_show', {
+          'country': app.request.get('country'), 'season': season.season.name,
+          'id': app.request.get('id')}) }}" class="spiski">
+          {{ season.season.name }}</a>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}
       <a href="{{ path('championships_show', {'season': app.request.get('season'),
@@ -72,11 +87,14 @@
                 <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
                 <th colspan="2">{{ app.request.get('season') }}</th>
                 <th colspan="2">Всего в ФНЛ</th>
+                <th colspan="2">Всего в высшей лиге</th>
                 <th rowspan="2" class="teamStatGoal">Дата рождения</th>
-                <th rowspan="2" class="teamStatGoal">Страна</th>
+                <th rowspan="2" class="teamStatGoal champ-country">Страна</th>
             </tr>
             <tr class="shipTableTitle">
 
+                <th class="teamStatGoal">И</th>
+                <th class="teamStatGoal">Г</th>
                 <th class="teamStatGoal">И</th>
                 <th class="teamStatGoal">Г</th>
                 <th class="teamStatGoal">И</th>
@@ -151,13 +169,19 @@
                 <td class="tableGoal">
                       {{ player.player.rusplayers.0.fnlgoal }}
                 </td>
+                <td class="tableGoal">
+                    {{ player.player.rusplayers.0.game }}
+                </td>
+                <td class="tableGoal">
+                      {{ player.player.rusplayers.0.goal }}
+                </td>
 
                 <td class="champ-team-column total-game">
 
                     {{ player.player.born | date('d.m.Y') }}
 
                 </td>
-                <td class="champ-team-column total-game">
+                <td class="champ-team-column total-game  champ-country">
 
                     {{ player.player.country.name }}
 

@@ -73,7 +73,7 @@ class EurocupController extends AbstractController
           ]);
     }
 
-    public function show(SessionInterface $session, $id, $season)
+    public function show(SessionInterface $session, Menu $serviceMenu,  $id, $season)
     {
         $seasons = $this->getDoctrine()->getRepository(Eurocup::class)
           ->getSeasonsByTurnir('leagueChampions');
@@ -92,7 +92,7 @@ class EurocupController extends AbstractController
         $ectables = $this->getDoctrine()->getRepository(Ectable::class)
           ->getEcTable('leagueChampions', $season, $stadia['alias']);
         $lastPlayer = $session->get('lastPlayer');
-
+        $menu = $serviceMenu->generateEurocup($season);
         return $this->render('eurocup/show.html.twig', [
             'entity'      => $entity,
             'seasons' => $seasons,
@@ -102,6 +102,7 @@ class EurocupController extends AbstractController
             'players' => $players,
             'ectables' => $ectables,
             'lastPlayer' => $lastPlayer,
+            'menu' => $menu,
             'stadia' => $stadia
           ]);
     }

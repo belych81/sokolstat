@@ -10,6 +10,10 @@
 {% endblock %}
 
 
+
+
+{% block content %}
+
 {% block seasons %}
 
     {% for season in seasons %}
@@ -24,8 +28,6 @@
     {% endfor %}
 
 {% endblock %}
-
-{% block content %}
 
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}

@@ -1,5 +1,6 @@
 {% extends 'shiptable/show.html.twig' %}
 
+{% block content %}
 
 {% block seasons %}
 
@@ -16,7 +17,6 @@
 
 {% endblock %}
 
-{% block content %}
   <div class="teams-list">{{ app.request.get('team') }}
     {% for team in teams %}
         <a href="{{ path('championships_show', {'season': app.request.get('season'),

@@ -283,12 +283,10 @@ class ShiptableController extends AbstractController
 
     public function newSeason($country)
     {
-          $entity = new Shiptable();
-
-          $form   = $this->createForm(ShiptableType::class, $entity, [
-              'country' => $country
-              ]);
-
+        $entity = new Shiptable();
+        $form   = $this->createForm(ShiptableType::class, $entity, [
+            'country' => $country
+            ]);
 
         return $this->render('shiptable/newSeason.html.twig', array(
             'entity' => $entity,
