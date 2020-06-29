@@ -10,25 +10,61 @@
 {% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="visit_card_player"><p class="playername">{{ player.0.name }}</p>
-
-                <p>{{ player.0.country.name }}</p>
-
-                <p>Дата рождения: <b>{{ player.0.born | date('d.m.Y') }}</b></p>
-                <p>{{ player.0.amplua.name }}</p>
-                {% if rusplayer %}
-                <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
+    <div class="scLink">
+      <p class="playername">{{ player.0.name }}</p>
+        <p>{{ player.0.country.name }}</p>
+        <p>Дата рождения: <b>{{ player.0.born | date('d.m.Y') }}</b></p>
+        <p>{{ player.0.amplua.name }}</p>
+        {% if rusplayer %}
+        <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
+        {% endif %}
+        {% if is_granted("ROLE_ADMIN") %}
+          <a href="{{ path('player_edit', {'id': player.0.id}) }}">
+             изменить</a>
+        {% endif %}
+    </div>
+    <div class="scLink">
+            <table class="playerStatTable">
+                <tr class="shipTableTitle">
+                    <th class="player-season">Сезон</th>
+                    <th class="player-season">Турнир</th>
+                    <th class="player-club">Клуб</th>
+                    <th class="player-goal">И</th>
+                    <th class="player-goal">Г</th>
+                </tr>
+                {% set previous = false %}
+                {% for item in items|sort((a, b) => a.season.name <=> b.season.name) %}
+                  {% set curSeason = item.season.name [:4] %}
+                  {% if previous != false %}
+                    {% set prevSeason = previous.season.name [:4] %}
+                  {% endif %}
+                {% if previous == false or curSeason != prevSeason %}
+                  <tr>
+                    <td colspan="5" class="player-position">{{ item.season.name [:4] }}</td>
+                  </tr>
                 {% endif %}
-
-                {% if is_granted("ROLE_ADMIN") %}
-                  <a href="{{ path('player_edit', {'id': player.0.id}) }}">
-                     изменить</a>
-                {% endif %}
-            </td>
-
-            <td class="scLink">
+                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td>{{ item.season.name }}</td>
+                    <td>{{ item.season.name }}</td>
+                    <td>
+                      {% if item.team.name is defined %}
+                        {{ item.team.name }}
+                      {% else %}
+                        Cборная
+                      {% endif %}
+                    </td>
+                    <td>
+                    {% if item.game is defined %}
+                      {{ item.game }}
+                    {% else %}
+                      1
+                    {% endif %}
+                    </td>
+                    <td>{{ item.goal }}</td>
+                </tr>
+                {% set previous = item %}
+                {% endfor %}
+            </table>
                 {% if entities %}
                 <p><b>Чемпионат России</b></p>
 
@@ -228,7 +264,5 @@
                     </tr>
                 </table>
                 {% endif %}
-            </td>
-        </tr>
-    </table>
+    </div>
 {% endblock %}

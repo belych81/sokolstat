@@ -19,6 +19,7 @@ use App\Entity\Cupplayer;
 use App\Entity\Ecplayer;
 use App\Entity\Supercupplayer;
 use App\Entity\Sbplayer;
+use App\Service\Sort;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -73,6 +74,7 @@ class RusplayerController extends AbstractController
 
     public function show($id)
     {
+        $items = [];
         $player = $this->getDoctrine()->getRepository(Player::class)
           ->findByTranslit($id);
         $rusplayer = $this->getDoctrine()->getRepository(Rusplayer::class)
@@ -98,6 +100,10 @@ class RusplayerController extends AbstractController
         $goalsSb = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbSum($id, 'goal');
 
+      //  $items = $entities;
+        $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups);
+        //uasort($items, );
+
         return $this->render('player/show.html.twig', [
             'entities' => $entities,
             'cups' => $cups,
@@ -110,8 +116,9 @@ class RusplayerController extends AbstractController
             'rusplayer' => $rusplayer,
             'fnlplayer' => $fnlplayer,
             'gamesSb' => $gamesSb,
-            'goalsSb' => $goalsSb
-            ]);
+            'goalsSb' => $goalsSb,
+            'items' => $items
+        ]);
     }
 
     public function search()

@@ -253,13 +253,14 @@ class PlayerRepository extends ServiceEntityRepository
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
         return $query = $this->createQueryBuilder('p')
-                ->leftJoin('p.shipplayers', 's')
-                ->leftJoin('p.gamers', 'g')
-                ->leftJoin('p.lchplayers', 'l')
+                //->leftJoin('p.shipplayers', 's')
+                //->leftJoin('p.gamers', 'g')
+                //->leftJoin('p.lchplayers', 'l')
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
-                ->orderBy('p.name');
+                //->orderBy('p.name')
+                ;
     }
 
     public function queryTeamPlayers($season, $team)

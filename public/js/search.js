@@ -11,7 +11,7 @@ function parseUrlQuery() {
 	}
 
   $(function(){
-
+		$("select").chosen({no_results_text: "Не нашлось"});
     //Живой поиск
   $('.search_keywords').bind("keyup", function() {
       if(this.value.length >= 1){
@@ -179,4 +179,5 @@ function parseUrlQuery() {
 			div.hide();
 		}
 	});
+
 });

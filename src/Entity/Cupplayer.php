@@ -136,4 +136,9 @@ class Cupplayer
     {
         return $this->goalTeam;
     }
+
+    public function getСompetition()
+    {
+      return 'Кубок России';
+    }
 }

@@ -136,4 +136,9 @@ class Gamers
     {
         return $this->goalTeam;
     }
+
+    public function getСompetition()
+    {
+      return 'Чемпионат России';
+    }
 }

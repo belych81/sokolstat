@@ -40,6 +40,9 @@
    </nav>
  {% endblock %}
 
+{% block teams %}
+ {% endblock %}
+
 {% block content %}
   {% block seasons %}
     <div class="seasons">
@@ -54,9 +57,6 @@
       {% endfor %}
     </div>
   {% endblock %}
-
-{% block teams %}
-{% endblock %}
 
 <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
 <div class="champ-tours champs">Туры:

@@ -459,20 +459,10 @@ class ShiptableController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $country=$entity->getCountry()->getName();
-            switch ($country) {
-              case 'Россия' : $country2 = 'russia'; break;
-              case 'Англия' : $country2 = 'england';  break;
-              case 'Испания' : $country2 = 'spain'; break;
-              case 'Италия' : $country2 = 'italy'; break;
-              case 'Германия' : $country2 = 'germany'; break;
-              case 'Франция' : $country2 = 'france'; break;
-              case 'ФНЛ' : $country2 = 'fnl'; break;
-            }
             $season=$entity->getSeason()->getName();
 
             return $this->redirect($this->generateUrl('championships', [
-                'season' => $season, 'country' => $country2]));
+                'season' => $season, 'country' => $country]));
         }
 
         return $this->render('shiptable/edit.html.twig', array(
