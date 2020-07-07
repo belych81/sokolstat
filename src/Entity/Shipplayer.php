@@ -176,4 +176,9 @@ class Shipplayer
 
         return $this;
     }
+
+    public function getcompetition()
+    {
+      return $this->getTeam()->getCountry()->getName().' (чемпионат)';
+    }
 }

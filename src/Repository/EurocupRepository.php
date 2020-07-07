@@ -102,7 +102,7 @@ class EurocupRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
-    public function getEntityByTurnir($turnir, $season, $stadia)
+    public function getEntityByTurnir($turnir, $season)
     {
         $qb = $this->createQueryBuilder('e')
                 ->select('e', 's', 'st', 'tm', 'tm2', 'es')
@@ -114,11 +114,9 @@ class EurocupRepository extends ServiceEntityRepository
                 ->leftJoin('e.ecsostav', 'es')
                 ->where("t.alias = :turnir")
                 ->andWhere("s.name = :season")
-                ->andWhere("st.alias = :stadia")
                 ->setParameters([
                     'turnir' => $turnir,
-                    'season' => $season,
-                    'stadia' => $stadia,
+                    'season' => $season
                         ])
                 ->orderBy('e.data, e.id');
 
@@ -145,6 +143,29 @@ class EurocupRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    public function getEntityByTurnirStadia($turnir, $season, $stadia)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2', 'es')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->leftJoin('e.ecsostav', 'es')
+                ->where("t.alias = :turnir")
+                ->andWhere("s.name = :season")
+                ->andWhere('st.id = :stadia')
+                ->setParameters([
+                    'season' => $season,
+                    'turnir' => $turnir,
+                    'stadia' => $stadia
+                    ])
+                ->orderBy('e.data, e.id')
+                ->getQuery()
+                ->getResult();
     }
 
     public function getEurocupByTeam($teamId)

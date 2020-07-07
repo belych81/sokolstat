@@ -24,11 +24,12 @@ class CupController extends AbstractController
   public function index(Menu $serviceMenu, $season)
   {
       $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
-      $stadies = $this->getDoctrine()->getRepository(Stadia::class)->getStadiaCup($season);
+      $stadies = $this->getDoctrine()->getRepository(Stadia::class)
+        ->getStadiaCup($season);
       foreach ($stadies as $stadia)
       {
         $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Cup::class)
-                  ->findAllBySeasonAndStadia($season, $stadia));
+          ->findAllBySeasonAndStadia($season, $stadia));
       }
       $menu = $serviceMenu->generate('russia', $season);
 
@@ -98,7 +99,8 @@ class CupController extends AbstractController
   {
       $ent = CupType::class;
       $entity  = new Cup();
-      $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+      $year = $this->getDoctrine()->getRepository(Seasons::class)
+        ->findOneByName($season);
 
       $entity->setSeason($year);
       $entity->setStatus(1);
@@ -115,7 +117,6 @@ class CupController extends AbstractController
           $_SESSION['date'] = $entity->getData();
           $em->persist($entity);
           $em->flush();
-          //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
       }
 
       return $this->render('cup/newMatch.html.twig', array(

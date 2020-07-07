@@ -108,4 +108,9 @@ class Fnlplayer
 
         return $this;
     }
+
+    public function getcompetition()
+    {
+      return 'ФНЛ (первый дивизион)';
+    }
 }

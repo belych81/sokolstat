@@ -11,7 +11,10 @@ function parseUrlQuery() {
 	}
 
   $(function(){
-		$("select").chosen({no_results_text: "Не нашлось"});
+		$("select").chosen({
+			no_results_text: "Не нашлось",
+			width: '100%'
+		});
     //Живой поиск
   $('.search_keywords').bind("keyup", function() {
       if(this.value.length >= 1){

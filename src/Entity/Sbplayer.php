@@ -90,4 +90,9 @@ class Sbplayer
 
         return $this;
     }
+
+    public function getcompetition()
+    {
+      return '-';
+    }
 }

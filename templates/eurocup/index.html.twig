@@ -1,19 +1,16 @@
 {% extends 'shiptable/index.html.twig' %}
 
 {% block title %}
-    {{ rus_turnir.russianalias }} {{ app.request.get('season') }} - {{ rus_stadia.name }}
-    {% endblock %}
+    {{ rus_turnir.russianalias }} {{ app.request.get('season') }}
+{% endblock %}
 
 {% block description %}
     <meta name="description" content="еврокубки, {{ rus_turnir }} {{ app.request.get('season') }},
-          {{ rus_stadia }}, матчи, авторы забитых мячей">
+          матчи, авторы забитых мячей">
 {% endblock %}
-
-
 
 {% block sidebar %}
  {% endblock %}
-
 
 
 {% block teams %}
@@ -45,7 +42,7 @@
             <b>{{ season.season.name }}</b>
         {% else %}
             <a href="{{ path('eurocup', {'turnir': app.request.get('turnir'),
-                'season': season.season.name, 'stadia': season.season.laststadia }) }}" class="spiski">
+                'season': season.season.name }) }}" class="spiski">
                 {{ season.season.name }}</a>
         {% endif %}
     {% endfor %}
@@ -56,73 +53,57 @@
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">
                 Добавить матч</a></p>
          {% endif %}
-    <table>
-        <tr class="scLink">
-            <td class="ecRounds">
-                <p><b>Раунды</b></p><hr/>
-                {% for raund in raunds %}
-                    <p><a href="{{ path('eurocup', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': raund.stadia.alias}) }}"
-                        class="spiski">
-                            {{ raund.stadia.name }}</a></p>
-                {% endfor %}
-                {% if is_granted("ROLE_ADMIN") %}
-                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': app.request.get('stadia')}) }}">
-                            Добавить матч</a>
-                {% endif %}
-            </td>
-
-            <td class="scLink">
-                <p><span class="stadia-name">{{ rus_stadia.name }}</span></p>
-
-    <table>
-    {% for entity in entities %}
-        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-            <td class="scMatch">
-                {% if entity.ecsostav %}
-                    <a href="{{ path('eurocup_showmatch', {'turnir': app.request.get('turnir'),
-                      'season': app.request.get('season'), 'id': entity.id}) }}">{{ entity.team.name }}
-                        - {{ entity.team2.name }}</a>
-                {% else %}
-                    {{ entity.team.name }} - {{ entity.team2.name }}
-                {% endif %}
-            </td>
-            <td class="scScore">
-              {% if is_granted("ROLE_ADMIN") %}
-                <a href="{{ path('eurocup_editMatch', {'id': entity.id,
-                  'turnir': app.request.get('turnir'),
-                  'stadia': rus_stadia.alias })}}">
-                  {{ entity.data | date('d.m H:i') }}
-                </a>
-              {% else %}
-                {{ entity.data | date('d.m H:i') }}
-              {% endif %}
-            </td>
-            <td class="scScore">
-            {% if is_granted("ROLE_ADMIN") %}
-              <a href="{{ path('eurocup_edit', {'id': entity.id,
-                'turnir': app.request.get('turnir'),
-                'stadia': rus_stadia.alias })}}">
-                {% if entity.status %}
-                    -:-
-                {% else %}
-                  {{ entity.score }}
-                {% endif %}
-              </a>
-              {% else %}
-                {% if entity.status %}
-                    -:-
-                {% else %}
-                  {{ entity.score }}
-                {% endif %}
-              {% endif %}
-            </td>
-            <td class="scBomb">
-                {{ entity.bomb }}
-            </td>
-        </tr>
+         <table>
+             <tr>
+                 <td>
+         <table>
+         {% for stad in stadies %}
+             <tr class="shipTableTitle">
+                   <td colspan="4" class="tableGoal">{{ stad.name }}</td>
+             </tr>
+           {% for entity in stad.stadiamatches %}
+           <tr class="odd">
+               <td class="">
+                   <div class="">
+                       {% if is_granted("ROLE_ADMIN") %}
+                       <a href="{{ path('eurocup_editMatch', {'id': entity.id,
+                         'turnir': app.request.get('turnir') })}}">
+                             {{ entity.data | date('d.m H:i') }}</a>
+                       {% else %}
+                             {% if entity.status == 1 %}
+                               {{ entity.data | date('d.m H:i') }}
+                             {% else %}
+                                 {{ entity.data | date('d.m') }}
+                             {% endif %}
+                       {% endif %}
+                   </div>
+               </td>
+               <td class="scMatch">
+                   <div>
+                     <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
+                      -
+                      <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+                   </div>
+               </td>
+               <td class="scScore">
+                 {{ entity.score }}
+               </td>
+               <td class="scBomb">
+                   {{ entity.bomb }}
+               </td>
+           </tr>
+           {% if entity.ecsostav %}
+           <tr>
+               <td colspan="4" class="even">
+                   <p><em><b>{{ entity.team.name }}</b></em>: {{ entity.ecsostav.team }}</p>
+                   <p><em><b>{{ entity.team2.name }}</b></em>: {{ entity.ecsostav.team2 }}</p>
+               </td>
+           </tr>
+           {% endif %}
+        {% endfor %}
     {% endfor %}
+
+
     </table>
     <br/>
     {% if is_granted("ROLE_ADMIN") %}
@@ -130,49 +111,7 @@
       'season': app.request.get('season')
       }) }}">Добавить сезон</a></p>
     {% endif %}
-    {% if ectables %}
-        <table class="shipTable">
-            <thead>
-            <tr class="shipTableTitle">
-                <th>&nbsp;</th>
-                <th>И</th>
-                <th>В</th>
-                <th>Н</th>
-                <th>П</th>
-                <th>M</th>
-                <th>О</th>
 
-            </tr>
-        </thead>
-        <tbody>
-           {% for ectable in ectables %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td class="tableLeft">
-                  <a href="{{ path('eurocup_show', {'id': ectable.team.translit,
-                    'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
-                        class="shipTableTeam">
-                        {{ ectable.team.name }}
-                  </a>
-                  {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('ectable_edit', {
-                     'id': ectable.id, 'season': app.request.get('season'),
-                     'turnir': app.request.get('turnir'),
-                     'stadia': app.request.get('stadia')
-                    }) }}">=</a>
-                  {% endif %}
-                </td>
-                <td class="shipTableParams">{{ ectable.wins+ectable.nich+ectable.porazh }}</td>
-                <td class="shipTableParams">{{ ectable.wins }}</td>
-                <td class="shipTableParams">{{ ectable.nich }}</td>
-                <td class="shipTableParams">{{ ectable.porazh }}</td>
-                <td>{{ ectable.mz }}-{{ ectable.mp }}</td>
-                <td class="shipTableParams"><b>{{ ectable.score }}</b></td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-        </table>
-    {% endif %}
             </td>
         </tr>
     </table>

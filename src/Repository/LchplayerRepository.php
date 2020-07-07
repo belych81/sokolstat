@@ -57,8 +57,11 @@ class LchplayerRepository extends ServiceEntityRepository
               ->join('lp.player', 'p')
               ->join('lp.season', 's')
               ->join('lp.team', 't')
+              ->join('t.country', 'c')
               ->where('p.translit = :id')
               ->setParameter('id', $id)
+              ->andWhere('c.name != :russia')
+              ->setParameter('russia', 'Россия')
               ->orderBy('s.name')
               ->getQuery()
               ->getResult();

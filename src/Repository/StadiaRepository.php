@@ -33,6 +33,23 @@ class StadiaRepository extends ServiceEntityRepository
               ;
     }
 
+    public function getStadiaEurocup($season, $turnir)
+    {
+      return $this->createQueryBuilder('s')
+              ->select('s', 'c', 'sn')
+              ->leftJoin('s.eurocups', 'c')
+              ->join('c.season', 'sn')
+              ->join('c.turnir', 't')
+              ->where("c.stadia = s.id")
+              ->andWhere("sn.name = :season")
+              ->andWhere("t.alias = :turnir")
+              ->setParameter('season', $season)
+              ->setParameter('turnir', $turnir)
+              ->getQuery()
+              ->getResult()
+              ;
+    }
+
     public function getStadiaEurocupByTeam($season, $team)
     {
       return $this->createQueryBuilder('s')

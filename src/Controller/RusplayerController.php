@@ -101,7 +101,8 @@ class RusplayerController extends AbstractController
           ->getSbSum($id, 'goal');
 
       //  $items = $entities;
-        $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups);
+        $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups,
+          $lchplayer, $fnlplayer, $shipplayer);
         //uasort($items, );
 
         return $this->render('player/show.html.twig', [

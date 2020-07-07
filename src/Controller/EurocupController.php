@@ -26,49 +26,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EurocupController extends AbstractController
 {
-    public function index(Menu $serviceMenu, $turnir, $season, $stadia = null)
+    public function index(Menu $serviceMenu, $turnir, $season)
     {
-        $laststadia2 = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getLastStadia($turnir, $season);
-        if (!$stadia) {
-            $stadia = $laststadia2[0]['alias'];
-        }
         $seasons = $this->getDoctrine()->getRepository(Eurocup::class)
           ->getSeasonsByTurnir($turnir);
-
-        $count=count($seasons);
-        for ($i=0; $i < $count; $i++) {
-          $laststadia[$i] = $this->getDoctrine()->getRepository(Eurocup::class)
-            ->getLastStadia($turnir, $seasons[$i]->getSeason()->getName());
-
-            $seasons[$i]->getSeason()->setLaststadia($laststadia[$i][0]['alias']);
-        }
-        $entities = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getEntityByTurnir($turnir, $season, $stadia);
-        $raunds = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getStadiaByTurnir($turnir, $season);
-        $rus_stadia = $this->getDoctrine()->getRepository(Stadia::class)
-          ->findOneByAlias($stadia);
         $rus_turnir = $this->getDoctrine()->getRepository(Turnir::class)
-          ->findOneByAlias($turnir);
-        $ectables = false;
-        if (strpos($stadia, 'group') !== false) {
-            $ectables = $this->getDoctrine()->getRepository(Ectable::class)
-              ->getEcTable($turnir, $season, $stadia);
+            ->findOneByAlias($turnir);
+        $stadies = $this->getDoctrine()->getRepository(Stadia::class)
+          ->getStadiaEurocup($season, $turnir);
+      //  $raunds = $this->getDoctrine()->getRepository(Eurocup::class)
+        //  ->getStadiaByTurnir($turnir, $season);
+        foreach ($stadies as $stadia)
+        {
+          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEntityByTurnirStadia($turnir, $season, $stadia));
+            //$rus_stadia = $this->getDoctrine()->getRepository(Stadia::class)
+              //->findOneByAlias($stadia);
+            //$ectables = false;
+            //if (strpos($stadia, 'group') !== false) {
+            //   $ectables = $this->getDoctrine()->getRepository(Ectable::class)
+            //      ->getEcTable($turnir, $season, $stadia);
+            //}
         }
+
         $teams = $this->getDoctrine()->getRepository(Ectable::class)
           ->getLchTeams($season);
         $menu = $serviceMenu->generateEurocup($season);
 
         return $this->render('eurocup/index.html.twig', [
             'seasons' => $seasons,
-            'entities' => $entities,
-            'rus_stadia' => $rus_stadia,
+            'stadies' => $stadies,
+            //'rus_stadia' => $rus_stadia,
             'rus_turnir' => $rus_turnir,
-            'raunds' => $raunds,
             'teams' => $teams,
-            'ectables' => $ectables,
-            'laststadia' => $laststadia2,
+            //'ectables' => $ectables,
+            //'laststadia' => $laststadia2,
             'menu' => $menu
           ]);
     }
@@ -359,13 +351,11 @@ class EurocupController extends AbstractController
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-            $stadia=$entity->getStadia()->getAlias();
             $season=$entity->getSeason()->getName();
 
             return $this->redirect($this->generateUrl('eurocup', [
               'turnir' => $turnir,
-              'season' => $season,
-              'stadia' => $stadia
+              'season' => $season
             ]));
 
         }

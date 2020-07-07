@@ -330,11 +330,10 @@ nationsupercup_create:
       id: \d+
 
 eurocup:
-    path:  /eurocup/{turnir}/{season}/{stadia}
+    path:  /eurocup/{turnir}/{season}/
     controller: App\Controller\EurocupController:index
     defaults:
       turnir: leagueChampions
-      stadia: null
     requirements:
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
 
@@ -360,18 +359,18 @@ eurocup_edit:
         id: \d+
 
 eurocup_update:
-    path:  /eurocup/{turnir}/{id}/{stadia}/update
+    path:  /eurocup/{turnir}/{id}/update
     controller: App\Controller\EurocupController:update
     requirements: { _method: post|put }
 
 eurocup_editMatch:
-    path:  /eurocup/{turnir}/{id}/{stadia}/editMatch
+    path:  /eurocup/{turnir}/{id}/editMatch
     controller: App\Controller\EurocupController:editMatch
     requirements:
         id: \d+
 
 eurocup_updateMatch:
-    path:  /eurocup/{turnir}/{id}/{stadia}/updateMatch
+    path:  /eurocup/{turnir}/{id}/updateMatch
     controller: App\Controller\EurocupController:updateMatch
     requirements: { _method: post|put }
 

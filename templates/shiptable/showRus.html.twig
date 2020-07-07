@@ -3,7 +3,7 @@
 {% block content %}
 
 {% block seasons %}
-
+  <div class="seasons">
     {% for season in seasons %}
         {% if app.request.get('season') == season.season.name %}
             <b>{{ season.season.name }}</b>
@@ -14,7 +14,7 @@
           {{ season.season.name }}</a>
         {% endif %}
     {% endfor %}
-
+  </div>
 {% endblock %}
 
   <div class="teams-list">{{ app.request.get('team') }}

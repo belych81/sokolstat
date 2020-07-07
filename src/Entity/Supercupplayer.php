@@ -92,7 +92,7 @@ class Supercupplayer
         return $this;
     }
 
-    public function getСompetition()
+    public function getcompetition()
     {
       return 'Суперкубок России';
     }

@@ -9,9 +9,6 @@
           авторы забитых мячей">
 {% endblock %}
 
-
-
-
 {% block content %}
 
 {% block seasons %}
@@ -109,6 +106,8 @@
                 <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (И)</th>
                 <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (Г)</th>
                 <th class="teamStatTotalGoal nation-all">Всего за клубы топ-5 (Г)</th>
+                <th class="teamStatGoal champ-born">Дата рождения</th>
+                <th class="teamStatGoal champ-country">Страна</th>
             </tr>
         </thead>
         {% endif %}
@@ -235,6 +234,12 @@
                 </td>
                 <td class="tableGoal nation-all">
                     {{ player.player.sum }}
+                </td>
+                <td class="champ-team-column champ-born">
+                    {{ player.player.born | date('d.m.Y') }}
+                </td>
+                <td class="champ-team-column champ-country">
+                    {{ player.player.country.name }}
                 </td>
             </tr>
         {% endfor %}

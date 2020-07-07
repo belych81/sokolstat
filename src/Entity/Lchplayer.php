@@ -108,4 +108,9 @@ class Lchplayer
 
         return $this;
     }
+
+    public function getcompetition()
+    {
+      return 'Лига Чемпионов';
+    }
 }

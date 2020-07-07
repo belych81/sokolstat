@@ -1,4 +1,4 @@
-{% extends 'eurocup/new.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
     Добавить матч
@@ -14,7 +14,7 @@
 
     <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
     <form action="{{ path('eurocup_updateMatch', {'id': app.request.get('id'),
-        'turnir': app.request.get('turnir'), 'stadia': app.request.get('stadia')}) }}"
+        'turnir': app.request.get('turnir')}) }}"
           method="post">
        <table>
             <tbody>
@@ -68,6 +68,5 @@
 
         </p>
     </form>
-
 
 {% endblock %}

@@ -240,7 +240,6 @@ footer {
 }
 .champ-teams-list{
   display: table;
-  vertical-align: top;
   margin: auto;
 }
 .champ-teams-list p a{
@@ -338,6 +337,7 @@ footer {
     padding: 0;
     margin-left: 20px;
     margin-right: 20px;
+    max-width: 1200px;
 }
 .content{
     flex: 1 0 auto;
@@ -794,7 +794,8 @@ footer {
   width: 200px;
 }
 .playerStatTable {
-    /*width: 300px;*/
+    margin-top: 10px;
+    margin-left: 10px;
     text-align: center;
     background-color: #FFFFFF;
 }
@@ -819,6 +820,9 @@ footer {
 }
 .player-stat-top-5 {
     /*width: 500px;*/
+}
+.player-turnir {
+    max-width: 170px;
 }
 .players-list tr{
   height: 25px;
