@@ -32,7 +32,7 @@
               <th class="player-goal">Г</th>
           </tr>
           {% set previous = false %}
-          {% for item in items|sort((a, b) => a.season.name <=> b.season.name) %}
+          {% for item in items %}
             {% set curSeason = item.season.name %}
             {% if previous != false %}
               {% set prevSeason = previous.season.name %}

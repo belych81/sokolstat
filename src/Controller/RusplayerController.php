@@ -19,7 +19,6 @@ use App\Entity\Cupplayer;
 use App\Entity\Ecplayer;
 use App\Entity\Supercupplayer;
 use App\Entity\Sbplayer;
-use App\Service\Sort;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -103,7 +102,12 @@ class RusplayerController extends AbstractController
       //  $items = $entities;
         $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups,
           $lchplayer, $fnlplayer, $shipplayer);
-        //uasort($items, );
+          uasort($items, function ($v1, $v2) {
+            if($v1->getSeason()->getName() == $v2->getSeason()->getName()) {
+              return 0;
+            }
+            return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
+          });
 
         return $this->render('player/show.html.twig', [
             'entities' => $entities,
