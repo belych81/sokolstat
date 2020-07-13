@@ -63,7 +63,7 @@
              </tr>
            {% for entity in stad.stadiamatches %}
            <tr class="odd">
-               <td class="">
+               <td class="ec-date">
                    <div class="">
                        {% if is_granted("ROLE_ADMIN") %}
                        <a href="{{ path('eurocup_editMatch', {'id': entity.id,
@@ -81,8 +81,10 @@
                <td class="scMatch">
                    <div>
                      <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
+                     ({{ entity.team.country.name }})
                       -
                       <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+                      ({{ entity.team2.country.name }})
                    </div>
                </td>
                <td class="scScore">

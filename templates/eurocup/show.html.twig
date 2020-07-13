@@ -11,6 +11,19 @@
 
 
 {% block content %}
+
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+            <a href="{{ path('eurocup', {'turnir': app.request.get('turnir'),
+                'season': season.season.name }) }}" class="spiski">
+                {{ season.season.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
 <div class="ec-content">
 <div class="team-show-image">
   <div>

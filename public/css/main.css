@@ -398,6 +398,9 @@ footer {
   margin-right: auto;
   max-width: 1500px;
 }
+.ec-date{
+  width: 30px;
+}
 .ecRounds {
     width: 200px;
     vertical-align: top;
@@ -960,7 +963,7 @@ footer {
   margin-right: 5px;
 }
 .scBomb {
-    width: 500px;
+    width: 600px;
     font-size: 13px;
 }
 .container {
@@ -970,7 +973,7 @@ footer {
     margin-bottom: 10px;
 }
 .scMatch {
-    width: 300px;
+    width: 400px;
     line-height: 30px;
     text-align: center;
     font-size: 14px;

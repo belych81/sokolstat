@@ -135,9 +135,6 @@
     }
 }
 @media (max-width: 415px) {
-  .team-show-image{
-    display: none;
-  }
   .team-show-image-mobile{
     display: flex;
   }
