@@ -196,6 +196,18 @@ class Stadia
         return $this->stadia_matches;
     }
 
+    private $stadia_table = false;
+
+    public function setStadiaTable($table)
+    {
+        $this->stadia_table = $table;
+    }
+
+    public function getStadiaTable()
+    {
+        return $this->stadia_table;
+    }
+
     public function __toString()
     {
         return $this->name;

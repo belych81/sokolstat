@@ -42,11 +42,11 @@ class EurocupController extends AbstractController
             ->getEntityByTurnirStadia($turnir, $season, $stadia));
             //$rus_stadia = $this->getDoctrine()->getRepository(Stadia::class)
               //->findOneByAlias($stadia);
-            //$ectables = false;
-            //if (strpos($stadia, 'group') !== false) {
-            //   $ectables = $this->getDoctrine()->getRepository(Ectable::class)
-            //      ->getEcTable($turnir, $season, $stadia);
-            //}
+            $stadiaAlias = $stadia->getAlias();
+            if (strpos($stadiaAlias, 'group') !== false) {
+               $stadia->setStadiaTable($this->getDoctrine()->getRepository(Ectable::class)
+                  ->getEcTable($turnir, $season, $stadiaAlias));
+            }
         }
 
         $teams = $this->getDoctrine()->getRepository(Ectable::class)

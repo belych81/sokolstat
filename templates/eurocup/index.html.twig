@@ -54,55 +54,99 @@
                 Добавить матч</a></p>
          {% endif %}
          <table>
-             <tr>
-                 <td>
-         <table>
          {% for stad in stadies %}
              <tr class="shipTableTitle">
                    <td colspan="4" class="tableGoal">{{ stad.name }}</td>
              </tr>
            {% for entity in stad.stadiamatches %}
-           <tr class="odd">
-               <td class="ec-date">
-                   <div class="">
-                       {% if is_granted("ROLE_ADMIN") %}
-                       <a href="{{ path('eurocup_editMatch', {'id': entity.id,
-                         'turnir': app.request.get('turnir') })}}">
-                             {{ entity.data | date('d.m H:i') }}</a>
-                       {% else %}
-                             {% if entity.status == 1 %}
-                               {{ entity.data | date('d.m H:i') }}
-                             {% else %}
-                                 {{ entity.data | date('d.m') }}
-                             {% endif %}
-                       {% endif %}
-                   </div>
-               </td>
-               <td class="scMatch">
-                   <div>
-                     <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
-                     ({{ entity.team.country.name }})
-                      -
-                      <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
-                      ({{ entity.team2.country.name }})
-                   </div>
-               </td>
-               <td class="scScore">
-                 {{ entity.score }}
-               </td>
-               <td class="scBomb">
-                   {{ entity.bomb }}
-               </td>
-           </tr>
-           {% if entity.ecsostav %}
-           <tr>
-               <td colspan="4" class="even">
-                   <p><em><b>{{ entity.team.name }}</b></em>: {{ entity.ecsostav.team }}</p>
-                   <p><em><b>{{ entity.team2.name }}</b></em>: {{ entity.ecsostav.team2 }}</p>
-               </td>
-           </tr>
-           {% endif %}
-        {% endfor %}
+             <tr class="odd">
+                 <td class="ec-date">
+                     <div class="">
+                         {% if is_granted("ROLE_ADMIN") %}
+                         <a href="{{ path('eurocup_editMatch', {'id': entity.id,
+                           'turnir': app.request.get('turnir') })}}">
+                               {{ entity.data | date('d.m H:i') }}</a>
+                         {% else %}
+                               {% if entity.status == 1 %}
+                                 {{ entity.data | date('d.m H:i') }}
+                               {% else %}
+                                   {{ entity.data | date('d.m') }}
+                               {% endif %}
+                         {% endif %}
+                     </div>
+                 </td>
+                 <td class="scMatch">
+                     <div>
+                       <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
+                       ({{ entity.team.country.name }})
+                        -
+                        <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+                        ({{ entity.team2.country.name }})
+                     </div>
+                 </td>
+                 <td class="scScore">
+                   {{ entity.score }}
+                 </td>
+                 <td class="scBomb">
+                     {{ entity.bomb }}
+                 </td>
+             </tr>
+             {% if entity.ecsostav %}
+             <tr>
+                 <td colspan="4" class="even">
+                     <p><em><b>{{ entity.team.name }}</b></em>: {{ entity.ecsostav.team }}</p>
+                     <p><em><b>{{ entity.team2.name }}</b></em>: {{ entity.ecsostav.team2 }}</p>
+                 </td>
+             </tr>
+             {% endif %}
+          {% endfor %}
+        {% if stad.stadiatable %}
+          <tr>
+            <td colspan="4" class="even">
+              <table class="shipTable">
+                <thead>
+                  <tr class="shipTableTitle">
+                      <th>&nbsp;</th>
+                      <th>И</th>
+                      <th>В</th>
+                      <th>Н</th>
+                      <th>П</th>
+                      <th>M</th>
+                      <th>О</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for ectable in stad.stadiatable %}
+                      <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                      <td class="tableLeft">
+                        <a href="{{ path('eurocup_show', {'id': ectable.team.translit,
+                          'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
+                              class="shipTableTeam">
+                              {{ ectable.team.name }}
+                        </a>
+                        {% if is_granted("ROLE_ADMIN") %}
+                          <a href="{{ path('ectable_edit', {
+                           'id': ectable.id, 'season': app.request.get('season'),
+                           'turnir': app.request.get('turnir'),
+                           'stadia': app.request.get('stadia')
+                          }) }}">=</a>
+                        {% endif %}
+                      </td>
+                      <td class="shipTableParams">{{ ectable.wins+ectable.nich+ectable.porazh }}</td>
+                      <td class="shipTableParams">{{ ectable.wins }}</td>
+                      <td class="shipTableParams">{{ ectable.nich }}</td>
+                      <td class="shipTableParams">{{ ectable.porazh }}</td>
+                      <td>{{ ectable.mz }}-{{ ectable.mp }}</td>
+                      <td class="shipTableParams"><b>{{ ectable.score }}</b></td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              </td>
+          </tr>
+        {% endif %}
     {% endfor %}
 
 
@@ -114,8 +158,5 @@
       }) }}">Добавить сезон</a></p>
     {% endif %}
 
-            </td>
-        </tr>
-    </table>
 
  {% endblock %}
