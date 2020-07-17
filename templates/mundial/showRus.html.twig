@@ -41,26 +41,46 @@
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('player_editSb',
-                          {'id': player.id, 'season': app.request.get('season'),
-                          'change': 'minusGame'}) }}">-</a>
+                      <span class="changeGameGoalPlayer"
+                        data-change="minusGame"
+                        data-path="player_editSb"
+                        data-id="{{ player.id }}"
+                        data-team=""
+                        data-season="{{ app.request.get('season') }}"
+                        >-</span>
+                        <span data-id="{{ player.id }}" data-param="game">
                           {{ player.game }}
-                        <a href="{{ path('player_editSb',
-                          {'id': player.id, 'season': app.request.get('season'),
-                          'change': 'plusGame'}) }}">+</a>
+                        </span>
+                      <span class="changeGameGoalPlayer"
+                        data-change="plusGame"
+                        data-path="player_editSb"
+                        data-team=""
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        >+</span>
                     {% else %}
                       {{ player.game }}
                     {% endif %}
                 </td>
                 <td class="tableGoal">
                   {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('player_editSb',
-                      {'id': player.id, 'season': app.request.get('season'),
-                      'change': 'minusGoal'}) }}">-</a>
-                      {{ player.goal }}
-                    <a href="{{ path('player_editSb',
-                      {'id': player.id, 'season': app.request.get('season'),
-                      'change': 'plusGoal'}) }}">+</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGoal"
+                      data-path="player_editSb"
+                      data-id="{{ player.id }}"
+                      data-team=""
+                      data-season="{{ app.request.get('season') }}"
+                      >-</span>
+                      <span data-id="{{ player.id }}" data-param="goal">
+                        {{ player.goal }}
+                      </span>
+                    <span class="changeGameGoalPlayer"
+                      data-change="plusGoal"
+                      data-path="player_editSb"
+                      data-team=""
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      >+</span>
                   {% else %}
                     {{ player.goal }}
                   {% endif %}

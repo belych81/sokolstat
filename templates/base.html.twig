@@ -18,19 +18,19 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         {% block stylesheets %}
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-            <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
-            <link href="{{ asset('css/media.css') }}" rel="stylesheet" />
-            <link href="{{ asset('css/chosen.css') }}" rel="stylesheet" />
+            <link href="{{ path_public }}{{ asset('css/main.css') }}" rel="stylesheet" />
+            <link href="{{ path_public }}{{ asset('css/media.css') }}" rel="stylesheet" />
+            <link href="{{ path_public }}{{ asset('css/chosen.css') }}" rel="stylesheet" />
         {% endblock %}
 
         {% block javascripts %}
-            <script src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
+            <script src="{{ path_public }}{{ asset('js/jquery-2.1.4.min.js') }}"></script>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="{{ asset('js/menuShow.js') }}"></script>
-            <script src="{{ asset('js/chosen.jquery.min.js') }}"></script>
-            <script src="{{ asset('js/search.js') }}"></script>
-            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+            <script src="{{ path_public }}{{ asset('js/menuShow.js') }}"></script>
+            <script src="{{ path_public }}{{ asset('js/chosen.jquery.min.js') }}"></script>
+            <script src="{{ path_public }}{{ asset('js/search.js') }}"></script>
+            <script src="{{ path_public }}{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path_public }}{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('images/i4.jpg') }}" />
@@ -40,11 +40,11 @@
       <div class="wrapper">
       <div class="panel-box">
         <a href="{{ path('steam_fbstat_homepage') }}" class="logo-a">
-          <img src="{{ asset('images/i.jpg') }}"
+          <img src="{{ path_public }}{{ asset('images/i.jpg') }}"
               alt="SokolTeam" class="logo" />
         </a>
         <a href="{{ path('steam_fbstat_homepage') }}" class="logo-text-a">
-                <img src="{{ asset('images/rrr.jpg') }}"
+                <img src="{{ path_public }}{{ asset('images/rrr.jpg') }}"
                     alt="SokolTeam" class="logo-text" />
             </a>
             <a class="menu-trigger" href="javascript:void(0);">
@@ -67,7 +67,7 @@
                         <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
                         <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
                         <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a></li>
-                        <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2016', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
+                        <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2019', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">СБОРНЫЕ</a>
@@ -75,7 +75,7 @@
                      <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">ЧЕМПИОНАТЫ МИРА</a></li>
                      <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a></li>
                      <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a></li>
-                     <li><a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">СБОРНАЯ РОССИИ</a></li>
+                     <li><a href="{{ path('sbornieRus', {'season': '2019'}) }}">СБОРНАЯ РОССИИ</a></li>
                     </ul></li>
                     <li><a href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
                     </li>
@@ -100,7 +100,7 @@
           <header>
               <div class="logo">
                   <a href="{{ path('steam_fbstat_homepage') }}">
-                      <img src="{{ asset('images/i.jpg') }}"
+                      <img src="{{ path_public }}{{ asset('images/i.jpg') }}"
                            alt="SokolTeam" />
                   </a>
               </div>
@@ -129,7 +129,7 @@
                      <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">ЧЕМПИОНАТЫ МИРА</a>
                      <a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a>
                      <a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a>
-                     <a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">СБОРНАЯ РОССИИ</a>
+                     <a href="{{ path('sbornieRus', {'season': '2019'}) }}">СБОРНАЯ РОССИИ</a>
                     </div></li>
                     <li class="dropdown-top"><a class="dropdown-top" href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
                     </li>

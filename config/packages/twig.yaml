@@ -6,3 +6,4 @@ twig:
     globals:
         season: 2019-20
         stadia: groupA
+        path_public: ''

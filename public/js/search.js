@@ -13,6 +13,7 @@ function parseUrlQuery() {
   $(function(){
 		$("select").chosen({
 			no_results_text: "Не нашлось",
+			search_contains: true,
 			width: '100%'
 		});
     //Живой поиск
@@ -88,10 +89,13 @@ function parseUrlQuery() {
     var season = $(this).data('season');
     var team = $(this).data('team');
     var route = $(this).data('path');
+		var params = {'id': id, 'season': season, 'change': change};
+		if(route != 'player_editSb'){
+			params['team'] = team;
+		}
     $.ajax({
         type: 'post',
-        url: Routing.generate(route, {'id': id, 'season': season,
-          'team': team, 'change': change}),
+        url: Routing.generate(route, params),
         dataType: 'json',
         success: function(data){
           console.log(id);

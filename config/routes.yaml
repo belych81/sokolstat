@@ -611,6 +611,8 @@ player_createSc:
 player_editSb:
     path:  /playeradmin/admin/{id}/editSb/{season}/{change}
     controller: App\Controller\PlayerController:editSb
+    options:
+        expose: true
 
 shipplayer_confirm_delete:
     path:  /playeradmin/admin/confirm/{id}/{country}

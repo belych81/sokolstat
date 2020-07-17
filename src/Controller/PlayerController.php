@@ -132,9 +132,12 @@ class PlayerController extends AbstractController
           ->updateSbplayer($playerId, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
-        return $this->redirect($this->generateUrl('sbornieRus', [
-                'season' => $season,
-                    ]));
+        $response = json_encode([
+            'name' => $entity->getPlayer()->getName(),
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function editTotalChamp($id, $season, $team, $change)
