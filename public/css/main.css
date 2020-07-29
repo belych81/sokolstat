@@ -419,6 +419,9 @@ footer {
     text-align: center;
     display: inline-block;
 }
+.form-edit input{
+  width: 1100px;
+}
 .form-notice span{
   font-size: 14px;
   color: green;

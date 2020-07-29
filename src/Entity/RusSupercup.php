@@ -47,12 +47,12 @@ class RusSupercup
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $game;
+    private $game = '-';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $game2;
+    private $game2 = '';
 
     /**
      * @ORM\Column(type="datetime")

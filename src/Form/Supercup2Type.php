@@ -12,7 +12,9 @@ class Supercup2Type extends AbstractType
     {
         $builder
           ->add('score')
-          ->add('goal');
+          ->add('goal')
+          ->add('game')
+          ->add('game2');
     }
 
     /**

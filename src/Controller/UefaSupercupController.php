@@ -75,7 +75,7 @@ class UefaSupercupController extends AbstractController
             ]);
     }
 
-    public function newMatch($country)
+    public function newMatch(Menu $serviceMenu, $country)
     {
       switch ($country) {
           case 'uefa' :
@@ -95,14 +95,16 @@ class UefaSupercupController extends AbstractController
         $form   = $this->createForm(SupercupType::class, $entity, [
               'country' => $country
               ]);
+        $menu = $serviceMenu->generate($country);
 
         return $this->render('uefasupercup/newMatch.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'menu' => $menu
         ));
     }
 
-    public function createMatch(Request $request, $country)
+    public function createMatch(Request $request, Menu $serviceMenu, $country)
     {
         $ent = SupercupType::class;
         switch ($country) {
@@ -120,9 +122,11 @@ class UefaSupercupController extends AbstractController
               $entity = new NationSupercup();
         }
         $entity->setStatus(1);
-        $stranaOb = $this->getDoctrine()->getRepository(Country::class)
-          ->findOneByTranslit($country);
-        $entity->setCountry($stranaOb);
+        if($country != 'russia'){
+          $stranaOb = $this->getDoctrine()->getRepository(Country::class)
+            ->findOneByTranslit($country);
+          $entity->setCountry($stranaOb);
+        }
 
         $form = $this->createForm($ent, $entity, [
             'country' => $country
@@ -137,14 +141,16 @@ class UefaSupercupController extends AbstractController
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
-
+        $menu = $serviceMenu->generate($country);
+        
         return $this->render('uefasupercup/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function new($id, $country)
+    public function new(Menu $serviceMenu, $id, $country)
     {
       switch ($country) {
           case 'uefa' :
@@ -162,9 +168,11 @@ class UefaSupercupController extends AbstractController
       }
         $entity = $this->getDoctrine()->getRepository($ent)->find($id);
         $form   = $this->createForm(Supercup2Type::class, $entity);
+        $menu = $serviceMenu->generate($country);
 
         return $this->render('uefasupercup/new.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

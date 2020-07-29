@@ -15,7 +15,7 @@
     <form action="{{ path('nationsupercup_create', {'id': app.request.get('id'),
       'country': app.request.get('country')}) }}"
       method="post">
-       <table>
+       <table class="form-edit">
             <tbody>
                 <tr>
                     <th>{{ form_label(form.score) }}</th>
@@ -31,6 +31,22 @@
                         {{ form_widget(form.goal) }}
                     </td>
                 </tr>
+                {% if app.request.get('country') == 'russia' %}
+                  <tr>
+                      <th>{{ form_label(form.game) }}</th>
+                      <td>
+                          {{ form_errors(form.game) }}
+                          {{ form_widget(form.game) }}
+                      </td>
+                  </tr>
+                  <tr>
+                      <th>{{ form_label(form.game2) }}</th>
+                      <td>
+                          {{ form_errors(form.game2) }}
+                          {{ form_widget(form.game2) }}
+                      </td>
+                  </tr>
+                {% endif %}
             </tbody>
        </table>
         <p>

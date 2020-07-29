@@ -184,17 +184,17 @@ class NewsController extends AbstractController
 
         $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
           ->getBomb5All('2019-20');
-          $dompdf = new Dompdf();
-          $dompdf->loadHtml('hello world');
+        /*$dompdf = new Dompdf();
+        $dompdf->loadHtml('hello world');
 
-          // (Optional) Setup the paper size and orientation
-          $dompdf->setPaper('A4', 'landscape');
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
 
-          // Render the HTML as PDF
-          $dompdf->render();
+        // Render the HTML as PDF
+        $dompdf->render();
 
-          // Output the generated PDF to Browser
-          $dompdf->stream();
+        // Output the generated PDF to Browser
+        $dompdf->stream();*/
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,
