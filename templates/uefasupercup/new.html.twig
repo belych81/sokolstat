@@ -18,6 +18,13 @@
        <table class="form-edit">
             <tbody>
                 <tr>
+                    <th>{{ form_label(form.data) }}</th>
+                    <td>
+                        {{ form_errors(form.data) }}
+                        {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.score) }}</th>
                     <td>
                         {{ form_errors(form.score) }}

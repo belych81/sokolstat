@@ -353,7 +353,7 @@ eurocup_showmatch:
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
 
 eurocup_edit:
-    path:  /eurocup/{turnir}/{id}/{stadia}/edit
+    path:  /eurocup/{turnir}/{id}/edit
     controller: App\Controller\EurocupController:edit
     requirements:
         id: \d+

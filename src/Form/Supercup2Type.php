@@ -11,6 +11,7 @@ class Supercup2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+          ->add('data')
           ->add('score')
           ->add('goal')
           ->add('game')
