@@ -22,7 +22,7 @@
           'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
         class="">
         {% if team.team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.team.image2 }}"
+          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.team.image2 }}"
             alt="{{ team.team.name }}" title="{{ team.team.name }}" />
         {% else %}
               {{ team.team.name }}
@@ -86,9 +86,13 @@
                  </td>
                  <td class="scScore">
                     {% if entity.status == 1 %}
-                    <a href="{{ path('eurocup_edit', {'id': entity.id,
-                      'turnir': app.request.get('turnir') })}}">
-                      -:-</a>
+                      {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('eurocup_edit', {'id': entity.id,
+                          'turnir': app.request.get('turnir') })}}">
+                          -:-</a>
+                      {% else %}
+                        -:-
+                      {%  endif %}
                     {% else %}
                       {{ entity.score }}
                     {% endif %}
