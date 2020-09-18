@@ -32,7 +32,7 @@
         'id': team.translit, 'country': app.request.get('country')}) }}"
         class="">
         {% if team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
+          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.image2 }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
