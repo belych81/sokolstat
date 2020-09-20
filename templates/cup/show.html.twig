@@ -25,7 +25,7 @@
         'id': team.translit}) }}"
         class="">
         {% if team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
+          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.image2 }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
@@ -38,7 +38,7 @@
                 <div>
                   <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
                   {% if club.image %}
-                  <img src="{{ asset('images/clubs/') }}{{ club.image }}"
+                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ club.image }}"
                     alt="{{ club.name }}" title="{{ club.name }}" />
                   {% endif %}
                 </div>
