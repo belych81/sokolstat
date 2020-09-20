@@ -12,7 +12,7 @@ class Menu
         $this->router = $router;
     }
 
-    public function generate($country, $season = '2019-20')
+    public function generate($country, $season = '2020-21')
     {
 
       if ($country == 'russia' || $country == 'fnl') {

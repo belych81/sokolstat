@@ -17,16 +17,17 @@ use App\Entity\NationCup;
 use App\Entity\Shipplayer;
 use App\Entity\Shiptable;
 use App\Entity\RusSupercup;
+use App\Service\Props;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NewsController extends AbstractController
 {
-    public function index()
+    public function index(Props $props)
     {
         $bombTotal = $this->getDoctrine()->getRepository(Shipplayer::class)
-          ->getBombSum('2018-19');
+          ->getBombSum($props->getLastSeason());
         $currentMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
             ->getCurMatches();
         $curcup = $this->getDoctrine()->getRepository(Cup::class)
@@ -114,15 +115,15 @@ class NewsController extends AbstractController
         $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopPlayers(20, 'game');
         $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopPlayersCurr(20, 'game', '2019-20');
+          ->getTopPlayersCurr(20, 'game', $props->getLastSeason());
         $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopPlayers(20, 'goal');
         $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopPlayersCurr(20, 'goal', '2019-20');
+          ->getTopPlayersCurr(20, 'goal', $props->getLastSeason());
         $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->getTopGoalkeepers(20);
         $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->getTopGoalkeepersCurr(20, '2019-20');
+          ->getTopGoalkeepersCurr(20, $props->getLastSeason());
 
         return $this->render('news/index.html.twig', [
             'yestmatch' => $yestmatch,
