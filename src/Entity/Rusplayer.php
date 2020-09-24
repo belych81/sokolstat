@@ -62,29 +62,29 @@ class Rusplayer
      */
     private $sbgoal = 0;
 
-    private $gameTeam;
+    private $gameTeam = 0;
 
-    private $goalTeam;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $ecgame;
+    private $goalTeam = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $ecgoal;
+    private $ecgame = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $cupgame;
+    private $ecgoal = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $cupgoal;
+    private $cupgame = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $cupgoal = 0;
 
     public function setGameTeam(int $gameTeam)
     {
