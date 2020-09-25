@@ -30,6 +30,7 @@ use App\Form\SbplayerType;
 use App\Form\SostavType;
 use App\Form\ShipplayerUpdateType;
 use App\Form\FnlplayerUpdateType;
+use App\Service\Menu;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -183,15 +184,28 @@ class PlayerController extends AbstractController
                     ]));
     }
 
-    public function newChampLast($season, $team, $country)
+    public function newChampLast($season, $team, $country, $route)
     {
-        if($country == 'fnl')
-        {
-          $entity = new Fnlplayer();
-        }
-        else
-        {
-          $entity = new Shipplayer();
+        $em = $this->getDoctrine()->getManager();
+        $player = $this->getDoctrine()->getRepository(Player::class)
+          ->getLastOnePlayer();
+        switch($country){
+          case 'fnl' : $entity = new Fnlplayer(); break;
+          case 'cup' :
+            $entity = new Cupplayer();
+            $entity2 = new Playersteam();
+            $entity2->setGame(0);
+            $entity2->setGoal(0);
+            $entity2->setPlayer($player);
+            $team2 = $this->getDoctrine()->getRepository(Team::class)
+                        ->findOneByTranslit($team);
+            $entity2->setTeam($team2);
+
+            $em->persist($entity2);
+            $em->flush();
+            break;
+          default:
+            $entity = new Shipplayer();
         }
 
         $maxId = $this->getDoctrine()->getRepository(Player::class)
@@ -200,23 +214,23 @@ class PlayerController extends AbstractController
           ->findOneByTranslit($team);
         $year = $this->getDoctrine()->getRepository(Seasons::class)
           ->findOneByName($season);
-        $player = $this->getDoctrine()->getRepository(Player::class)
-          ->getLastOnePlayer();
 
         $entity->setTeam($club);
         $entity->setGame(0);
         $entity->setSeason($year);
         $entity->setPlayer($player);
 
-        $em = $this->getDoctrine()->getManager();
         $em->persist($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('championships_show', [
-            'id' => $team,
-            'country' => $country,
-            'season' => $season
-                ]));
+        $routeParams = [
+          'id' => $team,
+          'season' => $season
+        ];
+        if($route == 'championships_show'){
+          $routeParams['country'] = $country;
+        }
+        return $this->redirect($this->generateUrl($route, $routeParams));
     }
 
     public function newChamp($season, $team)
@@ -405,22 +419,22 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function newPlayer()
+    public function newPlayer(Menu $menu)
     {
         $entity = new Player();
 
         $form   = $this->createForm(PlayerType::class, $entity);
-        $maxId = $this->getDoctrine()->getRepository(Player::class)
-                    ->getMaxId();
+        $maxId = $this->getDoctrine()->getRepository(Player::class)->getMaxId();
 
         return $this->render('rusplayer/newPlayer.html.twig', array(
             'entity' => $entity,
             'maxId' => $maxId,
+            'menu' => $menu,
             'form'   => $form->createView()
         ));
     }
 
-    public function createNewPlayer(Request $request, $team, $season, $country)
+    public function createNewPlayer(Request $request, $team, $season, $country, $route)
     {
         $entity  = new Player();
 
@@ -439,11 +453,16 @@ class PlayerController extends AbstractController
                 $em->persist($rusplayer);
                 $em->flush();
             }
-            return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'country' => $country,
-                'season' => $season
-                    ]));
+            $routeParams = [
+              'id' => $team,
+              'season' => $season
+            ];
+            if($route == 'championships_show'){
+              $routeParams['country'] = $country;
+            } elseif($route == 'eurocup_show'){
+              $routeParams['turnir'] = $country;
+            }
+            return $this->redirect($this->generateUrl($route, $routeParams));
         }
 
         return $this->render('rusplayer/newPlayer.html.twig', ['entity' => $entity,

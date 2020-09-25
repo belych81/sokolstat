@@ -44,9 +44,9 @@ class Cupplayer
      */
     private $goal = 0;
 
-    private $gameTeam;
+    private $gameTeam = 0;
 
-    private $goalTeam;
+    private $goalTeam = 0;
 
     public function getId(): ?int
     {

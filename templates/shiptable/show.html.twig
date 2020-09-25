@@ -264,13 +264,13 @@
       'country': app.request.get('country'), 'team': app.request.get('id'),
       'flag':'all'}) }}">
           Добавить игрока</a> |
-      <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
+      <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'championships_show',
       'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
           Добавить последнего игрока</a> |
             <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
             Обновить игрока</a> |
-        <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),
+        <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),'route' : 'championships_show',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a> |
         <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5">

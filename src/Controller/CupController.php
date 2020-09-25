@@ -74,8 +74,7 @@ class CupController extends AbstractController
       return $this->render('cup/show.html.twig', [
           'seasons' => $seasons,
           'players' => $players,
-          'teams' => $teams,
-          'teams2' => $teams2,
+          'teams' => array_merge($teams, $teams2),
           'club' => $club,
           'menu' => $menu
         ]);

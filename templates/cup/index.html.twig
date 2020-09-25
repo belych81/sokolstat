@@ -9,9 +9,6 @@
           бомбардиры, матчи">
 {% endblock %}
 
-{% block zagolovok %}
-    <h3>Кубок России {{ app.request.get('season') }}</h3>
-{% endblock %}
 
 {% block content %}
   {% block seasons %}
@@ -23,7 +20,7 @@
           {% endif %}
       {% endfor %}
   {% endblock %}
-  
+
   <h1>Кубок России {{ app.request.get('season') }}</h1>
 
 {% if is_granted("ROLE_ADMIN") %}
@@ -56,11 +53,19 @@
             </td>
             <td class="scMatch">
                 <div>
+                  {% if entity.team.image2 %}
+                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ entity.team.image2 }}"
+                    alt="{{ entity.team.name }}" title="{{ entity.team.name }}" />
+                  {% endif %}
                   <a href="{{ path('cup_show', {'season': app.request.get('season'),
                   'id': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
                    -
                    <a href="{{ path('cup_show', {'season': app.request.get('season'),
                    'id': entity.team2.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+                   {% if entity.team2.image2 %}
+                   <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ entity.team2.image2 }}"
+                     alt="{{ entity.team2.name }}" title="{{ entity.team2.name }}" />
+                   {% endif %}
                 </div>
             </td>
             <td class="scScore">

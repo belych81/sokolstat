@@ -2,7 +2,7 @@
 {% block content %}
     <div class="form-notice">Последний ID: <span>{{ maxId }}</span></div>
     <form action="{{ path('player_createPlayer', {'team': app.request.get('team'), 'season': app.request.get('season'),
-        'country': app.request.get('country')}) }}" method="post">
+        'country': app.request.get('country'), 'route' : app.request.get('route')}) }}" method="post">
        <table>
             <tbody>
                 <tr>

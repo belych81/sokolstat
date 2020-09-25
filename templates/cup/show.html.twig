@@ -1,5 +1,9 @@
 {% extends 'shiptable/showRus.html.twig' %}
 
+
+
+{% block content %}
+
 {% block seasons %}
   {% for season in seasons %}
       {% if app.request.get('season') == season.season.name %}
@@ -13,14 +17,8 @@
   {% endfor %}
 {% endblock %}
 
-{% block zagolovok %}
-{% endblock %}
-
-{% block content %}
-
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}
-    {% if team.translit != app.request.get('id') %}
       <a href="{{ path('cup_show', {'season': app.request.get('season'),
         'id': team.translit}) }}"
         class="">
@@ -31,7 +29,6 @@
               {{ team.name }}
         {% endif %}
       </a>
-    {% endif %}
   {% endfor %}
 </div>
               <div class="team-show-image">
@@ -121,7 +118,10 @@
             Добавить игрока в команду</a> |
         <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Добавить нового игрока</a> |
-        <a href="{{ path('player_newPlayer', {'country': 'russia',
+        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'cup_show',
+            'country': 'cup', 'team': app.request.get('id')}) }}">
+                Добавить последнего игрока</a> |
+        <a href="{{ path('player_newPlayer', {'country': 'russia', 'route': 'cup_show',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a>
 	{% endif %}

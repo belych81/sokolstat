@@ -108,9 +108,12 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+          <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
             'team': app.request.get('id')}) }}">
-            Добавить игрока</a>
+            Добавить игрока</a> |
+          <a href="{{ path('player_newPlayer', {'country': 'leagueChampions','route' : 'eurocup_show',
+            'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Создать игрока</a> |
         {% endif %}
 </div>
 

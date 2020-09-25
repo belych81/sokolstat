@@ -191,7 +191,7 @@ championships_show:
     path:  /championships/{country}/{season}/{id}
     controller: App\Controller\ShiptableController:show
     requirements:
-        country: russia|england|spain|italy|germany|france|fnl
+        country: russia|england|spain|italy|germany|france|fnl|leagueChampions
 
 championships_new:
     path:  /championships/admin/{id}
@@ -506,7 +506,7 @@ player_createSb:
     requirements: { _method: post }
 
 player_newChampLast:
-    path:  /playeradmin/admin/champ-last/{season}/{team}/{country}/
+    path:  /playeradmin/admin/champ-last/{season}/{team}/{country}/{route}/
     controller: App\Controller\PlayerController:newChampLast
 
 player_newChamp:
@@ -537,11 +537,11 @@ player_createFnl:
     requirements: { _method: post }
 
 player_newPlayer:
-    path:  /playeradmin/admin/newPlayer/{country}/{season}/{team}
+    path:  /admin/newPlayer/{route}/{country}/{season}/{team}
     controller: App\Controller\PlayerController:newPlayer
 
 player_createPlayer:
-    path:  /admin/createNewPlayer/{country}/{season}/{team}
+    path:  /admin/createNewPlayer/{route}/{country}/{season}/{team}
     controller: App\Controller\PlayerController:createNewPlayer
     requirements: { _method: post }
 
