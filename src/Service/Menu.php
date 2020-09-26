@@ -56,7 +56,7 @@ class Menu
       return $menu;
     }
 
-    public function generateEurocup($season = '2019-20')
+    public function generateEurocup($season = '2020-21')
     {
       $menu = [
         [

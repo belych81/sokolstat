@@ -136,7 +136,11 @@ class TeamRepository extends ServiceEntityRepository
     }
 
     public function queryTeamsForCup($country) {
-
+        if($country == 'uefa')
+        {
+          return $query = $this->createQueryBuilder('t')
+                  ->orderBy('t.name');
+        }
         return $query = $this->createQueryBuilder('t')
                 ->join('t.country', 'c')
                 ->where("c.translit = :country")

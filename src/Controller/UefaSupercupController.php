@@ -77,12 +77,15 @@ class UefaSupercupController extends AbstractController
 
     public function newMatch(Menu $serviceMenu, $country)
     {
+
       switch ($country) {
           case 'uefa' :
           $entity = new UefaSupercup();
+          $menu = $serviceMenu->generateEurocup();
               break;
           case 'russia' :
           $entity = new RusSupercup();
+          $menu = $serviceMenu->generate($country);
               break;
           case 'england';
           case 'spain';
@@ -90,12 +93,12 @@ class UefaSupercupController extends AbstractController
           case 'germany';
           case 'france' :
           $entity = new NationSupercup();
+          $menu = $serviceMenu->generate($country);
       }
 
         $form   = $this->createForm(SupercupType::class, $entity, [
               'country' => $country
               ]);
-        $menu = $serviceMenu->generate($country);
 
         return $this->render('uefasupercup/newMatch.html.twig', array(
             'entity' => $entity,
@@ -142,7 +145,7 @@ class UefaSupercupController extends AbstractController
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
         $menu = $serviceMenu->generate($country);
-        
+
         return $this->render('uefasupercup/newMatch.html.twig', array(
             'entity' => $entity,
             'menu' => $menu,
