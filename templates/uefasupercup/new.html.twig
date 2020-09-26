@@ -38,7 +38,7 @@
                         {{ form_widget(form.goal) }}
                     </td>
                 </tr>
-                {% if app.request.get('country') == 'russia' %}
+                {% if app.request.get('country') == 'russia' or app.request.get('country') == 'uefa'  %}
                   <tr>
                       <th>{{ form_label(form.game) }}</th>
                       <td>
