@@ -198,7 +198,7 @@
                 Обновить игрока</a>|
             <a href="{{ path('player_newRusplayer', {'country': 'fnl', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
                 Добавить нового игрока</a> |
-            <a href="{{ path('player_newChampLast', {'season': app.request.get('season'),
+            <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route' : 'championships_show',
             'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
                 Добавить последнего игрока</a> |
             <a href="{{ path('player_newPlayer', {'country': 'fnl', 'route' : 'championships_show',
