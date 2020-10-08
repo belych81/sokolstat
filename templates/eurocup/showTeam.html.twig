@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block description %}
-    <meta name="description" content="{{ team.name }}, еврокубки, {{ entity.0.turnir.name }},
+    <meta name="description" content="{{ team.name }}, еврокубки,
           {{ app.request.get('season') }}, кто играл, кто забивал" />
 {% endblock %}
 
 {% block seasons %}
+{% endblock %}
+
+{% block teams %}
 {% endblock %}
 
 {% block content %}
@@ -40,34 +43,46 @@
                </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                      <a href="{{ path('playeradmin_editEc',
-                        {'id': player.id, 'season': app.request.get('season'),
-                        'turnir': app.request.get('turnir'),
-                        'team': app.request.get('id'), 'change': 'minusGame'}) }}"
-                        class="plusMinus">-</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGame"
+                      data-path="playeradmin_editEc"
+                      data-id="{{ player.id }}"
+                      data-turnir="{{ app.request.get('turnir') }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                      <span data-id="{{ player.id }}" data-param="game">
                         {{ player.game }}
-                      <a href="{{ path('playeradmin_editEc',
-                        {'id': player.id, 'season': app.request.get('season'),
-                        'turnir': app.request.get('turnir'),
-                        'team': app.request.get('id'), 'change': 'plusGame'}) }}"
-                        class="plusMinus">+</a>
+                      </span>
+                        <span class="changeGameGoalPlayer"
+                          data-change="plusGame"
+                          data-path="playeradmin_editEc"
+                          data-id="{{ player.id }}"
+                          data-turnir="{{ app.request.get('turnir') }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">+</span>
                     {% else %}
                       {{ player.game }}
                     {% endif %}
                 </td>
                 <td class="tableGoal">
                   {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editEc',
-                      {'id': player.id, 'season': app.request.get('season'),
-                      'turnir': app.request.get('turnir'),
-                      'team': app.request.get('id'), 'change': 'minusGoal'}) }}"
-                      class="plusMinus">-</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGoal"
+                      data-path="playeradmin_editEc"
+                      data-id="{{ player.id }}"
+                      data-turnir="{{ app.request.get('turnir') }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                    <span data-id="{{ player.id }}" data-param="goal">
                       {{ player.goal }}
-                    <a href="{{ path('playeradmin_editEc',
-                      {'id': player.id, 'season': app.request.get('season'),
-                      'turnir': app.request.get('turnir'),
-                      'team': app.request.get('id'), 'change': 'plusGoal'}) }}"
-                      class="plusMinus">+</a>
+                    </span>
+                    <span class="changeGameGoalPlayer"
+                        data-change="plusGoal"
+                        data-path="playeradmin_editEc"
+                        data-id="{{ player.id }}"
+                        data-turnir="{{ app.request.get('turnir') }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">+</span>
                   {% else %}
                     {{ player.goal }}
                   {% endif %}

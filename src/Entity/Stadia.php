@@ -198,6 +198,11 @@ class Stadia
 
     private $stadia_table = false;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rank;
+
     public function setStadiaTable($table)
     {
         $this->stadia_table = $table;
@@ -271,6 +276,18 @@ class Stadia
                 $mundial->setStadia(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRank(): ?int
+    {
+        return $this->rank;
+    }
+
+    public function setRank(?int $rank): self
+    {
+        $this->rank = $rank;
 
         return $this;
     }

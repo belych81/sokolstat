@@ -707,6 +707,8 @@ playeradmin_editLchplayer:
 playeradmin_editEc:
     path:  /playeradmin/admin/{id}/editEc/{season}/{team}/{turnir}/{change}
     controller: App\Controller\PlayerController:editEc
+    options:
+        expose: true
 
 shipplayer_edit:
     path:  /shipplayer/admin/edit/{id}/{country}/{season}/{team}/

@@ -99,7 +99,7 @@ class EurocupController extends AbstractController
           ]);
     }
 
-    public function showMatch($id, $turnir)
+    public function showMatch(Menu $serviceMenu, $id, $turnir)
     {
         $entity = $this->getDoctrine()->getRepository(Ecsostav::class)
           ->findOneByEurocup($id);
@@ -115,24 +115,27 @@ class EurocupController extends AbstractController
             ]);
     }
 
-    public function showTeam($id, $season)
+    public function showTeam(Menu $serviceMenu, $id, $season)
     {
         $entity = $this->getDoctrine()->getRepository(Ecplayer::class)
           ->findEcPlayersByTeam($id, $season);
         $team = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($id);
-            for ($i=0, $cnt=count($entity); $i < $cnt; $i++) {
-                $name[$i] = $entity[$i]->getPlayer()->getName();
-                $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'game')[0]->getGame();
-                $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'goal')[0]->getGoal();
+        for ($i=0, $cnt=count($entity); $i < $cnt; $i++) {
+            $name[$i] = $entity[$i]->getPlayer()->getName();
+            $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                             ->getStat($name[$i], $id, 'game')[0]->getGame();
+            $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                             ->getStat($name[$i], $id, 'goal')[0]->getGoal();
 
-                $entity[$i]->setGameTeam($ptgame[$i]);
-                $entity[$i]->setGoalTeam($ptgoal[$i]);
-            }
+            $entity[$i]->setGameTeam($ptgame[$i]);
+            $entity[$i]->setGoalTeam($ptgoal[$i]);
+        }
+        $menu = $serviceMenu->generateEurocup($season);
+
         return $this->render('eurocup/showTeam.html.twig', [
             'entity' => $entity,
+            'menu' => $menu,
             'team' => $team
             ]);
     }

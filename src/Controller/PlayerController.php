@@ -966,23 +966,25 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function editEc($id, $season, $team, $turnir, $change)
+    public function editEc(SessionInterface $session, $id, $season, $team, $turnir, $change)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $em->getRepository(Ecplayer::class)->updateEcplayer($id, $change);
         $ecplayer = $em->getRepository(Ecplayer::class)->find($id);
         $player = $ecplayer->getPlayer();
         $club = $ecplayer->getTeam();
 
-        $em->getRepository(Ecplayer::class)->updateEcplayer($id, $change);
         $em->getRepository(Rusplayer::class)->updateRusplayerEcTotal($player, $change);
         $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $change);
+        $playerName = $player->getName();
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('eurocup_showTeam', [
-                'id' => $team,
-                'season' => $season,
-                'turnir' => $turnir
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'game' => $ecplayer->getGame(),
+            'goal' => $ecplayer->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function editMund($id, $year, $country, $turnir, $change)

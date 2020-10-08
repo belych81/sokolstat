@@ -89,7 +89,11 @@ function parseUrlQuery() {
     var season = $(this).data('season');
     var team = $(this).data('team');
     var route = $(this).data('path');
+		var turnir = $(this).data('turnir');
 		var params = {'id': id, 'season': season, 'change': change};
+		if(turnir != undefined){
+			params['turnir'] = turnir;
+		}
 		if(route != 'player_editSb'){
 			params['team'] = team;
 		}

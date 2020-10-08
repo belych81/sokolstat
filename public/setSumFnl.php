@@ -1,4 +1,37 @@
 <?php
+function glob_tree_files($path, $_base_path = null)
+{
+	if (is_null($_base_path)) {
+		$_base_path = '';
+	} else {
+		$_base_path .= basename($path) . '/';
+	}
+
+	$out = array();
+	foreach(glob($path . '/*') as $file) {
+		if (is_dir($file)) {
+			$out = array_merge($out, glob_tree_files($file, $_base_path));
+		} else {
+      $tt = file_get_contents($file);
+      if(strpos($tt, 'continue;') !== false){
+        $out[] = $_base_path . basename($file);
+      }
+		}
+	}
+
+	return $out;
+}
+
+$dir = '../../../guestbook';
+//var_dump($dir);
+$files = glob_tree_files($dir);
+var_dump($files);
+
+
+return;
+
+
+
 $host = 'localhost'; // адрес сервера
 $database = 'fbstat'; // имя базы данных
 $user = 'belych'; // имя пользователя

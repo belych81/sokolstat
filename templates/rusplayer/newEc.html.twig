@@ -3,8 +3,10 @@
 {% block seasons %}
 {% endblock %}
 
-{% block content %}
+{% block navbar %}
+{% endblock %}
 
+{% block content %}
     <form action="{{ path('player_createEc', {'team': app.request.get('team'),
      'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
         method="post">
@@ -24,16 +26,14 @@
                         {{ form_widget(form.goal) }}
                     </td>
                 </tr>
-
             </tbody>
        </table>
         <p>
             {{ form_row(form._token) }}
             <button type="submit" class="spiski">Добавить</button>
-
         </p>
     </form>
-<a href="{{ path('eurocup_showTeam', {'id': app.request.get('team'),
+    <a href="{{ path('eurocup_showTeam', {'id': app.request.get('team'),
     'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}">Назад</a>
 
 {% endblock %}
