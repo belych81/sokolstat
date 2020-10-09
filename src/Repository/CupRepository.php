@@ -90,7 +90,7 @@ class CupRepository extends ServiceEntityRepository
       }
 
       return $this->createQueryBuilder('c')
-              ->select('t.id', 't.name', 't.translit', 't.image2')
+              ->select('DISTINCT t.id', 't.name', 't.translit', 't.image2')
               ->join($strJoin, 't')
               ->join('c.season', 's')
               ->join('c.stadia', 'st')

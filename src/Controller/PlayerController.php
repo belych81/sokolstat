@@ -874,21 +874,26 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function editCup($id, $season, $team, $change)
+    public function editCup(SessionInterface $session, $id, $season, $team, $change)
     {
-        $em = $this->getDoctrine();
+        $em = $this->getDoctrine()->getManager();
 
         $em->getRepository(Cupplayer::class)->updateCupplayer($id, $change);
         $entity = $em->getRepository(Cupplayer::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
         $player = $entity->getPlayer();
+        $playerName = $player->getName();
         $teamOb = $entity->getTeam();
         $em->getRepository(Rusplayer::class)->updateRusplayer($playerId, $change);
         $em->getRepository(Playersteam::class)->updatePlayersteam($player, $teamOb, $change);
-        return $this->redirect($this->generateUrl('cup_show', [
-                'id' => $team,
-                'season' => $season
-                    ]));
+        $session->set('lastPlayer', $playerName);
+
+        $response = json_encode([
+            'name' => $playerName,
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function editLchplayer(SessionInterface $session, $id, $season, $team, $change)

@@ -652,6 +652,8 @@ playeradmin_editTotalTeam:
 playeradmin_editCup:
     path:  /playeradmin/admin/cup/{id}/edit/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editCup
+    options:
+        expose: true
 
 playeradmin_editPlayerTurnirs:
     path:  /playeradmin/admin/editTurnirs/{season}/{country}/{team}
