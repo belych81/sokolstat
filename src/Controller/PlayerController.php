@@ -184,11 +184,16 @@ class PlayerController extends AbstractController
                     ]));
     }
 
-    public function newChampLast($season, $team, $country, $route)
+    public function newChampLast($season, $team, $country, $route, $isTeam)
     {
         $em = $this->getDoctrine()->getManager();
-        $player = $this->getDoctrine()->getRepository(Player::class)
-          ->getLastOnePlayer();
+        if($isTeam){
+          $player = $this->getDoctrine()->getRepository(Player::class)
+            ->getLastTeamPlayer($team);
+        } else {
+          $player = $this->getDoctrine()->getRepository(Player::class)
+            ->getLastOnePlayer();
+        }
         switch($country){
           case 'fnl' : $entity = new Fnlplayer(); break;
           case 'cup' :
