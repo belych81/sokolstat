@@ -83,7 +83,7 @@ class PlayerRepository extends ServiceEntityRepository
                 ->join('pt.team', 't')
                 ->where("t.translit = :team")
                 ->setParameter('team', $team)
-                ->orderBy('p.id', 'DESC')
+                ->orderBy('pt.id', 'DESC')
                 ->setMaxResults(1)
                 ->getQuery();
 

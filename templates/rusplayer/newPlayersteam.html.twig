@@ -1,4 +1,8 @@
 {% extends 'rusplayer/newChamp.html.twig' %}
+
+{% block navbar %}
+{% endblock %}
+
 {% block content %}
 
     <form action="{{ path('player_createPlayersteam', {'team': app.request.get('team'),
