@@ -73,6 +73,11 @@
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
                         {{ player.player.name }}</a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                      <a href="{{ path('shipplayer_confirm_delete',
+                        {'id': player.id, 'type' : 'Cupplayer', 'country' : 'russia'}) }}">
+                         x</a>
+                    {% endif %}
                </td>
                 <td class="tableGoal">
 				          {% if is_granted("ROLE_ADMIN") %}

@@ -610,29 +610,44 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function confirm($id, $country)
+    public function confirm($id, $type, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
-
+        switch($type){
+          case 'Shipplayer' :
+            $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+            break;
+          case 'Cupplayer' :
+            $entity = $this->getDoctrine()->getRepository(Cupplayer::class)->find($id);
+            break;
+        }
         return $this->render('shiptable/deleteShipplayer.html.twig', array(
             'entity' => $entity,
             'country' => $country
         ));
     }
 
-    public function delete($id, $country)
+    public function delete($id, $type, $country)
     {
         $em = $this->getDoctrine()->getManager();
+        $routeParams = [];
+        switch($type){
+          case 'Shipplayer' :
+            $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+            $route = 'championships_show';
+            $routeParams['country'] = $country;
+            break;
+          case 'Cupplayer' :
+            $entity = $this->getDoctrine()->getRepository(Cupplayer::class)->find($id);
+            $route = 'cup_show';
+            break;
+        }
 
-        $entity = $em->getRepository(Shipplayer::class)->find($id);
-
-        $season = $entity->getSeason()->getName();
-        $team = $entity->getTeam()->getTranslit();
+        $routeParams['season'] = $entity->getSeason()->getName();
+        $routeParams['id'] = $entity->getTeam()->getTranslit();
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('championships_show', [
-            'season' => $season, 'id' => $team, 'country' => $country]));
+        return $this->redirect($this->generateUrl($route, $routeParams));
     }
 
     public function editPlayerTurnirs($season, $team, $country)

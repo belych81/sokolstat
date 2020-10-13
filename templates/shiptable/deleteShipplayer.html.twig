@@ -16,10 +16,6 @@
 {% block content %}
     Вы действительно хотите удалить игрока: {{ entity.player.name }}?
     <a href="{{ path('shipplayer_delete',
-      {'id': entity.id, 'country' : country}) }}">
+      {'id': entity.id, 'country' : country, 'type' : app.request.get('type')}) }}">
        да</a>
-     <a href="{{ path('championships_show',
-       {'season': entity.season.name, 'id': entity.team.translit,
-       'country' : country }) }}">
-        нет</a>
 {% endblock %}
