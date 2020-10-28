@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:8.0
+    command: docker-php-ext-install mysqli
+    environment:
+        MYSQL_USER: belych
+        MYSQL_PASSWORD: 635241ww
+        MYSQL_DB: fbstat
+    ports: [3306]

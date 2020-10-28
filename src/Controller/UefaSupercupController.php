@@ -178,8 +178,13 @@ class UefaSupercupController extends AbstractController
             $menu = $serviceMenu->generate($country);
       }
         $entity = $this->getDoctrine()->getRepository($ent)->find($id);
-        $form   = $this->createForm(Supercup2Type::class, $entity);
-
+        if($ent == NationSupercup::class){
+          $form = $this->createForm(SupercupType::class, $entity, [
+                'country' => $country
+                ]);
+        } else {
+          $form = $this->createForm(Supercup2Type::class, $entity);
+        }
 
         return $this->render('uefasupercup/new.html.twig', array(
             'entity' => $entity,

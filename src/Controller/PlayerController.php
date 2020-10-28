@@ -196,6 +196,7 @@ class PlayerController extends AbstractController
         }
         switch($country){
           case 'fnl' : $entity = new Fnlplayer(); break;
+          case 'leagueChampions' : $entity = new Lchplayer(); break;
           case 'cup' :
             $entity = new Cupplayer();
             $entity2 = new Playersteam();
@@ -234,6 +235,8 @@ class PlayerController extends AbstractController
         ];
         if($route == 'championships_show'){
           $routeParams['country'] = $country;
+        } elseif($route == 'eurocup_show'){
+          $routeParams['turnir'] = 'leagueChampions';
         }
         return $this->redirect($this->generateUrl($route, $routeParams));
     }

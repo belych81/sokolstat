@@ -111,7 +111,10 @@
           <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
             'team': app.request.get('id')}) }}">
             Добавить игрока</a> |
-          <a href="{{ path('player_newPlayer', {'country': 'leagueChampions','route' : 'eurocup_show',
+          <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'eurocup_show',
+          'country': 'leagueChampions', 'team': app.request.get('id')}) }}">
+              Добавить последнего игрока</a> |
+          <a href="{{ path('player_newPlayer', {'country': 'leagueChampions', 'route' : 'eurocup_show',
             'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
                 Создать игрока</a> |
         {% endif %}
