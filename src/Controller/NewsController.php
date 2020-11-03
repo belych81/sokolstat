@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Dompdf\Dompdf;
 use App\Entity\Tour;
 use App\Entity\Player;
 use App\Entity\NhlPlayer;
@@ -146,7 +145,7 @@ class NewsController extends AbstractController
       $today = date('j.m.Y');
       $fromDate = new \DateTime('now');
       $fromDate->setTime(0, 0, 0);
-      $fromDate->modify('-7 days');
+      $fromDate->modify('-28 days');
       $em = $this->getDoctrine();
       $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
       $matches = $this->getDoctrine()->getRepository(Tour::class)
@@ -157,9 +156,6 @@ class NewsController extends AbstractController
         );
         $match->getTeam2()->setName(
           mb_convert_case($match->getTeam2()->getName(), MB_CASE_TITLE, "UTF-8")
-        );
-        $match->setBomb(mb_convert_case(
-            $match->getBomb(), MB_CASE_TITLE, "UTF-8")
         );
       }
       $tours = [];
@@ -185,17 +181,7 @@ class NewsController extends AbstractController
 
         $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
           ->getBomb5All('2019-20');
-        /*$dompdf = new Dompdf();
-        $dompdf->loadHtml('hello world');
-
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        $dompdf->stream();*/
+      
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,

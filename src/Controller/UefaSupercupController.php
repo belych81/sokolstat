@@ -160,31 +160,29 @@ class UefaSupercupController extends AbstractController
 
     public function new(Menu $serviceMenu, $id, $country)
     {
-      switch ($country) {
-          case 'uefa' :
-            $ent = UefaSupercup::class;
-            $menu = $serviceMenu->generateEurocup();
-              break;
-          case 'russia' :
-            $ent = RusSupercup::class;
-            $menu = $serviceMenu->generate($country);
-              break;
-          case 'england';
-          case 'spain';
-          case 'italy';
-          case 'germany';
-          case 'france' :
-            $ent = NationSupercup::class;
-            $menu = $serviceMenu->generate($country);
-      }
-        $entity = $this->getDoctrine()->getRepository($ent)->find($id);
-        if($ent == NationSupercup::class){
-          $form = $this->createForm(SupercupType::class, $entity, [
-                'country' => $country
-                ]);
-        } else {
-          $form = $this->createForm(Supercup2Type::class, $entity);
+        switch ($country) {
+            case 'uefa' :
+              $ent = UefaSupercup::class;
+              $menu = $serviceMenu->generateEurocup();
+                break;
+            case 'russia' :
+              $ent = RusSupercup::class;
+              $menu = $serviceMenu->generate($country);
+                break;
+            case 'england';
+            case 'spain';
+            case 'italy';
+            case 'germany';
+            case 'france' :
+              $ent = NationSupercup::class;
+              $menu = $serviceMenu->generate($country);
         }
+        $entity = $this->getDoctrine()->getRepository($ent)->find($id);
+
+        $form = $this->createForm(Supercup2Type::class, $entity, [
+              'country' => $country
+              ]);
+
 
         return $this->render('uefasupercup/new.html.twig', array(
             'entity' => $entity,
@@ -210,7 +208,9 @@ class UefaSupercupController extends AbstractController
             $ent = NationSupercup::class;
       }
         $entity = $this->getDoctrine()->getRepository($ent)->find($id);
-        $form = $this->createForm(Supercup2Type::class, $entity);
+        $form = $this->createForm(Supercup2Type::class, $entity, [
+              'country' => $country
+              ]);
         $entity->setStatus(0);
         $form->handleRequest($request);
 

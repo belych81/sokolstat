@@ -106,8 +106,8 @@
                <td colspan="5" class="tableGoal">{{ season.name }}</td>
          </tr>
         {% for key, eurocup in season.seasonmatches %}
-          <tr class="odd">
-            <td>{{ eurocup.turnir.name }}</td>
+          <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td class="tableGoal">{{ eurocup.turnir.name }}</td>
             <!--td>{{ eurocup.data | date('d.m')}}</td-->
             <td>{{ eurocup.stadia }}</td>
             <td class="scMatch">

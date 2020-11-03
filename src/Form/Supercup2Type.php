@@ -10,18 +10,23 @@ class Supercup2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+      $country = $options['country'];
+
         $builder
           ->add('data')
           ->add('score')
-          ->add('goal')
-          ->add('game')
-          ->add('game2');
+          ->add('goal');
+
+        if($country == 'uefa' || $country == 'russia')
+        {
+          $builder
+            ->add('game')
+            ->add('game2');
+        }
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefined(['country']);
     }
 }
