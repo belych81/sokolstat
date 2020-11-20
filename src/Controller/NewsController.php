@@ -181,7 +181,7 @@ class NewsController extends AbstractController
 
         $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
           ->getBomb5All('2019-20');
-      
+
       return $this->render('news/newspaper.html.twig', [
         'rfplTours' => $rfplTours,
         'rfplMatch' => $rfplMatch,
@@ -190,6 +190,26 @@ class NewsController extends AbstractController
       ]);
     }
 
+    public function newspaper1()
+    {
+      var_dump($_SERVER["DOCUMENT_ROOT"]);
+      require_once $_SERVER["DOCUMENT_ROOT"]."/dompdf-tagged-pdf/dompdf_config.inc.php";
+      $url = 'https://localhost:8000/newspaper/';
+      $html = file_get_contents($url);
+      //var_dump($html);
+      /*$dompdf = new \Dompdf\Dompdf();
+      $dompdf->load_html($html, 'UTF-8');
+
+      // (Optional) Setup the paper size and orientation
+      $dompdf->setPaper('A4', 'landscape');
+
+      // Render the HTML as PDF
+      $dompdf->render();
+
+      $output = $dompdf->output();
+      file_put_contents($_SERVER['DOCUMENT_ROOT']."/file.pdf", $output);*/
+      return $this->render('news/soglasie.html.twig', []);
+    }
     public function soglasie()
     {
         return $this->render('news/soglasie.html.twig', []);

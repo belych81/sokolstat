@@ -1,21 +1,21 @@
-
 ###> symfony/framework-bundle ###
-/.env
 /.env.local
+/.env.local.php
 /.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/images/
-/public/nfl.php
-/public/oop/
 /public/dompdf-tagged-pdf/
+/public/images/
+/public/oop/
+/public/file.pdf
+/public/newspaper.php
+/public/nfl.php
 /var/
-/vendor/
-/src/Migrations/
-/config/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit
+.phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 

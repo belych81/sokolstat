@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Mundial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Mundial|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class MundialRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Mundial::class);
     }
@@ -61,7 +61,7 @@ class MundialRepository extends ServiceEntityRepository
     }
 
     public function getCountriesBySeason($year)
-    {        
+    {
         $qb = $this->createQueryBuilder('m')
                 ->select('c.name', 'c.translit')
                 ->join('m.season', 's')
