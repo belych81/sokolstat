@@ -3,7 +3,6 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
 /public/dompdf-tagged-pdf/
 /public/images/
 /public/oop/
@@ -11,6 +10,7 @@
 /public/newspaper.php
 /public/nfl.php
 /var/
+/vendor/
 /bin/
 .env
 ###< symfony/framework-bundle ###
