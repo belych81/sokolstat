@@ -1,0 +1,103 @@
+easy_admin:
+  site_name: SokolStat
+
+  entities:
+          Tour:
+            class: App\Entity\Tour
+            list:
+                fields:
+                    - id
+                    - country
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - goal1
+                    - goal2
+                    - bomb
+                filters: ['team', 'team2', 'country', 'season']
+          Eurocup:
+            class: App\Entity\Eurocup
+            list:
+                fields:
+                    - id
+                    - turnir
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - score
+                    - bomb
+                filters: ['team', 'team2', 'turnir', 'season', 'stadia']
+          Rfplmatch:
+            class: App\Entity\Rfplmatch
+            list:
+                fields:
+                    - id
+                    - tour
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - goal1
+                    - goal2
+                    - bomb
+                    - player
+                    - player2
+                filters: ['team', 'team2', 'tour', 'season']
+          Player:
+            class: App\Entity\Player
+            list:
+                fields:
+                    - id
+                    - name
+                    - translit
+                    - born
+                    - game
+                    - goal
+                    - sum
+                    - lch_game
+                    - lch_goal
+                    - country
+                filters: ['name', 'amplua', 'country']
+          Country:
+            class: App\Entity\Country
+            list:
+                fields:
+                    - id
+                    - name
+                filters: ['name']
+          Team:
+            class: App\Entity\Team
+            list:
+                fields:
+                    - id
+                    - name
+                    - country
+                filters: ['name', 'country']
+          Shiptable:
+            class: App\Entity\Shiptable
+            list:
+                fields:
+                    - id
+                    - team
+                    - wins
+                    - nich
+                    - porazh
+                    - mz
+                    - mp
+                    - score
+                filters: ['team', 'country', 'season']
+          Ectable:
+            class: App\Entity\Ectable
+            list:
+                fields:
+                    - id
+                    - team
+                    - wins
+                    - nich
+                    - porazh
+                    - mz
+                    - mp
+                    - score
+                filters: ['team', 'turnir', 'season', 'stadia']

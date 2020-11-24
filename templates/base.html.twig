@@ -12,8 +12,7 @@
             {% endblock %}
         <meta name="yandex-verification" content="7321bd4fcece7b51" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         {% block stylesheets %}
@@ -158,6 +157,7 @@
                           <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
                       {% endif %}
                       {% if is_granted("ROLE_ADMIN") %}
+                        <a href="/admin/"  class="registerLink">Админка</a>
                         <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
                         <a href="{{ path('clear_cache') }}"  class="registerLink">Очистить кэш</a>
                       {% endif %}
@@ -211,58 +211,57 @@
             </div>
         </div>
             <footer>
-              <table class="footer">
-              <tr>
-              <ul class="bottom-menu">
-                <li>
-                  <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">
-                      Национальные турниры
-                  </a>
-                  <ul>
-                  <li> <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">Россия</a></li>
-                  <li> <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">Англия</a></li>
-                  <li> <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">Испания</a></li>
-                  <li> <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">Италия</a></li>
-                  <li> <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">Германия</a></li>
-                  <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">Франция</a></li>
+
+                <div>
+                  <ul class="bottom-menu">
+                    <li>
+                      <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">
+                          Национальные турниры
+                      </a>
+                      <ul>
+                      <li> <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">Россия</a></li>
+                      <li> <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">Англия</a></li>
+                      <li> <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">Испания</a></li>
+                      <li> <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">Италия</a></li>
+                      <li> <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">Германия</a></li>
+                      <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">Франция</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Еврокубки</a>
+                      <ul>
+                        <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Лига Чемпионов</a></li>
+                        <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">Лига Европы</a></li>
+                        <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">Суперкубок Европы</a></li>
+                        <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2018', 'stadia': 'final'}) }}">Клубный Чемпионат Мира</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Сборные</a>
+                      <ul>
+                        <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Чемпионаты Мира</a></li>
+                        <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">Чемпионаты Европы</a></li>
+                        <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">Кубок Конфедераций</a></li>
+                        <li><a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">Сборная России</a></li>
+                     </ul>
+                    </li>
+                    <li>
+                      <a href="{{ path('player') }}">Футболисты</a>
+                    </li>
                   </ul>
-                </li>
-                <li>
-                  <a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Еврокубки</a>
-                  <ul>
-                    <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">Лига Чемпионов</a></li>
-                    <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">Лига Европы</a></li>
-                    <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">Суперкубок Европы</a></li>
-                    <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2018', 'stadia': 'final'}) }}">Клубный Чемпионат Мира</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Сборные</a>
-                  <ul>
-                    <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">Чемпионаты Мира</a></li>
-                    <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2016'}) }}">Чемпионаты Европы</a></li>
-                    <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">Кубок Конфедераций</a></li>
-                    <li><a href="{{ path('sbornieRus', {'season': 'now' | date("Y")}) }}">Сборная России</a></li>
-                 </ul>
-                </li>
-                <li>
-                  <a href="{{ path('player') }}">Футболисты</a>
-                </li>
-              </ul>
-              </tr>
-                <tr class="footer-bottom">
-                  <td>© SokolTeam 2012-{{ "now" | date("Y") }}</td>
-                  <td>
-                    <div class="footer-question">
+                </div>
+                <div class="container">
+                <div class="row">
+                  <div class="col-sm-4">© SokolTeam 2012-{{ "now" | date("Y") }}</div>
+                  <div class="col-sm-4">
                       Вопросы и предложения присылайте
                         <a href="mailto:info@sokolstat.ru">сюда</a>
-                    </div>
-                  </td>
-                  <td>
+                  </div>
+                  <div class="col-sm-4">
                     <a class="soglasie-link" href="{{ path('soglasie') }}">Пользовательское соглашение</a>
-                  </td>
-                </tr>
-              </table>
+                  </div>
+                </div>
+              </div>
             </footer>
       </div>
    </body>
