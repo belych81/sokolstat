@@ -101,3 +101,12 @@ easy_admin:
                     - mp
                     - score
                 filters: ['team', 'turnir', 'season', 'stadia']
+          Ecsostav:
+            class: App\Entity\Ecsostav
+            list:
+                fields:
+                    - id
+                    - eurocup
+                    - team
+                    - team2
+                filters: ['eurocup']
