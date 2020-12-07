@@ -358,7 +358,10 @@ class Connection implements DriverConnection
         $driverOptions = $this->params['driverOptions'] ?? [];
         $user          = $this->params['user'] ?? null;
         $password      = $this->params['password'] ?? null;
-
+//var_dump($this->params);
+//var_dump($user);
+//var_dump($password);
+//var_dump($driverOptions);
         $this->_conn       = $this->_driver->connect($this->params, $user, $password, $driverOptions);
         $this->isConnected = true;
 

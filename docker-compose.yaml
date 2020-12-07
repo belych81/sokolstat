@@ -3,9 +3,10 @@ version: '3'
 services:
   database:
     image: mysql:8.0
-    command: docker-php-ext-install mysqli
+    command: --default-authentication-plugin=mysql_native_password
     environment:
         MYSQL_USER: belych
         MYSQL_PASSWORD: 635241ww
+        MYSQL_ROOT_PASSWORD: nB61xAlikC
         MYSQL_DB: fbstat
     ports: [3306]

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @method Player|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,31 +20,18 @@ class PlayerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Player::class);
     }
-
+//DAYOFMONTH(born) = DAYOFMONTH(NOW()) and MONTH(born) = MONTH(NOW())
     public function getBirthdayPlayer($data)
     {
-        return $this->createQueryBuilder('p')
-            ->select('p.name, p.id, p.translit')
-            ->where("p.born LIKE '%$data%'")
-            ->orderBy('p.born', 'ASC')
-            ->setMaxResults(30)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function getAge($name)
-    {
         $qb = $this->createQueryBuilder('p')
-                ->select('p.born')
-                ->where("p.name = :name")
-                ->setParameter('name', $name);
+              ->select('p.id, p.name, p.translit, TIMESTAMPDIFF(YEAR, p.born, CURRENT_TIMESTAMP()) age')
+              ->where('DAY(p.born) = DAY(CURRENT_TIMESTAMP())')
+              ->andWhere('MONTH(p.born) = MONTH(CURRENT_TIMESTAMP())')
+              ->orderBy('p.born', 'ASC')
+              ->setMaxResults(30);
 
         $query = $qb->getQuery();
-        $age = $query->getScalarResult();
-        $year = \substr($age[0]['born'], 0, 4);
-
-        return \date('Y') - $year;
+        return $query->getResult();
     }
 
     public function getLastPlayer() {

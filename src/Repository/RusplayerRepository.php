@@ -35,11 +35,12 @@ class RusplayerRepository extends ServiceEntityRepository
 
     public function getTopGoalkeepers($max) {
 
-            $qb = $this->createQueryBuilder('r')
-                ->join('r.player', 'p')
-                ->orderBy('r.goal', 'ASC')
-                ->setMaxResults($max)
-                ;
+        $qb = $this->createQueryBuilder('r')
+          ->select('p.name', 'p.translit', 'r.goal')
+          ->join('r.player', 'p')
+          ->orderBy('r.goal', 'ASC')
+          ->setMaxResults($max)
+          ;
 
         $query = $qb->getQuery();
 
@@ -66,8 +67,9 @@ class RusplayerRepository extends ServiceEntityRepository
     public function getTopGoalkeepersCurr($max, $season)
     {
             $qb = $this->createQueryBuilder('r')
+                ->select('DISTINCT r.id', 'p.name', 'p.translit', 'r.goal')
                 ->join('r.player', 'p')
-                ->leftJoin('p.gamers', 'g')
+                ->join('p.gamers', 'g')
                 ->join('g.season', 's')
                 ->where('s.name = ?1')
                 ->setParameter(1, $season)

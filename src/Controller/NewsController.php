@@ -102,13 +102,6 @@ class NewsController extends AbstractController
 
         $birthdays = $this->getDoctrine()->getRepository(Player::class)
           ->getBirthdayPlayer(date('m-d'));
-        $count=count($birthdays);
-        for ($i=0; $i < $count; $i++) {
-        $age[$i] = $this->getDoctrine()->getRepository(Player::class)
-          ->getAge($birthdays[$i]['name']);
-        $birthdays[$i][] =  $age[$i];
-        }
-
         $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
           ->getLastPlayer();
         $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)

@@ -169,16 +169,18 @@
                         {% endfor %}
 
                         {% endif %}
-                             <tr>
-                            <td colspan="3">
-                               <div class="born">Дни Рождения</div>
-                               <ul>
-
-                   {% for birthday in birthdays %}
-                       <li><a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a> ({{ birthday.0 }})</li>
-                       {% endfor %}
-                       </ul>
-    <table class="leader-table">
+                        <tr>
+                          <td colspan="3">
+                            <div class="born">Дни Рождения</div>
+                            <ul>
+                              {% for birthday in birthdays %}
+                                <li>
+                                  <a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a>
+                                  ({{ birthday.age }})
+                                </li>
+                              {% endfor %}
+                            </ul>
+                            <table class="leader-table">
         <caption>Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</caption>
         <thead>
             <tr class="shipTableTitle">
@@ -192,8 +194,8 @@
 
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="player-position">{{ loop.index }}</td>
-                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.player.translit}) }}" class="spiski"> {{ bomb.player.name }} </a></td>
-                <td class="bombTeam">{{ bomb.team.name }}</td>
+                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="spiski"> {{ bomb.playername }} </a></td>
+                <td class="bombTeam">{{ bomb.name }}</td>
                 <td class="tableGoal">{{ bomb.sum }}</td>
 
 
@@ -286,8 +288,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeper.player.translit}) }}" class="spiski">
-                           {{ topKeeper.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topKeeper.translit}) }}" class="spiski">
+                           {{ topKeeper.name }}</a></td>
                    <td class="playerListGame">{{ topKeeper.goal }}</td>
                </tr>
            {% endfor %}
@@ -301,8 +303,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.player.translit}) }}" class="spiski">
-                           {{ topKeeperCurr.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.translit}) }}" class="spiski">
+                           {{ topKeeperCurr.name }}</a></td>
                    <td class="playerListGame">{{ topKeeperCurr.goal }}</td>
                </tr>
            {% endfor %}
@@ -382,8 +384,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeper.player.translit}) }}" class="spiski">
-                           {{ topKeeper.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topKeeper.translit}) }}" class="spiski">
+                           {{ topKeeper.name }}</a></td>
                    <td class="playerListGame">{{ topKeeper.goal }}</td>
                </tr>
            {% endfor %}
@@ -397,8 +399,8 @@
 
                <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
                    <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.player.translit}) }}" class="spiski">
-                           {{ topKeeperCurr.player.name }}</a></td>
+                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.translit}) }}" class="spiski">
+                           {{ topKeeperCurr.name }}</a></td>
                    <td class="playerListGame">{{ topKeeperCurr.goal }}</td>
                </tr>
            {% endfor %}
