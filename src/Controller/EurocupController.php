@@ -38,8 +38,25 @@ class EurocupController extends AbstractController
         //  ->getStadiaByTurnir($turnir, $season);
         foreach ($stadies as $stadia)
         {
-          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Eurocup::class)
-            ->getEntityByTurnirStadia($turnir, $season, $stadia));
+          $matchesStadia = $this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEntityByTurnirStadia($turnir, $season, $stadia);
+          $matches1 = [];
+          $matches2 = [];
+          foreach($matchesStadia as $match){
+            $numb = $match->getNumber();
+            if($numb == 1){
+              $matches1[$match->getTeam()->getId()] = $match;
+            } elseif($numb == 2){
+              $matches2[] = $match;
+            }
+          }
+          $stadia->setStadiaMatches($matchesStadia);
+          if(!empty($matches1)){
+            $stadia->setStadiaMatches1($matches1);
+          }
+          if(!empty($matches2)){
+            $stadia->setStadiaMatches2($matches2);
+          }
             //$rus_stadia = $this->getDoctrine()->getRepository(Stadia::class)
               //->findOneByAlias($stadia);
             $stadiaAlias = $stadia->getAlias();

@@ -72,4 +72,9 @@ class Ecsostav
 
         return $this;
     }
+
+    public function __toString()
+    {
+      return $this->team."\n".$this->team2;
+    }
 }

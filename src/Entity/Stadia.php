@@ -176,6 +176,10 @@ class Stadia
 
     private $stadia_matches;
 
+    private $stadia_matches_1;
+
+    private $stadia_matches_2;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="stadia")
      */
@@ -186,14 +190,34 @@ class Stadia
      */
     private $mundials;
 
-    public function setStadiaMatches($matches)
+    public function setStadiaMatches(array $matches)
     {
         $this->stadia_matches = $matches;
     }
 
-    public function getStadiaMatches()
+    public function getStadiaMatches(): ?array
     {
         return $this->stadia_matches;
+    }
+
+    public function setStadiaMatches1(array $matches)
+    {
+        $this->stadia_matches_1 = $matches;
+    }
+
+    public function getStadiaMatches1(): ?array
+    {
+        return $this->stadia_matches_1;
+    }
+
+    public function setStadiaMatches2(array $matches)
+    {
+        $this->stadia_matches_2 = $matches;
+    }
+
+    public function getStadiaMatches2(): ?array
+    {
+        return $this->stadia_matches_2;
     }
 
     private $stadia_table = false;

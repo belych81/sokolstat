@@ -198,6 +198,11 @@ class Eurocup
      */
     private $ecsostav;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $number;
+
     public function setEcsostav(?Ecsostav $ecsostav = null): self
     {
         $this->ecsostav = $ecsostav;
@@ -213,6 +218,18 @@ class Eurocup
     public function __toString()
     {
       return (string)$this->id;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
     }
 
   }

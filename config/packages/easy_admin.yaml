@@ -27,7 +27,8 @@ easy_admin:
                     - team2
                     - score
                     - bomb
-                filters: ['team', 'team2', 'turnir', 'season', 'stadia']
+                    - number
+                filters: ['team', 'team2', 'turnir', 'season', 'stadia', 'number']
           Rfplmatch:
             class: App\Entity\Rfplmatch
             list:

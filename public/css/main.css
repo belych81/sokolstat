@@ -527,6 +527,9 @@ footer {
     left: 70px;
     top: 5px;
 }
+.matches-number-title{
+  background-color: #6fbd71;
+}
 .matches-page-block{
   display: inline-block;
 }
