@@ -2,19 +2,24 @@
 namespace App\Service;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Service\Props;
 
 class Menu
 {
     private $router;
+    private $props;
 
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(UrlGeneratorInterface $router, Props $props)
     {
         $this->router = $router;
+        $this->props = $props;
     }
 
-    public function generate($country, $season = '2020-21')
+    public function generate($country, $season = '')
     {
-
+      if(empty($season)){
+        $season = $this->props->getLastSeason();
+      }
       if ($country == 'russia' || $country == 'fnl') {
         $menu = [
           [
@@ -33,6 +38,10 @@ class Menu
         $menu[3] = [
                 'name' => 'ФНЛ',
                 'url' => $this->router->generate('championships', ['country' => 'fnl', 'season' => $season])
+        ];
+        $menu[4] = [
+                'name' => 'Статистика',
+                'url' => $this->router->generate('stat', ['country' => 'russia'])
         ];
       } else {
         $menu = [

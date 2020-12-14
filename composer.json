@@ -7,7 +7,7 @@
         "ext-iconv": "*",
         "easycorp/easyadmin-bundle": "^2",
         "friendsofsymfony/jsrouting-bundle": "^2.6",
-        "sensio/framework-extra-bundle": "^5.2",
+        "sensio/framework-extra-bundle": "^5.6",
         "symfony/asset": "5.1.*",
         "symfony/cache": "5.1.*",
         "symfony/config": "5.1.*",
@@ -23,6 +23,7 @@
         "symfony/profiler-pack": "^1.0",
         "symfony/security-bundle": "5.1.*",
         "symfony/serializer-pack": "*",
+        "symfony/string": "5.1.*",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "5.1.*",
         "symfony/twig-bundle": "5.1.*",
@@ -32,7 +33,7 @@
     },
     "require-dev": {
         "symfony/debug-pack": "*",
-        "symfony/maker-bundle": "^1.11",
+        "symfony/maker-bundle": "^1.25",
         "symfony/test-pack": "*",
         "symfony/web-server-bundle": "4.4.*"
     },

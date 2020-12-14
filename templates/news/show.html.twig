@@ -1,0 +1,21 @@
+{% extends 'news/index.html.twig' %}
+
+{% block title %}
+    {{ entity.title }}
+{% endblock %}
+
+{% block content %}
+      <table class="content">
+        <tbody>
+            <tr>
+                <td>{{ entity.data|date('d.m.Y') }}<br/></td>
+            </tr>
+            <tr>
+                <td class="title_news">{{ entity.title }}<br/></td>
+            </tr>
+            <tr>
+                <td>{{ entity.text|nl2br }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

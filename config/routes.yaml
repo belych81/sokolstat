@@ -1,14 +1,26 @@
 steam_fbstat_homepage:
     path:     /
+    controller: App\Controller\DefaultController::index
+
+news:
+    path:  /news/{page}
     controller: App\Controller\NewsController::index
+    requirements:
+        page: \d+
+    defaults:
+        page: 1
+
+news_show:
+    path:  /news/{translit}/
+    controller: App\Controller\NewsController::show
 
 newspaper:
       path:     /newspaper/
-      controller: App\Controller\NewsController::newspaper
+      controller: App\Controller\DefaultController::newspaper
 
 clear_cache:
       path:     /cache/
-      controller: App\Controller\NewsController::cache
+      controller: App\Controller\DefaultController::cache
 
 svod:
       path:     /svod/{country}/
@@ -64,7 +76,7 @@ task_update:
 
 soglasie:
     path:     /soglasie/
-    controller: App\Controller\NewsController::soglasie
+    controller: App\Controller\DefaultController::soglasie
 
 rating:
   path: /rating/
@@ -177,6 +189,12 @@ nhl_createPlayersteam:
     path:  /nhl/player/admin/createPlayersteam/{season}/{team}/
     controller: App\Controller\NhlController:createPlayersteam
     requirements: { _method: post }
+
+stat:
+    path:  /stat/{country}/
+    controller: App\Controller\ShiptableController:stat
+    requirements:
+        country: russia|england|spain|italy|germany|france|fnl
 
 championships:
     path:  /championships/{country}/{season}/{tour}

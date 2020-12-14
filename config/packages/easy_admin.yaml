@@ -60,6 +60,27 @@ easy_admin:
                     - lch_goal
                     - country
                 filters: ['name', 'amplua', 'country']
+          Shipplayer:
+            class: App\Entity\Shipplayer
+            list:
+                fields:
+                    - id
+                    - player
+                    - season
+                    - team
+                    - game
+                    - goal
+                    - cup
+                    - supercup
+                    - eurocup
+                    - sum
+                filters: ['season', 'team', 'player']
+          News:
+            class: App\Entity\News
+            list:
+                fields:
+                    - id
+                    - title
           Country:
             class: App\Entity\Country
             list:

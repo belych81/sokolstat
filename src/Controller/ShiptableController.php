@@ -25,6 +25,7 @@ use App\Form\TourType;
 use App\Form\TourEditType;
 use App\Form\RfplmatchEditType;
 use App\Service\Menu;
+use App\Service\Props;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -109,17 +110,17 @@ class ShiptableController extends AbstractController
           }
         }
         $sortGoal = function($f1,$f2)
-          {
-             if($f1['goal'] < $f2['goal']){
-                 return 1;
-             }
-             elseif($f1['goal'] > $f2['goal']) {
-                 return -1;
-             }
-             else {
-                 return 0;
-             }
-          };
+        {
+           if($f1['goal'] < $f2['goal']){
+               return 1;
+           }
+           elseif($f1['goal'] > $f2['goal']) {
+               return -1;
+           }
+           else {
+               return 0;
+           }
+        };
         uasort($bombSum, $sortGoal);
         $bombSum = array_slice($bombSum, 0, 20);
         $menu = $serviceMenu->generate($country, $season);
@@ -136,6 +137,36 @@ class ShiptableController extends AbstractController
             'menu' => $menu,
             'strana' => $strana
         ]);
+    }
+
+    public function stat(Menu $serviceMenu, Props $props, $country)
+    {
+      $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers(20, 'game');
+      $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr(20, 'game', $props->getLastSeason());
+      $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers(20, 'goal');
+      $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr(20, 'goal', $props->getLastSeason());
+      $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepers(20);
+      $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepersCurr(20, $props->getLastSeason());
+      $menu = $serviceMenu->generate($country);
+      $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
+              ->translateCountry($country)['rusCountry'];
+
+      return $this->render('stat/index.html.twig', [
+            'menu' => $menu,
+            'rusCountry' => $rusCountry,
+            'topMatchesRus' => $topMatchesRus,
+            'topMatchesRusCurr' => $topMatchesRusCurr,
+            'topGoalsRus' => $topGoalsRus,
+            'topGoalsRusCurr' => $topGoalsRusCurr,
+            'topGoalkeepers' => $topGoalkeepers,
+            'topGoalkeepersCurr' => $topGoalkeepersCurr
+      ]);
     }
 
     public function show(SessionInterface $session, Menu $serviceMenu, $id, $season, $country)
