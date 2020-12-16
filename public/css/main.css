@@ -157,6 +157,9 @@ footer {
   padding-top: 0;
   padding-bottom: 0;
 }
+.panel-success > .panel-body.top-bomb{
+  padding: 0;
+}
 .panel-success > .panel-heading + .panel-body ul{
     margin: 5px;
     padding: 0;

@@ -78,9 +78,6 @@
     width: 60px;
     height: 55px;
   }
-  .login-bar{
-    margin-top: 70px;
-  }
 }
 
 @media (max-width: 690px) {
