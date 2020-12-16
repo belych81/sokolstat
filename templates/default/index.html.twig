@@ -1,241 +1,84 @@
 {% extends 'base.html.twig' %}
 
 {% block sidebar %}
-    <div class="sidebar scLink">
-    <table class="right_column">
-         {% if yestmatch %}
-        <tr class="data">
-            <td colspan="3">Вчера</td>
-        </tr>
-        {% for ymatch in yestmatch %}
-          {% if ymatch.route == 'championships' %}
-            {% if ymatch.country == 'russia' %}
-              {% set route = path('championships', {'country':'russia',
-              'season': ymatch.season.name}) %}
-            {% elseif ymatch.country.translit == "" %}
-                {% set route = path('championships', {'country':'fnl',
-                'season': ymatch.season.name}) %}
-            {% else %}
-              {% set route = path('championships', {
-                'country':ymatch.country.translit,
-                'season': ymatch.season.name}) %}
-            {% endif %}
-          {% elseif ymatch.route == 'cup' %}
-            {% set route = path('cup', {'season': ymatch.season.name}) %}
-          {% elseif ymatch.route == 'nationcup' %}
-            {% set route = path('nationcup', {'season': ymatch.season.name,
-            'country': ymatch.country.translit}) %}
-          {% elseif ymatch.route == 'eurocup' %}
-               {% set route = path('eurocup', {'season': ymatch.season.name,
-               }) %}
-          {% endif %}
-        <tr class="spiski calendar-today">
-            <td class="newMatchTd">
-                {% if ymatch.team %}
-                    {{ ymatch.team }}
-                {% else %}
-                    {{ ymatch.country.name }}
-                {% endif %}
-            </td>
-            <td>{% if ymatch.team2 %}
-                    {{ ymatch.team2 }}
-                {% else %}
-                    {{ ymatch.country2.name }}
-                {% endif %}
-            </td>
-            <td>
-              <a href="{{ route }}" class="spiski">
-              {% if (ymatch.status == 0) %}
-                    {% if ymatch.score is defined %}
-                        {{ ymatch.score }}
-                    {% else %}
-                        {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
-                    {% endif%}
-              {% else %}
-                  {{ ymatch.data | date('H:i') }}
-              {% endif %}
-              </a>
-            </td>
-        </tr>
-        {% endfor %}
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <div class="panel panel-success">
+        <div class="panel-body calendar">
+          {{ include('default/calendar.html.twig', { 'daymatch': yestmatch, 'day': 'Вчера' }) }}
+          {{ include('default/calendar.html.twig', { 'daymatch': curmatch, 'day': 'Сегодня' }) }}
+          {{ include('default/calendar.html.twig', { 'daymatch': tommatch, 'day': 'Завтра' }) }}
+        </div>
+      </div>
 
+      <div class="panel panel-success">
+        <div class="panel-heading">Дни Рождения</div>
+        <div class="panel-body">
+          <ul>
+            {% for birthday in birthdays %}
+              <li>
+                <a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a>
+                ({{ birthday.age }})
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
 
-    {% endif %}
-                {% if curmatch %}
-                <tr class="data">
-               <td colspan="3">
-                  Сегодня
-                  </td>
-                    </tr>
-                     {% for match in curmatch %}
-                     {% if match.route == 'championships' %}
-                       {% if match.country == 'russia' %}
-                         {% set route = path('championships', {'country':'russia',
-                         'season': match.season.name}) %}
-                      {% elseif match.country.translit == "" %}
-                             {% set route = path('championships', {'country':'fnl',
-                             'season': match.season.name}) %}
-                       {% else %}
-                         {% set route = path('championships', {
-                           'country':match.country.translit,
-                           'season': match.season.name}) %}
-                       {% endif %}
-                     {% elseif match.route == 'cup' %}
-                       {% set route = path('cup', {'season': match.season.name}) %}
-                    {% elseif match.route == 'nationcup' %}
-                         {% set route = path('nationcup', {'season': match.season.name,
-                         'country': match.country.translit}) %}
-                   {% elseif match.route == 'eurocup' %}
-                        {% set route = path('eurocup', {'season': match.season.name,
-                        }) %}
-                     {% endif %}
-                    <tr class="spiski calendar-today">
-                        <td class="newMatchTd">{% if match.team %}
-                    {{ match.team }}
-                {% else %}
-                    {{ match.country.name }}
-                {% endif %}
-                        </td>
-                        <td>{% if match.team2 %}
-                    {{ match.team2 }}
-                {% else %}
-                    {{ match.country2.name }}
-                {% endif %}
-                        </td>
-                        <td>
-                        <a href="{{ route }}" class="spiski">
-                        {% if (match.status == 0) %}
-                                {% if match.score is defined %}
-                                    {{ match.score }}
-                                {% else %}
-                                    {{ match.goal1 }}-{{ match.goal2 }}
-                                {% endif%}
-                            {% else %}
-                                {{ match.data | date('H:i') }}
-                            {% endif %}
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-
-                        {% endif %}
-                            {% if tommatch %}
-                         <tr class="data">
-                           <td colspan="3">
-                               Завтра
-                       </td>
-                        </tr>
-                        {% for tmatch in tommatch %}
-                        {% if tmatch.route == 'championships' %}
-                          {% if tmatch.country == 'russia' %}
-                            {% set route = path('championships', {'country':'russia',
-                            'season': tmatch.season.name}) %}
-                          {% elseif tmatch.country.translit == "" %}
-                                {% set route = path('championships', {'country':'fnl',
-                                'season': tmatch.season.name}) %}
-                          {% else %}
-                            {% set route = path('championships', {
-                              'country':tmatch.country.translit,
-                              'season': tmatch.season.name}) %}
-                          {% endif %}
-                        {% elseif tmatch.route == 'cup' %}
-                          {% set route = path('cup', {'season': tmatch.season.name}) %}
-                        {% elseif tmatch.route == 'nationcup' %}
-                            {% set route = path('nationcup', {'season': tmatch.season.name,
-                            'country': tmatch.country.translit}) %}
-                        {% elseif tmatch.route == 'eurocup' %}
-                             {% set route = path('eurocup', {'season': tmatch.season.name,
-                             }) %}
-                        {% endif %}
-                        <tr class="spiski calendar-today">
-                            <td class="newMatchTd">
-                                {% if tmatch.team %}
-                                    {{ tmatch.team }}
-                                {% else %}
-                                    {{ tmatch.country.name }}
-                                {% endif %}
-                            </td>
-                            <td>{% if tmatch.team2 %}
-                                    {{ tmatch.team2 }}
-                                {% else %}
-                                    {{ tmatch.country2.name }}
-                                {% endif %}
-                            </td>
-                            <td><a href="{{ route }}" class="spiski">
-                            {{ tmatch.data | date('H:i') }}
-                            </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-
-                        {% endif %}
-                        <tr>
-                          <td colspan="3">
-                            <div class="born">Дни Рождения</div>
-                            <ul>
-                              {% for birthday in birthdays %}
-                                <li>
-                                  <a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a>
-                                  ({{ birthday.age }})
-                                </li>
-                              {% endfor %}
-                            </ul>
-                            <table class="leader-table">
-        <caption>Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</caption>
-        <thead>
-            <tr class="shipTableTitle">
+      <div class="panel panel-success">
+        <div class="panel-heading">Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</div>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr class="shipTableTitle">
                 <th class="bombName" colspan="2">&nbsp;</th>
                 <th>Клуб</th>
                 <th>Г</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bomb in bombTotal %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+              </tr>
+            </thead>
+            <tbody>
+            {% for bomb in bombTotal %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="player-position">{{ loop.index }}</td>
-                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="spiski"> {{ bomb.playername }} </a></td>
+                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="list-item"> {{ bomb.playername }} </a></td>
                 <td class="bombTeam">{{ bomb.name }}</td>
                 <td class="tableGoal">{{ bomb.sum }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <table class="leader-table">
-        <caption>Последние добавленные фуболисты</caption>
-        <tbody>
-        {% for player in lastPlayers %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                <td><a href="{{ path('player_show', {'id': player.translit}) }}" class="spiski">{{ player.name }}</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </td>
-    </tr>
-    </table>
- </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">Последние добавленные футболисты</div>
+        <div class="panel-body">
+          <ul>
+            {% for player in lastPlayers %}
+              <li>
+                <a href="{{ path('player_show', {'id': player.translit}) }}" class="list-item">{{ player.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
 {% endblock %}
 
 {% block content %}
-  <table class="content">
+  <div class="col-xs-12 col-md-8 col-lg-9">
     {% for entity in entities %}
-        <tr>
-            <td class="date_news">{{ entity.data|date('d.m.Y') }}</td>
-        </tr>
-        <tr>
-            <td><a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="title_news">{{ entity.title }}</a></td>
-        </tr>
-        <tr>
-            <td>{{ entity.text|nl2br }}
-                <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="newsLinkFull">
-                    читать дальше</a><br/><hr/></td>
-        </tr>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="title_news">{{ entity.title }}</a>
+        </div>
+        <div class="panel-body">
+          {{ entity.data|date('d.m.Y') }}
+          <p>{{ entity.text|nl2br }}</p>
+          <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="newsLinkFull">читать дальше</a>
+        </div>
+      </div>
     {% endfor %}
-  </table>
-
-
+  </div>
+</div>
 {% endblock %}

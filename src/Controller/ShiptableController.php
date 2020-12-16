@@ -240,7 +240,7 @@ class ShiptableController extends AbstractController
         }
     }
 
-    public function newMatch($country, $season)
+    public function newMatch(Menu $serviceMenu, $country, $season)
     {
         if($country == 'russia') {
           $entity = new Rfplmatch();
@@ -257,14 +257,16 @@ class ShiptableController extends AbstractController
               'season' => $season
               ]);
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function createMatch(Request $request, $country, $season)
+    public function createMatch(Request $request, Menu $serviceMenu, $country, $season)
     {
         switch ($country) {
             case 'russia' : $country2 = 'Россия'; break;
@@ -305,9 +307,11 @@ class ShiptableController extends AbstractController
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
