@@ -11,7 +11,7 @@ body,td,th {
 	font-size: 12px;
 }
 body {
-	background-color: #faedf5;
+	background-color: #faf9e6;
 	width: 100%;
 }
 a.dropdown-top:hover { padding: 2px 10px 5px; }
@@ -151,7 +151,11 @@ footer {
     font-weight: bold;
     font-size: 14px;
     text-align: center;
-
+    background-color: #366;
+    color: #fff;
+}
+.sidebar .panel-success > .panel-heading{
+  background-color: #603;
 }
 .panel-success > .panel-body.calendar{
   padding-top: 0;
@@ -169,6 +173,12 @@ footer {
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: #fff;
+}
+.panel-success > .panel-heading.title-news,
+.title-news a{
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px
 }
 .bottom-menu{
   margin: 15px;
@@ -190,10 +200,6 @@ footer {
   font-size: 15px;
 }
 .btn{
-  display: block;
-  width: 150px;
-  height: 25px;
-  border-radius: 7px;
   background-color: #366;
   color: #fff;
   font-weight: bold;
@@ -1060,10 +1066,6 @@ footer {
 .shipTableTeam {
     font-weight: bold;
     color: #000000;
-}
-.sidebar{
-    width: 372px;
-    display: table-cell;
 }
 .sidebarMenu {
     width: 140px;

@@ -76,7 +76,7 @@ class News
             $this->translit = (string) $slugger->slug((string) $this)->lower();
         }
     }
-    
+
     public function getData(): ?\DateTimeInterface
     {
         return $this->data;
@@ -107,5 +107,10 @@ class News
     public function setDataValue()
     {
         $this->data = new \DateTime();
+    }
+
+    public function __toString()
+    {
+      return $this->title;
     }
 }

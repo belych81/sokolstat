@@ -17,11 +17,11 @@ class NewsEntityListener
 
     public function prePersist(News $news, LifecycleEventArgs $event)
     {
-        $conference->computeTranslit($this->slugger);
+        $news->computeTranslit($this->slugger);
     }
 
     public function preUpdate(News $news, LifecycleEventArgs $event)
     {
-        $conference->computeTranslit($this->slugger);
+        $news->computeTranslit($this->slugger);
     }
 }

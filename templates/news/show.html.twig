@@ -5,17 +5,22 @@
 {% endblock %}
 
 {% block content %}
-      <table class="content">
-        <tbody>
-            <tr>
-                <td>{{ entity.data|date('d.m.Y') }}<br/></td>
-            </tr>
-            <tr>
-                <td class="title_news">{{ entity.title }}<br/></td>
-            </tr>
-            <tr>
-                <td>{{ entity.text|nl2br }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="panel panel-success">
+          <div class="panel-heading title-news">
+            {{ entity.title }}
+          </div>
+          <div class="panel-body">
+            {{ entity.data|date('d.m.Y') }}
+            <p>{{ entity.text|nl2br }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i> Назад к статьям
+    </button>
+  </div>
 {% endblock %}
