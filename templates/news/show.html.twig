@@ -12,15 +12,15 @@
           <div class="panel-heading title-news">
             {{ entity.title }}
           </div>
-          <div class="panel-body">
+          <div class="panel-body news">
             {{ entity.data|date('d.m.Y') }}
             <p>{{ entity.text|nl2br }}</p>
           </div>
         </div>
       </div>
     </div>
-    <button class="btn btn-default">
-      <i class="glyphicon glyphicon-chevron-left"></i> Назад к статьям
+    <button class="btn btn-success articles-return">
+      <a href="{{ path('news') }}"><i class="glyphicon glyphicon-chevron-left"></i> Назад к статьям</a>
     </button>
   </div>
 {% endblock %}

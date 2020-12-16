@@ -102,7 +102,7 @@ class DefaultController extends AbstractController
       $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
         ->getLastPlayer();
 
-      $entities = $this->getDoctrine()->getRepository(News::class)->getNews(5, 1);
+      $entities = $this->getDoctrine()->getRepository(News::class)->getNews(10, 0);
       foreach ($entities as $v) {
         $v->setText($functions->truncateText($v->getText(), 500));
       }

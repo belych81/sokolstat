@@ -40,7 +40,9 @@
             {% for bomb in bombTotal %}
               <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="player-position">{{ loop.index }}</td>
-                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="list-item"> {{ bomb.playername }} </a></td>
+                <td class="bomb5">
+                  <a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="list-item"> {{ bomb.playername }} </a>
+                </td>
                 <td class="bombTeam">{{ bomb.name }}</td>
                 <td class="tableGoal">{{ bomb.sum }}</td>
               </tr>
@@ -67,18 +69,7 @@
 
 {% block content %}
   <div class="col-xs-12 col-md-8 col-lg-9">
-    {% for entity in entities %}
-      <div class="panel panel-success">
-        <div class="panel-heading title-news">
-          <a href="{{ path('news_show', { 'translit': entity.translit }) }}">{{ entity.title }}</a>
-        </div>
-        <div class="panel-body">
-          {{ entity.data|date('d.m.Y') }}
-          <p>{{ entity.text|nl2br }}</p>
-          <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="newsLinkFull">читать дальше</a>
-        </div>
-      </div>
-    {% endfor %}
+    {{ include('news/list.html.twig', { 'entities': entities }) }}
   </div>
 </div>
 {% endblock %}

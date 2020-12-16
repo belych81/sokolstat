@@ -135,6 +135,16 @@ footer {
     width: 25px;
     height: 15px;
 }
+.articles-return.btn-success{
+  background-color: #366;
+}
+.articles-return.btn-success a{
+  color: #fff;
+  font-weight: bold;
+}
+.articles-return.btn-success:hover{
+  background-color: #5aa16e;
+}
 .bomb5 {
     width: 200px;
 }
@@ -180,6 +190,11 @@ footer {
     font-weight: bold;
     font-size: 16px
 }
+.panel-body.news{
+  font-size: 16px;
+  line-height: 1.8;
+  text-align: justify;
+}
 .bottom-menu{
   margin: 15px;
 }
@@ -198,14 +213,6 @@ footer {
 .bottom-menu li ul{
   margin-left: 10px;
   font-size: 15px;
-}
-.btn{
-  background-color: #366;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-  font-size: 14px;
-  line-height: 25px;
 }
 .calendar-today{
     background-color: #fff;
