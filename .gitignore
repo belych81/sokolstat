@@ -1,9 +1,10 @@
 ###> symfony/framework-bundle ###
+.env
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/config/packages/
+/config/packages/twig.yaml
 /public/dompdf-tagged-pdf/
 /public/images/
 /public/oop/
@@ -13,7 +14,6 @@
 /var/
 /vendor/
 /bin/
-/.env
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
