@@ -16,8 +16,23 @@ function parseUrlQuery() {
 			search_contains: true,
 			width: '100%'
 		});
+
+		$("select[name=teams]").change(function(){
+			var url = Routing.generate('player', {
+				'team': $(this).val(), 'country': $(this).data('country')
+			});
+			window.location.href = url;
+		});
+
+		$("select[name=country]").change(function(){
+			var url = Routing.generate('player', {
+				'country': $(this).val(), 'team': $(this).data('team')
+			});
+			window.location.href = url;
+		});
+
     //Живой поиск
-  $('.search_keywords').bind("keyup", function() {
+  	$('.search_keywords').bind("keyup", function() {
       if(this.value.length >= 1){
           $.ajax({
               type: 'post',

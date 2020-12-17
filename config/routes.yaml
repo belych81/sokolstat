@@ -493,7 +493,7 @@ player:
 
 news_search:
     path:  /search
-    controller: App\Controller\NewsController:search
+    controller: App\Controller\DefaultController:search
     options:
         expose: true
 

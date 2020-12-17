@@ -12,11 +12,14 @@ use App\Entity\NationSupercup;
 use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
 use App\Entity\Player;
+use App\Entity\Team;
 use App\Entity\News;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController
 {
@@ -180,14 +183,10 @@ class DefaultController extends AbstractController
       $em = $this->getDoctrine()->getManager();
 
       $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
-      $responseNhlPlayer = $em->getRepository(NhlPlayer::class)->searchPlayers($arQuery);
       $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
       $player = [];
       foreach($responsePlayer as $val){
           $player['player/'.$val->getTranslit().'/'] = $val->getName();
-      }
-      foreach($responseNhlPlayer as $val){
-          $player['nhl/player/'.$val->getTranslit().'/'] = $val->getName();
       }
       $team = [];
       foreach($responseTeam as $val){

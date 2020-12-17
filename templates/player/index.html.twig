@@ -137,22 +137,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <script>
-    $(function(){
-      $("select[name=teams]").change(function(){
-        var url = Routing.generate('player', {
-          'team': $(this).val(), 'country': $(this).data('country')
-        });
-        window.location.href = url;
-      });
-
-      $("select[name=country]").change(function(){
-        var url = Routing.generate('player', {
-          'country': $(this).val(), 'team': $(this).data('team')
-        });
-        window.location.href = url;
-      });
-    });
-    </script>
 {% endblock %}
