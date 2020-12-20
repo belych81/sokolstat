@@ -16,14 +16,6 @@
     right: auto;
   }
 }
-@media (max-width: 1135px) {
-  .login-bar-block, .search-bar{
-    display: inline-block;
-  }
-  .login-bar{
-    display: block;
-  }
-}
 
 @media (min-width: 992px) {
   header .col-md-7{
@@ -34,6 +26,17 @@
   }
 }
 
+@media (max-width: 992px) {
+    .search-block, .login-block{
+        display: none;
+    }
+    .login-bar-block, .search-bar{
+        display: inline-block;
+    }
+    .login-bar{
+        display: block;
+    }
+}
 @media (max-width: 923px) {
   .champ-country{
     display: none;
@@ -71,13 +74,15 @@
 
 
 @media (max-width: 750px) {
-
-	.panel-box { display: block; }
+    .panel-box { display: block; }
 	header { display: none; }
-  .logo {
-    width: 60px;
-    height: 55px;
-  }
+      .logo {
+        width: 60px;
+        height: 55px;
+      }
+      .login-bar-block .btn-xs span{
+          display: none;
+      }
 }
 
 @media (max-width: 690px) {

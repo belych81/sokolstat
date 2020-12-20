@@ -2,6 +2,10 @@ steam_fbstat_homepage:
     path:     /
     controller: App\Controller\DefaultController::index
 
+profile:
+    path: /profile/
+    controller: App\Controller\DefaultController::profile
+
 news:
     path:  /news/{page}
     controller: App\Controller\NewsController::index

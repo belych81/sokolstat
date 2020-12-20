@@ -478,26 +478,38 @@ footer {
   display: none;
   float: right;
   margin-right: 20px;
-  padding-top: 10px;
+  padding-top: 7px;
 }
 .login-bar div a{
   color: #fff;
-  margin-left: 15px;
 }
 .search-bar{
   display: none;
   margin-left: 10px;
   width: 200px;
 }
+.menu-login{
+    max-width: 150px;
+    color: #fff;
+}
 .menu-login a{
   color: #fff;
 }
+.login-bar-block .btn-xs{
+    display: inline-block;
+}
+.login-bar-block .btn-xs span{
+    margin-left: 5px;
+}
 .menu-login .btn-xs{
-  width: 100%;
+  width: 90%;
+  margin-top: 5px;
 }
 .btn-sign{
-  margin-top: 5px;
   background-color: #366;
+}
+.btn-signed{
+  background-color: #44a682;
 }
 .letters-list{
   margin: 15px;
@@ -565,13 +577,6 @@ footer {
   display: inline-block;
   width: 200px;
   margin-top: 10px;
-}
-.menu-login{
-  display: inline-block;
-  margin-left: 30px;
-  width: 100px;
-  color: #fff;
-  vertical-align: top;
 }
 .menu-trigger {
     display: inline-block;
@@ -898,7 +903,7 @@ footer {
   margin-left: auto;
   margin-right: auto;
 }
-.reg-form div div:not(:last){
+.reg-form div div{
   text-align: center;
   display: table-row;
 }
