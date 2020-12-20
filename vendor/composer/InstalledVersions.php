@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'dc3672cf3f806917601cc9cd0dcce64c6afe0c3d',
+    'reference' => 'c193a50a925948dfe8b6a10dfc74f16dc835bdfc',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'dc3672cf3f806917601cc9cd0dcce64c6afe0c3d',
+      'reference' => 'c193a50a925948dfe8b6a10dfc74f16dc835bdfc',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -716,6 +716,15 @@ private static $installed = array (
       ),
       'reference' => 'e353c6c37afa1ff90739b3941f60ff9fa650eec3',
     ),
+    'symfony/mailer' => 
+    array (
+      'pretty_version' => 'v5.1.9',
+      'version' => '5.1.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a8be34b60e81c54f764f5ecee2a143b1dfbc60dc',
+    ),
     'symfony/maker-bundle' => 
     array (
       'pretty_version' => 'v1.25.0',
@@ -724,6 +733,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '6d2da12632f5c8b9aa7b159f0bb46f245289434a',
+    ),
+    'symfony/mime' => 
+    array (
+      'pretty_version' => 'v5.1.9',
+      'version' => '5.1.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '698cab643bbb517a0d9d317e2ec9fc1636e97f1f',
     ),
     'symfony/monolog-bridge' => 
     array (
@@ -924,12 +942,12 @@ private static $installed = array (
     ),
     'symfony/security-bundle' => 
     array (
-      'pretty_version' => 'v5.1.8',
-      'version' => '5.1.8.0',
+      'pretty_version' => 'v5.1.9',
+      'version' => '5.1.9.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8921cdb1057f615b8340a352195f4a684c876893',
+      'reference' => '1060810a1dc7361304c50d4aa2569fe5b4da60c6',
     ),
     'symfony/security-core' => 
     array (
@@ -1142,6 +1160,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'f284e032c3cefefb9943792132251b79a6127ca6',
+    ),
+    'symfonycasts/verify-email-bundle' => 
+    array (
+      'pretty_version' => 'v1.1.0',
+      'version' => '1.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'be051ebed83c97a6737e5b71aeafe7c482375a95',
     ),
     'twig/twig' => 
     array (
