@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+    <h1>Поздравляем!</h1>
+    {% for flashSuccess in app.flashes('success') %}
+        <div class="alert alert-success">{{ flashSuccess }}</div>
+    {% endfor %}
+{% endblock %}

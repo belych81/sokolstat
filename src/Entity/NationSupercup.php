@@ -60,6 +60,8 @@ class NationSupercup
      */
     private $status;
 
+    private $route = 'nationsupercup';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +159,18 @@ class NationSupercup
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
 
         return $this;
     }

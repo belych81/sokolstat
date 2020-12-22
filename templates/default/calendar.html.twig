@@ -21,8 +21,9 @@
       {% set route = path('nationcup', {'season': ymatch.season.name,
       'country': ymatch.country.translit}) %}
     {% elseif ymatch.route == 'eurocup' %}
-         {% set route = path('eurocup', {'season': ymatch.season.name,
-         }) %}
+         {% set route = path('eurocup', {'season': ymatch.season.name }) %}
+    {% elseif ymatch.route == 'nationsupercup' %}
+      {% set route = path('supercup', {'country':ymatch.country.translit }) %}
     {% endif %}
     <div class="row list-item">
       <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\Functions;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -17,10 +18,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
+    private $functions;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, Functions $functions)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->functions = $functions;
     }
 
     /**
@@ -40,22 +43,29 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $signedUrl = $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('admin@sokolstat.ru', 'SokolStat'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Подтверждение аккаунта')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('steam_fbstat_homepage');
+            if($token = $this->functions->getParamUrl('token', $signedUrl)){
+                $user->setToken($token);
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+
+            return $this->render('registration/register.html.twig', [
+                'confirmMessage' => 'На указанный адрес электронной почты отправлено письмо.
+                    Для завершения регистрации перейдите, пожалуйста, по ссылке, указанной в нём.'
+            ]);
         }
 
         return $this->render('registration/register.html.twig', [
@@ -68,20 +78,39 @@ class RegistrationController extends AbstractController
      */
     public function verifyUserEmail(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($token = $this->functions->getParamUrl('token', $request->getUri())){
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['token' => $token]);
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            if($user instanceof User)
+            {
+                $this->addFlash('verify_email_error', $user->getId());
+                $this->addFlash('verify_email_error', $user->getEmail());
+                // validate email confirmation link, sets User::isVerified=true and persists
+                try {
+                    $this->emailVerifier->handleEmailConfirmation($request, $user);
+                } catch (VerifyEmailExceptionInterface $exception) {
+                    $this->addFlash('verify_email_error', $exception->getReason());
+                    return $this->redirectToRoute('app_register');
+                }
 
-            return $this->redirectToRoute('app_register');
+                return $this->redirectToRoute('app_verify_email_success');
+            }
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('verify_email_error', 'Ошибка! Пользователь не найден.');
 
         return $this->redirectToRoute('app_register');
+
+    }
+
+    /**
+     * @Route("/register/success", name="app_verify_email_success")
+     */
+    public function verifySuccess()
+    {
+        $this->addFlash('success', 'Ваш аккаунт успешно подтвержден.');
+
+        return $this->render('registration/verify_success.html.twig');
     }
 }
