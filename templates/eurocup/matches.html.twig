@@ -1,0 +1,60 @@
+{% for entity in entities %}
+  <tr class="odd">
+      <td class="ec-date">
+          <div class="">
+              {% if is_granted("ROLE_ADMIN") %}
+              <a href="{{ path('eurocup_editMatch', {'id': entity.id,
+                'turnir': app.request.get('turnir') })}}">
+                    {{ entity.data | date('d.m H:i') }}</a>
+              {% else %}
+                    {% if entity.status == 1 %}
+                      {{ entity.data | date('d.m H:i') }}
+                    {% else %}
+                        {{ entity.data | date('d.m') }}
+                    {% endif %}
+              {% endif %}
+          </div>
+      </td>
+      <td class="scMatch">
+          <div>
+            {% if entity.team.country.name == 'Россия' %}
+                <a href="{{ path('eurocup_showTeam', {'id': entity.team.translit,
+                    'season': entity.season.name, 'turnir': entity.turnir.alias}) }}" class="spiski">
+                    {{ entity.team.name }}</a>
+            {% else %}
+              <a href="{{ path('team_show', {'code': entity.team.translit}) }}" class="spiski">{{ entity.team.name }}</a>
+              ({{ entity.team.country.name }})
+             {% endif %}
+             -
+             {% if entity.team2.country.name == 'Россия' %}
+                 <a href="{{ path('eurocup_showTeam', {'id': entity.team2.translit,
+                     'season': entity.season.name, 'turnir': entity.turnir.alias}) }}" class="spiski">
+                     {{ entity.team2.name }}</a>
+             {% else %}
+               <a href="{{ path('team_show', {'code': entity.team2.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
+               ({{ entity.team2.country.name }})
+             {% endif %}
+          </div>
+      </td>
+      <td class="scScore">
+         {% if entity.status == 1 %}
+           {% if is_granted("ROLE_ADMIN") %}
+             <a href="{{ path('eurocup_edit', {'id': entity.id,
+               'turnir': app.request.get('turnir') })}}">
+               -:-</a>
+           {% else %}
+             -:-
+           {%  endif %}
+         {% else %}
+           {{ entity.score }}
+         {% endif %}
+      </td>
+      <td class="scBomb">
+          {{ entity.bomb }}
+          {% if number is defined and number == 2 %}
+          {% set score1 = matches1[entity.team2.id].score |split('-') %}
+            (1-й матч - <strong>{{ score1.1 }}-{{ score1.0 }}</strong>)
+          {% endif %}
+      </td>
+  </tr>
+{% endfor %}

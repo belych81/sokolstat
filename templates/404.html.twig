@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Страница не найдена
+{% endblock %}
+
+{% block content %}
+<div class="content-404">
+  <div>
+    <h1>Ошибка 404. Упс, запрашиваемая страница не найдена</h1>
+    <p>
+      Возможно, она была удалена или даже никогда не существовала.
+      Вы можете перейти на <a href="{{ path('steam_fbstat_homepage') }}">
+        главную страницу</a>.
+    </p>
+  </div>
+</div>
+{% endblock %}

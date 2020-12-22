@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Fnlplayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Fnlplayer|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class FnlplayerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Fnlplayer::class);
     }
@@ -29,8 +29,6 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->where('s.name = :season')
           ->setParameter('season', $season)
           ->andWhere('f.goal > 0')
-          ->orderBy('f.goal DESC, p.name')
-          ->setMaxResults(20)
           ->getQuery()
           ->getResult()
       ;
@@ -43,6 +41,7 @@ class FnlplayerRepository extends ServiceEntityRepository
           ->join('f.season', 's')
           ->join('f.team', 't')
           ->join('f.player', 'p')
+          ->leftJoin('p.rusplayers', 'r')
           ->where('s.name = :season')
           ->setParameter('season', $season)
           ->andWhere('t.translit = :id')
@@ -93,6 +92,34 @@ class FnlplayerRepository extends ServiceEntityRepository
                 ->set($changeParam, $changeParam2)
                 ->where('g.id = ?1')
                 ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateFnlplayers($arr)
+    {
+      $qb = $this->_em->createQueryBuilder()
+          ->update('App\Entity\Fnlplayer', 's')
+          ->set('s.game', 's.game+'.$arr[2])
+          ->where('s.id = ?1')
+          ->setParameter(1, $arr[0])
+          ->getQuery();
+
+      $qb->execute();
+    }
+
+    public function updateFullFnlplayer($player_id, $game, $goal, $season, $team)
+    {
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Fnlplayer', 'f')
+                ->set('f.game', 'f.game+:game')
+                ->set('f.goal', 'f.goal+:goal')
+                ->where('f.player = :player')
+                ->andWhere('f.season = :season')
+                ->andWhere('f.team = :team')
+                ->setParameters(['player'=>$player_id, 'game'=>$game, 'goal'=>$goal,
+               'season'=>$season, 'team'=>$team])
                 ->getQuery();
 
             $qb->execute();

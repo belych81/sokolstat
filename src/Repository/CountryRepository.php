@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Country;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Country|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CountryRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Country::class);
     }
@@ -25,5 +25,11 @@ class CountryRepository extends ServiceEntityRepository
                     ->orderBy('c.name')
                     ->getQuery()
                     ->getResult();
+    }
+
+    public function queryCountryOrderName()
+    {
+        return $query = $this->createQueryBuilder('c')
+                ->orderBy('c.name');
     }
 }

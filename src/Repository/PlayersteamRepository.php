@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Playersteam;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Playersteam|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,17 +14,13 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PlayersteamRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Playersteam::class);
     }
 
     public function getStat($name, $team, $param)
     {
-        switch ($param) {
-            case 'game' : $select = 'p.game'; break;
-            case 'goal' : $select = 'p.goal'; break;
-        }
         $qb = $this->createQueryBuilder('p')
                 ->join('p.team', 't')
                 ->join('p.player', 'n')

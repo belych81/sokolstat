@@ -4,153 +4,57 @@
    Чемпионат {{ rusCountry }} {{ app.request.get('season') }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="чемпионат {{ rusCountry }} {{ app.request.get('season') }},
-          бомбардиры, турнирная таблица, матчи">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="чемпионат {{ rusCountry }} {{ app.request.get('season') }},
           бомбардиры, турнирная таблица, матчи">
 {% endblock %}
 
-{% block zagolovok %}
-    <h1 class="countryTurnirActive">Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1>
-{% endblock %}
+ {% block navbar %}
 
-{% block seasons %}
+   <nav class="navbar navbar-default">
+     <div class="container-fluid">
+       <div class="navbar-header">
+         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+           <span class="sr-only">Toggle navigation</span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+         </button>
+       </div>
 
+       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+         <ul class="nav navbar-nav submenu">
+          {% for item in menu %}
+            <li>
+               <a href="{{ item.url }}">{{ item.name }}</a>
+             </li>
+           {% endfor %}
+         </ul>
+       </div><!-- /.navbar-collapse -->
+     </div><!-- /.container-fluid -->
+   </nav>
+ {% endblock %}
 
-    {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
-        {% else %}
-            <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
-        {% endif %}
-    {% endfor %}
-
-
-
-{% endblock %}
-
-
-{% block sidebar %}
- <td class="sidebarMenu">
-     <ul>
-        <li><a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('cup', {'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'russia'}) }}">Суперкубок</a></li>
-
-            <li><a href="{{ path('championships', {'country': 'fnl', 'season': season}) }}">ФНЛ</a></li>
-
-            </ul>
-        <li><a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('nationcup', {'country': 'england',
-                'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'england'}) }}">Суперкубок</a></li>
-        </ul>
-        <li><a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('nationcup', {'country': 'spain',
-                'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'spain'}) }}">Суперкубок</a></li>
-        </ul>
-        <li><a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('nationcup', {'country': 'italy',
-                'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'italy'}) }}">Суперкубок</a></li>
-        </ul>
-        <li><a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('nationcup', {'country': 'germany',
-                'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'germany'}) }}">Суперкубок</a></li>
-        </ul>
-        <li><a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a></li>
-        <ul>
-            <li><a href="{{ path('nationcup', {'country': 'france',
-                'season': season}) }}">Кубок</a></li>
-            <li><a href="{{ path('supercup', {'country': 'france'}) }}">Суперкубок</a></li>
-        </ul>
-     </ul>
- </td>
+{% block teams %}
  {% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="scLink">
-                <p><b>Турнирная таблица</b></p>
-    <table class="shipTable">
-        <thead>
-            <tr class="shipTableTitle">
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th class="winsTable">И</th>
-                <th class="winsTable">В</th>
-                <th class="winsTable">Н</th>
-                <th class="winsTable">П</th>
-                <th class="goalsTable">M</th>
-                <th class="winsTable">О</th>
+  {% block seasons %}
+    <div class="seasons">
+      {% for season in seasons %}
+          {% if app.request.get('season') == season.season.name %}
+              <b>{{ season.season.name }}</b>
+          {% else %}
+              <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">
+                {{ season.season.name }}
+              </a>
+          {% endif %}
+      {% endfor %}
+    </div>
+  {% endblock %}
 
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index }}</td>
-                <td class="tableLeft"><a href="{{ path('championships_show', {'id': entity.team.translit, 'season': app.request.get('season'), 'country': app.request.get('country')}) }}" class="shipTableTeam">{{ entity.team.name }}</a></td>
-                <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                <td>{{ entity.wins }}</td>
-                <td>{{ entity.nich }}</td>
-                <td>{{ entity.porazh }}</td>
-                <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                <td><b>{{ entity.score }}</b></td>
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-            </td>
-            <td class="scLink">
-                <p class="champBombTitle">Бомбардиры</p>
-    <table>
-        <thead>
-            <tr class="shipTableTitle">
-                <th>&nbsp;</th>
-                <th class="bombName">&nbsp;</th>
-                <th>Клуб</th>
-                <th>Г</th>
-
-
-            </tr>
-        </thead>
-        <tbody>
-        {% for bomb in bombs %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index }}</td>
-                <td class="spiski">
-                    <a href="{{ path('player_show', {'id': bomb.player.translit}) }}" class="spiski">
-                        {{ bomb.player.name }}</a>
-
-                </td>
-                <td class="bombTeam">{{ bomb.team.name }}</td>
-                <td class="tableGoal">{{ bomb.goal }}</td>
-
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-        </td>
-        <td class="scLink">
-
-            <p><b>Туры</b></p>
+<div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
+<div class="champ-tours champs">Туры:
         {% for tour in tours %}
             {% if app.request.get('tour') != tour.tour %}
                <a href="{{ path('championships', {'country': app.request.get('country'),
@@ -172,34 +76,54 @@
         <table>
             <tbody>
             {% for match in matches %}
-
+            <tr class="champ-match-title">
                 {% if is_granted("ROLE_ADMIN") %}
                    {% if app.request.get('country')=='russia' %}
-                       <tr><td colspan="4" bgcolor="#FFEEAA">
+                       <td colspan="6">
                          <a href="{{ path('championships_newrus', {'id': match.id}) }}">
-                             {{ match.data | date('d.m H:i') }}</a></td>
-                    </tr>
+                             {{ match.data | date('d.m H:i') }}</a>
+                             <a href="{{ path('championships_edit', {'id': match.id,
+                             'country': app.request.get('country')}) }}">
+                                изменить</a>
+                              <a href="{{ path('championships_confirm_delete',
+                                {'id': match.id, 'country': app.request.get('country')}) }}">
+                                 удалить</a>
+                        </td>
                     {% else %}
-                <tr><td colspan="4" bgcolor="#FFEEAA">
+                      <td colspan="6">
                         <a href="{{ path('championships_new', {'id': match.id}) }}">
-                          {{ match.data | date('d.m H:i') }}</a></td>
-                    </tr>
+                          {{ match.data | date('d.m H:i') }}</a>
+                          <a href="{{ path('championships_edit', {'id': match.id,
+                          'country': app.request.get('country')}) }}">
+                             изменить</a>
+                           <a href="{{ path('championships_confirm_delete',
+                             {'id': match.id, 'country': app.request.get('country')}) }}">
+                              удалить</a>
+                      </td>
                     {% endif %}
                 {% else %}
-                    <tr>
-                      <td colspan="4" bgcolor="#FFEEAA">
+                      <td colspan="6">
                           {% if match.status == 1 %}
                             {{ match.data | date('d.m H:i') }}
                           {% else %}
                               {{ match.data | date('d.m') }}
                           {% endif %}
                       </td>
-                    </tr>
                 {% endif %}
-
-
+            </tr>
             <tr>
-              <td class="champTourTeam">{{ match.team.name }}</td>
+              <td class="champTourTeam">
+                <a href="{{ path('championships_show', {
+                  'country': app.request.get('country'),
+                  'season': app.request.get('season'),
+                  'id': match.team.translit}) }}">{{ match.team.name }}</a>
+              </td>
+              <td class="champTourImage">
+                {% if match.team.image2 %}
+                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ match.team.image2 }}"
+                    alt="{{ match.team.name }}" title="{{ match.team.name }}" />
+                {% endif %}
+              </td>
               <td class="champTourScore">
                 {% if match.status == 1 %}
                   -
@@ -214,17 +138,95 @@
                 {{ match.goal2 }}
               {% endif %}
               </td>
-              <td class="champTourTeam">{{ match.team2.name }}</td>
+              <td class="champTourImage">
+                {% if match.team2.image2 %}
+                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ match.team2.image2 }}"
+                    alt="{{ match.team2.name }}" title="{{ match.team2.name }}" />
+                {% endif %}
+              </td>
+              <td class="champTourTeam">
+                <a href="{{ path('championships_show', {
+                'country': app.request.get('country'),
+                'season': app.request.get('season'),
+                'id': match.team2.translit}) }}">{{ match.team2.name }}</a>
+              </td>
             </tr>
-            <tr>
-              <td colspan="4" bgcolor="#FFFFCC" class="">{{ match.bomb }}</td>
+            <tr class="champ-match-bomb">
+              <td colspan="6" class="">{{ match.bomb }}</td>
             </tr>
 
 
             {% endfor %}
             </tbody>
         </table>
-            </td>
-        </tr>
+        </div>
+
+<div class="champ-table champs">
+    <p class="champ-title">Турнирная таблица</p>
+    <table class="shipTable">
+        <thead>
+            <tr class="shipTableTitle">
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th class="winsTable">И</th>
+                <th class="winsTable">В</th>
+                <th class="winsTable">Н</th>
+                <th class="winsTable">П</th>
+                <th class="goalsTable">M</th>
+                <th class="winsTable">О</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">{{ loop.index }}</td>
+                <td class="tableLeft"><a href="{{ path('championships_show', {
+                  'id': entity.team.translit, 'season': app.request.get('season'),
+                  'country': app.request.get('country')}) }}" class="shipTableTeam">
+                    {{ entity.team.name }}</a></td>
+                <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                <td>{{ entity.wins }}</td>
+                <td>{{ entity.nich }}</td>
+                <td>{{ entity.porazh }}</td>
+                <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                <td class="table-score">{{ entity.score }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
+    </div>
+
+<div class="champ-bombs champs">
+  <p class="champ-title">Бомбардиры</p>
+    <table>
+        <thead>
+            <tr class="shipTableTitle">
+                <th>&nbsp;</th>
+                <th class="bombName">&nbsp;</th>
+                <th>Клуб</th>
+                <th>Г</th>
+            </tr>
+        </thead>
+        <tbody class="shipTable">
+        {% for name, player in bombs %}
+            <tr class="odd">
+                <td class="player-position">{{ loop.index }}</td>
+                <td class="spiski">
+                    <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                        {{ name }}</a>
+                </td>
+                <td class="bombTeam">{{ player.team }}</td>
+                <td class="tableGoal">{{ player.goal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% if is_granted("ROLE_ADMIN") %}
+      <p><a href="{{ path('championships_newSeason', {'country': app.request.get('country')
+      }) }}">Добавить сезон</a></p>
+    {% endif %}
 {% endblock %}

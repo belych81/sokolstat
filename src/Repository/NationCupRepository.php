@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\NationCup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method NationCup|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class NationCupRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, NationCup::class);
     }
@@ -64,7 +64,7 @@ class NationCupRepository extends ServiceEntityRepository
     }
 
     public function findAllBySeasonAndStadiaAndCountry($season, $stadia, $country)
-    {      
+    {
         $qb = $this->createQueryBuilder('c')
                 ->select('c', 'st', 't', 't2', 's')
                 ->join('c.season', 's')
@@ -80,6 +80,7 @@ class NationCupRepository extends ServiceEntityRepository
                     'stadia' => $stadia,
                     'country' => $country
                     ])
+                ->orderBy('c.data', 'ASC')
                 ;
 
         $query = $qb->getQuery();

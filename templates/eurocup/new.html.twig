@@ -1,4 +1,4 @@
-{% extends 'eurocup/index.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
     Добавить матч
@@ -10,7 +10,7 @@
 {% block seasons %}
 {% endblock %}
 
-{% block zagolovok %}
+{% block teams %}
 {% endblock %}
 
 {% block content %}
@@ -25,6 +25,13 @@
                     <td>
                         {{ form_errors(form.data) }}
                         {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.stadia) }}</th>
+                    <td>
+                        {{ form_errors(form.stadia) }}
+                        {{ form_widget(form.stadia) }}
                     </td>
                 </tr>
                 <tr>
@@ -64,30 +71,4 @@
         </p>
     </form>
 
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupA'}) }}">Группа А</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupB'}) }}">Группа B</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupC'}) }}">Группа C</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupD'}) }}">Группа D</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupE'}) }}">Группа E</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupF'}) }}">Группа F</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupG'}) }}">Группа G</a>
-            <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupH'}) }}">Группа H</a>
-            {% if app.request.get('turnir') == 'leagueEuropa' %}
-                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupI'}) }}">Группа I</a>
-                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupJ'}) }}">Группа J</a>
-                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupK'}) }}">Группа K</a>
-                <a href="{{ path('eurocup_new', {'turnir': app.request.get('turnir'),
-                        'season': app.request.get('season'), 'stadia': 'groupL'}) }}">Группа L</a>
-            {% endif %}
 {% endblock %}

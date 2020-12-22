@@ -9,12 +9,14 @@ use App\Entity\Country;
 use App\Entity\Seasons;
 use App\Form\NationCupType;
 use App\Form\NationCup2Type;
+use App\Service\Menu;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NationcupController extends AbstractController
 {
-    public function index($country, $season)
+    public function index(Menu $serviceMenu, $country, $season)
     {
         $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
                         ->translateCountry($country)['rusCountry'];
@@ -29,11 +31,13 @@ class NationcupController extends AbstractController
           $stadia->setStadiaMatches($this->getDoctrine()->getRepository(NationCup::class)
                     ->findAllBySeasonAndStadiaAndCountry($season, $stadia, $strana));
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('nationcup/index.html.twig', [
             'rusCountry' => $rusCountry,
             'seasons' => $seasons,
-            'stadies' => $stadies
+            'stadies' => $stadies,
+            'menu' => $menu
         ]);
     }
 
@@ -41,12 +45,9 @@ class NationcupController extends AbstractController
     {
         $entity = new NationCup();
 
-        $stranaOb = $this->getDoctrine()->getRepository(Country::class)
-          ->findOneByTranslit($country);
-        $strana = $stranaOb->getName();
         $form   = $this->createForm(NationCupType::class, $entity, [
               'season' => $season,
-              'country' => $strana
+              'country' => $country
               ]);
 
         return $this->render('nationcup/newMatch.html.twig', array(
@@ -59,18 +60,18 @@ class NationcupController extends AbstractController
     {
         $ent = NationCupType::class;
         $entity  = new NationCup();
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $year = $this->getDoctrine()->getRepository(Seasons::class)
+          ->findOneByName($season);
 
         $entity->setSeason($year);
         $entity->setStatus(1);
         $stranaOb = $this->getDoctrine()->getRepository(Country::class)
           ->findOneByTranslit($country);
-        $strana = $stranaOb->getName();
         $entity->setCountry($stranaOb);
 
         $form = $this->createForm($ent, $entity, [
             'season' => $season,
-            'country' => $strana
+            'country' => $country
             ]);
 
         $form->handleRequest($request);

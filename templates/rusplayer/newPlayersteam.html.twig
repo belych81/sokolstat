@@ -1,8 +1,12 @@
 {% extends 'rusplayer/newChamp.html.twig' %}
+
+{% block navbar %}
+{% endblock %}
+
 {% block content %}
 
     <form action="{{ path('player_createPlayersteam', {'team': app.request.get('team'),
-      'season': app.request.get('season')}) }}" method="post">
+      'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}" method="post">
        <table>
             <tbody>
                 <tr>
@@ -10,6 +14,13 @@
                     <td>
                         {{ form_errors(form.player) }}
                         {{ form_widget(form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
                     </td>
                 </tr>
                 <tr>

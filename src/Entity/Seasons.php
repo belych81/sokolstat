@@ -21,7 +21,7 @@ class Seasons
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name = '2018-19';
+    private $name = '2019-20';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="season")
@@ -37,6 +37,11 @@ class Seasons
      * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="season")
      */
     private $rfplmatches;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlReg", mappedBy="season")
+     */
+    private $nhlRegs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="season")
@@ -125,6 +130,15 @@ class Seasons
      */
     private $sostavs;
 
+    private $season_matches;
+
+    private $season_cup_matches;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlTable", mappedBy="season")
+     */
+    private $nhlTables;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -147,6 +161,7 @@ class Seasons
         $this->sbplayers = new ArrayCollection();
         $this->mundials = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
+        $this->nhlTables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -801,5 +816,60 @@ class Seasons
     public function __toString()
     {
       return $this->name;
+    }
+
+    public function getSeasonMatches()
+    {
+        return $this->season_matches;
+    }
+
+    public function setSeasonMatches($season_matches): self
+    {
+        $this->season_matches = $season_matches;
+
+        return $this;
+    }
+
+    public function getSeasonCupMatches()
+    {
+        return $this->season_cup_matches;
+    }
+
+    public function setSeasonCupMatches($season_cup_matches): self
+    {
+        $this->season_cup_matches = $season_cup_matches;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NhlTable[]
+     */
+    public function getNhlTables(): Collection
+    {
+        return $this->nhlTables;
+    }
+
+    public function addNhlTable(NhlTable $nhlTable): self
+    {
+        if (!$this->nhlTables->contains($nhlTable)) {
+            $this->nhlTables[] = $nhlTable;
+            $nhlTable->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNhlTable(NhlTable $nhlTable): self
+    {
+        if ($this->nhlTables->contains($nhlTable)) {
+            $this->nhlTables->removeElement($nhlTable);
+            // set the owning side to null (unless already changed)
+            if ($nhlTable->getSeason() === $this) {
+                $nhlTable->setSeason(null);
+            }
+        }
+
+        return $this;
     }
 }

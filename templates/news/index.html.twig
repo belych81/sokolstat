@@ -1,342 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block sidebar %}
-    <td class="sidebar scLink">
-    <table class="right_column">
-         {% if yestmatch %}
-        <tr class="data">
-            <td colspan="3">Вчера</td>
-        </tr>
-        {% for ymatch in yestmatch %}
-        <tr class="spiski calendar-today">
-            <td class="newMatchTd">
-                {% if ymatch.team %}
-                    {{ ymatch.team }}
-                {% else %}
-                    {{ ymatch.country.name }}
-                {% endif %}
-            </td>
-            <td>{% if ymatch.team2 %}
-                    {{ ymatch.team2 }}
-                {% else %}
-                    {{ ymatch.country2.name }}
-                {% endif %}
-            </td>
-            <td>{% if (ymatch.status == 0) %}
-                    {% if ymatch.score is defined %}
-                        {{ ymatch.score }}
-                    {% else %}
-                        {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
-                    {% endif%}
-                {% else %}
-                    {{ ymatch.data | date('H:i') }}
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-
-    {% endif %}
-                {% if curmatch %}
-                <tr class="data">
-               <td colspan="3">
-                  Сегодня
-                  </td>
-                    </tr>
-                     {% for match in curmatch %}
-                    <tr class="spiski calendar-today">
-                        <td class="newMatchTd">{% if match.team %}
-                    {{ match.team }}
-                {% else %}
-                    {{ match.country.name }}
-                {% endif %}
-                        </td>
-                        <td>{% if match.team2 %}
-                    {{ match.team2 }}
-                {% else %}
-                    {{ match.country2.name }}
-                {% endif %}
-                        </td>
-                        <td>{% if (match.status == 0) %}
-                                {% if match.score is defined %}
-                                    {{ match.score }}
-                                {% else %}
-                                    {{ match.goal1 }}-{{ match.goal2 }}
-                                {% endif%}
-                            {% else %}
-                                {{ match.data | date('H:i') }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-
-                        {% endif %}
-                            {% if tommatch %}
-                         <tr class="data">
-                           <td colspan="3">
-                               Завтра
-                       </td>
-                        </tr>
-                        {% for tmatch in tommatch %}
-                        <tr class="spiski calendar-today">
-                            <td class="newMatchTd">
-                                {% if tmatch.team %}
-                                    {{ tmatch.team }}
-                                {% else %}
-                                    {{ tmatch.country.name }}
-                                {% endif %}
-                            </td>
-                            <td>{% if tmatch.team2 %}
-                                    {{ tmatch.team2 }}
-                                {% else %}
-                                    {{ tmatch.country2.name }}
-                                {% endif %}
-                            </td>
-                            <td>{{ tmatch.data | date('H:i') }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-
-                        {% endif %}
-                             <tr>
-                            <td colspan="3">
-                               <div class="born">Дни Рождения</div>
-                               <ul>
-
-                   {% for birthday in birthdays %}
-                       <li><a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a> ({{ birthday.0 }})</li>
-                       {% endfor %}
-                       </ul>
-                       <hr/>
-    <table class="leader-table">
-        <caption>Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</caption>
-        <thead>
-            <tr class="shipTableTitle">
-                <th class="bombName" colspan="2">&nbsp;</th>
-                <th>Клуб</th>
-                <th>Г</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bomb in bombTotal %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td class="position-table">{{ loop.index }}</td>
-                <td class="bomb5"><a href="{{ path ('player_show', {'id': bomb.player.translit}) }}" class="spiski"> {{ bomb.player.name }} </a></td>
-                <td class="bombTeam">{{ bomb.team.name }}</td>
-                <td class="tableGoal">{{ bomb.sum }}</td>
-
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-        <hr/>
-    <table class="leader-table">
-        <caption>Последние добавленные фуболисты</caption>
-        <tbody>
-        {% for player in lastPlayers %}
-
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                <td><a href="{{ path('player_show', {'id': player.translit}) }}" class="spiski">{{ player.name }}</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </td>
-    </tr>
-    </table>
-
-        <div class="mobile-main-content">
-        <table class="leader-table">
-            <caption>Лидеры по числу матчей в чемпионатах России</caption>
-           <tbody>
-           {% for topMatch in topMatchesRus %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatch.player.translit}) }}" class="spiski">
-                           {{ topMatch.player.name }}</a></td>
-                   <td class="playerListGame">{{ topMatch.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Лидеры по числу матчей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topMatchCurr in topMatchesRusCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatchCurr.player.translit}) }}" class="spiski">
-                           {{ topMatchCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topMatchCurr.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-        </table>
-
-        <table class="leader-table">
-            <caption>Лидеры по числу забитых мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topGoals in topGoalsRus %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoals.player.translit}) }}" class="spiski">
-                           {{ topGoals.player.name }}</a></td>
-                   <td class="playerListGame">{{ topGoals.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Лидеры по числу мячей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topGoalsCurr in topGoalsRusCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoalsCurr.player.translit}) }}" class="spiski">
-                           {{ topGoalsCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topGoalsCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-           <table class="leader-table">
-            <caption>Наибольшее число пропущенных мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topKeeper in topGoalkeepers %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeper.player.translit}) }}" class="spiski">
-                           {{ topKeeper.player.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeper.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Наибольшее число пропущенных мячей в чемпионатах России (действующие вратари)</caption>
-           <tbody>
-           {% for topKeeperCurr in topGoalkeepersCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.player.translit}) }}" class="spiski">
-                           {{ topKeeperCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeperCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
- </div>
-
-                        </td>
-{% endblock %}
+{% block title %}Новости{% endblock %}
 
 {% block content %}
 
- <div class="main-content">
-        <table class="leader-table">
-            <caption>Лидеры по числу матчей в чемпионатах России</caption>
-           <tbody>
-           {% for topMatch in topMatchesRus %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+        {{ include('news/list.html.twig', { 'entities': entities }) }}
 
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatch.player.translit}) }}" class="spiski">
-                           {{ topMatch.player.name }}</a></td>
-                   <td class="playerListGame">{{ topMatch.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
+        {% if lastPage > 1 %}
+            {% if app.request.get('page') > 1 %}
+            <a href="{{ path('news', {'page': 1})}}">
+            <img src="{{ path_public }}{{ asset('/images/double_arrows2.png') }}"
+                 alt="Первая" title="Первая" class="arrow" /></a>
 
-       <table class="leader-table">
-           <caption>Лидеры по числу матчей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topMatchCurr in topMatchesRusCurr %}
+            <a href="{{ path('news', {'page': previousPage})}}">
+            <img src="{{ path_public }}{{ asset('/images/strelkaLeft.png') }}"
+                 alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
+            {% endif %}
 
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatchCurr.player.translit}) }}" class="spiski">
-                           {{ topMatchCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topMatchCurr.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-        </table>
+            {% if lastPage != app.request.get('page') %}
+            <a href="{{ path('news', {'page': nextPage})}}">
+            <img src="{{ path_public }}{{ asset('/images/strelka.png') }}"
+                 alt="Следующая" title="Следующая" class="arrow"/></a>
 
-        <table class="leader-table">
-            <caption>Лидеры по числу забитых мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topGoals in topGoalsRus %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoals.player.translit}) }}" class="spiski">
-                           {{ topGoals.player.name }}</a></td>
-                   <td class="playerListGame">{{ topGoals.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Лидеры по числу мячей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topGoalsCurr in topGoalsRusCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoalsCurr.player.translit}) }}" class="spiski">
-                           {{ topGoalsCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topGoalsCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-           <table class="leader-table">
-            <caption>Наибольшее число пропущенных мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topKeeper in topGoalkeepers %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeper.player.translit}) }}" class="spiski">
-                           {{ topKeeper.player.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeper.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Наибольшее число пропущенных мячей в чемпионатах России (действующие вратари)</caption>
-           <tbody>
-           {% for topKeeperCurr in topGoalkeepersCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="position-table">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.player.translit}) }}" class="spiski">
-                           {{ topKeeperCurr.player.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeperCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
- </div>
-
-
-
-
-
+            <a href="{{ path('news', {'page': lastPage})}}">
+            <img src="{{ path_public }}{{ asset('/images/double_arrows1.png') }}"
+                 alt="Последняя" title="Последняя" class="arrow" /></a>
+            {% endif %}
+         {% endif %}
+      </div>
+    </div>
+  </div>
 {% endblock %}

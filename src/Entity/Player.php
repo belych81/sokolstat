@@ -33,7 +33,7 @@ class Player
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = ' ';
 
     /**
      * @ORM\Column(type="date")
@@ -144,6 +144,16 @@ class Player
      * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="player")
      */
     private $sostavs;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $insertdate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $game = 0;
 
     public function __construct()
     {
@@ -697,5 +707,29 @@ class Player
     public function __toString()
     {
       return $this->name;
+    }
+
+    public function getInsertdate(): ?\DateTimeInterface
+    {
+        return $this->insertdate;
+    }
+
+    public function setInsertdate(\DateTimeInterface $insertdate): self
+    {
+        $this->insertdate = $insertdate;
+
+        return $this;
+    }
+
+    public function getGame(): ?int
+    {
+        return $this->game;
+    }
+
+    public function setGame(int $game): self
+    {
+        $this->game = $game;
+
+        return $this;
     }
 }

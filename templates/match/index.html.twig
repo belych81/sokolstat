@@ -1,0 +1,108 @@
+{% extends 'player/index.html.twig' %}
+
+{% block title %}
+    Все матчи
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Все футбольные матчи">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  {% block container %}
+
+    <div class="matches-page-block">
+      <h1>Матчи</h1>
+
+      {% if lastPage > 1 %}
+          {% if app.request.get('page') > 1 %}
+              <a href="{{ path('matches')}}?page=1{{ strParams }}">
+                <img src="{{ asset('images/double_arrows2.png') }}"
+                   alt="Первая" title="Первая" class="arrow" /></a>
+
+              <a href="{{ path('matches')}}?page={{ previousPage }}{{ strParams }}">
+                <img src="{{ asset('images/strelkaLeft.png') }}"
+                   alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
+          {% endif %}
+          Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
+          {% if lastPage != app.request.get('page') %}
+              <a href="{{ path('matches')}}?page={{ nextPage }}{{ strParams }}">
+                <img src="{{ asset('images/strelka.png') }}"
+                   alt="Следующая" title="Следующая" class="arrow"/></a>
+
+              <a href="{{ path('matches')}}?page={{ lastPage }}{{ strParams }}">
+                <img src="{{ asset('images/double_arrows1.png') }}"
+                   alt="Последняя" title="Последняя" class="arrow" /></a>
+           {% endif %}
+      {% endif %}
+      Матчей на странице:
+      <select id="selectPageMatches">
+        <option value="10" {% if max==10 %}selected="selected"{% endif %}>10</option>
+        <option value="20" {% if max==20 %}selected="selected"{% endif %}>20</option>
+      </select>
+      <table>
+        <tbody>
+        {% for match in matches %}
+        <tr class="champ-match-title">
+                  <td colspan="6">
+                      {% if match.status == 1 %}
+                        {{ match.data | date('d.m H:i') }}
+                      {% else %}
+                          {{ match.data | date('d.m.y') }}
+                      {% endif %}
+                  </td>
+        </tr>
+        <tr>
+          <td class="champTourTeam">
+            <a href="{{ path('team_show', {
+              'code': match.team.translit}) }}">{{ match.team.name }}</a>
+          </td>
+          <td class="champTourImage">
+            {% if match.team.image2 %}
+              <img src="{{ asset('images/clubs/') }}{{ match.team.image2 }}"
+                alt="{{ match.team.name }}" title="{{ match.team.name }}" />
+            {% endif %}
+          </td>
+          <td class="champTourScore">
+            {% if match.status == 1 %}
+              -
+            {% else %}
+              {{ match.goal1 }}
+            {% endif %}
+          </td>
+          <td class="champTourScore">
+          {% if match.status == 1 %}
+            -
+          {% else %}
+            {{ match.goal2 }}
+          {% endif %}
+          </td>
+          <td class="champTourImage">
+            {% if match.team2.image2 %}
+              <img src="{{ asset('images/clubs/') }}{{ match.team2.image2 }}"
+                alt="{{ match.team2.name }}" title="{{ match.team2.name }}" />
+            {% endif %}
+          </td>
+          <td class="champTourTeam">
+            <a href="{{ path('team_show', {
+            'code': match.team2.translit}) }}">{{ match.team2.name }}</a>
+          </td>
+        </tr>
+        <tr class="champ-match-bomb">
+          <td colspan="6" class="">{{ match.bomb }}</td>
+        </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div class="matches-page-block">
+      <p>Всего матчей: <strong>{{ totalMatches }}.</strong></p>
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'nhl/index.html.twig' %}
+
+{% block title %}
+    Удалить игрока
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    Вы действительно хотите удалить игрока: {{ entity.player.name }}?
+    <a href="{{ path('nhl_delete_player',
+      {'id': entity.id}) }}">
+       да</a>
+     <a href="{{ path('nhl_show',
+       {'season': entity.season.name, 'id': entity.team.translit}) }}">
+        нет</a>
+{% endblock %}

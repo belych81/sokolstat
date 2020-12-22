@@ -28,13 +28,13 @@ class NationCupType extends AbstractType
             ->add('data', null, ['data' => $_SESSION['date']])
             ->add('team', EntityType::class, [
               'class' => Team::class,
-              'query_builder' => function (TeamRepository $repository) use ($season, $country) {
+              'query_builder' => function (TeamRepository $repository) use ($country) {
               return $repository->queryTeamsForCup($country);
               }
             ])
             ->add('team2', EntityType::class, [
               'class' => Team::class,
-              'query_builder' => function (TeamRepository $repository) use ($season, $country) {
+              'query_builder' => function (TeamRepository $repository) use ($country) {
               return $repository->queryTeamsForCup($country);
               }
             ]);

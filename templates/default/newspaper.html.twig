@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+        {% block title %}
+            Еженедельник "Классический Футбол"
+        {% endblock %}
+    </title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/newspaper.css') }}" rel="stylesheet" />
+    {% endblock %}
+</head>
+<body>
+  <div class="container">
+    <div class="np-title">
+      <h1>Классический ФУТБОЛ</h1>
+      <span class="title-year">{{ today | date('y') }}</span>
+    </div>
+  <span>№ <strong>1</strong></span>
+  <span>{{ today | date('d.m') }}</span>
+  <div>
+  <h3>Российская Премьер-Лига</h3>
+    {% for tour in rfplTours %}
+    <h4>{{ tour }}-й тур</h4>
+      {% for match in rfplMatch %}
+        {% if match.tour == tour %}
+          <span>{{ match.team.name }}</span> - <span>{{ match.team2.name }}</span> -
+          {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+    {% for key, country in tours %}
+      <h3>{{ key }}</h3>
+
+        {% for k, arr in country %}
+          {% if k == 'tour' %}
+            <div class="np-champ-matches">
+              {% for numb, tour in arr %}
+                <h4>{{ numb }}-й тур</h4>
+                {% for match in tour %}
+                  <div>
+                    <span class="np-matches-team">&laquo;{{ match.team.name }}&raquo; -
+                    &laquo;{{ match.team2.name }}&raquo; -
+                    {{ match.goal1 }}:{{ match.goal2 }}</span>
+                    (<span>{{ match.bomb }}</span>).
+                  </div>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if k == 'table' %}
+            <div class="champ-table champs">
+              <table class="shipTable">
+                  <thead>
+                      <tr class="shipTableTitle">
+                          <th>&nbsp;</th>
+                          <th>&nbsp;</th>
+                          <th class="winsTable">И</th>
+                          <th class="winsTable">В</th>
+                          <th class="winsTable">Н</th>
+                          <th class="winsTable">П</th>
+                          <th class="goalsTable">M</th>
+                          <th class="winsTable">О</th>
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for entity in arr %}
+                      <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                          <td class="player-position">{{ loop.index }}.</td>
+                          <td class="tableLeft">&laquo;{{ entity.team.name }}&raquo;</td>
+                          <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                          <td>{{ entity.wins }}</td>
+                          <td>{{ entity.nich }}</td>
+                          <td>{{ entity.porazh }}</td>
+                          <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                          <td class="table-score">{{ entity.score }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+              </div>
+          {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+
+    </div>
+  </div>
+</body>
+</html>

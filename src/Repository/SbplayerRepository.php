@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sbplayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Sbplayer|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class SbplayerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sbplayer::class);
     }
@@ -46,18 +46,49 @@ class SbplayerRepository extends ServiceEntityRepository
     public function querySbPlayersBySeason($season)
     {
         return $query = $this->createQueryBuilder('sb')
-                ->select('sb', 'r')
-                ->join('sb.player', 'r')
+                ->select('sb', 'r', 'p')
+                ->join('sb.player', 'p')
+                ->join('p.rusplayers', 'r')
                 ->join('sb.season', 's')
                 ->where("s.name = :season")
-                    ->setParameter(
+                ->setParameter(
                     'season', $season
                     )
-                ->orderBy('sb.game', 'DESC');
+                ->orderBy('sb.game DESC, sb.goal DESC, p.name');
     }
 
     public function getSbPlayersBySeason($season)
-    {                 
+    {
         return $this->querySbPlayersBySeason($season)->getQuery()->getResult();
+    }
+
+    public function updateSb($id, $change)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game+1';
+                break;
+            case 'minusGame' :
+                $changeParam = 'g.game';
+                $changeParam2 = 'g.game-1';
+                break;
+            case 'plusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal+1';
+                break;
+            case 'minusGoal' :
+                $changeParam = 'g.goal';
+                $changeParam2 = 'g.goal-1';
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Sbplayer', 'g')
+                ->set($changeParam, $changeParam2)
+                ->where('g.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
     }
 }

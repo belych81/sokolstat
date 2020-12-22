@@ -17,14 +17,35 @@ class ShipplayerType extends AbstractType
   {
         $season = $options['season'];
         $team = $options['team'];
+        $flag = $options['flag'];
+        $club = $options['club'];
+        $country = $options['country'];
 
         $builder
             ->add('player', EntityType::class, [
             'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) use ($season, $team) {
-              return $repository->queryLchPlayers($season, $team);
+            'query_builder' => function (PlayerRepository $repository) use ($season,
+             $team, $flag, $club, $country) {
+               switch($flag){
+                 case 'team':
+                  return $repository->queryTeamPlayers($season, $team);
+                  break;
+                case 'country':
+                   return $repository->queryCountryPlayers($season, $team, $club->getCountry()->getName());
+                   break;
+                case 'top5':
+                    return $repository->queryTop5Players($season, $country);
+                    break;
+                case 'lch':
+                    return $repository->queryLChampPlayers($season);
+                    break;
+                case 'all':
+                   return $repository->queryLchPlayers($season, $team, $club->getCountry()->getName());
+                   break;
+               }
             }
             ])
+            ->add('game', null, ['data' => 0])
             ->add('goal', null, ['data' => 0])
             ->add('cup', null, ['data' => 0])
             ->add('supercup', null, ['data' => 0])
@@ -33,6 +54,6 @@ class ShipplayerType extends AbstractType
 
   public function configureOptions(OptionsResolver $resolver)
   {
-    $resolver->setDefined(['team', 'season']);
+    $resolver->setDefined(['team', 'season', 'flag', 'club', 'country']);
   }
 }

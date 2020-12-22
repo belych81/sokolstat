@@ -4,7 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'ru'
 
 services:
     # default configuration for services in *this* file
@@ -15,145 +14,23 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    admin.player:
-        class: App\Admin\PlayerAdmin
-        arguments: [~, App\Entity\Player, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Player }
 
-    admin.ecsostav:
-        class: App\Admin\EcsostavAdmin
-        arguments: [~, App\Entity\Ecsostav, ~]
+    App\EntityListener\NewsEntityListener:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Ecsostav }
-
-    admin.eurocup:
-        class: App\Admin\EurocupAdmin
-        arguments: [~, App\Entity\Eurocup, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Eurocup }
-
-    admin.shipplayer:
-        class: App\Admin\ShipplayerAdmin
-        arguments: [~, App\Entity\Shipplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Shipplayer }
-
-    admin.rfplmatch:
-        class: App\Admin\RfplmatchAdmin
-        arguments: [~, App\Entity\Rfplmatch, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Rfplmatch }
-
-    admin.country:
-        class: App\Admin\CountryAdmin
-        arguments: [~, App\Entity\Country, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Country }
-
-    admin.shiptable:
-        class: App\Admin\ShiptableAdmin
-        arguments: [~, App\Entity\Shiptable, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Shiptable }
-
-    admin.seasons:
-        class: App\Admin\SeasonsAdmin
-        arguments: [~, App\Entity\Seasons, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Seasons }
-
-    admin.rusplayer:
-        class: App\Admin\RusplayerAdmin
-        arguments: [~, App\Entity\Rusplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Rusplayer }
-
-    admin.sbplayer:
-        class: App\Admin\SbplayerAdmin
-        arguments: [~, App\Entity\Sbplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Sbplayer }
-
-    admin.mundial:
-        class: App\Admin\MundialAdmin
-        arguments: [~, App\Entity\Mundial, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Mundial }
-
-    admin.playersteam:
-        class: App\Admin\PlayersteamAdmin
-        arguments: [~, App\Entity\Playersteam, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Playersteam }
-
-    admin.ectable:
-        class: App\Admin\EctableAdmin
-        arguments: [~, App\Entity\Ectable, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Ectable }
-
-    admin.gamers:
-        class: App\Admin\GamersAdmin
-        arguments: [~, App\Entity\Gamers, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Gamers }
-
-    admin.nationcup:
-        class: App\Admin\NationCupAdmin
-        arguments: [~, App\Entity\NationCup, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: NationCup }
-
-    admin.nationsupercup:
-        class: App\Admin\NationSupercupAdmin
-        arguments: [~, App\Entity\NationSupercup, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: NationSupercup }
-
-    admin.russupercup:
-        class: App\Admin\RusSupercupAdmin
-        arguments: [~, App\Entity\RusSupercup, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: RusSupercup }
-
-    admin.cupplayer:
-        class: App\Admin\CupplayerAdmin
-        arguments: [~, App\Entity\Cupplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Cupplayer }
-
-    admin.lchplayer:
-        class: App\Admin\LchplayerAdmin
-        arguments: [~, App\Entity\Lchplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Lchplayer }
-
-    admin.fnlplayer:
-        class: App\Admin\FnlplayerAdmin
-        arguments: [~, App\Entity\Fnlplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Fnlplayer }
-
-    admin.ecplayer:
-        class: App\Admin\EcplayerAdmin
-        arguments: [~, App\Entity\Ecplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Ecplayer }
-
-    admin.supercupplayer:
-        class: App\Admin\SupercupplayerAdmin
-        arguments: [~, App\Entity\Supercupplayer, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Supercupplayer }
+            - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\News'}
+            - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\News'}

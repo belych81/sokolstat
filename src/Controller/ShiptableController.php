@@ -18,16 +18,23 @@ use App\Entity\RusSupercup;
 use App\Entity\Seasons;
 use App\Entity\Country;
 use App\Form\RfplmatchType;
+use App\Form\ShiptableType;
 use App\Form\Rfplmatch2Type;
 use App\Form\TourMatchType;
 use App\Form\TourType;
-use Symfony\Component\HttpFoundation\Request;
+use App\Form\TourEditType;
+use App\Form\RfplmatchEditType;
+use App\Service\Menu;
+use App\Service\Props;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShiptableController extends AbstractController
 {
-    public function index($country, $season, $tour)
+    public function index(Menu $serviceMenu, $country, $season, $tour)
     {
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
@@ -37,7 +44,6 @@ class ShiptableController extends AbstractController
                 ->getSeasons($strana);
         $lastSeason = $this->getDoctrine()->getRepository(Tour::class)
                 ->getLastSeason($strana);
-
         if ($country == 'russia') {
 
             $arMaxTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
@@ -56,6 +62,7 @@ class ShiptableController extends AbstractController
             }
            $numberTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
                 ->getTours($season);
+
         } else {
             $maxTour = $this->getDoctrine()->getRepository(Tour::class)
                              ->getMaxTour($strana, $season);
@@ -90,38 +97,112 @@ class ShiptableController extends AbstractController
                     ->getBomb5($season, $strana);
 
         }
+        $bombSum = [];
+        foreach ($bombs as $val) {
+          $name = $val->getPlayer()->getName();
+          $goal = $val->getGoal();
+          $team = $val->getTeam()->getName();
+          if(key_exists($name, $bombSum)){
+            $bombSum[$name]['goal'] += $goal;
+            $bombSum[$name]['team'] .= " / ".$team;
+          } else {
+            $bombSum[$name] = ['player' => $val, 'goal' => $goal, 'team' => $team];
+          }
+        }
+        $sortGoal = function($f1,$f2)
+        {
+           if($f1['goal'] < $f2['goal']){
+               return 1;
+           }
+           elseif($f1['goal'] > $f2['goal']) {
+               return -1;
+           }
+           else {
+               return 0;
+           }
+        };
+        uasort($bombSum, $sortGoal);
+        $bombSum = array_slice($bombSum, 0, 20);
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/index.html.twig', [
             'entities' => $entities,
             'seasons' => $seasons,
-            'bombs' => $bombs,
+            'bombs' => $bombSum,
             'matches' => $matches,
             'tours' => $numberTour,
             'rusCountry' => $rusCountry,
             'lastSeason' => $lastSeason,
-            'maxTour' => $maxTour
+            'maxTour' => $maxTour,
+            'menu' => $menu,
+            'strana' => $strana
         ]);
     }
 
-    public function show($id, $season, $country)
+    public function stat(Menu $serviceMenu, Props $props, $country)
     {
+      $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers(20, 'game');
+      $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr(20, 'game', $props->getLastSeason());
+      $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers(20, 'goal');
+      $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr(20, 'goal', $props->getLastSeason());
+      $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepers(20);
+      $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepersCurr(20, $props->getLastSeason());
+      $menu = $serviceMenu->generate($country);
+      $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
+              ->translateCountry($country)['rusCountry'];
+
+      return $this->render('stat/index.html.twig', [
+            'menu' => $menu,
+            'rusCountry' => $rusCountry,
+            'topMatchesRus' => $topMatchesRus,
+            'topMatchesRusCurr' => $topMatchesRusCurr,
+            'topGoalsRus' => $topGoalsRus,
+            'topGoalsRusCurr' => $topGoalsRusCurr,
+            'topGoalkeepers' => $topGoalkeepers,
+            'topGoalkeepersCurr' => $topGoalkeepersCurr
+      ]);
+    }
+
+    public function show(SessionInterface $session, Menu $serviceMenu, $id, $season, $country)
+    {
+        $club = $this->getDoctrine()->getRepository(Team::class)
+          ->findOneByTranslit($id);
+        $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
+                ->findByTeamAndSeason($club->getId(), $season);
+        if(empty($isTeam)){
+          return $this->redirect($this->generateUrl('championships', [
+              'season' => $season, 'country' => $country]));
+        }
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getSeasons($strana);
+        $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
+                ->getTable($strana, $season);
         if ($country == 'russia') {
             $players = $this->getDoctrine()->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
 
             for ($i=0, $cnt=count($players); $i < $cnt; $i++) {
                 $name[$i] = $players[$i]->getPlayer()->getName();
-                $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'game')[0]->getGame();
-                $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'goal')[0]->getGoal();
 
-                $players[$i]->setGameTeam($ptgame[$i]);
-                $players[$i]->setGoalTeam($ptgoal[$i]);
+                $arPtGame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                                 ->getStat($name[$i], $id, 'game');
+                if(isset($arPtGame[$i][0]))
+                {
+                  $ptgame[$i] = $arPtGame[$i][0]->getGame();
+                  $arPtGoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                                   ->getStat($name[$i], $id, 'goal');
+                  $ptgoal[$i] = $arPtGoal[$i][0]->getGoal();
+                  $players[$i]->setGameTeam($ptgame[$i]);
+                  $players[$i]->setGoalTeam($ptgoal[$i]);
+                }
             }
         } elseif ($country == 'fnl') {
             $players = $this->getDoctrine()->getRepository(Fnlplayer::class)
@@ -130,41 +211,36 @@ class ShiptableController extends AbstractController
         } else {
             $players = $this->getDoctrine()->getRepository(Shipplayer::class)
                           ->getTeamStat($season, $id);
-
         }
-
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
-        $club = $this->getDoctrine()->getRepository(Team::class)->findByTranslit($id);
 
+        $menu = $serviceMenu->generate($country, $season);
+
+        $lastPlayer = $session->get('lastPlayer');
+
+        $arParams = [
+         'players' => $players,
+         'seasons' => $seasons,
+         'teams' => $teams,
+         'club' => $club,
+         'lastPlayer' => $lastPlayer,
+         'shiptable' => $shiptable,
+         'menu' => $menu
+       ];
 
         if ($country == 'russia') {
-           return $this->render('shiptable/showRus.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club,
-            ]);
+           return $this->render('shiptable/showRus.html.twig', $arParams);
         } elseif ($country == 'fnl') {
-           return $this->render('shiptable/showFnl.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club,
-            ]);
+           return $this->render('shiptable/showFnl.html.twig', $arParams);
         } else {
-        return $this->render('shiptable/show.html.twig', [
-            'players'      => $players,
-            'seasons' => $seasons,
-            'teams' => $teams,
-            'club' => $club
-            ]);
+        return $this->render('shiptable/show.html.twig', $arParams);
         }
     }
 
-    public function newMatch($country, $season)
+    public function newMatch(Menu $serviceMenu, $country, $season)
     {
         if($country == 'russia') {
           $entity = new Rfplmatch();
@@ -181,14 +257,16 @@ class ShiptableController extends AbstractController
               'season' => $season
               ]);
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function createMatch(Request $request, $country, $season)
+    public function createMatch(Request $request, Menu $serviceMenu, $country, $season)
     {
         switch ($country) {
             case 'russia' : $country2 = 'Россия'; break;
@@ -229,13 +307,67 @@ class ShiptableController extends AbstractController
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
+            'entity' => $entity,
+            'menu' => $menu,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function newSeason($country)
+    {
+        $entity = new Shiptable();
+        $form   = $this->createForm(ShiptableType::class, $entity, [
+            'country' => $country
+            ]);
+
+        return $this->render('shiptable/newSeason.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
+    public function createSeason(SessionInterface $session, Request $request,
+      $country)
+    {
+        switch ($country) {
+            case 'russia' : $country2 = 'Россия'; break;
+            case 'england' : $country2 = 'Англия';  break;
+            case 'spain' : $country2 = 'Испания'; break;
+            case 'italy' : $country2 = 'Италия'; break;
+            case 'germany' : $country2 = 'Германия'; break;
+            case 'france' : $country2 = 'Франция'; break;
+            case 'fnl' : $country2 = 'ФНЛ'; break;
+        }
+
+            $ent = ShiptableType::class;
+            $entity  = new Shiptable();
+            $strana = $this->getDoctrine()->getRepository(Country::class)
+              ->findOneByName($country2);
+            $entity->setCountry($strana);
+
+
+        $form = $this->createForm($ent, $entity, [
+            'country' => $country
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $session->set('season', $entity->getSeason()->getName());
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('shiptable/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
 
     public function newRus($id)
     {
@@ -266,6 +398,8 @@ class ShiptableController extends AbstractController
             $goal2=$entity->getGoal2();
             $this->getDoctrine()->getRepository(Shiptable::class)
                ->updateShiptable($team, $team2, $goal1, $goal2, $seas);
+            $this->getDoctrine()->getRepository(Team::class)
+              ->updateSvod($team, $team2, $goal1, $goal2);
             $season = $entity->getSeason()->getName();
             return $this->redirect($this->generateUrl('championships', [
                 'season' => $season, 'country' => 'russia']));
@@ -327,6 +461,124 @@ class ShiptableController extends AbstractController
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    public function edit($id, $country)
+    {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $form   = $this->createForm(RfplmatchEditType::class, $entity);
+      } else {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form   = $this->createForm(TourEditType::class, $entity);
+      }
+
+        return $this->render('shiptable/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function update(Request $request, $id, $country)
+    {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $form   = $this->createForm(RfplmatchEditType::class, $entity);
+      } else {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $form   = $this->createForm(TourEditType::class, $entity);
+      }
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $season=$entity->getSeason()->getName();
+
+            return $this->redirect($this->generateUrl('championships', [
+                'season' => $season, 'country' => $country]));
+        }
+
+        return $this->render('shiptable/edit.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function confirm($id, $country)
+    {
+      if($country == 'russia') {
+        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+      } else {
+        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+      }
+
+        return $this->render('shiptable/delete.html.twig', array(
+            'entity' => $entity
+        ));
+    }
+
+    public function delete($id, $country)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($country == 'russia') {
+          $entity = $em->getRepository(Rfplmatch::class)->find($id);
+        } else {
+          $entity = $em->getRepository(Tour::class)->find($id);
+        }
+        $season = $entity->getSeason()->getName();
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('championships', [
+            'season' => $season, 'country' => $country]));
+    }
+
+    public function svod(Menu $serviceMenu, $country)
+    {
+        $entity = $this->getDoctrine()->getRepository(Team::class)
+          ->getSvod($country);
+        switch ($country) {
+            case 'russia' : $country2 = 'России'; break;
+            case 'england' : $country2 = 'Англии';  break;
+            case 'spain' : $country2 = 'Испании'; break;
+            case 'italy' : $country2 = 'Италии'; break;
+            case 'germany' : $country2 = 'Германии'; break;
+            case 'france' : $country2 = 'Франции'; break;
+            case 'fnl' : $country2 = 'ФНЛ'; break;
+        }
+        $menu = $serviceMenu->generate($country);
+
+        return $this->render('shiptable/svod.html.twig', array(
+            'entity' => $entity,
+            'country' => $country2
+        ));
+    }
+
+    public function shipplayersUpdate(Request $request)
+    {
+      $query = $request->request->get('query');
+      $champ = $request->request->get('champ');
+      $em = $this->getDoctrine()->getManager();
+      $param = [];
+      foreach ($query as $val) {
+        if($champ == 'top5'){
+          $em->getRepository(Shipplayer::class)->updateShipplayers($val);
+          $em->getRepository(Player::class)->updateShipplayerSumGame($val);
+          $player = $this->getDoctrine()->getRepository(Shipplayer::class)
+            ->find($val[0]);
+        } else {
+          $em->getRepository(Fnlplayer::class)->updateFnlplayers($val);
+          $player = $this->getDoctrine()->getRepository(Fnlplayer::class)
+            ->find($val[0]);
+          $em->getRepository(Rusplayer::class)->updateFnlSumGame($val);
+        }
+        $param[] = [$val[0], $player->getGame()];
+      }
+      $response = json_encode($param);
+
+      return new JsonResponse($response);
     }
 
 }

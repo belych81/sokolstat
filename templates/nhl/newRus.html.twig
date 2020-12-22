@@ -1,0 +1,51 @@
+{% extends 'nhl/index.html.twig' %}
+
+{% block title %}
+    Добавить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+    <p>Тур: <b>{{ entity.data | date('d.m.Y') }}</b></p>
+    <p>Матч: <b>{{entity.team}} - {{entity.team2}}</b></p>
+    <form action="{{ path('nhl_createrus', {'id': app.request.get('id')}) }}"
+      method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.goal1) }}</th>
+                    <td>
+                        {{ form_errors(form.goal1) }}
+                        {{ form_widget(form.goal1) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goal2) }}</th>
+                    <td>
+                        {{ form_errors(form.goal2) }}
+                        {{ form_widget(form.goal2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.bomb) }}</th>
+                    <td>
+                        {{ form_errors(form.bomb) }}
+                        {{ form_widget(form.bomb) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+
+
+{% endblock %}

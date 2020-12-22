@@ -57,11 +57,13 @@ final class EurocupAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('season.name')
+            ->add('data')
             ->add('team.name')
             ->add('team2.name')
             ->add('turnir.name')
             ->add('stadia.name')
             ->add('score')
+            ->add('bomb')
         ;
     }
 }

@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @method Player|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,35 +16,22 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PlayerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Player::class);
     }
-
+//DAYOFMONTH(born) = DAYOFMONTH(NOW()) and MONTH(born) = MONTH(NOW())
     public function getBirthdayPlayer($data)
     {
-        return $this->createQueryBuilder('p')
-            ->select('p.name, p.id, p.translit')
-            ->where("p.born LIKE '%$data%'")
-            ->orderBy('p.born', 'ASC')
-            ->setMaxResults(30)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function getAge($name)
-    {
         $qb = $this->createQueryBuilder('p')
-                ->select('p.born')
-                ->where("p.name = :name")
-                ->setParameter('name', $name);
+              ->select('p.id, p.name, p.translit, TIMESTAMPDIFF(YEAR, p.born, CURRENT_TIMESTAMP()) age')
+              ->where('DAY(p.born) = DAY(CURRENT_TIMESTAMP())')
+              ->andWhere('MONTH(p.born) = MONTH(CURRENT_TIMESTAMP())')
+              ->orderBy('p.born', 'ASC')
+              ->setMaxResults(30);
 
         $query = $qb->getQuery();
-        $age = $query->getScalarResult();
-        $year = \substr($age[0]['born'], 0, 4);
-
-        return \date('Y') - $year;
+        return $query->getResult();
     }
 
     public function getLastPlayer() {
@@ -55,6 +44,39 @@ class PlayerRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    public function getMaxId() {
+
+        $query = $this->createQueryBuilder('p')
+                ->select('MAX(p.id)')
+                ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getLastOnePlayer() {
+
+        $query = $this->createQueryBuilder('p')
+                ->orderBy('p.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery();
+
+        return $query->getSingleResult();
+    }
+
+    public function getLastTeamPlayer($team) {
+
+        $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.playersteams', 'pt')
+                ->join('pt.team', 't')
+                ->where("t.translit = :team")
+                ->setParameter('team', $team)
+                ->orderBy('pt.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery();
+
+        return $query->getSingleResult();
     }
 
     public function queryRusTeamPlayers($season, $team)
@@ -92,6 +114,22 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
+    public function querySbPlayers($season)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->join('p.country', 'c')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->andWhere("c.name = 'Россия'")
+                ->orderBy('p.name');
+    }
+
     public function queryPlayersNoRusplayer()
     {
         return $query = $this->createQueryBuilder('p')
@@ -108,23 +146,86 @@ class PlayerRepository extends ServiceEntityRepository
                 ->groupBy('p.name');
     }
 
-    public function updatePlayerGoal($id, $change, $goal=false, $cup=false,
-      $supercup=false, $eurocup=false)
+    public function updatePlayerGame($id, $change, $game = 0)
+    {
+        switch ($change) {
+            case 'plusGame' :
+                $changeParam = "s.game+1";
+                 break;
+            case 'minusGame' :
+                $changeParam = "s.game-1";
+                break;
+            default :
+                $changeParam = "s.game+$game";
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.game', $changeParam)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayerSumGame($arr)
+    {
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.game', 's.game+'.$arr[2])
+                ->where('s.id = ?1')
+                ->setParameter(1, $arr[1])
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updatePlayerTotalGoal($id, $change, $goal = 0)
+    {
+        switch ($change) {
+            case 'plusGoal' :
+                $changeParam = "s.goal+1";
+                $changeParam1 = "s.sum+1";
+                 break;
+            case 'minusGoal' :
+                $changeParam = "s.goal-1";
+                $changeParam1 = "s.sum-1";
+                break;
+            default :
+                $changeParam = "s.goal+$goal";
+                $changeParam1 = "s.sum+$goal";
+                break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Player', 's')
+                ->set('s.goal', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updatePlayerGoal($id, $change, $goal=0, $cup=0,
+      $supercup=0, $eurocup=0, $game=0)
     {
         switch ($change) {
             case 'plus' :
-                $changeParam = 's.goal+1';
-                $changeParam1 = 's.sum+1';
-                $changeParam2 = "s.cup";
-                $changeParam3 = "s.supercup";
-                $changeParam4 = "s.eurocup";
-                break;
+                $changeParam = "s.goal+$goal";
+                $changeParam1 = "s.sum+1";
+                $changeParam2 = "s.cup+$cup";
+                $changeParam3 = "s.supercup+$supercup";
+                $changeParam4 = "s.eurocup+$eurocup";
+                $changeParam5 = "s.game";
+                 break;
             case 'minus' :
-                $changeParam = 's.goal-1';
-                $changeParam1 = 's.sum-1';
-                $changeParam2 = "s.cup";
-                $changeParam3 = "s.supercup";
-                $changeParam4 = "s.eurocup";
+                $changeParam = "s.goal-$goal";
+                $changeParam1 = "s.sum-1";
+                $changeParam2 = "s.cup-$cup";
+                $changeParam3 = "s.supercup-$supercup";
+                $changeParam4 = "s.eurocup-$eurocup";
                 break;
             default :
                 $changeParam = "s.goal+$goal";
@@ -155,20 +256,101 @@ class PlayerRepository extends ServiceEntityRepository
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
         return $query = $this->createQueryBuilder('p')
-                ->leftJoin('p.shipplayers', 's')
-                ->leftJoin('s.team', 'st')
-                ->leftJoin('s.season', 'ss')
-                ->leftJoin('p.gamers', 'g')
-                ->leftJoin('g.team', 'gt')
-                ->leftJoin('p.lchplayers', 'l')
-                //->leftJoin('l.team', 'lt')
-                ->leftJoin('l.season', 'ls')
+                //->leftJoin('p.shipplayers', 's')
+                //->leftJoin('p.gamers', 'g')
+                //->leftJoin('p.lchplayers', 'l')
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->setParameter('str_start', $str_start)
                 ->setParameter('str_end', $str_end)
-                ->andWhere("gt.translit = :team OR ss.id > 49 OR ls.id > 49 OR st.translit = :team OR p.id > 9500")
+                //->orderBy('p.name')
+                ;
+    }
+
+    public function queryTeamPlayers($season, $team)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.shipplayers', 's')
+                ->join('s.team', 'st')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->andWhere('st.translit = :team')
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
                 ->setParameter('team', $team)
                 ->orderBy('p.name');
+    }
+
+    public function queryTop5Players($season, $country)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->join('p.shipplayers', 's')
+                ->join('s.team', 't')
+                ->join('t.country', 'c')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->andWhere("c.name != :country")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->setParameter('country', $country)
+                ->orderBy('p.name');
+    }
+
+    public function queryLChampPlayers($season)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->join('p.lchplayers', 's')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->orderBy('p.name');
+    }
+
+    public function queryCountryPlayers($season, $team, $country)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.shipplayers', 's')
+                ->join('s.team', 'st')
+                ->join('st.country', 'c')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->andWhere('c.name = :country')
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->setParameter('country', $country)
+                ->orderBy('p.name');
+    }
+
+    public function queryMundPlayers($year, $country)
+    {
+        $start = $year-39;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+          ->join('p.country', 'c')
+          ->where("p.born BETWEEN :str_start AND :str_end")
+          ->andWhere('c.translit = :country')
+          ->setParameter('str_start', $str_start)
+          ->setParameter('str_end', $str_end)
+          ->setParameter('country', $country)
+          ->orderBy('p.name');
     }
 
     public function queryUpdatePlayers($season, $team)
@@ -184,22 +366,33 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
-    public function updatePlayerTurnirs($player_id, $cup, $eurocup, $supercup)
+    public function queryUpdateFnlPlayers($season, $team)
     {
-        $sum = $cup + $eurocup + $supercup;
+        return $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.fnlplayers', 'f')
+                ->join('f.season', 's')
+                ->join('f.team', 't')
+                ->where("s.name = :season")
+                ->andWhere("t.translit = :team")
+                ->setParameter('season', $season)
+                ->setParameter('team', $team)
+                ->orderBy('p.name');
+    }
 
+    public function updatePlayerTurnirs($player_id, $game, $goal, $cup, $eurocup,
+      $supercup)
+    {
+        $sum = $goal + $cup + $eurocup + $supercup;
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
-            ->set('s.cup', 's.cup+?2')
-            ->set('s.eurocup', 's.eurocup+?3')
-            ->set('s.supercup', 's.supercup+?4')
-            ->set('s.sum', 's.sum+?7')
-            ->where('s.id = ?1')
-            ->setParameter(1, $player_id)
-            ->setParameter(2, $cup)
-            ->setParameter(3, $eurocup)
-            ->setParameter(4, $supercup)
-            ->setParameter(7, $sum)
+            ->set('s.game', 's.game+:game')
+            ->set('s.goal', 's.goal+:goal')
+            ->set('s.cup', 's.cup+:cup')
+            ->set('s.eurocup', 's.eurocup+:eurocup')
+            ->set('s.supercup', 's.supercup+:supercup')
+            ->set('s.sum', 's.sum+:sum')
+            ->where('s.id = :player')
+            ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
             ->getQuery();
 
         $qb->execute();
@@ -209,8 +402,8 @@ class PlayerRepository extends ServiceEntityRepository
     {
         switch ($change)
         {
-            case 'gamePlus' : $changeParam = 's.lch_game+1'; break;
-            case 'gameMinus' : $changeParam = 's.lch_game-1'; break;
+            case 'plusGame' : $changeParam = 's.lch_game+1'; break;
+            case 'minusGame' : $changeParam = 's.lch_game-1'; break;
         }
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
@@ -226,8 +419,8 @@ class PlayerRepository extends ServiceEntityRepository
     {
         switch ($change)
         {
-            case 'goalPlus' : $changeParam = 's.lch_goal+1'; break;
-            case 'goalMinus' : $changeParam = 's.lch_goal-1'; break;
+            case 'plusGoal' : $changeParam = 's.lch_goal+1'; break;
+            case 'minusGoal' : $changeParam = 's.lch_goal-1'; break;
         }
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 's')
@@ -239,17 +432,34 @@ class PlayerRepository extends ServiceEntityRepository
         $qb->execute();
     }
 
-    public function updatePlayerLch($player, $goal)
+    public function updatePlayerLch($player, $game, $goal)
     {
         $qb = $this->_em->createQueryBuilder()
             ->update('App\Entity\Player', 'r')
-            ->set('r.lch_game', 'r.lch_game+1')
-            ->set('r.lch_goal', 'r.lch_goal+?1')
-            ->where('r.id = ?2')
-            ->setParameter(1, $goal)
-            ->setParameter(2, $player)
+            ->set('r.lch_game', 'r.lch_game+?1')
+            ->set('r.lch_goal', 'r.lch_goal+?2')
+            ->where('r.id = ?3')
+            ->setParameter(1, $game)
+            ->setParameter(2, $goal)
+            ->setParameter(3, $player)
             ->getQuery();
 
         $qb->execute();
+    }
+
+    public function searchPlayers($arQuery)
+    {
+        $q = $this->createQueryBuilder('p')
+            ->where("p.born LIKE '%$arQuery[0]%'")
+            ->orWhere("p.name LIKE '%$arQuery[0]%'")
+            ->setMaxResults(10);
+
+        foreach($arQuery as $key => $val){
+            if($key == 0) continue;
+            $q->andWhere("p.name LIKE '%$val%'");
+        }
+        $qb = $q->getQuery();
+
+        return $qb->getResult();
     }
 }

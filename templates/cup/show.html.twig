@@ -1,26 +1,54 @@
-{% extends 'cup/index.html.twig' %}
-
-{% block title %}
-   {{ club.0.name }} - {{ app.request.get('season') }}
-{% endblock %}
-
-{% block seasons %}
-{% endblock %}
-
-{% block zagolovok %}
-{% endblock %}
+{% extends 'shiptable/showRus.html.twig' %}
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="teamStat">
 
+{% block seasons %}
+  {% for season in seasons %}
+      {% if app.request.get('season') == season.season.name %}
+          <b>{{ season.season.name }}</b>
+      {% else %}
+        <a href="{{ path('cup_show', {
+          'country': app.request.get('country'), 'season': season.season.name,
+          'id': app.request.get('id')}) }}" class="spiski">
+          {{ season.season.name }}</a>
+      {% endif %}
+  {% endfor %}
+{% endblock %}
 
-                <p><b>{{ club.0.name }}</b></p>
+<div class="teams-list">{{ app.request.get('team') }}
+  {% for team in teams %}
+      <a href="{{ path('cup_show', {'season': app.request.get('season'),
+        'id': team.translit}) }}"
+        class="">
+        {% if team.image2 %}
+          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.image2 }}"
+            alt="{{ team.name }}" title="{{ team.name }}" />
+        {% else %}
+              {{ team.name }}
+        {% endif %}
+      </a>
+  {% endfor %}
+</div>
+              <div class="team-show-image">
+                <div>
+                  <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
+                  {% if club.image %}
+                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ club.image }}"
+                    alt="{{ club.name }}" title="{{ club.name }}" />
+                  {% endif %}
+                </div>
+              </div>
+
+                {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
+                  <div>{{ lastPlayer }}</div>
+                {% endif %}
+
 {% block playersTeam %}
+<div class="champ-teams-list">
     <table>
         <thead>
             <tr class="shipTableTitle">
+                <th rowspan="2">&nbsp;</th>
                 <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
                 <th colspan="2">{{ app.request.get('season') }}</th>
                 <th colspan="2">Всего за клуб</th>
@@ -39,34 +67,58 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">
+                  {{ loop.index }}
+                </td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
                         {{ player.player.name }}</a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                      <a href="{{ path('shipplayer_confirm_delete',
+                        {'id': player.id, 'type' : 'Cupplayer', 'country' : 'russia'}) }}">
+                         x</a>
+                    {% endif %}
                </td>
                 <td class="tableGoal">
-				{% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editCup',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
-                    {% endif %}
-                        {{ player.game }}</a>
-					{% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editCup',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
-                    {% endif %}
-				</td>
+				          {% if is_granted("ROLE_ADMIN") %}
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGame"
+                      data-path="playeradmin_editCup"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                  {% endif %}
+                  <span data-id="{{ player.id }}" data-param="game">
+                    {{ player.game }}
+                  </span>
+					        {% if is_granted("ROLE_ADMIN") %}
+                    <span class="changeGameGoalPlayer"
+                      data-change="plusGame"
+                      data-path="playeradmin_editCup"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">+</span>
+                  {% endif %}
+				        </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editCup',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                      <span class="changeGameGoalPlayer"
+                        data-change="minusGoal"
+                        data-path="playeradmin_editCup"
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">-</span>
                     {% endif %}
-                    {{ player.goal }}
-                {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('playeradmin_editCup',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                    <span data-id="{{ player.id }}" data-param="goal">
+                      {{ player.goal }}
+                    </span>
+                    {% if is_granted("ROLE_ADMIN") %}
+                      <span class="changeGameGoalPlayer"
+                        data-change="plusGoal"
+                        data-path="playeradmin_editCup"
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">+</span>
                     {% endif %}
                 </td>
                 <td class="tableGoal">{{ player.gameTeam }}</td>
@@ -79,23 +131,22 @@
     </table>
 	{% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newCup', {'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Добавить игрока</a>
+            Добавить игрока</a> |
+        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'cup_show',
+            'country': 'cup', 'team': app.request.get('id'), 'isTeam': true}) }}">
+                Добавить последнего игрока команды</a> |
+        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'),
+        'team': app.request.get('id'), 'turnir':'cup'}) }}">
+            Добавить игрока в команду</a> |
+        <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Добавить нового игрока</a> |
+        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'cup_show',
+            'country': 'cup', 'team': app.request.get('id')}) }}">
+                Добавить последнего игрока</a> |
+        <a href="{{ path('player_newPlayer', {'country': 'russia', 'route': 'cup_show',
+        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+            Создать игрока</a>
 	{% endif %}
+  </div>
 {% endblock %}
-</td>
-               <td class="scLink">
-
-    {% for team in teams %}
-      <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
-    {% endfor %}
-
-    {% for team in teams2 %}
-      <p><a href="{{ path('cup_show', {'season': app.request.get('season'),
-       'id': team.id}) }}" class="spiski">{{ team.name }}</a></p>
-    {% endfor %}
-
-                </td>
-            </tr>
-        </table>
     {% endblock %}

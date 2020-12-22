@@ -1,0 +1,191 @@
+ {% extends 'base.html.twig' %}
+
+{% block title %}
+    Обновить игрока
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    <form action="{{ path('nhl_player_update', {'id': app.request.get('id')}) }}"
+      method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.name) }}</th>
+                    <td>
+                        {{ form_errors(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.amplua) }}</th>
+                    <td>
+                        {{ form_errors(form.amplua) }}
+                        {{ form_widget(form.amplua) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.country) }}</th>
+                    <td>
+                        {{ form_errors(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.translit) }}</th>
+                    <td>
+                        {{ form_errors(form.translit) }}
+                        {{ form_widget(form.translit) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.born) }}</th>
+                    <td>
+                        {{ form_errors(form.born) }}
+                        {{ form_widget(form.born) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.gameReg) }}</th>
+                    <td>
+                        {{ form_errors(form.gameReg) }}
+                        {{ form_widget(form.gameReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goalReg) }}</th>
+                    <td>
+                        {{ form_errors(form.goalReg) }}
+                        {{ form_widget(form.goalReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.assistReg) }}</th>
+                    <td>
+                        {{ form_errors(form.assistReg) }}
+                        {{ form_widget(form.assistReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.scoreReg) }}</th>
+                    <td>
+                        {{ form_errors(form.scoreReg) }}
+                        {{ form_widget(form.scoreReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.missedReg) }}</th>
+                    <td>
+                        {{ form_errors(form.missedReg) }}
+                        {{ form_widget(form.missedReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.zeroReg) }}</th>
+                    <td>
+                        {{ form_errors(form.zeroReg) }}
+                        {{ form_widget(form.zeroReg) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.gamePlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.gamePlayOff) }}
+                        {{ form_widget(form.gamePlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goalPlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.goalPlayOff) }}
+                        {{ form_widget(form.goalPlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.assistPlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.assistPlayOff) }}
+                        {{ form_widget(form.assistPlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.scorePlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.scorePlayOff) }}
+                        {{ form_widget(form.scorePlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.missedPlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.missedPlayOff) }}
+                        {{ form_widget(form.missedPlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.zeroPlayOff) }}</th>
+                    <td>
+                        {{ form_errors(form.zeroPlayOff) }}
+                        {{ form_widget(form.zeroPlayOff) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.gameSum) }}</th>
+                    <td>
+                        {{ form_errors(form.gameSum) }}
+                        {{ form_widget(form.gameSum) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goalSum) }}</th>
+                    <td>
+                        {{ form_errors(form.goalSum) }}
+                        {{ form_widget(form.goalSum) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.assistSum) }}</th>
+                    <td>
+                        {{ form_errors(form.assistSum) }}
+                        {{ form_widget(form.assistSum) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.scoreSum) }}</th>
+                    <td>
+                        {{ form_errors(form.scoreSum) }}
+                        {{ form_widget(form.scoreSum) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.missedSum) }}</th>
+                    <td>
+                        {{ form_errors(form.missedSum) }}
+                        {{ form_widget(form.missedSum) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.zeroSum) }}</th>
+                    <td>
+                        {{ form_errors(form.zeroSum) }}
+                        {{ form_widget(form.zeroSum) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Обновить</button>
+
+        </p>
+    </form>
+
+{% endblock %}

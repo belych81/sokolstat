@@ -59,6 +59,11 @@ class Shipplayer
      */
     private $sum = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $game;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -158,5 +163,22 @@ class Shipplayer
         $this->sum = $sum;
 
         return $this;
+    }
+
+    public function getGame(): ?int
+    {
+        return $this->game;
+    }
+
+    public function setGame(int $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    public function getcompetition()
+    {
+      return $this->getTeam()->getCountry()->getName().' (чемпионат)';
     }
 }

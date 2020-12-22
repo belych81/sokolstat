@@ -1,0 +1,134 @@
+{% extends 'team/index.html.twig' %}
+
+{% block title %}
+   {{ team.name }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Статистика клуба {{ team.name }}">
+{% endblock %}
+
+{% block content %}
+<div><a href="{{ path('team') }}">Клубы</a></div>
+<div class="team-show-image">
+  <div>
+    <h1>{{ team.name }}</h1>
+    {% if team.image %}
+      <img src="{{ asset('images/clubs/') }}{{ team.image }}"
+        alt="{{ team.name }}" title="{{ team.name }}" />
+    {% endif %}
+    </div>
+</div>
+<div class="team-country">Страна: {{ team.country.name }}</div>
+<div class="tabs">
+    {% if champTable | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab1" name="tab-group" class="tab-content1" checked>
+      <label for="tab1" class="tab-title">Чемпионат</label>
+     </div>
+   {% endif %}
+   {% if cups | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab2" name="tab-group" class="tab-content2">
+      <label for="tab2" class="tab-title">Кубок</label>
+     </div>
+   {% endif %}
+   {% if eurocups | length > 0 %}
+     <div class="tab">
+      <input type="radio" id="tab3" name="tab-group" class="tab-content3">
+      <label for="tab3" class="tab-title">Еврокубки</label>
+     </div>
+   {% endif %}
+
+   <section class="tab-content tab-content1">
+   <table class="shipTable showTeam">
+       <thead>
+           <tr class="shipTableTitle">
+               <th>&nbsp;</th>
+               <th class="winsTable">И</th>
+               <th class="winsTable">В</th>
+               <th class="winsTable">Н</th>
+               <th class="winsTable">П</th>
+               <th class="goalsTable">M</th>
+               <th class="winsTable">О</th>
+
+           </tr>
+       </thead>
+       <tbody>
+         {% for champ in champTable %}
+             <tr class="odd">
+                 <td class="player-position">{{ champ.season.name }}</td>
+                 <td>{{ champ.wins+champ.nich+champ.porazh }}</td>
+                 <td>{{ champ.wins }}</td>
+                 <td>{{ champ.nich }}</td>
+                 <td>{{ champ.porazh }}</td>
+                 <td>{{ champ.mz }}-{{ champ.mp }}</td>
+                 <td class="table-score">{{ champ.score }}</td>
+             </tr>
+         {% endfor %}
+       </tbody>
+   </table>
+   </section>
+   <section class="tab-content tab-content2">
+         <table class="shipTable">
+         {% for season in cupSeasons %}
+            <tr class="shipTableTitle">
+                  <td colspan="5" class="tableGoal">{{ season.name }}</td>
+            </tr>
+           {% for key, cup in season.seasoncupmatches %}
+             <tr class="odd">
+               <!--td>{{ cup.data | date('d.m')}}</td-->
+               <td>{{ cup.stadia }}</td>
+               <td class="scMatch">
+                 {% if cup.team == team.name %}
+                   <strong>{{ cup.team }}</strong>
+                 {% else %}
+                   {{ cup.team }}
+                 {% endif %}
+                  -
+                 {% if cup.team2 == team.name %}
+                    <strong>{{ cup.team2 }}</strong>
+                 {% else %}
+                    {{ cup.team2 }}
+                 {% endif %}
+               </td>
+               <td class="scScore">{{ cup.score }}</td>
+               <td class="scBomb">{{ cup.bomb }}</td>
+             </tr>
+           {% endfor %}
+           {% endfor %}
+      </table>
+   </section>
+   <section class="tab-content tab-content3">
+     <table class="shipTable">
+      {% for season in euroSeasons %}
+         <tr class="shipTableTitle">
+               <td colspan="5" class="tableGoal">{{ season.name }}</td>
+         </tr>
+        {% for key, eurocup in season.seasonmatches %}
+          <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td class="tableGoal">{{ eurocup.turnir.name }}</td>
+            <!--td>{{ eurocup.data | date('d.m')}}</td-->
+            <td>{{ eurocup.stadia }}</td>
+            <td class="scMatch">
+              {% if eurocup.team == team.name %}
+                <strong>{{ eurocup.team }}</strong>
+              {% else %}
+                {{ eurocup.team }}
+              {% endif %}
+               -
+              {% if eurocup.team2 == team.name %}
+                 <strong>{{ eurocup.team2 }}</strong>
+              {% else %}
+                 {{ eurocup.team2 }}
+              {% endif %}
+            </td>
+            <td class="scScore">{{ eurocup.score }}</td>
+            <td class="scBomb">{{ eurocup.bomb }}</td>
+          </tr>
+        {% endfor %}
+        {% endfor %}
+      </table>
+   </section>
+  </div>
+{% endblock %}

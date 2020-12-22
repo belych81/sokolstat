@@ -33,14 +33,6 @@ class NhlRegType extends AbstractType
             ->add('goal')
             ->add('save', SubmitType::class)
         ;
-        /*$builder->add('users', EntityType::class, array(
-            'class' => User::class,
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                    ->orderBy('u.username', 'ASC');
-            },
-            'choice_label' => 'username',
-        ));*/
     }
 
 }

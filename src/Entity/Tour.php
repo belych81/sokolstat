@@ -58,7 +58,7 @@ class Tour
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $bomb;
+    private $bomb = "-";
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -69,6 +69,8 @@ class Tour
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $status;
+
+    private $route = 'championships';
 
     public function getId(): ?int
     {
@@ -83,6 +85,18 @@ class Tour
     public function setSeason(?Seasons $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
 
         return $this;
     }

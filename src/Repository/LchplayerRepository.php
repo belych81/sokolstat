@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Lchplayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Lchplayer|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class LchplayerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Lchplayer::class);
     }
@@ -27,6 +27,7 @@ class LchplayerRepository extends ServiceEntityRepository
               ->join('lp.season', 's')
               ->where("s.name = :season")
               ->setParameter('season', $season)
+              ->andWhere("lp.goal > 0")
               ->orderBy('lp.goal DESC, p.name')
               ->setMaxResults(20)
               ->getQuery()
@@ -44,7 +45,7 @@ class LchplayerRepository extends ServiceEntityRepository
               ->andWhere('t.translit = :id')
               ->setParameter('season', $season)
               ->setParameter('id', $id)
-              ->orderBy('lp.game DESC, p.name')
+              ->orderBy('lp.game DESC, lp.goal DESC, p.name')
               ->getQuery()
               ->getResult();
     }
@@ -56,44 +57,44 @@ class LchplayerRepository extends ServiceEntityRepository
               ->join('lp.player', 'p')
               ->join('lp.season', 's')
               ->join('lp.team', 't')
+              ->join('t.country', 'c')
               ->where('p.translit = :id')
               ->setParameter('id', $id)
+              ->andWhere('c.name != :russia')
+              ->setParameter('russia', 'Россия')
               ->orderBy('s.name')
               ->getQuery()
               ->getResult();
     }
 
-    public function updateLchplayerGame($id, $change)
-    {
-        switch ($change)
-        {
-            case 'gamePlus' : $changeParam = 'g.game+1'; break;
-            case 'gameMinus' : $changeParam = 'g.game-1'; break;
-        }
-        $qb = $this->_em->createQueryBuilder()
-            ->update('App\Entity\Lchplayer', 'g')
-            ->set('g.game', $changeParam)
-            ->where('g.id = ?1')
-            ->setParameter(1, $id)
-            ->getQuery();
-
-        $qb->execute();
-    }
-
     public function updateLchplayerGoal($id, $change)
     {
-        switch ($change)
-        {
-            case 'goalPlus' : $changeParam = 'g.goal+1'; break;
-            case 'goalMinus' : $changeParam = 'g.goal-1'; break;
-        }
-        $qb = $this->_em->createQueryBuilder()
-            ->update('App\Entity\Lchplayer', 'g')
-            ->set('g.goal', $changeParam)
-            ->where('g.id = ?1')
-            ->setParameter(1, $id)
-            ->getQuery();
+      switch ($change) {
+          case 'plusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game+1';
+              break;
+          case 'minusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game-1';
+              break;
+          case 'plusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal+1';
+              break;
+          case 'minusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal-1';
+              break;
+      }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Lchplayer', 's')
+                ->set($changeParam, $changeParam2)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
 
-        $qb->execute();
+            $qb->execute();
     }
+
 }

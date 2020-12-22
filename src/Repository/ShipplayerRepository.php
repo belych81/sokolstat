@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Shipplayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Shipplayer|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ShipplayerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shipplayer::class);
     }
@@ -22,7 +22,7 @@ class ShipplayerRepository extends ServiceEntityRepository
     public function getBombSum($season)
     {
       return $this->createQueryBuilder('sp')
-          ->select('sp', 'p', 't')
+          ->select('sp.sum', 'p.name AS playername', 'p.translit', 't.name')
           ->join('sp.season', 's')
           ->join('sp.team', 't')
           ->join('sp.player', 'p')
@@ -47,8 +47,23 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->setParameter('season', $season)
           ->andWhere('c.name = :country')
           ->setParameter('country', $country)
-          ->orderBy('sp.goal DESC, p.name')
-          ->setMaxResults(20)
+          ->andWhere('sp.goal > 0')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
+    public function getBomb5All($season)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp', 'p')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->join('t.country', 'c')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->andWhere('sp.goal > 0')
           ->getQuery()
           ->getResult()
       ;
@@ -57,7 +72,6 @@ class ShipplayerRepository extends ServiceEntityRepository
     public function getTeamStat($season, $id)
     {
       return $this->createQueryBuilder('sp')
-          ->select('sp', 'p', 't')
           ->join('sp.season', 's')
           ->join('sp.team', 't')
           ->join('sp.player', 'p')
@@ -65,8 +79,7 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->setParameter('season', $season)
           ->andWhere('t.translit = :id')
           ->setParameter('id', $id)
-          ->orderBy('sp.goal DESC, p.name')
-          ->setMaxResults(20)
+          ->orderBy('sp.game DESC, sp.goal DESC, sp.cup DESC, sp.supercup DESC, sp.eurocup DESC, p.name')
           ->getQuery()
           ->getResult()
       ;
@@ -90,19 +103,100 @@ class ShipplayerRepository extends ServiceEntityRepository
 
     public function updateShipplayerGoal($id, $change)
     {
-        switch ($change) {
-            case 'plus' : $changeParam = 's.goal+1'; $changeParam1 = 's.sum+1'; break;
-            case 'minus' : $changeParam = 's.goal-1'; $changeParam1 = 's.sum-1'; break;
-        }
+      switch ($change) {
+          case 'plusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game+1';
+              $changeParam1 = 's.sum';
+              break;
+          case 'minusGame' :
+              $changeParam = 's.game';
+              $changeParam2 = 's.game-1';
+              $changeParam1 = 's.sum';
+              break;
+          case 'plusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal+1';
+              $changeParam1 = 's.sum+1';
+              break;
+          case 'minusGoal' :
+              $changeParam = 's.goal';
+              $changeParam2 = 's.goal-1';
+              $changeParam1 = 's.sum-1';
+              break;
+      }
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Shipplayer', 's')
-                ->set('s.goal', $changeParam)
+                ->set($changeParam, $changeParam2)
                 ->set('s.sum', $changeParam1)
                 ->where('s.id = ?1')
                 ->setParameter(1, $id)
                 ->getQuery();
 
             $qb->execute();
+    }
+
+    public function updateShipplayerGoalCup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.cup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.cup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.cup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayerGoalSupercup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.supercup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.supercup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.supercup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayerGoalEurocup($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.eurocup+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.eurocup-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.eurocup', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
+    public function updateShipplayers($arr)
+    {
+      $qb = $this->_em->createQueryBuilder()
+          ->update('App\Entity\Shipplayer', 's')
+          ->set('s.game', 's.game+'.$arr[2])
+          ->where('s.id = ?1')
+          ->setParameter(1, $arr[0])
+          ->getQuery();
+
+      $qb->execute();
     }
 
     public function updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup)
@@ -120,30 +214,27 @@ class ShipplayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
-    public function updatePlayerTurnirs($player_id, $cup, $eurocup, $supercup, $season,
+    public function updatePlayerTurnirs($player_id, $game, $goal, $cup, $eurocup, $supercup, $season,
       $team)
     {
-            $sum = $cup + $eurocup + $supercup;
-
+            $sum = $goal + $cup + $eurocup + $supercup;
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Shipplayer', 's')
-                ->set('s.cup', 's.cup+?2')
-                ->set('s.eurocup', 's.eurocup+?3')
-                ->set('s.supercup', 's.supercup+?4')
-                ->set('s.sum', 's.sum+?7')
-                ->where('s.player = ?1')
-                ->setParameter(1, $player_id)
-                ->andWhere('s.season = ?5')
-                ->setParameter(5, $season)
-                ->andWhere('s.team = ?6')
-                ->setParameter(6, $team)
-                ->setParameter(2, $cup)
-                ->setParameter(3, $eurocup)
-                ->setParameter(4, $supercup)
-                ->setParameter(7, $sum)
+                ->set('s.game', 's.game+:game')
+                ->set('s.goal', 's.goal+:goal')
+                ->set('s.cup', 's.cup+:cup')
+                ->set('s.eurocup', 's.eurocup+:eurocup')
+                ->set('s.supercup', 's.supercup+:supercup')
+                ->set('s.sum', 's.sum+:sum')
+                ->where('s.player = :player')
+                ->andWhere('s.season = :season')
+                ->andWhere('s.team = :team')
+                ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'season'=>$season, 'team'=>$team,
+                'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
                 ->getQuery();
 
             $qb->execute();
     }
+
 
 }

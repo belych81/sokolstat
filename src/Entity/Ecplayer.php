@@ -154,4 +154,9 @@ class Ecplayer
     {
         return $this->goalTeam;
     }
+
+    public function getcompetition()
+    {
+      return 'Еврокубки ('.$this->getTurnir()->getName().')';
+    }
 }

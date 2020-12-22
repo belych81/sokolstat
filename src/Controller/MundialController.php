@@ -13,12 +13,13 @@ use App\Entity\Turnir;
 use App\Entity\Mundial;
 use App\Entity\Seasons;
 use App\Form\MundialType;
+use App\Service\Menu;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MundialController extends AbstractController
 {
-    public function index($turnir, $year)
+    public function index(Menu $serviceMenu, $turnir, $year)
     {
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
@@ -31,15 +32,17 @@ class MundialController extends AbstractController
             $raund->setStadiaMatches($this->getDoctrine()->getRepository(Mundial::class)
               ->getEntityByTurnir($turnir, $year, $raund->getId()));
         }
+        $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/index.html.twig', [
             'seasons' => $seasons,
             'champ' => $champ,
-            'raunds' => $raunds
+            'raunds' => $raunds,
+            'menu' => $menu
             ]);
     }
 
-    public function show($id, $turnir, $year)
+    public function show(Menu $serviceMenu, $id, $turnir, $year)
     {
         $entity = $this->getDoctrine()->getRepository(Mundial::class)->find($id);
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
@@ -48,16 +51,18 @@ class MundialController extends AbstractController
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(Mundial::class)
           ->getCountriesBySeason($year);
+        $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/show.html.twig', [
             'entity'      => $entity,
             'seasons' => $seasons,
             'champ' => $champ,
+            'menu' => $menu,
             'countries' => $countries
             ]);
     }
 
-    public function showCountry($turnir, $year, $country)
+    public function showCountry(Menu $serviceMenu, $turnir, $year, $country)
     {
         $entity = $this->getDoctrine()->getRepository(Sostav::class)
           ->getSbPlayersByCountry($year, $country);
@@ -67,25 +72,31 @@ class MundialController extends AbstractController
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(Mundial::class)
           ->getCountriesBySeason($year);
+        $seasons = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getSeasonsByTurnir($turnir);
+        $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/showCountry.html.twig', [
             'entity'      => $entity,
-            'seasons' => $year,
+            'seasons' => $seasons,
             'champ' => $champ,
             'sborn' => $sborn,
+            'menu' => $menu,
             'countries' => $countries
             ]);
     }
 
-    public function showRus($season)
+    public function showRus(Menu $serviceMenu, $season)
     {
         $entity = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbPlayersBySeason($season);
-        $seasons = range(1992, 2018);
+        $seasons = range(1992, 2019);
+        $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/showRus.html.twig', [
             'entity'      => $entity,
             'seasons' => $seasons,
+            'menu' => $menu,
             'games' => null,
             'goals' => null
             ]);

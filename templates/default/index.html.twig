@@ -1,11 +1,75 @@
-{% block body %}
-  <table>
-    {% for team, score in rating %}
-      <tr>
-        <td>{{ loop.index }}</td>
-        <td>{{ team }}</td>
-        <td>{{ score }}</td>
-      </tr>
-    {% endfor %}
-  </table>
+{% extends 'base.html.twig' %}
+
+{% block sidebar %}
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-3 sidebar">
+      <div class="panel panel-success">
+        <div class="panel-body calendar">
+          {{ include('default/calendar.html.twig', { 'daymatch': yestmatch, 'day': 'Вчера' }) }}
+          {{ include('default/calendar.html.twig', { 'daymatch': curmatch, 'day': 'Сегодня' }) }}
+          {{ include('default/calendar.html.twig', { 'daymatch': tommatch, 'day': 'Завтра' }) }}
+        </div>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">Дни Рождения</div>
+        <div class="panel-body">
+          <ul>
+            {% for birthday in birthdays %}
+              <li>
+                <a href="{{ path('player_show', {'id': birthday.translit}) }}" class="spiski">{{ birthday.name }}</a>
+                ({{ birthday.age }})
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">Лучшие бомбардиры пяти ведущих чемпионатов (во всех клубных турнирах)</div>
+        <div class="panel-body top-bomb">
+          <table class="table">
+            <thead>
+              <tr class="shipTableTitle">
+                <th class="bombName" colspan="2">&nbsp;</th>
+                <th>Клуб</th>
+                <th>Г</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for bomb in bombTotal %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">{{ loop.index }}</td>
+                <td class="bomb5">
+                  <a href="{{ path ('player_show', {'id': bomb.translit}) }}" class="list-item"> {{ bomb.playername }} </a>
+                </td>
+                <td class="bombTeam">{{ bomb.name }}</td>
+                <td class="tableGoal">{{ bomb.sum }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">Последние добавленные футболисты</div>
+        <div class="panel-body">
+          <ul>
+            {% for player in lastPlayers %}
+              <li>
+                <a href="{{ path('player_show', {'id': player.translit}) }}" class="list-item">{{ player.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+  <div class="col-xs-12 col-md-8 col-lg-9">
+    {{ include('news/list.html.twig', { 'entities': entities }) }}
+  </div>
+</div>
 {% endblock %}

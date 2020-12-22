@@ -1,0 +1,59 @@
+{% extends 'nhl/newMatch.html.twig' %}
+
+{% block title %}
+   Создать игрока
+{% endblock %}
+
+{% block content %}
+    <div class="form-notice">Последний ID: <span>{{ maxId }}</span></div>
+    <form action="{{ path('nhl_createPlayer', {'team': app.request.get('team'),
+      'season': app.request.get('season')}) }}" method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.name) }}</th>
+                    <td>
+                        {{ form_errors(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.amplua) }}</th>
+                    <td>
+                        {{ form_errors(form.amplua) }}
+                        {{ form_widget(form.amplua) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.country) }}</th>
+                    <td>
+                        {{ form_errors(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.born) }}</th>
+                    <td>
+                        {{ form_errors(form.born) }}
+                        {{ form_widget(form.born) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.translit) }}</th>
+                    <td>
+                        {{ form_errors(form.translit) }}
+                        {{ form_widget(form.translit) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+<a href="{{ path('nhl_show', {'id': app.request.get('team'),
+  'season': app.request.get('season')}) }}">Назад</a>
+
+{% endblock %}

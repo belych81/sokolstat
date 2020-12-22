@@ -2,7 +2,7 @@
 
 {% block title %}
     Добавить игрока
-{% endblock %} 
+{% endblock %}
 
 {% block description %}
 {% endblock %}
@@ -24,6 +24,13 @@
                     <td>
                         {{ form_errors(form.player) }}
                         {{ form_widget(form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
                     </td>
                 </tr>
                 <tr>

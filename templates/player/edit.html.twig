@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Обновить игрока
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block zagolovok %}
+{% endblock %}
+
+{% block content %}
+    <form action="{{ path('player_update', {'id': app.request.get('id')}) }}"
+      method="post">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.name) }}</th>
+                    <td>
+                        {{ form_errors(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.amplua) }}</th>
+                    <td>
+                        {{ form_errors(form.amplua) }}
+                        {{ form_widget(form.amplua) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.country) }}</th>
+                    <td>
+                        {{ form_errors(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.translit) }}</th>
+                    <td>
+                        {{ form_errors(form.translit) }}
+                        {{ form_widget(form.translit) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.born) }}</th>
+                    <td>
+                        {{ form_errors(form.born) }}
+                        {{ form_widget(form.born) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.goal) }}</th>
+                    <td>
+                        {{ form_errors(form.goal) }}
+                        {{ form_widget(form.goal) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.image) }}</th>
+                    <td>
+                        {{ form_errors(form.image) }}
+                        {{ form_widget(form.image) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.cup) }}</th>
+                    <td>
+                        {{ form_errors(form.cup) }}
+                        {{ form_widget(form.cup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.eurocup) }}</th>
+                    <td>
+                        {{ form_errors(form.eurocup) }}
+                        {{ form_widget(form.eurocup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.supercup) }}</th>
+                    <td>
+                        {{ form_errors(form.supercup) }}
+                        {{ form_widget(form.supercup) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.lch_game) }}</th>
+                    <td>
+                        {{ form_errors(form.lch_game) }}
+                        {{ form_widget(form.lch_game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.lch_goal) }}</th>
+                    <td>
+                        {{ form_errors(form.lch_goal) }}
+                        {{ form_widget(form.lch_goal) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.sum) }}</th>
+                    <td>
+                        {{ form_errors(form.sum) }}
+                        {{ form_widget(form.sum) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Обновить</button>
+
+        </p>
+    </form>
+
+{% endblock %}

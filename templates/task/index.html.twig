@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Задачи
+{% endblock %}
+
+{% block content %}
+  {% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('task') }}">Текущие задачи</a> |
+<a href="{{ path('task_complete') }}">Завершенные задачи</a>
+      {% if id is defined and id != false %}
+      <span class="spiski">ID новой задачи: {{ id }}</span>
+    {% endif %}
+    <a href="{{ path('task_new') }}" class="btn">
+        Создать задачу
+    </a>
+    <div class="task-list">
+      <table>
+        <thead>
+          <th class="task-list-id">ID</th>
+          <th class="task-list-date">Дата создания</th>
+          <th>Название</th>
+          <th>Описание</th>
+          <th class="task-list-date">Обновить задачу</th>
+          <th class="task-list-date">Закрыть задачу</th>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr {% if(loop.index == 1) %}class="task-current"{% endif %}>
+              <td>{{ task.id }}</td>
+              <td>{{ task.data | date('d.m.Y H:i:s') }}</td>
+              <td>{{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td><a href="{{ path('task_edit', {'id': task.id}) }}">Изменить</a></td>
+              <td><a href="{{ path('task_close', {'id': task.id}) }}">Закрыть</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+{% endblock %}

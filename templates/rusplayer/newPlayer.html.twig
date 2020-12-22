@@ -1,8 +1,8 @@
 {% extends 'rusplayer/newChamp.html.twig' %}
 {% block content %}
-
+    <div class="form-notice">Последний ID: <span>{{ maxId }}</span></div>
     <form action="{{ path('player_createPlayer', {'team': app.request.get('team'), 'season': app.request.get('season'),
-        'country': app.request.get('country')}) }}" method="post">
+        'country': app.request.get('country'), 'route' : app.request.get('route')}) }}" method="post">
        <table>
             <tbody>
                 <tr>
@@ -10,6 +10,13 @@
                     <td>
                         {{ form_errors(form.name) }}
                         {{ form_widget(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.amplua) }}</th>
+                    <td>
+                        {{ form_errors(form.amplua) }}
+                        {{ form_widget(form.amplua) }}
                     </td>
                 </tr>
                 <tr>
@@ -24,13 +31,6 @@
                     <td>
                         {{ form_errors(form.born) }}
                         {{ form_widget(form.born) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.amplua) }}</th>
-                    <td>
-                        {{ form_errors(form.amplua) }}
-                        {{ form_widget(form.amplua) }}
                     </td>
                 </tr>
                 <tr>

@@ -1,12 +1,7 @@
 {% extends 'eurocup/index.html.twig' %}
 
 {% block title %}
-    {{ club.0.name }} - Лига Чемпионов {{ app.request.get('season') }}
-    {% endblock %}
-
-{% block keywords %}
-    <meta name="keywords" content="еврокубки,  {{ app.request.get('season') }},
-           матчи, авторы забитых мячей">
+    Состав команды {{ club.0.name }} в Лиге Чемпионов сезона {{ app.request.get('season') }}
 {% endblock %}
 
 {% block description %}
@@ -15,20 +10,31 @@
 {% endblock %}
 
 
-
-{% block zagolovok %}
-    <p class="zagolovok"><a href="{{ path('eurocup', {'season': app.request.get('season'),
-             'turnir': app.request.get('turnir')}) }}">
-                Лига Чемпионов {{ app.request.get('season') }}</a></p>
-    {% endblock %}
-
-
 {% block content %}
-    <table>
-        <tr>
-            <td class="scLink">
-                <p><b>{{ club.0.name }}</b></p>
 
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.season.name %}
+            <b>{{ season.season.name }}</b>
+        {% else %}
+            <a href="{{ path('eurocup', {'turnir': app.request.get('turnir'),
+                'season': season.season.name }) }}" class="spiski">
+                {{ season.season.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+<div class="ec-content">
+<div class="team-show-image">
+  <div>
+    <h1>Лига Чемпионов {{ app.request.get('season') }}. {{ club.0.name }}</h1>
+    {% if club.0.image %}
+    <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ club.0.image }}"
+      alt="{{ club.0.name }}" title="{{ club.0.name }}" />
+    {% endif %}
+  </div>
+</div>
+<div class="champ-table champs">
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -43,35 +49,50 @@
         <tbody>
         {% for player in players %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index }}</td>
+                <td class="player-position">{{ loop.index }}</td>
                 <td>
-
-                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
-                        {{ player.player.name }}</a>
-
+                  <a href="{{ path('player_show', {'id': player.player.translit})
+                   }}" data-id="{{ player.id }}" class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
+                      {{ player.player.name }}</a>
                 </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editLchplayer',
-                          {'id': player.id, 'season': app.request.get('season'),
-                          'team': app.request.get('id'), 'change': 'gameMinus'}) }}" class="plusMinus">-</a>
-                      {{ player.game }}
-                        <a href="{{ path('playeradmin_editLchplayer',
-                      {'id': player.id, 'season': app.request.get('season'),
-                      'team': app.request.get('id'), 'change': 'gamePlus'}) }}" class="plusMinus">+</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGame"
+                      data-path="playeradmin_editLchplayer"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                      <span data-id="{{ player.id }}" data-param="game">
+                        {{ player.game }}
+                      </span>
+                      <span class="changeGameGoalPlayer"
+                        data-change="plusGame"
+                        data-path="playeradmin_editLchplayer"
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">+</span>
                     {% else %}
                         {{ player.game }}
                     {% endif %}
                 </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editLchplayer',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'goalMinus'}) }}" class="plusMinus">-</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGoal"
+                      data-path="playeradmin_editLchplayer"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                      <span data-id="{{ player.id }}" data-param="goal">
                         {{ player.goal }}
-                    <a href="{{ path('playeradmin_editLchplayer',
-                 {'id': player.id, 'season': app.request.get('season'),
-                    'team': app.request.get('id'), 'change': 'goalPlus'}) }}" class="plusMinus">+</a>
+                      </span>
+                      <span class="changeGameGoalPlayer"
+                        data-change="plusGoal"
+                        data-path="playeradmin_editLchplayer"
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">+</span>
                     {% else %}
                         {{ player.goal }}
                     {% endif %}</td>
@@ -87,27 +108,64 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+          <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
             'team': app.request.get('id')}) }}">
-            Добавить игрока</a>
+            Добавить игрока</a> |
+          <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'eurocup_show',
+          'country': 'leagueChampions', 'team': app.request.get('id')}) }}">
+              Добавить последнего игрока</a> |
+          <a href="{{ path('player_newPlayer', {'country': 'leagueChampions', 'route' : 'eurocup_show',
+            'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
+                Создать игрока</a> |
         {% endif %}
-            </td>
-            <td class="teamStat">
-                <p><b>Бомбардиры</b></p>
-                <table class="">
+</div>
+
+  <div class="champ-bombs champs">
+    <span><strong>{{ stadia.name }}</strong></span>
+    <table class="shipTable">
+      <thead>
+        <tr class="shipTableTitle">
+            <th>&nbsp;</th>
+            <th>И</th>
+            <th>В</th>
+            <th>Н</th>
+            <th>П</th>
+            <th>M</th>
+            <th>О</th>
+        </tr>
+      </thead>
+      <tbody>
+         {% for ectable in ectables %}
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+              <td class="tableLeft"><a href="{{ path('eurocup_show', {'id': ectable.team.translit,
+                  'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
+                      class="shipTableTeam">
+                      {{ ectable.team.name }}</a></td>
+              <td class="shipTableParams">{{ ectable.wins+ectable.nich+ectable.porazh }}</td>
+              <td class="shipTableParams">{{ ectable.wins }}</td>
+              <td class="shipTableParams">{{ ectable.nich }}</td>
+              <td class="shipTableParams">{{ ectable.porazh }}</td>
+              <td>{{ ectable.mz }}-{{ ectable.mp }}</td>
+              <td class="shipTableParams"><b>{{ ectable.score }}</b></td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p><b>Бомбардиры</b></p>
+      <table class="">
         <thead>
-            <tr class="shipTableTitle">
-                <th class="bombName">&nbsp;</th>
-                <th>Клуб</th>
-                <th class="teamStatGoal">Г</th>
-
-
-            </tr>
+          <tr class="shipTableTitle">
+              <th>&nbsp;</th>
+              <th class="bombName">&nbsp;</th>
+              <th>Клуб</th>
+              <th class="teamStatGoal">Г</th>
+          </tr>
         </thead>
         <tbody>
         {% for bomb in bombs %}
 
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <tr class="odd">
+                <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': bomb.player.translit}) }}" class="spiski">
                         {{ bomb.player.name }}</a>
@@ -120,16 +178,6 @@
         {% endfor %}
         </tbody>
     </table>
-            </td>
-        </tr>
-    </table>
-         {% if app.request.get('turnir') == 'leagueChampions' %}
-            <div class="lch-teams">
-                {% for team in teams %}
-                    <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
-                        'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
-                        class="spiski teamlch">{{ team.team.name }}</a>
-                {% endfor %}
             </div>
-        {% endif %}
+</div>
 {% endblock %}

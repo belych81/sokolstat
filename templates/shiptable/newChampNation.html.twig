@@ -1,10 +1,7 @@
-{% extends 'shiptable/index.html.twig' %}
+{% extends 'player/edit.html.twig' %}
 
 {% block title %}
     Добавить игрока
-{% endblock %}
-
-{% block keywords %}
 {% endblock %}
 
 {% block description %}
@@ -13,13 +10,10 @@
 {% block seasons %}
 {% endblock %}
 
-{% block zagolovok %}
-{% endblock %}
-
 {% block content %}
 
     <form action="{{ path('player_createChampNation', {'team': app.request.get('team'), 'country': app.request.get('country'),
-    'season': app.request.get('season')}) }}" method="post">
+    'season': app.request.get('season'), 'flag': app.request.get('flag')}) }}" method="post">
        <table>
             <tbody>
                 <tr>
@@ -27,6 +21,13 @@
                     <td>
                         {{ form_errors(form.player) }}
                         {{ form_widget(form.player) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
                     </td>
                 </tr>
                 <tr>

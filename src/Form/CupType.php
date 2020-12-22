@@ -29,13 +29,13 @@ class CupType extends AbstractType
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
-            return $repository->queryTeamsForCup('Россия');
+            return $repository->queryTeamsForCup('russia');
             }
             ])
             ->add('team2', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
-            return $repository->queryTeamsForCup('Россия');
+            return $repository->queryTeamsForCup('russia');
             }
             ]);
     }

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rfplmatch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Rfplmatch|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class RfplmatchRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rfplmatch::class);
     }
@@ -24,11 +24,29 @@ class RfplmatchRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->join('t.team', 'tm')
             ->where('t.data >= :data')
+            ->andWhere('t.status = 0')
             ->setParameter('data', $data)
             ->orderBy('t.data', 'ASC')
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function getList($max, $offset = null)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->join('t.team', 'tm')
+            ->orderBy('t.data', 'ASC')
+            ->setMaxResults($max);
+
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
     }
 
     public function getCurMatches()
@@ -105,5 +123,16 @@ class RfplmatchRepository extends ServiceEntityRepository
               ->orderBy('r.tour', 'ASC')
               ->getQuery()
               ->getResult();
+    }
+
+    public function countMatches()
+    {
+          $qb = $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ;
+
+        $query = $qb->getQuery();
+
+        return $query->getSingleScalarResult();
     }
 }

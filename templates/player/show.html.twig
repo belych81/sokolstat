@@ -4,219 +4,94 @@
     {{ player.0.name }}
 {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="{{ player.0.name }}, футбольная статистика, матчи, голы, мячи, сезоны">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="{{ player.0.name }}, статистика игрока, дата рождения, гражданство,
           амплуа, история выступлений, количество игр и мячей по сезонам">
 {% endblock %}
 
 {% block content %}
-    <table>
-        <tr>
-            <td class="visit_card_player"><p class="playername">{{ player.0.name }}</p>
-
-                <p>{{ player.0.country.name }}</p>
-
-                <p>Дата рождения: <b>{{ player.0.born | date('d.m.Y') }}</b></p>
-                <p>{{ player.0.amplua.name }}</p>
-                {% if rusplayer %}
-                <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
+    <div class="scLink">
+      <p class="playername">{{ player.0.name }}</p>
+        <p>{{ player.0.country.name }}</p>
+        <p>Дата рождения: <b>{{ player.0.born | date('d.m.Y') }}</b></p>
+        <p>{{ player.0.amplua.name }}</p>
+        {% if rusplayer %}
+        <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
+        {% endif %}
+        {% if is_granted("ROLE_ADMIN") %}
+          <a href="{{ path('player_edit', {'id': player.0.id}) }}">
+             изменить</a>
+        {% endif %}
+    </div>
+    <div class="scLink">
+      <table class="playerStatTable">
+          <tr class="shipTableTitle">
+              <th class="player-turnir">Турнир</th>
+              <th class="player-club">Клуб</th>
+              <th class="player-goal">И</th>
+              <th class="player-goal">Г</th>
+          </tr>
+          {% set previous = false %}
+          {% for item in items %}
+            {% set curSeason = item.season.name %}
+            {% if previous != false %}
+              {% set prevSeason = previous.season.name %}
+            {% endif %}
+            {% if previous == false or curSeason != prevSeason %}
+              <tr>
+                <td colspan="5" class="player-position">{{ item.season.name }}</td>
+              </tr>
+            {% endif %}
+            {% if item.cup is defined and item.cup > 0 %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ item.team.country.name }} (кубок)</td>
+                <td>
+                    {{ item.team.name }}
+                </td>
+                <td>-</td>
+                <td>{{ item.cup }}</td>
+              </tr>
+            {% endif %}
+            {% if item.eurocup is defined and item.eurocup > 0 %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>Еврокубки</td>
+                <td>
+                    {{ item.team.name }}
+                </td>
+                <td>-</td>
+                <td>{{ item.eurocup }}</td>
+              </tr>
+            {% endif %}
+            {% if item.supercup is defined and item.supercup > 0 %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ item.team.country.name }} (суперкубок)</td>
+                <td>
+                    {{ item.team.name }}
+                </td>
+                <td>-</td>
+                <td>{{ item.supercup }}</td>
+              </tr>
+            {% endif %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+              <td>{{ item.competition }}</td>
+              <td>
+                {% if item.team.name is defined %}
+                  {{ item.team.name }}
+                {% else %}
+                  Cборная
                 {% endif %}
-            </td>
-
-            <td class="scLink">
-                {% if entities %}
-                <p><b>Чемпионат России</b></p>
-
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                    {% for entity in entities %}
-                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ entity.season.name }}</td><td>{{ entity.team.name }}</td>
-                        <td>{{ entity.game }}</td><td>{{ entity.goal }}</td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                        <td colspan="2"><b>Всего в чемпионатах России</b></td>
-                        <td><b>{{ rusplayer.0.game }}</b></td>
-                        <td><b>{{ rusplayer.0.goal }}</b></td>
-                    </tr>
-                </table>
-                    {% endif %}
-
-		{% if cups %}
-                <p><b>Кубок России</b></p>
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                {% for cup in cups %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ cup.season.name }}</td>
-                        <td>{{ cup.team.name }}</td>
-                        <td>{{ cup.game }}</td>
-                        <td>{{ cup.goal }}</td>
-                    </tr>
-                {% endfor %}
-
-                </table>
+              </td>
+              <td>
+                {% if item.game is defined %}
+                  {{ item.game }}
+                {% else %}
+                  1
                 {% endif %}
-
-                {% if eurocups %}
-                <p><b>Еврокубки</b></p>
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Турнир</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                {% for eurocup in eurocups %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ eurocup.season.name }}</td>
-                        <td>{{ eurocup.turnir.name }}</td>
-                        <td>{{ eurocup.team.name }}</td>
-                        <td>{{ eurocup.game }}</td>
-                        <td>{{ eurocup.goal }}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-                {% endif %}
-
-                {% if supercups %}
-                <p><b>Суперкубок России</b></p>
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                {% for supercup in supercups %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ supercup.season.name }}</td>
-                        <td>{{ supercup.team.name }}</td>
-                        <td>1</td>
-                        <td>{{ supercup.goal }}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-                {% endif %}
-
-                {% if sbplayers %}
-                <p><b>Сборная России</b></p>
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                {% for sbplayer in sbplayers %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ sbplayer.season.name }}</td>
-                        <td>{{ sbplayer.game }}</td>
-                        <td>{{ sbplayer.goal }}</td>
-                    </tr>
-                {% endfor %}
-                    <tr>
-                        <td><b>Всего за сборную России</b></td>
-                        <td><b>{{ rusplayer.0.sbgame }}</b></td>
-                        <td><b>{{ rusplayer.0.sbgoal }}</b></td>
-                    </tr>
-                </table>
-                {% endif %}
-
-                {% if shipplayer %}
-                <p><b>Чемпионаты топ-5</b></p>
-                <table class="playerStatTable player-stat-top-5">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th class="playerClub">Клуб</th>
-                        <th>Чемпионат</th>
-                        <th>Кубок</th>
-                        <th>Еврокубки</th>
-                        <th>Суперкубок</th>
-                        <th>Всего</th>
-                    </tr>
-                {% for sp in shipplayer %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ sp.season.name }}</td>
-                        <td>{{ sp.team.name }}</td>
-                        <td>{{ sp.goal }}</td>
-                        <td>{{ sp.cup }}</td>
-                        <td>{{ sp.eurocup }}</td>
-                        <td>{{ sp.supercup }}</td>
-                        <td>{{ sp.sum }}</td>
-                    </tr>
-                {% endfor %}
-                    <tr>
-                        <td colspan="6"><b>Всего в чемпионатах топ-5</b></td>
-                        <td><b>{{ player.0.goal }}</b></td>
-                    </tr>
-                    <tr class="even">
-                        <td colspan="6"><b>Всего за клубы топ-5</b></td>
-                        <td><b>{{ player.0.sum }}</b></td>
-                    </tr>
-                </table>
-                {% endif %}
-
-                {% if lchplayer %}
-                <p><b>Основной этап Лиги Чемпионов</b></p>
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                {% for sp in lchplayer %}
-                    <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ sp.season.name }}</td>
-                        <td>{{ sp.team.name }}</td>
-                        <td>{{ sp.game }}</td>
-                        <td>{{ sp.goal }}</td>
-                    </tr>
-                {% endfor %}
-
-                </table>
-                {% endif %}
-
-                {% if fnlplayer %}
-                <p><b>ФНЛ (первый дивизион)</b></p>
-
-                <table class="playerStatTable">
-                    <tr class="shipTableTitle">
-                        <th class="player-season">Сезон</th>
-                        <th>Клуб</th>
-                        <th>И</th>
-                        <th>Г</th>
-                    </tr>
-                    {% for fnl in fnlplayer %}
-                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td>{{ fnl.season.name }}</td><td>{{ fnl.team.name }}</td>
-                        <td>{{ fnl.game }}</td><td>{{ fnl.goal }}</td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                        <td colspan="2"><b>Всего в ФНЛ (первый дивизионе)</b></td>
-                        <td><b>{{ rusplayer.0.fnlGame }}</b></td>
-                        <td><b>{{ rusplayer.0.fnlGoal }}</b></td>
-                    </tr>
-                </table>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+              </td>
+              <td>{{ item.goal }}</td>
+          </tr>
+          {% set previous = item %}
+          {% endfor %}
+      </table>
+    </div>
 {% endblock %}

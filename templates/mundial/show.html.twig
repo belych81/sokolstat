@@ -33,7 +33,7 @@
     {% endif %}
     </div>
 
-    <div class="lch-teams">
+    <div class="teams-list">
         {% for country in countries %}
             <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
                         'country': country.translit, 'turnir': app.request.get('turnir')}) }}"

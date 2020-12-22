@@ -1,0 +1,30 @@
+{% extends 'player/index.html.twig' %}
+
+{% block title %}
+   Все клубы по алфавиту
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Список футбольных клубов">
+{% endblock %}
+
+{% block content %}
+
+<h1>Список футбольных клубов</h1>
+
+<ul class="letters-list">
+  {% for letter in letters %}
+    <li>{{ letter }}</li>
+  {% endfor %}
+</ul>
+
+<ul class="clubs-list">
+{% for team in entities %}
+{% if team.name < 'Б' %}
+  <li><a href="{{ path('team_show', {'code': team.translit}) }}" class="spiski">
+    {{ team.name }}</a>
+  </li>
+  {% endif %}
+{% endfor %}
+</ul>
+{% endblock %}

@@ -66,6 +66,8 @@ class Eurocup
      */
     private $turnir;
 
+    private $route = 'eurocup';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +81,18 @@ class Eurocup
     public function setSeason(?Seasons $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
 
         return $this;
     }
@@ -184,6 +198,11 @@ class Eurocup
      */
     private $ecsostav;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $number;
+
     public function setEcsostav(?Ecsostav $ecsostav = null): self
     {
         $this->ecsostav = $ecsostav;
@@ -199,6 +218,18 @@ class Eurocup
     public function __toString()
     {
       return (string)$this->id;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
     }
 
   }

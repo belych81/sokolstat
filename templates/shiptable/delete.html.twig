@@ -1,0 +1,21 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Обновить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+    Вы действительно хотите удалить матч: {{ entity.team }} - {{ entity.team2 }}?
+    <a href="{{ path('championships_delete',
+      {'id': entity.id, 'country': app.request.get('country')}) }}">
+       да</a>
+     <a href="{{ path('championships',
+       {'season': entity.season.name, 'country': app.request.get('country')}) }}">
+        нет</a>
+{% endblock %}

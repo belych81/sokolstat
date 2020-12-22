@@ -33,10 +33,16 @@ class NhlSeason
      */
     private $nhlPlayOffs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NhlMatch", mappedBy="season")
+     */
+    private $matches;
+
     public function __construct()
     {
         $this->nhlRegs = new ArrayCollection();
         $this->nhlPlayOffs = new ArrayCollection();
+        $this->matches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,5 +127,36 @@ class NhlSeason
     public function __toString()
     {
       return $this->name;
+    }
+
+    /**
+     * @return Collection|NhlMatch[]
+     */
+    public function getMatches(): Collection
+    {
+        return $this->matches;
+    }
+
+    public function addMatch(NhlMatch $match): self
+    {
+        if (!$this->matches->contains($match)) {
+            $this->matches[] = $match;
+            $match->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatch(NhlMatch $match): self
+    {
+        if ($this->matches->contains($match)) {
+            $this->matches->removeElement($match);
+            // set the owning side to null (unless already changed)
+            if ($match->getSeason() === $this) {
+                $match->setSeason(null);
+            }
+        }
+
+        return $this;
     }
 }

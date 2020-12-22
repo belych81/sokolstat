@@ -1,0 +1,12 @@
+{% for entity in entities %}
+  <div class="panel panel-success">
+    <div class="panel-heading title-news">
+      <a href="{{ path('news_show', { 'translit': entity.translit }) }}">{{ entity.title }}</a>
+    </div>
+    <div class="panel-body news">
+      {{ entity.data|date('d.m.Y') }}
+      <p>{{ entity.text|nl2br }}</p>
+      <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="newsLinkFull">читать дальше</a>
+    </div>
+  </div>
+{% endfor %}

@@ -1,0 +1,26 @@
+{% extends 'news/index.html.twig' %}
+
+{% block title %}
+    {{ entity.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="panel panel-success">
+          <div class="panel-heading title-news">
+            {{ entity.title }}
+          </div>
+          <div class="panel-body news">
+            {{ entity.data|date('d.m.Y') }}
+            <p>{{ entity.text|nl2br }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success articles-return">
+      <a href="{{ path('news') }}"><i class="glyphicon glyphicon-chevron-left"></i> Назад к статьям</a>
+    </button>
+  </div>
+{% endblock %}

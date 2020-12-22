@@ -2,6 +2,8 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    exception_controller: null
     globals:
-        season: 2018-19
+        season: 2020-21
         stadia: groupA
+        path_public: '/public'

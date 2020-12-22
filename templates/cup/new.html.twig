@@ -28,6 +28,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.bomb) }}</th>
+                    <td>
+                        {{ form_errors(form.bomb) }}
+                        {{ form_widget(form.bomb) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.game) }}</th>
                     <td>
                         {{ form_errors(form.game) }}
@@ -39,13 +46,6 @@
                     <td>
                         {{ form_errors(form.game2) }}
                         {{ form_widget(form.game2) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.bomb) }}</th>
-                    <td>
-                        {{ form_errors(form.bomb) }}
-                        {{ form_widget(form.bomb) }}
                     </td>
                 </tr>
             </tbody>

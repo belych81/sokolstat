@@ -4,16 +4,10 @@
     Добавить игрока
 {% endblock %}
 
-{% block keywords %}
-{% endblock %}
-
 {% block description %}
 {% endblock %}
 
 {% block seasons %}
-{% endblock %}
-
-{% block zagolovok %}
 {% endblock %}
 
 {% block content %}
@@ -30,6 +24,21 @@
                         {{ form_widget(edit_form.player) }}
                     </td>
                 </tr>
+                <tr>
+                    <th>{{ form_label(edit_form.game) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.game) }}
+                        {{ form_widget(edit_form.game) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(edit_form.goal) }}</th>
+                    <td>
+                        {{ form_errors(edit_form.goal) }}
+                        {{ form_widget(edit_form.goal) }}
+                    </td>
+                </tr>
+                {% if app.request.get('country') != 'fnl' %}
                 <tr>
                     <th>{{ form_label(edit_form.cup) }}</th>
                     <td>
@@ -51,6 +60,7 @@
                         {{ form_widget(edit_form.eurocup) }}
                     </td>
                 </tr>
+                {% endif %}
             </tbody>
        </table>
         <p>

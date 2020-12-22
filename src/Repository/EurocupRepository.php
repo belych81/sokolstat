@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Eurocup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Eurocup|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class EurocupRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Eurocup::class);
     }
@@ -23,9 +23,11 @@ class EurocupRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->join('e.team', 'tm')
+            ->join('e.team2', 'tm2')
             ->join('tm.country', 'c')
+            ->join('tm2.country', 'c2')
             ->where('e.data >= :data')
-            ->andWhere('c.name IN (:fnl)')
+            ->andWhere('c.name IN (:fnl) OR c2.name IN (:fnl)')
             ->andWhere('e.status = 0')
             ->setParameter('data', $data)
             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
@@ -100,7 +102,7 @@ class EurocupRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
-    public function getEntityByTurnir($turnir, $season, $stadia)
+    public function getEntityByTurnir($turnir, $season)
     {
         $qb = $this->createQueryBuilder('e')
                 ->select('e', 's', 'st', 'tm', 'tm2', 'es')
@@ -112,13 +114,11 @@ class EurocupRepository extends ServiceEntityRepository
                 ->leftJoin('e.ecsostav', 'es')
                 ->where("t.alias = :turnir")
                 ->andWhere("s.name = :season")
-                ->andWhere("st.alias = :stadia")
                 ->setParameters([
                     'turnir' => $turnir,
-                    'season' => $season,
-                    'stadia' => $stadia,
+                    'season' => $season
                         ])
-                ->orderBy('e.data');
+                ->orderBy('e.data, e.id');
 
         $query = $qb->getQuery();
 
@@ -143,5 +143,56 @@ class EurocupRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    public function getEntityByTurnirStadia($turnir, $season, $stadia)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2', 'es')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->leftJoin('e.ecsostav', 'es')
+                ->where("t.alias = :turnir")
+                ->andWhere("s.name = :season")
+                ->andWhere('st.id = :stadia')
+                ->setParameters([
+                    'season' => $season,
+                    'turnir' => $turnir,
+                    'stadia' => $stadia
+                    ])
+                ->orderBy('e.data, e.id')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getEurocupByTeam($teamId)
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.season', 's')
+            ->where('e.team = :team OR e.team2 = :team')
+            ->setParameter('team', $teamId)
+            ->orderBy('s.name', 'asc', 'e.data', 'asc')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllBySeasonAndTeam($season, $team)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 't', 't2', 's')
+                ->join('e.season', 's')
+                ->join('e.team', 't')
+                ->join('e.team2', 't2')
+                ->where('s.name = :season')
+                ->andWhere('e.team = :team OR e.team2 = :team')
+                ->setParameters([
+                    'season' => $season,
+                    'team' => $team
+                    ])
+                ->getQuery()
+                ->getResult();
     }
 }

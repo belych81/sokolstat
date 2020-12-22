@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Gamers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Gamers|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,12 +14,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class GamersRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Gamers::class);
     }
 
-    public function getBomb($season)
+    public function getBombOld($season)
     {
       return $this->createQueryBuilder('g')
               ->select('g', 'r')
@@ -30,6 +30,19 @@ class GamersRepository extends ServiceEntityRepository
               ->setParameter('season', $season)
               ->orderBy('g.goal DESC, r.name')
               ->setMaxResults(20)
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function getBomb($season)
+    {
+      return $this->createQueryBuilder('g')
+              ->select('g', 'r')
+              ->join('g.player', 'r')
+              ->join('g.season', 's')
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere('g.goal > 0')
               ->getQuery()
               ->getResult();
     }
@@ -46,7 +59,7 @@ class GamersRepository extends ServiceEntityRepository
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->setParameter('id', $id)
-              ->orderBy('g.game DESC, p.name')
+              ->orderBy('g.game DESC, g.goal DESC, p.name')
               ->getQuery()
               ->getResult();
     }

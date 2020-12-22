@@ -24,45 +24,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RusplayerController extends AbstractController
 {
-    public function index(Request $request, SessionInterface $session, $page, $sort, $order)
+    public function index(Request $request, SessionInterface $session, $page, $sort,
+      $order, $team, $country)
     {
-        if ($request->getMethod() == 'POST') {
-          $country = $request->query->get('country');
-          $team = $request->query->get('team');
-        }
-        if($request->query->get('sort'))
-        {
-            $arSort = explode("_", htmlspecialchars($request->query->get('sort')));
-            $sort = $arSort[0];
-            $order = $arSort[1];
-        }
         $totalPlayers = $this->getDoctrine()->getRepository(Rusplayer::class)
-                            ->countPlayers($session->get('country'), $session->get('teams'));
+                            ->countPlayers($country, $team);
         $lastPage = ceil($totalPlayers / 20);
         $previousPage = $page > 1 ? $page-1 : 1;
         $nextPage = $page < $lastPage ? $page+1 : $lastPage;
+
         $entities = $this->getDoctrine()->getRepository(Rusplayer::class)
-                        ->getPlayers(20, $sort, $order, ($page-1)*20, $session->get('country'),
-                                $session->get('teams'));
-        if($session->get('teams') && $session->get('teams') != 'Команда')
+                        ->getPlayers(20, $sort, $order, ($page-1)*20, $country, $team);
+        if($team && $team != 'Команда' && $team != 'all')
         {
             $sort="pt.game";
             $kom = $this->getDoctrine()->getRepository(Team::class)
-              ->findOneByName($session->get('teams'));
-            $id=$kom->getTranslit();
+              ->findOneByTranslit($team);
             for ($i=0, $cnt=count($entities); $i < $cnt; $i++)
             {
                 $name[$i] = $entities[$i]->getPlayer()->getName();
                 $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'game')[0]->getGame();
+                                 ->getStat($name[$i], $team, 'game')[0]->getGame();
                 $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
-                                 ->getStat($name[$i], $id, 'goal')[0]->getGoal();
+                                 ->getStat($name[$i], $team, 'goal')[0]->getGoal();
 
                 $entities[$i]->setGameTeam($ptgame[$i]);
                 $entities[$i]->setGoalTeam($ptgoal[$i]);
             }
         }
-        $country = $this->getDoctrine()->getRepository(Country::class)
+        $countries = $this->getDoctrine()->getRepository(Country::class)
           ->getCountryAll();
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeamsRfpl();
@@ -74,15 +64,16 @@ class RusplayerController extends AbstractController
             'currentPage' => $page,
             'nextPage' => $nextPage,
             'totalPlayers' => $totalPlayers,
-            'country' => $country,
-            'strana' => $request->query->get('country'),
+            'country' => $countries,
+            'strana' => $country,
             'teams' => $teams,
-            'club' => $request->query->get('teams')
+            'club' => isset($kom) ? $kom->getName() : ''
             ]);
     }
 
     public function show($id)
     {
+        $items = [];
         $player = $this->getDoctrine()->getRepository(Player::class)
           ->findByTranslit($id);
         $rusplayer = $this->getDoctrine()->getRepository(Rusplayer::class)
@@ -108,6 +99,16 @@ class RusplayerController extends AbstractController
         $goalsSb = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbSum($id, 'goal');
 
+      //  $items = $entities;
+        $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups,
+          $lchplayer, $fnlplayer, $shipplayer);
+          uasort($items, function ($v1, $v2) {
+            if($v1->getSeason()->getName() == $v2->getSeason()->getName()) {
+              return 0;
+            }
+            return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
+          });
+
         return $this->render('player/show.html.twig', [
             'entities' => $entities,
             'cups' => $cups,
@@ -120,7 +121,55 @@ class RusplayerController extends AbstractController
             'rusplayer' => $rusplayer,
             'fnlplayer' => $fnlplayer,
             'gamesSb' => $gamesSb,
-            'goalsSb' => $goalsSb
-            ]);
+            'goalsSb' => $goalsSb,
+            'items' => $items
+        ]);
+    }
+
+    public function search()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $q = htmlspecialchars($_GET['q']);
+        $arQuery = explode(" ", $q);
+        $players = false;
+        if(strlen($q) > 1){
+            $players = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        }
+        if(!$players || count($players) != 1){
+            return $this->render('rusplayer/search.html.twig', [
+                'players' => $players,
+                'query' => $q
+                ]);
+        } else {
+            $id = $players[0]->getTranslit();
+            $player = $em->getRepository(Player::class)->findByTranslit($id);
+            $rusplayer = $em->getRepository(Rusplayer::class)->findByTranslit($id);
+            $lchplayer = $em->getRepository(Lchplayer::class)->getLchplayer($id);
+            $entities = $em->getRepository(Gamers::class)->getStatPlayer($id);
+            $fnlplayer = $em->getRepository(Fnlplayer::class)->getStatPlayer($id);
+            $shipplayer = $em->getRepository(Shipplayer::class)->getShipplayer($id);
+            $cups = $em->getRepository(Cupplayer::class)->getCupPlayer($id);
+            $eurocups = $em->getRepository(Ecplayer::class)->getEcPlayer($id);
+            $supercups = $em->getRepository(Supercupplayer::class)->getScPlayer($id);
+            $sbplayers = $em->getRepository(Sbplayer::class)->getSbPlayer($id);
+            $gamesSb = $em->getRepository(Sbplayer::class)->getSbSum($id);
+            $goalsSb = $em->getRepository(Sbplayer::class)->getSbSum($id, 'goal');
+
+            return $this->render('rusplayer/show.html.twig', [
+                'entities' => $entities,
+                'cups' => $cups,
+                'eurocups' => $eurocups,
+                'supercups' => $supercups,
+                'sbplayers' => $sbplayers,
+                'player' => $player,
+                'shipplayer' => $shipplayer,
+                'lchplayer' => $lchplayer,
+                'rusplayer' => $rusplayer,
+                'fnlplayer' => $fnlplayer,
+                'gamesSb' => $gamesSb,
+                'goalsSb' => $goalsSb
+                ]);
+        }
     }
 }

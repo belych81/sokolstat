@@ -5,12 +5,6 @@
         {{ entity.eurocup.team.name }} - {{ entity.eurocup.team2.name }}
     {% endblock %}
 
-{% block keywords %}
-    <meta name="keywords" content="{{ entity.eurocup.turnir.russianAlias }}
-            {{ entity.eurocup.season.name }},
-          {{ entity.eurocup.team.name }}, {{ entity.eurocup.team2.name }}, авторы забитых мячей">
-{% endblock %}
-
 {% block description %}
     <meta name="description" content="{{ entity.eurocup.turnir.russianAlias }}
             {{ entity.eurocup.season.name }},
@@ -36,7 +30,16 @@
         {% else %}
         {{ entity.eurocup.team.name }}
         {% endif %}
-        - {% if entity.eurocup.team2.country.name == 'Россия' %}
+        {% if entity.eurocup.team.image2 %}
+        <img src="{{ asset('images/clubs/') }}{{ entity.eurocup.team.image2 }}"
+          alt="{{ entity.eurocup.team.name }}" title="{{ entity.eurocup.team.name }}" />
+        {% endif %}
+        -
+        {% if entity.eurocup.team2.image2 %}
+        <img src="{{ asset('images/clubs/') }}{{ entity.eurocup.team2.image2 }}"
+          alt="{{ entity.eurocup.team2.name }}" title="{{ entity.eurocup.team2.name }}" />
+        {% endif %}
+        {% if entity.eurocup.team2.country.name == 'Россия' %}
             <a href="{{ path('eurocup_showTeam', {'id': entity.eurocup.team2.translit,
                 'season': entity.eurocup.season.name, 'turnir': entity.eurocup.turnir.alias}) }}">
                 {{ entity.eurocup.team2.name }}</a>

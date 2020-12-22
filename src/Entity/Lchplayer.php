@@ -37,12 +37,12 @@ class Lchplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 1;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     public function getId(): ?int
     {
@@ -107,5 +107,10 @@ class Lchplayer
         $this->goal = $goal;
 
         return $this;
+    }
+
+    public function getcompetition()
+    {
+      return 'Лига Чемпионов';
     }
 }

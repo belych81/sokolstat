@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Shiptable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Shiptable|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ShiptableRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shiptable::class);
     }
@@ -55,7 +55,57 @@ class ShiptableRepository extends ServiceEntityRepository
             ->andWhere('s.name = :season')
             ->setParameter('country', $country)
             ->setParameter('season', $season)
-            ->orderBy('st.score DESC, st.wins DESC, st.mz')
+            ->orderBy('st.score DESC, st.wins DESC, st.mz DESC, st.mp')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTableAll($season)
+    {
+        return $this->createQueryBuilder('st')
+            ->select('st', 't')
+            ->join('st.team', 't')
+            ->join('st.season', 's')
+            ->join('st.country', 'c')
+            ->andWhere('s.name = :season')
+            ->setParameter('season', $season)
+            ->orderBy('st.score DESC, st.wins DESC, st.mz DESC, st.mp')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTeamAndSeason($teamId, $season)
+    {
+        return $this->createQueryBuilder('st')
+            ->select('st.id')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getShiptableByTeam($teamId, $season)
+    {
+        return $this->createQueryBuilder('st')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getShiptablesByTeam($teamId)
+    {
+        return $this->createQueryBuilder('st')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->setParameter('team', $teamId)
+            ->orderBy('s.name', 'asc')
             ->getQuery()
             ->getResult();
     }
@@ -79,7 +129,7 @@ class ShiptableRepository extends ServiceEntityRepository
     public function getTeams($season, $country)
     {
       return $this->createQueryBuilder('st')
-              ->select('t.id', 't.name', 't.translit')
+              ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')
               ->join('st.team', 't')
               ->join('st.season', 's')
               ->join('st.country', 'c')
@@ -96,13 +146,13 @@ class ShiptableRepository extends ServiceEntityRepository
     public function getTeamsRfpl()
     {
         return $this->createQueryBuilder('st')
-                ->select('distinct t.name')
+                ->select('distinct t.name, t.translit')
                 ->join('st.team', 't')
-                ->join('t.country', 'c')
+                ->join('st.country', 'c')
                 ->where("c.name = :country")
-                    ->setParameters([
-                    'country' => 'Россия',
-                        ])
+                ->setParameters([
+                'country' => 'Россия',
+                    ])
                 ->orderBy('t.name')
                 ->getQuery()
                 ->getResult();
@@ -113,7 +163,7 @@ class ShiptableRepository extends ServiceEntityRepository
         if ($goal1 == $goal2)
         {
             $qb = $this->_em->createQueryBuilder('Shiptable', 'st')
-                ->update('Shiptable', 'st')
+                ->update('App\Entity\Shiptable', 'st')
                 ->set('st.nich', 'st.nich+1')
                 ->set('st.mz', 'st.mz+?1')
                 ->set('st.mp', 'st.mp+?2')

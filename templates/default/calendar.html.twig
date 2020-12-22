@@ -1,0 +1,57 @@
+{% if daymatch %}
+   <div class="row sidebar-date">
+     {{ day }}
+   </div>
+  {% for ymatch in daymatch %}
+    {% if ymatch.route == 'championships' %}
+      {% if ymatch.country == 'russia' %}
+        {% set route = path('championships', {'country':'russia',
+        'season': ymatch.season.name}) %}
+      {% elseif ymatch.country.translit == "" %}
+          {% set route = path('championships', {'country':'fnl',
+          'season': ymatch.season.name}) %}
+      {% else %}
+        {% set route = path('championships', {
+          'country':ymatch.country.translit,
+          'season': ymatch.season.name}) %}
+      {% endif %}
+    {% elseif ymatch.route == 'cup' %}
+      {% set route = path('cup', {'season': ymatch.season.name}) %}
+    {% elseif ymatch.route == 'nationcup' %}
+      {% set route = path('nationcup', {'season': ymatch.season.name,
+      'country': ymatch.country.translit}) %}
+    {% elseif ymatch.route == 'eurocup' %}
+         {% set route = path('eurocup', {'season': ymatch.season.name,
+         }) %}
+    {% endif %}
+    <div class="row list-item">
+      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        {% if ymatch.team %}
+            {{ ymatch.team }}
+        {% else %}
+            {{ ymatch.country.name }}
+        {% endif %}
+      </div>
+      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        {% if ymatch.team2 %}
+            {{ ymatch.team2 }}
+        {% else %}
+            {{ ymatch.country2.name }}
+        {% endif %}
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <a href="{{ route }}" class="spiski">
+          {% if (ymatch.status == 0) %}
+                {% if ymatch.score is defined %}
+                    {{ ymatch.score }}
+                {% else %}
+                    {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
+                {% endif%}
+          {% else %}
+              {{ ymatch.data | date('H:i') }}
+          {% endif %}
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}

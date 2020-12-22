@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Ectable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Ectable|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class EctableRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ectable::class);
     }
@@ -55,11 +55,26 @@ class EctableRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function getStadiaByTeamAndSeason($season, $id)
+    {
+      return $this->createQueryBuilder('et')
+              ->select('st.alias', 'st.name')
+              ->join('et.season', 's')
+              ->join('et.stadia', 'st')
+              ->join('et.team', 't')
+              ->where("t.translit = :team")
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->setParameter('team', $id)
+              ->orderBy('t.name')
+              ->getQuery()
+              ->getSingleResult();
+    }
+
     public function updateEctable($team, $team2, $score, $season)
     {
         $goal1 = substr($score, 0, strpos($score, '-'));
         $goal2 = substr($score, strpos($score, '-')+1);
-
         if ($goal1 == $goal2) {
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Ectable', 'st')

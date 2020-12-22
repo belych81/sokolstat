@@ -1,11 +1,7 @@
 {% extends 'shiptable/index.html.twig' %}
 
 {% block title %}
-    Суперкубок {{ rus_country }}
-{% endblock %}
-
-{% block keywords %}
-    <meta name="keywords" content="суперкубок {{ rus_country }}">
+    Суперкубок {{ rus_country }} - результаты, авторы забитых мячей
 {% endblock %}
 
 {% block description %}
@@ -15,16 +11,37 @@
 {% block seasons %}
 {% endblock %}
 
-{% block zagolovok %}
-    <p class="zagolovok">Суперкубок {{ rus_country }}</p>
-{% endblock %}
 
 {% block content %}
+
+<div><h1>Суперкубок {{ rus_country }}</h1></div>
+
+{% if is_granted("ROLE_ADMIN") %}
+  <p><a href="{{ path('nationsupercup_newMatch', {
+    'country': app.request.get('country')}) }}">
+  Добавить матч</a></p>
+{% endif %}
+
     <table class="supercup">
         {% for entity in entities %}
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="scSeason">
-                    {{ entity.season.name }}
+                    <strong>{{ entity.season.name }}</strong>
+                </td>
+                <td>
+                    <div>
+                      {% if is_granted("ROLE_ADMIN") %}
+                          <a href="{{ path('nationsupercup_new', {
+                            'id': entity.id, 'country': app.request.get('country')}) }}">
+                            {{ entity.data | date('d.m H:i') }}</a>
+                      {% else %}
+                            {% if entity.status == 1 %}
+                              {{ entity.data | date('d.m H:i') }}
+                            {% else %}
+                                {{ entity.data | date('d.m') }}
+                            {% endif %}
+                      {% endif %}
+                    </div>
                 </td>
                 <td class="scMatch">
                     {% if app.request.get('country') == 'russia' or app.request.get('country') == 'uefa' %}

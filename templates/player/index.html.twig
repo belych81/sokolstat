@@ -1,11 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Футболисты чемпионатов России
-{% endblock %}
-
-{% block keywords %}
-    <meta name="keywords" content="российские футболисты, статистика игроков, сортировка футболистов">
+    Все игроки чемпионатов России по футболу
 {% endblock %}
 
 {% block description %}
@@ -14,21 +10,31 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Футболисты чемпионатов России</h1>
+
+
+    <h1>Чемпионаты России. Футболисты</h1>
     <div>
         <span>Параметры:</span>
         <form method="post" action="{{ path ('player') }}">
-            <select name="country" onchange="this.form.submit();" placeholder="Страна">
-                <option>Страна</option>
+            <select name="country" placeholder="Страна"
+              data-team="{{ app.request.get('team') }}">
+                <option value="all" {% if strana == false %}selected="selected"{% endif %}>
+                  Страна
+                </option>
                 {% for stran in country %}
-                <option {% if strana == stran.name %}selected{% endif %}>{{ stran.name }}</option>
+                  <option {% if strana and strana == stran.translit %}selected="selected"{% endif %}
+                    value="{{ stran.translit }}">
+                    {{ stran.name }}
+                  </option>
                 {% endfor %}
             </select>
 
-            <select name="teams" onchange="this.form.submit();" placeholder="Команда">
-                <option>Команда</option>
+            <select name="teams" placeholder="Команда"
+              data-country="{{ app.request.get('country') }}">
+                <option value="all">Команда</option>
                 {% for team in teams %}
-                <option {% if club == team.name %}selected{% endif %}>{{ team.name }}</option>
+                <option {% if club == team.name %}selected{% endif %} value="{{ team.translit }}">
+                  {{ team.name }}</option>
                 {% endfor %}
             </select>
         </form>
@@ -43,24 +49,28 @@
     {% if lastPage > 1 %}
         {% if app.request.get('page') > 1 %}
             <a href="{{ path('player', {'page': 1, 'sort': app.request.get('sort'),
-             'order': app.request.get('order')})}}">
+             'order': app.request.get('order'), 'team': app.request.get('team'),
+             'country': app.request.get('country')})}}">
               <img src="{{ asset('images/double_arrows2.png') }}"
                  alt="Первая" title="Первая" class="arrow" /></a>
 
             <a href="{{ path('player', {'page': previousPage, 'sort': app.request.get('sort'),
-            'order': app.request.get('order')})}}">
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
               <img src="{{ asset('images/strelkaLeft.png') }}"
                  alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
         {% endif %}
         Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
         {% if lastPage != app.request.get('page') %}
             <a href="{{ path('player', {'page': nextPage, 'sort': app.request.get('sort'),
-            'order': app.request.get('order')})}}">
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
               <img src="{{ asset('images/strelka.png') }}"
                  alt="Следующая" title="Следующая" class="arrow"/></a>
 
             <a href="{{ path('player', {'page': lastPage, 'sort': app.request.get('sort'),
-            'order': app.request.get('order')})}}">
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
               <img src="{{ asset('images/double_arrows1.png') }}"
                  alt="Последняя" title="Последняя" class="arrow" /></a>
          {% endif %}
@@ -84,42 +94,42 @@
             <tr class="shipTableTitle">
                 <td class="playerListGame">
                     {% if club and club != 'Команда' %}
-                    <a href="{{ path ('player', {'sort': 'game'}) }}">
-                        {% else%}
-                           <a href="{{ path ('player', {'sort': 'game'}) }}">
-                            {% endif %}
+                      <a href="{{ path ('player', {'sort': 'game', 'order': order}) }}">
+                    {% else%}
+                      <a href="{{ path ('player', {'sort': 'game', 'order': order}) }}">
+                    {% endif %}
                         И</a>
                 </td>
                 <td class="playerListGame">
                     {% if club and club != 'Команда' %}
-                        <a href="{{ path ('player', {'sort': 'goal'}) }}">
+                        <a href="{{ path ('player', {'sort': 'goal', 'order': order}) }}">
                     {% else%}
-                        <a href="{{ path ('player', {'sort': 'goal'}) }}">
+                        <a href="{{ path ('player', {'sort': 'goal', 'order': order}) }}">
                     {% endif %}
                     Г</a>
                 </td>
-                <td class="playerListTotalGame">
-                    <a href="{{ path ('player', {'sort': 'totalgame'}) }}">И</a>
+                <td class="playerListGame">
+                    <a href="{{ path ('player', {'sort': 'totalgame', 'order': order}) }}">И</a>
                 </td>
                 <td class="playerListGame">
-                    <a href="{{ path ('player', {'sort': 'totalgoal'}) }}">Г</a>
+                    <a href="{{ path ('player', {'sort': 'totalgoal', 'order': order}) }}">Г</a>
                 </td>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="players-list">
         {% for entity in entities %}
 
             <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ loop.index+(app.request.get('page')-1)*20 }}</td>
+                <td class="player-position">{{ loop.index+(app.request.get('page')-1)*20 }}</td>
                 <td><a href="{{ path ('player_show', {'id': entity.player.translit}) }}" class="spiski">
                         {{ entity.player.name }}</a></td>
                 <td class="playerListBorn">{{ entity.player.born | date('d.m.Y') }}</td>
                 {% if club and club != 'Команда' %}
-                <td class="playerListGame">{{ entity.gameTeam }}</td>
-                <td class="playerListGame">{{ entity.goalTeam }}</td>
+                  <td class="playerListGame">{{ entity.gameTeam }}</td>
+                  <td class="playerListGame">{{ entity.goalTeam }}</td>
                 {% else %}
-                <td class="playerListGame">{{ entity.game }}</td>
-                <td class="playerListGame">{{ entity.goal }}</td>
+                  <td class="playerListGame">{{ entity.game }}</td>
+                  <td class="playerListGame">{{ entity.goal }}</td>
                 {% endif %}
                 <td class="playerListGame">{{ entity.totalgame }}</td>
                 <td class="playerListGame">{{ entity.totalgoal }}</td>
@@ -127,6 +137,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}

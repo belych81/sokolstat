@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Seasons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Seasons|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +14,36 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class SeasonsRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Seasons::class);
     }
 
-    // /**
-    //  * @return Seasons[] Returns an array of Seasons objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getSeasonsEurocupByTeam($team)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('s')
+              ->select('s', 'e')
+              ->leftJoin('s.eurocups', 'e')
+              ->where("e.season = s.id")
+              ->andWhere("e.team = :team OR e.team2 = :team")
+              ->setParameter('team', $team)
+              ->orderBy('s.name', 'ASC')
+              ->getQuery()
+              ->getResult()
+              ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Seasons
+    public function getSeasonsCupByTeam($team)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+      return $this->createQueryBuilder('s')
+              ->select('s', 'c')
+              ->leftJoin('s.cups', 'c')
+              ->where("c.season = s.id")
+              ->andWhere("c.team = :team OR c.team2 = :team")
+              ->setParameter('team', $team)
+              ->orderBy('s.name', 'ASC')
+              ->getQuery()
+              ->getResult()
+              ;
     }
-    */
 }

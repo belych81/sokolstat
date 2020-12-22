@@ -91,4 +91,9 @@ class Supercupplayer
 
         return $this;
     }
+
+    public function getcompetition()
+    {
+      return 'Суперкубок России';
+    }
 }

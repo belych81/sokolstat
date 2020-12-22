@@ -16,7 +16,7 @@ while ($row = mysqli_fetch_row($result)) {
     $div[] = $row[3]."<br/>";
 }
 $n=1;
-$cnt = 28;
+$cnt = 24;
 for($i=0; $i<$cnt; $i++) {
     for ($j=0; $j<$cnt; $j++) {
         if (($i > $j) && ($conf[$i] != $conf[$j]) && ($n%2 == 0)) {
@@ -57,24 +57,7 @@ for ($i=0, $cnt=count($team1); $i < $cnt; $i++) {
    $tt[] = [$team1[$i], $team2[$i]];
 }
 shuffle($tt);
-$newTt = [];
-foreach ($tt as $key => &$val) {
-    if($val[0]==$tt[$key-1][0] || $val[0]==$tt[$key-2][0] || $val[0]==$tt[$key-3][0] || $val[0]==$tt[$key-4][0] || $val[0]==$tt[$key-5][0]
-        || $val[0]==$tt[$key-6][0] || $val[0]==$tt[$key-1][1] || $val[0]==$tt[$key-2][1] || $val[0]==$tt[$key-3][1] || $val[0]==$tt[$key-4][1]
-        || $val[0]==$tt[$key-5][1]
-        || $val[0]==$tt[$key-6][1] || $val[1]==$tt[$key-1][0] || $val[1]==$tt[$key-2][0] || $val[1]==$tt[$key-3][0] || $val[1]==$tt[$key-4][0]
-        || $val[1]==$tt[$key-5][0]
-        || $val[1]==$tt[$key-6][0] || $val[1]==$tt[$key-1][1] || $val[1]==$tt[$key-2][1] || $val[1]==$tt[$key-3][1] || $val[1]==$tt[$key-4][1]
-        || $val[1]==$tt[$key-5][1]
-        || $val[1]==$tt[$key-6][1]){
-         $newTt[] = $val;
-         unset($tt[$key]);
-         ksort($tt);
-        }
-}
-var_dump(count($tt));
-var_dump(count($newTt));
-$ttt = array_merge($tt, $newTt);
-foreach($ttt as $val){
+
+foreach($tt as $key => $val){
  echo $val[0]." - ".$val[1]."<br/>";
 }
