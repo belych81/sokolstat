@@ -112,6 +112,12 @@ footer {
     width: 200px;
     height: 41px;
 }
+#navbar-collapse-1 .navbar-nav > li > a{
+    background-color: #f8f8f8;
+    color: #936;
+    font-weight: bold;
+    font-size: 14px;
+}
 #playersMainMenu {
     position: absolute;
     left: 520px;
@@ -226,7 +232,7 @@ footer {
     text-align: center;
     font-weight: bold;
     background-color: #936;
-    width: 17px;
+    width: 28px;
     color: #FFFFFF;
 }
 .champTourTeam {
@@ -266,17 +272,7 @@ footer {
   font-size: 13px;
   font-weight: bold;
 }
-.champs{
-  display: inline-block;
-  vertical-align: top;
-  margin-bottom: 15px;
-}
-.champ-table{
-  margin-left: 15px;
-}
 .champ-tours{
-  margin-left: 15px;
-  margin-right: 15px;
   max-width: 360px;
 }
 .champ-tours table{
@@ -329,9 +325,6 @@ footer {
   top: -7px;
   left: -10px;
   border-right-color: #936;
-}
-.champs{
-  margin-left: 15px;
 }
 .changeGameGoalPlayer{
   cursor: pointer;
@@ -647,7 +640,7 @@ footer {
   padding: 17px 15px;
   height: 65px;
 }
-.navbar, ul.navbar-nav{
+.main-menu, .main-menu ul.navbar-nav{
   height: 65px;
 }
 .navbar-nav.submenu li a{

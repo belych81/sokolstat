@@ -2772,17 +2772,17 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v5.1.8",
-            "version_normalized": "5.1.8.0",
+            "version": "v5.1.10",
+            "version_normalized": "5.1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "65b7d208280f2700f43ba44a8059a25d7b01347b"
+                "reference": "db293681c930efe53e7e6a02653bddb2e52e7c43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/65b7d208280f2700f43ba44a8059a25d7b01347b",
-                "reference": "65b7d208280f2700f43ba44a8059a25d7b01347b",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/db293681c930efe53e7e6a02653bddb2e52e7c43",
+                "reference": "db293681c930efe53e7e6a02653bddb2e52e7c43",
                 "shasum": ""
             },
             "require": {
@@ -2798,7 +2798,7 @@
             "suggest": {
                 "symfony/process": ""
             },
-            "time": "2020-10-24T12:01:57+00:00",
+            "time": "2020-12-18T08:02:46+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2826,7 +2826,7 @@
             "description": "Symfony BrowserKit Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/browser-kit/tree/v5.1.8"
+                "source": "https://github.com/symfony/browser-kit/tree/v5.1.10"
             },
             "funding": [
                 {
