@@ -20,7 +20,23 @@ class PlayerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Player::class);
     }
-//DAYOFMONTH(born) = DAYOFMONTH(NOW()) and MONTH(born) = MONTH(NOW())
+
+    public function getListPlayer($limit = 0)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.name, p.translit, p.born, c.name as country')
+            ->join('p.country', 'c')
+            ->orderBy('p.born', 'ASC');
+
+        if($limit > 0)
+        {
+            $qb->setMaxResults($limit);
+        }
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function getBirthdayPlayer($data)
     {
         $qb = $this->createQueryBuilder('p')

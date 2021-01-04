@@ -113,6 +113,12 @@ if (\PHP_VERSION_ID >= 80000) {
     $PHPUNIT_VERSION = '4.8';
 }
 
+$MAX_PHPUNIT_VERSION = $getEnvVar('SYMFONY_MAX_PHPUNIT_VERSION', false);
+
+if ($MAX_PHPUNIT_VERSION && version_compare($MAX_PHPUNIT_VERSION, $PHPUNIT_VERSION, '<')) {
+    $PHPUNIT_VERSION = $MAX_PHPUNIT_VERSION;
+}
+
 $PHPUNIT_REMOVE_RETURN_TYPEHINT = filter_var($getEnvVar('SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT', '0'), \FILTER_VALIDATE_BOOLEAN);
 
 $COMPOSER_JSON = getenv('COMPOSER') ?: 'composer.json';
@@ -145,6 +151,10 @@ foreach ($defaultEnvs as $envName => $envValue) {
         putenv("$envName=$envValue");
         $_SERVER[$envName] = $_ENV[$envName] = $envValue;
     }
+}
+
+if ('disabled' === $getEnvVar('SYMFONY_DEPRECATIONS_HELPER')) {
+    putenv('SYMFONY_DEPRECATIONS_HELPER=disabled');
 }
 
 $COMPOSER = file_exists($COMPOSER = $oldPwd.'/composer.phar')
@@ -232,7 +242,7 @@ if (!file_exists("$PHPUNIT_DIR/$PHPUNIT_VERSION_DIR/phpunit") || $configurationH
     }
     $prevRoot = getenv('COMPOSER_ROOT_VERSION');
     putenv("COMPOSER_ROOT_VERSION=$PHPUNIT_VERSION.99");
-    $q = '\\' === \DIRECTORY_SEPARATOR ? '"' : '';
+    $q = '\\' === \DIRECTORY_SEPARATOR && \PHP_VERSION_ID < 80000 ? '"' : '';
     // --no-suggest is not in the list to keep compat with composer 1.0, which is shipped with Ubuntu 16.04LTS
     $exit = proc_close(proc_open("$q$COMPOSER install --no-dev --prefer-dist --no-progress $q", [], $p, getcwd()));
     putenv('COMPOSER_ROOT_VERSION'.(false !== $prevRoot ? '='.$prevRoot : ''));
