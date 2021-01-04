@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0de7f9f-8446-47cf-9e54-a4f3e625a4a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symf.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/easy_admin.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/easy_admin.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/twig.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Cup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Cup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Cupplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Cupplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Ecplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Ecplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Ectable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Ectable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Fnlplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Fnlplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Gamers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Gamers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Lchplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Lchplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/NationCup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/NationCup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/NationSupercup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/NationSupercup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Playersteam.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Playersteam.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Rfplmatch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Rfplmatch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/RusSupercup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/RusSupercup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Shipplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Shipplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Shiptable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Shiptable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Sostav.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sostav.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Supercupplayer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Supercupplayer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Tour.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Tour.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/UefaSupercup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UefaSupercup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,6 +179,7 @@
       <workItem from="1608704762566" duration="3305000" />
       <workItem from="1609674954249" duration="4003000" />
       <workItem from="1609694521184" duration="2557000" />
+      <workItem from="1609774705250" duration="3189000" />
     </task>
     <servers />
   </component>
