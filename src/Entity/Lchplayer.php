@@ -113,4 +113,9 @@ class Lchplayer
     {
       return 'Лига Чемпионов';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

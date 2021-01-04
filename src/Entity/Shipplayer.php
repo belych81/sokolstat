@@ -181,4 +181,9 @@ class Shipplayer
     {
       return $this->getTeam()->getCountry()->getName().' (чемпионат)';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

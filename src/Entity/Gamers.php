@@ -141,4 +141,9 @@ class Gamers
     {
       return 'Чемпионат России';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

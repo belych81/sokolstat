@@ -213,4 +213,9 @@ class Tour
     {
         return $this->getGoal1()."-".$this->getGoal2();
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

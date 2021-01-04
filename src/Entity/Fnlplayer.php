@@ -113,4 +113,9 @@ class Fnlplayer
     {
       return 'ФНЛ (первый дивизион)';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

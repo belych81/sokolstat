@@ -159,4 +159,9 @@ class Ecplayer
     {
       return 'Еврокубки ('.$this->getTurnir()->getName().')';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

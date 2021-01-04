@@ -96,6 +96,20 @@ easy_admin:
                     - name
                     - country
                 filters: ['name', 'country']
+            form:
+                fields:
+                  - name
+                  - translit
+                  - image
+                  - image2
+                  - country
+                  - game
+                  - wins
+                  - nich
+                  - porazh
+                  - mz
+                  - mp
+                  - score
           Shiptable:
             class: App\Entity\Shiptable
             list:

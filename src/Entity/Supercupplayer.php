@@ -96,4 +96,9 @@ class Supercupplayer
     {
       return 'Суперкубок России';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }

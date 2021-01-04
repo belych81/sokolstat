@@ -12,6 +12,7 @@
 /public/newspaper.php
 /public/nfl.php
 /var/
+/vendor/
 /bin/
 ###< symfony/framework-bundle ###
 

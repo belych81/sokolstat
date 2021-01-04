@@ -141,4 +141,9 @@ class Cupplayer
     {
       return 'Кубок России';
     }
+
+    public function __toString()
+    {
+        return (string)$this->id;
+    }
 }
