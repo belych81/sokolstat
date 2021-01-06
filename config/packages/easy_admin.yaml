@@ -81,6 +81,16 @@ easy_admin:
                 fields:
                     - id
                     - title
+          Stadia:
+            class: App\Entity\Stadia
+            list:
+              fields:
+                - id
+                - name
+            form:
+              fields:
+                - name
+                - alias
           Country:
             class: App\Entity\Country
             list:
