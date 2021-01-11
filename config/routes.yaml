@@ -2,16 +2,6 @@ steam_fbstat_homepage:
     path:     /
     controller: App\Controller\DefaultController::index
 
-api_player_list:
-  path: /api/v1/players/
-  controller: App\Controller\ApiPlayerController::index
-  methods: [GET]
-
-api_player_create:
-  path: /api/v1/players/create/
-  controller: App\Controller\ApiPlayerController::create
-  methods: [POST]
-
 profile:
     path: /profile/
     controller: App\Controller\DefaultController::profile

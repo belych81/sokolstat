@@ -84,21 +84,10 @@ class DefaultController extends AbstractController
       $yestmatch = array_merge($yesterdayMatches, $yesterdayEcMatches,
         $yesterdayMatches5, $yesterdayRscMatches, $yescup,
         $yessupercup, $yesNcup, $yesUsupercup);
-      $mySort = function($f1,$f2)
-              {
-                 if($f1->getData() < $f2->getData()){
-                     return -1;
-                 }
-                 elseif($f1->getData() > $f2->getData()) {
-                     return 1;
-                 }
-                 else {
-                     return 0;
-                 }
-              };
-      uasort($tommatch, $mySort);
-      uasort($curmatch, $mySort);
-      uasort($yestmatch, $mySort);
+
+      uasort($tommatch, ['App\Service\Sort', 'sortByDate']);
+      uasort($curmatch, ['App\Service\Sort', 'sortByDate']);
+      uasort($yestmatch, ['App\Service\Sort', 'sortByDate']);
 
       $birthdays = $this->getDoctrine()->getRepository(Player::class)
         ->getBirthdayPlayer(date('m-d'));

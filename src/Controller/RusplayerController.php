@@ -99,15 +99,14 @@ class RusplayerController extends AbstractController
         $goalsSb = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbSum($id, 'goal');
 
-      //  $items = $entities;
         $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups,
           $lchplayer, $fnlplayer, $shipplayer);
-          uasort($items, function ($v1, $v2) {
+        uasort($items, function ($v1, $v2) {
             if($v1->getSeason()->getName() == $v2->getSeason()->getName()) {
               return 0;
             }
             return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
-          });
+        });
 
         return $this->render('player/show.html.twig', [
             'entities' => $entities,

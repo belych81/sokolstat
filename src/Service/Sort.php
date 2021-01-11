@@ -10,4 +10,15 @@ class Sort
     	return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
     }
 
+    public static function sortByDate($v1, $v2) {
+        if($v1->getData() < $v2->getData()){
+            return -1;
+        }
+        elseif($v1->getData() > $v2->getData()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 }

@@ -910,7 +910,6 @@ footer {
 }
 .reg-form label{
   font-weight: bold;
-  display: table-cell;
   padding: 10px 0 10px 0;
 }
 .reg-form li{

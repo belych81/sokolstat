@@ -4,41 +4,34 @@
 
 {% block content %}
 <div class="reg-form">
-<div>
-<h1>Авторизация</h1>
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div>
+        <h1>Авторизация</h1>
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-<div>
-    <label for="inputUsername" class="sr-only">Логин</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-</div>
-<div>
-    <label for="inputPassword" class="sr-only">Пароль</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-</div>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+            <div class="form-group">
+                <label for="inputUsername" class="sr-only">Логин</label>
+                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Логин" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="sr-only">Пароль</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-    #}
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Запомнить меня
-            </label>
-        </div>
+            <div class="checkbox">
+                <input type="checkbox" id="remember_me" name="_remember_me" />
+                <label for="remember_me">Запомнить меня</label>
+            </div>
 
-  <div class="reg-submit-container">
-    <button class="reg-submit" type="submit">
-        Войти
-    </button>
+            <div class="reg-submit-container form-group">
+                <button class="reg-submit" type="submit">
+                    Войти
+                </button>
+            </div>
+        </form>
     </div>
-</form>
-</div>
 </div>
 {% endblock %}
