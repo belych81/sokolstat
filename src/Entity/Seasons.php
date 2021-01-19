@@ -21,7 +21,7 @@ class Seasons
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name = '2019-20';
+    private $name = '2020-21';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="season")

@@ -2,12 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
+ *
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="team:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="team:item"}}},
+ *     order={"name"="DESC", "id"="ASC"},
+ *     paginationEnabled=false
+ * )
  */
 class Team
 {
@@ -15,22 +24,30 @@ class Team
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"team:list", "team:item"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"team:list", "team:item"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"team:list", "team:item"})
      */
     private $translit;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="teams")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups({"team:list", "team:item"})
      */
     private $country;
 

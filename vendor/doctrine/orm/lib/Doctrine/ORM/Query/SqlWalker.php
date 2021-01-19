@@ -139,7 +139,7 @@ class SqlWalker implements TreeWalker
     private $scalarFields = [];
 
     /**
-     * Map of all components/classes that appear in the DQL query.
+     * Map of all pages/classes that appear in the DQL query.
      *
      * @var array
      *

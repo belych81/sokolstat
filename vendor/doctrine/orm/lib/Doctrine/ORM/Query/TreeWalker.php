@@ -32,7 +32,7 @@ interface TreeWalker
      *
      * @param \Doctrine\ORM\AbstractQuery      $query           The parsed Query.
      * @param \Doctrine\ORM\Query\ParserResult $parserResult    The result of the parsing process.
-     * @param array                            $queryComponents The query components (symbol table).
+     * @param array                            $queryComponents The query pages (symbol table).
      */
     public function __construct($query, $parserResult, array $queryComponents);
 

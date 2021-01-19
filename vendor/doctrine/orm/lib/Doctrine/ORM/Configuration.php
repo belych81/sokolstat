@@ -365,7 +365,7 @@ class Configuration extends \Doctrine\DBAL\Configuration
     }
 
     /**
-     * Gets the components of a previously registered named native query.
+     * Gets the pages of a previously registered named native query.
      *
      * @param string $name The name of the query.
      *

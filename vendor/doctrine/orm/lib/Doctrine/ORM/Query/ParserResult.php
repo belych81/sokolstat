@@ -20,7 +20,7 @@
 namespace Doctrine\ORM\Query;
 
 /**
- * Encapsulates the resulting components from a DQL query parsing process that
+ * Encapsulates the resulting pages from a DQL query parsing process that
  * can be serialized.
  *
  * @author      Guilherme Blanco <guilhermeblanco@hotmail.com>

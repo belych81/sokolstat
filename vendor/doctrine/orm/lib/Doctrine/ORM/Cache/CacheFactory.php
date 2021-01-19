@@ -26,7 +26,7 @@ use Doctrine\ORM\Persisters\Collection\CollectionPersister;
 use Doctrine\ORM\Persisters\Entity\EntityPersister;
 
 /**
- * Contract for building second level cache regions components.
+ * Contract for building second level cache regions pages.
  * 
  * @since   2.5
  * @author  Fabio B. Silva <fabio.bat.silva@gmail.com>

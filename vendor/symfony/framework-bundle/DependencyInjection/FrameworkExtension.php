@@ -193,7 +193,7 @@ class FrameworkExtension extends Extension
             }
         }
 
-        // Load Cache configuration first as it is used by other components
+        // Load Cache configuration first as it is used by other pages
         $loader->load('cache.xml');
 
         $configuration = $this->getConfiguration($configs, $container);

@@ -7,7 +7,7 @@ return [
     'zend-developer-tools/toolbar/doctrine' => 'zend-developer-tools/toolbar/doctrine',
 
     // NAMESPACES
-    // Zend Framework components
+    // Zend Framework pages
     'Zend\\AuraDi\\Config' => 'Laminas\\AuraDi\\Config',
     'Zend\\Authentication' => 'Laminas\\Authentication',
     'Zend\\Barcode' => 'Laminas\\Barcode',
@@ -183,7 +183,7 @@ return [
     'ApigilityVersionController' => 'ApiToolsVersionController',
 
     // PACKAGES
-    // ZF components, MVC
+    // ZF pages, MVC
     'zendframework/skeleton-application' => 'laminas/skeleton-application',
     'zendframework/zend-auradi-config' => 'laminas/laminas-auradi-config',
     'zendframework/zend-authentication' => 'laminas/laminas-authentication',
@@ -284,7 +284,7 @@ return [
     'zfcampus/zf-versioning' => 'laminas-api-tools/api-tools-versioning',
 
     // CONFIG KEYS, SCRIPT NAMES, ETC
-    // ZF components
+    // ZF pages
     '::fromZend' => '::fromLaminas', // psr7bridge
     '::toZend' => '::toLaminas', // psr7bridge
     'use_zend_loader' => 'use_laminas_loader', // zend-modulemanager

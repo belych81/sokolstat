@@ -238,7 +238,7 @@ class QueryException extends \Doctrine\ORM\ORMException
     {
         return new self(
             "A single-valued association path expression to an entity with a composite primary ".
-            "key is not supported. Explicitly name the components of the composite primary key ".
+            "key is not supported. Explicitly name the pages of the composite primary key ".
             "in the query."
         );
     }

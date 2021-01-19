@@ -697,7 +697,7 @@ class Connection implements DriverConnection
     }
 
     /**
-     * Adds condition based on the criteria to the query components
+     * Adds condition based on the criteria to the query pages
      *
      * @param mixed[]  $criteria   Map of key columns to their values
      * @param string[] $columns    Column names

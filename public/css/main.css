@@ -419,6 +419,20 @@ footer {
 .alert-error {
     color: red;
 }
+.go-all-clubs {
+    width: 100px;
+    height: 20px;
+    background-color: #993366;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+.go-all-clubs a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
 .goalsTable{
     width: 50px;
 }

@@ -14,7 +14,7 @@ namespace Laminas\EventManager;
 interface SharedEventManagerInterface
 {
     /**
-     * Attach a listener to an event emitted by components with specific identifiers.
+     * Attach a listener to an event emitted by pages with specific identifiers.
      *
      * @param  string $identifier Identifier for event emitting component
      * @param  string $eventName

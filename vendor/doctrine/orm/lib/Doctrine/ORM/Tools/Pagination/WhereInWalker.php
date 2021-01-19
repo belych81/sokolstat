@@ -83,7 +83,7 @@ class WhereInWalker extends TreeWalkerAdapter
         $from = $AST->fromClause->identificationVariableDeclarations;
 
         if (count($from) > 1) {
-            throw new \RuntimeException("Cannot count query which selects two FROM components, cannot make distinction");
+            throw new \RuntimeException("Cannot count query which selects two FROM pages, cannot make distinction");
         }
 
         $fromRoot            = reset($from);

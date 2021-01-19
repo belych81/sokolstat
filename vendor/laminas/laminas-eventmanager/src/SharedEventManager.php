@@ -32,7 +32,7 @@ class SharedEventManager implements SharedEventManagerInterface
     protected $identifiers = [];
 
     /**
-     * Attach a listener to an event emitted by components with specific identifiers.
+     * Attach a listener to an event emitted by pages with specific identifiers.
      *
      * As an example, the following connects to the "getAll" event of both an
      * AbstractResource and EntityResource:

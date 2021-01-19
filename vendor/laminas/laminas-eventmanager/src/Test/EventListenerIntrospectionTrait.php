@@ -30,7 +30,7 @@ use const SORT_NUMERIC;
  *
  * Some functionality in this trait duplicates functionality present in the
  * version 2 EventManagerInterface and/or EventManager implementation, but
- * abstracts that functionality for use in v3. As such, components or code
+ * abstracts that functionality for use in v3. As such, pages or code
  * that is testing for listener registration should use the methods in this
  * trait to ensure tests are forwards-compatible between laminas-eventmanager
  * versions.

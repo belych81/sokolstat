@@ -22,7 +22,7 @@ class IcuVersion
      * Compares two ICU versions with an operator.
      *
      * This method is identical to {@link version_compare()}, except that you
-     * can pass the number of regarded version components in the last argument
+     * can pass the number of regarded version pages in the last argument
      * $precision.
      *
      * Also, a single digit release version and a single digit major version
@@ -43,7 +43,7 @@ class IcuVersion
      *     IcuVersion::compare('1', '10', '==')
      *     // => true
      *
-     * @param int|null $precision The number of components to compare. Pass
+     * @param int|null $precision The number of pages to compare. Pass
      *                            NULL to compare the versions unchanged.
      *
      * @return bool Whether the comparison succeeded
@@ -59,7 +59,7 @@ class IcuVersion
     }
 
     /**
-     * Normalizes a version string to the number of components given in the
+     * Normalizes a version string to the number of pages given in the
      * parameter $precision.
      *
      * A single digit release version and a single digit major version are
@@ -77,7 +77,7 @@ class IcuVersion
      *     IcuVersion::normalize('1.2.3.4', 2);
      *     // => '12.3'
      *
-     * @param int|null $precision The number of components to include. Pass
+     * @param int|null $precision The number of pages to include. Pass
      *                            NULL to return the version unchanged.
      *
      * @return string|null the normalized ICU version or NULL if it couldn't be

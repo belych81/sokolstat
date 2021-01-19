@@ -162,7 +162,7 @@ class Parser
     private $query;
 
     /**
-     * Map of declared query components in the parsed query.
+     * Map of declared query pages in the parsed query.
      *
      * @var array
      */
@@ -593,7 +593,7 @@ class Parser
 
     /**
      * Validates that the given <tt>IdentificationVariable</tt> is semantically correct.
-     * It must exist in query components list.
+     * It must exist in query pages list.
      *
      * @return void
      */
@@ -678,7 +678,7 @@ class Parser
 
     /**
      * Validates that the given <tt>PartialObjectExpression</tt> is semantically correct.
-     * It must exist in query components list.
+     * It must exist in query pages list.
      *
      * @return void
      */
@@ -715,7 +715,7 @@ class Parser
 
     /**
      * Validates that the given <tt>ResultVariable</tt> is semantically correct.
-     * It must exist in query components list.
+     * It must exist in query pages list.
      *
      * @return void
      */
@@ -2289,7 +2289,7 @@ class Parser
             $token = $this->lexer->lookahead;
             $aliasResultVariable = $this->AliasResultVariable();
 
-            // Include AliasResultVariable in query components.
+            // Include AliasResultVariable in query pages.
             $this->queryComponents[$aliasResultVariable] = [
                 'resultVariable' => $expression,
                 'nestingLevel'   => $this->nestingLevel,
@@ -2383,7 +2383,7 @@ class Parser
             $resultVariable = $this->AliasResultVariable();
             $expr->fieldIdentificationVariable = $resultVariable;
 
-            // Include AliasResultVariable in query components.
+            // Include AliasResultVariable in query pages.
             $this->queryComponents[$resultVariable] = [
                 'resultvariable' => $expr,
                 'nestingLevel'   => $this->nestingLevel,

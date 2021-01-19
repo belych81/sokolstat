@@ -52,7 +52,7 @@ class TreeWalkerChain implements TreeWalker
     private $_parserResult;
 
     /**
-     * The query components of the original query (the "symbol table") that was produced by the Parser.
+     * The query pages of the original query (the "symbol table") that was produced by the Parser.
      *
      * @var array
      */

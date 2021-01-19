@@ -68,7 +68,7 @@ final class VerifyEmailSignatureComponents
      * This is used in conjunction with the getExpirationMessageData() method.
      * Example usage in a Twig template:
      *
-     * <p>{{ components.expirationMessageKey|trans(components.expirationMessageData) }}</p>
+     * <p>{{ pages.expirationMessageKey|trans(pages.expirationMessageData) }}</p>
      *
      * symfony/translation is required to translate into a non-English locale.
      *

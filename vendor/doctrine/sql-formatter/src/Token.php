@@ -24,7 +24,7 @@ final class Token
     public const TOKEN_TYPE_ERROR             = 11;
     public const TOKEN_TYPE_VARIABLE          = 12;
 
-    // Constants for different components of a token
+    // Constants for different pages of a token
     public const TOKEN_TYPE  = 0;
     public const TOKEN_VALUE = 1;
 

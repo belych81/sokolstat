@@ -160,22 +160,6 @@ function parseUrlQuery() {
       });
   });
 
-  $(".tab input:first").prop('checked', true);
-
-  $(".tabs .tab input").each(function(){
-    if($(this).prop('checked')){
-      var className = this.className;
-      $(".tab-content."+ className).show();
-    }
-  });
-
-  $(".tab input").change(function(){
-    var className = $(this).attr('class');
-    console.log(className);
-    $(".tab-content").hide();
-    $(".tab-content."+className).show();
-  });
-
   $("#selectPageMatches").change(function(){
     var maxMatches = $(this).val(),
       params = parseUrlQuery(),
@@ -189,21 +173,5 @@ function parseUrlQuery() {
       window.location.search = newArr.join('&');
   });
 
-	$("#datepicker").datepicker({
-		minDate: new Date(1992, 9, 6),
-		maxDate: new Date(1993, 2, 25),
-		defaultDate: new Date(1992, 9, 6)
-	});
-
-	$(".datepicker-icon").click(function(){
-		$(".datepicker-calend").show();
-	});
-
-	$(document).mouseup(function (e){
-		var div = $(".datepicker-calend");
-		if (!div.is(e.target) && div.has(e.target).length === 0) {
-			div.hide();
-		}
-	});
 
 });

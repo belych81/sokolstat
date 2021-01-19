@@ -1,14 +1,18 @@
 <?php
 namespace App\Service;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 class Props
 {
     private $lastSeason = '2020-21';
+    private $tops = ['Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
 
     public function getLastSeason(): ?string
     {
       return $this->lastSeason;
+    }
+
+    public function getTops(): array
+    {
+        return $this->tops;
     }
 }

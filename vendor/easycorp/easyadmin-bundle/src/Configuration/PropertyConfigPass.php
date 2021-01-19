@@ -320,7 +320,7 @@ class PropertyConfigPass implements ConfigPassInterface
         $resolvedFormOptions = $mergedConfig['type_options'];
 
         // if the user has defined a 'type', the type options
-        // must be reset so they don't get mixed with the form components guess.
+        // must be reset so they don't get mixed with the form pages guess.
         // Only the 'required' and user defined option are kept
         if (
             isset($userDefinedConfig['type'], $guessedConfig['fieldType'])

@@ -22,7 +22,7 @@ class Version
      * Compares two versions with an operator.
      *
      * This method is identical to {@link version_compare()}, except that you
-     * can pass the number of regarded version components in the last argument
+     * can pass the number of regarded version pages in the last argument
      * $precision.
      *
      * Examples:
@@ -33,7 +33,7 @@ class Version
      *     Version::compare('1.2.3', '1.2.4', '==', 2)
      *     // => true
      *
-     * @param int|null $precision The number of components to compare. Pass
+     * @param int|null $precision The number of pages to compare. Pass
      *                            NULL to compare the versions unchanged.
      *
      * @return bool Whether the comparison succeeded
@@ -49,7 +49,7 @@ class Version
     }
 
     /**
-     * Normalizes a version string to the number of components given in the
+     * Normalizes a version string to the number of pages given in the
      * parameter $precision.
      *
      * Examples:
@@ -60,7 +60,7 @@ class Version
      *     Version::normalize('1.2.3', 2);
      *     // => '1.2'
      *
-     * @param int|null $precision The number of components to include. Pass
+     * @param int|null $precision The number of pages to include. Pass
      *                            NULL to return the version unchanged.
      *
      * @return string|null the normalized version or NULL if it couldn't be

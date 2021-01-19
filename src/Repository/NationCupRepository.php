@@ -87,4 +87,21 @@ class NationCupRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public function findByTeamAndSeason($team, $season)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 't', 't2', 's')
+            ->join('c.season', 's')
+            ->join('c.team', 't')
+            ->join('c.team2', 't2')
+            ->where('c.team = :team OR c.team2 = :team')
+            ->andWhere('s.name = :season')
+            ->setParameters([
+                'season' => $season,
+                'team' => $team
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

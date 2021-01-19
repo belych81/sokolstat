@@ -373,7 +373,7 @@ function testGenerateWithExtraParamsDeep() {
 function testUrlEncoding() {
     // This test was copied from Symfony URL Generator
 
-    // This tests the encoding of reserved characters that are used for delimiting of URI components (defined in RFC 3986)
+    // This tests the encoding of reserved characters that are used for delimiting of URI pages (defined in RFC 3986)
     // and other special ASCII chars. These chars are tested as static text path, variable path and query param.
     var chars = '@:[]/()*\'" +,;-._~&$<>|{}%\\^`!?foo=bar#id';
 

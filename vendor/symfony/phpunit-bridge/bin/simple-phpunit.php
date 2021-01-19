@@ -326,7 +326,7 @@ if (isset($argv[1]) && 'symfony' === $argv[1] && !file_exists('symfony') && file
     $argv[1] = 'src/Symfony';
 }
 if (isset($argv[1]) && is_dir($argv[1]) && !file_exists($argv[1].'/phpunit.xml.dist')) {
-    // Find Symfony components in plain php for Windows portability
+    // Find Symfony pages in plain php for Windows portability
 
     $finder = new RecursiveDirectoryIterator($argv[1], FilesystemIterator::KEY_AS_FILENAME | FilesystemIterator::UNIX_PATHS);
     $finder = new RecursiveIteratorIterator($finder);

@@ -177,7 +177,7 @@ class <proxyShortClassName> extends \<className> implements \<baseProxyInterface
     /**
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
-     * @deprecated no longer in use - generated code now relies on internal components rather than generated public API
+     * @deprecated no longer in use - generated code now relies on internal pages rather than generated public API
      * @static
      */
     public function __getLazyProperties()

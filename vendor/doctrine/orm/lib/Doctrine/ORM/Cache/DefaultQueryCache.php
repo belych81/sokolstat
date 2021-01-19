@@ -296,7 +296,7 @@ class DefaultQueryCache implements QueryCache
             $data[$index]['identifier']   = $identifier;
             $data[$index]['associations'] = [];
 
-            // @TODO - move to cache hydration components
+            // @TODO - move to cache hydration pages
             foreach ($rsm->relationMap as $alias => $name) {
                 $parentAlias  = $rsm->parentAliasMap[$alias];
                 $parentClass  = $rsm->aliasMap[$parentAlias];
