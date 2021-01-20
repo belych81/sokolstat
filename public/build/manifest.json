@@ -1,9 +1,9 @@
 {
-  "build/0.a98d18a2.js": "/build/0.a98d18a2.js",
-  "build/1.e0840b03.js": "/build/1.e0840b03.js",
-  "build/app.css": "/build/app.4f6702f2.css",
-  "build/app.js": "/build/app.e605a2f8.js",
-  "build/runtime.js": "/build/runtime.d94b3b43.js",
-  "build/teams.css": "/build/teams.bd4dd3f6.css",
-  "build/teams.js": "/build/teams.3262853e.js"
+  "public/build/0.a98d18a2.js": "public/build/0.a98d18a2.js",
+  "public/build/1.e0840b03.js": "public/build/1.e0840b03.js",
+  "public/build/app.css": "public/build/app.4f6702f2.css",
+  "public/build/app.js": "public/build/app.e605a2f8.js",
+  "public/build/runtime.js": "public/build/runtime.6f746e3f.js",
+  "public/build/teams.css": "public/build/teams.bd4dd3f6.css",
+  "public/build/teams.js": "public/build/teams.3262853e.js"
 }
