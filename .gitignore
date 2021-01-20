@@ -12,7 +12,6 @@
 /public/newspaper.php
 /public/nfl.php
 /var/
-/vendor/
 /bin/
 ###< symfony/framework-bundle ###
 
@@ -29,7 +28,6 @@
 /.idea/
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
-/public/build/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
