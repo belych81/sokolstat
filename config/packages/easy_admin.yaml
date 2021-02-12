@@ -60,6 +60,13 @@ easy_admin:
                     - lch_goal
                     - country
                 filters: ['name', 'amplua', 'country']
+            form:
+                fields:
+                    - name
+                    - translit
+                    - born
+                    - country
+                    - amplua
           Shipplayer:
             class: App\Entity\Shipplayer
             list:
@@ -81,6 +88,33 @@ easy_admin:
                 fields:
                     - id
                     - title
+          Newsdb:
+            class: App\Entity\Newsdb
+            list:
+                fields:
+                    - id
+                    - news
+                    - data
+          Transfer:
+            class: App\Entity\Transfer
+            list:
+                fields:
+                    - id
+                    - player
+                    - old
+                    - new
+                filters: ['period', 'old', 'new', 'player']
+          Period:
+            class: App\Entity\Period
+            list:
+                fields:
+                    - id
+                    - name
+                    - translit
+            form:
+              fields:
+                - name
+                - translit
           Stadia:
             class: App\Entity\Stadia
             list:
@@ -98,6 +132,10 @@ easy_admin:
                     - id
                     - name
                 filters: ['name']
+            form:
+              fields:
+                - name
+                - translit
           Team:
             class: App\Entity\Team
             list:

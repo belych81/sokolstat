@@ -9,18 +9,17 @@
           бомбардиры, матчи">
 {% endblock %}
 
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
+        {% else %}
+            <a href="{{ path('cup', {'season': season.name}) }}" class="spiski">{{ season.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
 
 {% block content %}
-  {% block seasons %}
-      {% for season in seasons %}
-          {% if app.request.get('season') == season.season.name %}
-              <b>{{ season.season.name }}</b>
-          {% else %}
-              <a href="{{ path('cup', {'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
-          {% endif %}
-      {% endfor %}
-  {% endblock %}
-
   <h1>Кубок России {{ app.request.get('season') }}</h1>
 
 {% if is_granted("ROLE_ADMIN") %}
@@ -54,7 +53,7 @@
             <td class="scMatch">
                 <div>
                   {% if entity.team.image2 %}
-                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ entity.team.image2 }}"
+                  <img src="{{ asset('images/clubs/') }}{{ entity.team.image2 }}"
                     alt="{{ entity.team.name }}" title="{{ entity.team.name }}" />
                   {% endif %}
                   <a href="{{ path('cup_show', {'season': app.request.get('season'),
@@ -63,7 +62,7 @@
                    <a href="{{ path('cup_show', {'season': app.request.get('season'),
                    'id': entity.team2.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
                    {% if entity.team2.image2 %}
-                   <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ entity.team2.image2 }}"
+                   <img src="{{ asset('images/clubs/') }}{{ entity.team2.image2 }}"
                      alt="{{ entity.team2.name }}" title="{{ entity.team2.name }}" />
                    {% endif %}
                 </div>

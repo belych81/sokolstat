@@ -12,21 +12,21 @@
         {% if lastPage > 1 %}
             {% if app.request.get('page') > 1 %}
             <a href="{{ path('news', {'page': 1})}}">
-            <img src="{{ path_public }}{{ asset('/images/double_arrows2.png') }}"
+            <img src="{{ asset('/images/double_arrows2.png') }}"
                  alt="Первая" title="Первая" class="arrow" /></a>
 
             <a href="{{ path('news', {'page': previousPage})}}">
-            <img src="{{ path_public }}{{ asset('/images/strelkaLeft.png') }}"
+            <img src="{{ asset('/images/strelkaLeft.png') }}"
                  alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
             {% endif %}
 
             {% if lastPage != app.request.get('page') %}
             <a href="{{ path('news', {'page': nextPage})}}">
-            <img src="{{ path_public }}{{ asset('/images/strelka.png') }}"
+            <img src="{{ asset('/images/strelka.png') }}"
                  alt="Следующая" title="Следующая" class="arrow"/></a>
 
             <a href="{{ path('news', {'page': lastPage})}}">
-            <img src="{{ path_public }}{{ asset('/images/double_arrows1.png') }}"
+            <img src="{{ asset('/images/double_arrows1.png') }}"
                  alt="Последняя" title="Последняя" class="arrow" /></a>
             {% endif %}
          {% endif %}

@@ -1,19 +1,19 @@
 {% extends 'shiptable/showRus.html.twig' %}
 
-{% block content %}
-
 {% block seasons %}
   {% for season in seasons %}
-      {% if app.request.get('season') == season.season.name %}
-          <b>{{ season.season.name }}</b>
+      {% if app.request.get('season') == season.name %}
+          <b>{{ season.name }}</b>
       {% else %}
         <a href="{{ path('cup_show', {
-          'country': app.request.get('country'), 'season': season.season.name,
+          'country': app.request.get('country'), 'season': season.name,
           'id': app.request.get('id')}) }}" class="spiski">
-          {{ season.season.name }}</a>
+          {{ season.name }}</a>
       {% endif %}
   {% endfor %}
 {% endblock %}
+
+{% block content %}
 
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}
@@ -21,7 +21,7 @@
         'id': team.translit}) }}"
         class="">
         {% if team.image2 %}
-          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.image2 }}"
+          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
@@ -33,7 +33,7 @@
                 <div>
                   <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
                   {% if club.image %}
-                  <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ club.image }}"
+                  <img src="{{ asset('images/clubs/') }}{{ club.image }}"
                     alt="{{ club.name }}" title="{{ club.name }}" />
                   {% endif %}
                 </div>

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201208070714 extends AbstractMigration
+final class Version20210212150814 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -21,10 +21,10 @@ final class Version20201208070714 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE eurocup ADD number INT DEFAULT NULL, CHANGE season_id season_id INT NOT NULL, CHANGE team_id team_id INT NOT NULL, CHANGE team2_id team2_id INT NOT NULL, CHANGE turnir_id turnir_id INT NOT NULL, CHANGE stadia_id stadia_id INT NOT NULL');
-        
-    }
+        $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C099E6F5DF');
+        $this->addSql('DROP INDEX IDX_4034A3C099E6F5DF ON transfer');
+        $this->addSql('ALTER TABLE transfer ADD player VARCHAR(255) NOT NULL, DROP player_id');
+  }
 
     public function down(Schema $schema) : void
     {
@@ -40,7 +40,6 @@ final class Version20201208070714 extends AbstractMigration
         $this->addSql('CREATE TABLE fos_user_group (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, roles LONGTEXT CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci` COMMENT \'(DC2Type:array)\', UNIQUE INDEX UNIQ_583D1F3E5E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE fos_user_user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, username_canonical VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, email VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, email_canonical VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, enabled TINYINT(1) NOT NULL, salt VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, password VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, last_login DATETIME DEFAULT NULL, locked TINYINT(1) NOT NULL, expired TINYINT(1) NOT NULL, expires_at DATETIME DEFAULT NULL, confirmation_token VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, password_requested_at DATETIME DEFAULT NULL, roles LONGTEXT CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci` COMMENT \'(DC2Type:array)\', credentials_expired TINYINT(1) NOT NULL, credentials_expire_at DATETIME DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, firstname VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, lastname VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, website VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, biography VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, gender VARCHAR(1) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, locale VARCHAR(8) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, timezone VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, phone VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, facebook_uid VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, facebook_name VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, facebook_data JSON CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, twitter_uid VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, twitter_name VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, twitter_data JSON CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, gplus_uid VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, gplus_name VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, gplus_data JSON CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, token VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, two_step_code VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, UNIQUE INDEX UNIQ_C560D76192FC23A8 (username_canonical), UNIQUE INDEX UNIQ_C560D761A0D96FBF (email_canonical), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE fos_user_user_group (user_id INT NOT NULL, group_id INT NOT NULL, INDEX IDX_B3C77447A76ED395 (user_id), INDEX IDX_B3C77447FE54D947 (group_id), PRIMARY KEY(user_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
-        $this->addSql('CREATE TABLE news (id INT AUTO_INCREMENT NOT NULL, data DATETIME NOT NULL, title VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, text LONGTEXT CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, translit VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE nfl1617 (id INT AUTO_INCREMENT NOT NULL, team VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`, conf INT NOT NULL, divis INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE vote (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, date DATE NOT NULL, voted INT NOT NULL, status TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('CREATE TABLE voteemail (id INT AUTO_INCREMENT NOT NULL, vote_id INT DEFAULT NULL, email VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, INDEX IDX_DD5FD5E72DCDAFC (vote_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
@@ -65,7 +64,7 @@ final class Version20201208070714 extends AbstractMigration
         $this->addSql('ALTER TABLE ecplayer CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ecsostav CHANGE eurocup_id eurocup_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ectable CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE eurocup DROP number, CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE eurocup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE fnlplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE gamers CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b296cd8ae TO IDX_88241BA7296CD8AE');
@@ -84,6 +83,7 @@ final class Version20201208070714 extends AbstractMigration
         $this->addSql('ALTER TABLE nation_supercup RENAME INDEX idx_4886d5dd4ec001d1 TO IDX_B295CAAA4EC001D1');
         $this->addSql('ALTER TABLE nation_supercup RENAME INDEX idx_4886d5ddf59e604a TO IDX_B295CAAAF59E604A');
         $this->addSql('ALTER TABLE nation_supercup RENAME INDEX idx_4886d5ddf92f3e70 TO IDX_B295CAAAF92F3E70');
+        $this->addSql('DROP INDEX UNIQ_1DD39950875CC2F ON news');
         $this->addSql('ALTER TABLE nhl_division CHANGE conf_id conf_id INT NOT NULL');
         $this->addSql('ALTER TABLE nhl_division RENAME INDEX idx_43a4fc207fdf4958 TO conf');
         $this->addSql('ALTER TABLE nhl_match CHANGE season_id season_id INT NOT NULL, CHANGE team_id team_id INT NOT NULL, CHANGE stadia_id stadia_id INT NOT NULL');
@@ -118,19 +118,22 @@ final class Version20201208070714 extends AbstractMigration
         $this->addSql('ALTER TABLE rusplayer CHANGE player_id player_id INT DEFAULT NULL, CHANGE ecgame ecgame INT DEFAULT 0 NOT NULL, CHANGE ecgoal ecgoal INT DEFAULT 0 NOT NULL, CHANGE cupgame cupgame INT DEFAULT 0 NOT NULL, CHANGE cupgoal cupgoal INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE sbplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE shipplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL');
+        $this->addSql('CREATE INDEX team_id ON shipplayer (team_id, season_id)');
         $this->addSql('ALTER TABLE shiptable CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE sostav CHANGE season_id season_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE stadia CHANGE rank rank INT DEFAULT 1');
+        $this->addSql('ALTER TABLE stadia CHANGE id id INT NOT NULL, CHANGE rank rank INT DEFAULT 1');
         $this->addSql('ALTER TABLE supercupplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE task CHANGE dataend dataend DATETIME DEFAULT NULL');
         $this->addSql('ALTER TABLE team CHANGE country_id country_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL, CHANGE wins wins INT DEFAULT 0 NOT NULL, CHANGE nich nich INT DEFAULT 0 NOT NULL, CHANGE porazh porazh INT DEFAULT 0 NOT NULL, CHANGE mz mz INT DEFAULT 0 NOT NULL, CHANGE mp mp INT DEFAULT 0 NOT NULL, CHANGE score score INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE tour CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE bomb bomb VARCHAR(255) CHARACTER SET utf8 DEFAULT \'-\' NOT NULL COLLATE `utf8_unicode_ci`, CHANGE data data DATETIME NOT NULL, CHANGE status status TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE transfer ADD player_id INT NOT NULL, DROP player');
+        $this->addSql('ALTER TABLE transfer ADD CONSTRAINT FK_4034A3C099E6F5DF FOREIGN KEY (player_id) REFERENCES player (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE INDEX IDX_4034A3C099E6F5DF ON transfer (player_id)');
         $this->addSql('ALTER TABLE uefa_supercup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE data data DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE status status TINYINT(1) DEFAULT \'0\' NOT NULL');
         $this->addSql('ALTER TABLE uefa_supercup RENAME INDEX idx_7c64527d296cd8ae TO IDX_3ECB96C3296CD8AE');
         $this->addSql('ALTER TABLE uefa_supercup RENAME INDEX idx_7c64527d4ec001d1 TO IDX_3ECB96C34EC001D1');
         $this->addSql('ALTER TABLE uefa_supercup RENAME INDEX idx_7c64527df59e604a TO IDX_3ECB96C3F59E604A');
         $this->addSql('ALTER TABLE user DROP INDEX UNIQ_8D93D649F85E0677, ADD INDEX username (username)');
-        $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
-        $this->addSql('ALTER TABLE user CHANGE email email VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_general_ci`, CHANGE roles roles JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE user CHANGE roles roles JSON DEFAULT NULL, CHANGE is_verified is_verified TINYINT(1) DEFAULT NULL');
     }
 }

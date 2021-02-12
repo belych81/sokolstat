@@ -55,10 +55,9 @@ class CupRepository extends ServiceEntityRepository
     public function getSeasons()
     {
         return $this->createQueryBuilder('c')
-                ->select('c','s')
+                ->select('DISTINCT s.name')
                 ->join('c.season', 's')
                 ->join('c.team', 't')
-                ->groupBy('s')
                 ->getQuery()
                 ->getResult();
     }

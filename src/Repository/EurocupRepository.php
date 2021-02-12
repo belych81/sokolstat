@@ -91,12 +91,11 @@ class EurocupRepository extends ServiceEntityRepository
     public function getSeasonsByTurnir($turnir)
     {
         return $this->createQueryBuilder('e')
-                ->select('e', 's')
+                ->select('DISTINCT s.name')
                 ->join('e.turnir', 't')
                 ->join('e.season', 's')
                 ->where("t.alias = :turnir")
                 ->setParameter('turnir', $turnir)
-                ->groupBy('s')
                 ->orderBy('s.name')
                 ->getQuery()
                 ->getResult();

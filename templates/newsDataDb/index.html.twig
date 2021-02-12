@@ -1,0 +1,5 @@
+<table class="table"><thead><th>Футболист</th><th>Откуда</th><th>Куда</th></thead><tbody>
+{% for entity in entities %}
+  <tr><td>{{ entity.player }}</td><td>{{ entity.old.name }}</td><td>{{ entity.new.name }}</td></tr>
+{% endfor %}
+</tbody></table>

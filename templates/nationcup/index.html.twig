@@ -11,10 +11,10 @@
 
 {% block seasons %}
     {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
         {% else %}
-            <a href="{{ path('nationcup', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">{{ season.season.name }}</a>
+            <a href="{{ path('nationcup', {'country': app.request.get('country'), 'season': season.name}) }}" class="spiski">{{ season.name }}</a>
         {% endif %}
     {% endfor %}
 {% endblock %}
@@ -28,7 +28,7 @@
     'country': app.request.get('country')}) }}">
     Добавить матч</a></p>
   {% endif %}
-  
+
     <table>
         <tr>
             <td>

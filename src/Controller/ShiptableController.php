@@ -182,7 +182,7 @@ class ShiptableController extends AbstractController
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
-                ->getSeasons($strana);
+                ->getSeasons($strana, $id);
         $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
         if ($country == 'russia') {

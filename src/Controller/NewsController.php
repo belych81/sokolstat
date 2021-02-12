@@ -10,6 +10,9 @@ use App\Service\Functions;
 
 class NewsController extends AbstractController
 {
+    const NEWS_ON_PAGE = 10;
+    const NEWS_TRUNCATE = 500;
+
     /**
      * @Route("/news", name="news")
      */
@@ -19,13 +22,13 @@ class NewsController extends AbstractController
 
       $countNews = $em->getRepository(News::class)->countNews();
 
-      $lastPage = ceil($countNews / 10);
+      $lastPage = ceil($countNews / self::NEWS_ON_PAGE);
       $previousPage = $page > 1 ? $page-1 : 1;
       $nextPage = $page < $lastPage ? $page+1 : $lastPage;
 
-      $entities = $em->getRepository(News::class)->getNews(10, ($page-1)*10);
+      $entities = $em->getRepository(News::class)->getNews(self::NEWS_ON_PAGE, ($page-1)*self::NEWS_ON_PAGE);
       foreach ($entities as $v) {
-        $v->setText($functions->truncateText($v->getText(), 500));
+        $v->setText($functions->truncateText($v->getText(), self::NEWS_TRUNCATE));
       }
 
       return $this->render('news/index.html.twig', [
@@ -44,7 +47,7 @@ class NewsController extends AbstractController
         $entity = $em->getRepository(News::class)->findOneByTranslit($translit);
 
         return $this->render('news/show.html.twig', [
-            'entity'      => $entity
+            'entity' => $entity
         ]);
     }
 }

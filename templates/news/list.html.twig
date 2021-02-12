@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body news">
       {{ entity.data|date('d.m.Y') }}
-      <p>{{ entity.text|nl2br }}</p>
+      <div>{{ entity.text|raw|nl2br }}</div>
       <a href="{{ path('news_show', { 'translit': entity.translit }) }}" class="newsLinkFull">читать дальше</a>
     </div>
   </div>

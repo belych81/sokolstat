@@ -110,20 +110,23 @@ class ShiptableRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getSeasons($country)
+    public function getSeasons($country, $team = null)
     {
-        return $this->createQueryBuilder('st')
-                ->select('st','s')
+        $query = $this->createQueryBuilder('st')
+                ->select('DISTINCT s.name')
                 ->join('st.team', 't')
                 ->join('st.season', 's')
                 ->join('st.country', 'c')
                 ->where("c.name = :country")
-                ->setParameter('country', $country)
-                ->groupBy('s')
-                ->orderBy('s.name')
-                ->getQuery()
-                ->getResult()
-                ;
+                ->setParameter('country', $country);
+
+        if($team){
+          $query->andWhere("t.translit = :team")
+                ->setParameter('team', $team);
+        }
+        return $query->orderBy('s.name')
+                     ->getQuery()
+                     ->getResult();
     }
 
     public function getTeams($season, $country)

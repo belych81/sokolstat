@@ -37,21 +37,21 @@
 {% block teams %}
  {% endblock %}
 
-{% block content %}
-  {% block seasons %}
-    <div class="seasons">
-      {% for season in seasons %}
-          {% if app.request.get('season') == season.season.name %}
-              <b>{{ season.season.name }}</b>
-          {% else %}
-              <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.season.name}) }}" class="spiski">
-                {{ season.season.name }}
-              </a>
-          {% endif %}
-      {% endfor %}
-    </div>
-  {% endblock %}
+ {% block seasons %}
+   <div class="seasons">
+     {% for season in seasons %}
+         {% if app.request.get('season') == season.name %}
+             <b>{{ season.name }}</b>
+         {% else %}
+             <a href="{{ path('championships', {'country': app.request.get('country'), 'season': season.name}) }}" class="spiski">
+               {{ season.name }}
+             </a>
+         {% endif %}
+     {% endfor %}
+   </div>
+ {% endblock %}
 
+{% block content %}
 <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">

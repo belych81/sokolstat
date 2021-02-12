@@ -14,7 +14,7 @@
           </div>
           <div class="panel-body news">
             {{ entity.data|date('d.m.Y') }}
-            <p>{{ entity.text|nl2br }}</p>
+            <p>{{ entity.text|raw|nl2br }}</p>
           </div>
         </div>
       </div>

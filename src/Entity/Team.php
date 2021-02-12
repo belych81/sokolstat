@@ -191,6 +191,11 @@ class Team
      */
     private $score = 0;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Transfer::class, mappedBy="old")
+     */
+    private $transfers;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -212,6 +217,7 @@ class Team
         $this->ecplayers = new ArrayCollection();
         $this->supercupplayers = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
+        $this->transfers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -953,6 +959,36 @@ class Team
     public function setScore(?int $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transfer[]
+     */
+    public function getTransfers(): Collection
+    {
+        return $this->transfers;
+    }
+
+    public function addTransfer(Transfer $transfer): self
+    {
+        if (!$this->transfers->contains($transfer)) {
+            $this->transfers[] = $transfer;
+            $transfer->setOld($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfer(Transfer $transfer): self
+    {
+        if ($this->transfers->removeElement($transfer)) {
+            // set the owning side to null (unless already changed)
+            if ($transfer->getOld() === $this) {
+                $transfer->setOld(null);
+            }
+        }
 
         return $this;
     }

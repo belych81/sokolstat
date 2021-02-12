@@ -9,22 +9,22 @@
           авторы забитых мячей">
 {% endblock %}
 
-{% block content %}
-
 {% block seasons %}
 
     {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
         {% else %}
             <a href="{{ path('championships_show', {
-              'country': app.request.get('country'), 'season': season.season.name,
+              'country': app.request.get('country'), 'season': season.name,
               'id': app.request.get('id')}) }}" class="spiski">
-              {{ season.season.name }}</a>
+              {{ season.name }}</a>
         {% endif %}
     {% endfor %}
 
 {% endblock %}
+
+{% block content %}
 
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}

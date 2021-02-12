@@ -34,20 +34,19 @@
 {% endif %}
 {% endblock %}
 
-{% block content %}
-
 {% block seasons %}
     {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
         {% else %}
             <a href="{{ path('eurocup', {'turnir': app.request.get('turnir'),
-                'season': season.season.name }) }}" class="spiski">
-                {{ season.season.name }}</a>
+                'season': season.name }) }}" class="spiski">
+                {{ season.name }}</a>
         {% endif %}
     {% endfor %}
 {% endblock %}
 
+{% block content %}
 <h1>{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
         {% if is_granted("ROLE_ADMIN") %}
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">

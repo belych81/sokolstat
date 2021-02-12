@@ -1,20 +1,6 @@
 {% extends 'shiptable/show.html.twig' %}
+
 {% block content %}
-
-{% block seasons %}
-
-    {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
-        {% else %}
-        <a href="{{ path('championships_show', {
-          'country': app.request.get('country'), 'season': season.season.name,
-          'id': app.request.get('id')}) }}" class="spiski">
-          {{ season.season.name }}</a>
-        {% endif %}
-    {% endfor %}
-
-{% endblock %}
 
 <div class="teams-list">{{ app.request.get('team') }}
   {% for team in teams %}
@@ -22,7 +8,7 @@
         'id': team.translit, 'country': app.request.get('country')}) }}"
         class="">
         {% if team.image2 %}
-          <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ team.image2 }}"
+          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
@@ -35,7 +21,7 @@
   <div>
 
     {% if club.image %}
-    <img src="{{ path_public }}{{ asset('images/clubs/') }}{{ club.image }}"
+    <img src="{{ asset('images/clubs/') }}{{ club.image }}"
       alt="{{ club.name }}" title="{{ club.name }}" />
     {% endif %}
     <table class="shipTable showTeam">
