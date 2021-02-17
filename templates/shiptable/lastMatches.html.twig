@@ -1,0 +1,36 @@
+<div class="team-last-matches-title">Последние матчи</div>
+<ul>
+{% for matches in lastMatches %}
+  {% set res = '' %}
+  {% set goalCurrent = 0 %}
+  {% set goalOpponent = 0 %}
+  {% set goal1 = matches.goal1 %}
+  {% set goal2 = matches.goal2 %}
+  {% set team = matches.team.name %}
+  {% set team2 = matches.team2.name %}
+  {% set currentTeam = club.name  %}
+
+  {% if currentTeam == team %}
+    {% set goalCurrent = goal1 %}
+    {% set goalOpponent = goal2 %}
+  {% else %}
+    {% set goalCurrent = goal2 %}
+    {% set goalOpponent = goal1 %}
+  {% endif %}
+
+  {% if goalCurrent > goalOpponent %}
+    {% set res = 'win' %}
+  {% elseif goalCurrent < goalOpponent %}
+    {% set res = 'loose' %}
+  {% else %}
+    {% set res = 'nich' %}
+  {% endif %}
+
+  <li class="{{ cycle(['odd', 'even'], loop.index) }}">
+    <span class="team-matches-date">{{ matches.data | date('d.m') }}</span>
+    <span class="spiski">{{ matches.team.name }} - {{ matches.team2.name }}</span> -
+    <span class="scScore">{{ matches.goal1 }}:{{ matches.goal2 }}</span>
+    <span class="team-matches-square square-{{ res }}"></span>
+  </li>
+{% endfor %}
+</ul>
