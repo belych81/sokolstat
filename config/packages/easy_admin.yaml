@@ -82,6 +82,17 @@ easy_admin:
                     - eurocup
                     - sum
                 filters: ['season', 'team', 'player']
+            form:
+                fields:
+                    - player
+                    - season
+                    - team
+                    - game
+                    - goal
+                    - cup
+                    - supercup
+                    - eurocup
+                    - sum
           News:
             class: App\Entity\News
             list:

@@ -32,6 +32,24 @@ class RfplmatchRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getLastMatchesByTeam($season, $team)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('t')
+              ->join('t.season', 's')
+              ->join('t.team', 'tm')
+              ->join('t.team2', 'tm2')
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("tm.translit = :team OR tm2.translit = :team")
+              ->setParameter('team', $team)
+              ->andWhere('t.status = 0')
+              ->orderBy('t.data', 'DESC')
+              ->setMaxResults(10)
+              ->getQuery()
+              ->getResult();
+    }
+    
     public function getList($max, $offset = null)
     {
         $qb = $this->createQueryBuilder('t')

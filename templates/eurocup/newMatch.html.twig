@@ -31,6 +31,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.number) }}</th>
+                    <td>
+                        {{ form_errors(form.number) }}
+                        {{ form_widget(form.number) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.data) }}</th>
                     <td>
                         {{ form_errors(form.data) }}

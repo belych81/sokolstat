@@ -1020,6 +1020,7 @@ footer {
     text-align: center;
     color: #003399;
     font-weight: bold;
+    font-size: 14px;
 }
 .scCity {
     width: 120px;
@@ -1174,6 +1175,40 @@ display: inline-block; /* Выстраиваем по горизонтали */
 .team-country{
   margin: 10px;
   font-size: 13px;
+}
+.team-last-matches {
+  margin-top: 10px;
+}
+.team-last-matches li {
+  list-style-type: none;
+  line-height: 1.8;
+  padding-left: 5px;
+}
+.team-matches-date {
+  font-size: 14px;
+  color: #5c5b47;
+}
+.team-matches-square {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.team-last-matches-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: #366;
+  padding-left: 5px;
+}
+.square-win {
+  background-color: #2fc269;
+}
+.square-loose {
+  background-color: #c22f40;
+}
+.square-nich {
+  background-color: #c7c240;
 }
 .teams-list{
   margin: 5px;

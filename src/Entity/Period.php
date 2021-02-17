@@ -25,7 +25,7 @@ class Period
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transfer::class, mappedBy="window", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Transfer::class, mappedBy="period", orphanRemoval=true)
      */
     private $transfers;
 

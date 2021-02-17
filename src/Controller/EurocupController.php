@@ -205,12 +205,16 @@ class EurocupController extends AbstractController
         ));
     }
 
-    public function newMatch($season)
+    public function newMatch(SessionInterface $session, $season)
     {
         $entity = new Eurocup();
-
+        //if(!($session->get('data'))){
+          $session->set('data', new \DateTime());
+      //  }
+        $data = $session->get('data');
         $form   = $this->createForm(EurocupNewType::class, $entity, [
-            'season' => $season
+            'season' => $season,
+            'date' => $data
             ]);
 
         return $this->render('eurocup/newMatch.html.twig', array(

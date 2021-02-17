@@ -186,6 +186,8 @@ class ShiptableController extends AbstractController
         $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
         if ($country == 'russia') {
+            $lastMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
+                        ->getLastMatchesByTeam($season, $id);
             $players = $this->getDoctrine()->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
 
@@ -204,13 +206,16 @@ class ShiptableController extends AbstractController
                   $players[$i]->setGoalTeam($ptgoal[$i]);
                 }
             }
-        } elseif ($country == 'fnl') {
+        } else {
+          $lastMatches = $this->getDoctrine()->getRepository(Tour::class)
+                        ->getLastMatchesByTeam($season, $id);
+          if ($country == 'fnl') {
             $players = $this->getDoctrine()->getRepository(Fnlplayer::class)
                           ->getTeamStat($season, $id);
-
-        } else {
+          } else {
             $players = $this->getDoctrine()->getRepository(Shipplayer::class)
                           ->getTeamStat($season, $id);
+          }
         }
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
@@ -227,6 +232,7 @@ class ShiptableController extends AbstractController
          'teams' => $teams,
          'club' => $club,
          'lastPlayer' => $lastPlayer,
+         'lastMatches' => $lastMatches,
          'shiptable' => $shiptable,
          'menu' => $menu
        ];

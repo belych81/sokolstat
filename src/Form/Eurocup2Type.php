@@ -18,6 +18,7 @@ class Eurocup2Type extends AbstractType
       $builder
           ->add('data', null, ['years' => \range(1991, \date('Y')+1)])
           ->add('stadia')
+          ->add('number')
           ->add('team')
           ->add('team2')
           ->add('score')

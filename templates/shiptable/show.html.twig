@@ -80,7 +80,8 @@
   </div>
 </div>
 
-  <div class="champ-teams-list">
+<div class="row">
+  <div class="champ-teams-list col-lg-8">
     {% block champBack %}
       <div class="champ-back">
         <div class="champ-back-arrow"></div>
@@ -276,6 +277,11 @@
         <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5">
             Обновить игроков</a>
         {% endif %}
+  </div>
+
+  <div class="col-lg-4 team-last-matches">
+    {{ include('shiptable/lastMatches.html.twig', {'lastMatches': lastMatches }) }}
+  </div>
 </div>
     {% endblock %}
 {% endblock %}

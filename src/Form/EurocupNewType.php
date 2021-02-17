@@ -16,18 +16,16 @@ class EurocupNewType extends AbstractType
     {
 
       $season = $options['season'];
-
-      if (!in_array('data', $_SESSION)) {
-          $_SESSION['data'] = new \DateTime();
-      }
+      $data = $options['date'];
 
       $builder
           ->add('bomb')
           ->add('score')
           ->add('team')
           ->add('team2')
-          ->add('data', null, ['data' => $_SESSION['data'], 'years' => range(1990, 2026)])
+          ->add('data', null, ['data' => $data, 'years' => range(1990, 2026)])
           ->add('turnir')
+          ->add('number')
           ->add('stadia');
     }
 
@@ -36,7 +34,7 @@ class EurocupNewType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Eurocup::class
         ]);
-        $resolver->setDefined(['season']);
+        $resolver->setDefined(['season', 'date']);
     }
 
 }

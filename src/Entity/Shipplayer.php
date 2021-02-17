@@ -62,7 +62,7 @@ class Shipplayer
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 0;
 
     public function getId(): ?int
     {
