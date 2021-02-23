@@ -124,6 +124,26 @@ class EurocupRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getEntityByWeek($date)
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2', 'es')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->leftJoin('e.ecsostav', 'es')
+                ->where("e.data >= :data")
+                ->setParameter('data', $date)
+                ->andWhere("e.status = 0")
+                ->orderBy('e.data, e.id');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
     public function getStadiaByTurnir($turnir, $season)
     {
         $qb = $this->createQueryBuilder('e')

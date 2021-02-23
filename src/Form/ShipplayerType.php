@@ -41,7 +41,6 @@ class ShipplayerType extends AbstractType
                     break;
                 case 'all':
                    return $repository->queryLchPlayers($season, $team, $club->getCountry()->getName());
-                   break;
                }
             }
             ])

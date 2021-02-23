@@ -19,7 +19,7 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
-    public function findByLastYear($data)
+    public function findByLastWeek($data)
     {
         return $this->createQueryBuilder('t')
             ->join('t.team', 'tm')

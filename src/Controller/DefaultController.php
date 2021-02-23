@@ -6,6 +6,7 @@ use App\Entity\Tour;
 use App\Entity\Rfplmatch;
 use App\Entity\Eurocup;
 use App\Entity\Shipplayer;
+use App\Entity\Shiptable;
 use App\Entity\Cup;
 use App\Entity\RusSupercup;
 use App\Entity\NationSupercup;
@@ -110,16 +111,18 @@ class DefaultController extends AbstractController
       ]);
   }
 
-  public function newspaper()
+  public function newspaper(Props $props)
   {
     $today = date('j.m.Y');
     $fromDate = new \DateTime('now');
     $fromDate->setTime(0, 0, 0);
-    $fromDate->modify('-28 days');
+    $fromDate->modify('-7 days');
+    $lastSeason = $props->getLastSeason();
+
     $em = $this->getDoctrine();
     $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
     $matches = $this->getDoctrine()->getRepository(Tour::class)
-      ->findByLastYear($fromDate);
+      ->findByLastWeek($fromDate);
     foreach ($matches as &$match) {
       $match->getTeam()->setName(
         mb_convert_case($match->getTeam()->getName(), MB_CASE_TITLE, "UTF-8")
@@ -144,19 +147,22 @@ class DefaultController extends AbstractController
     }
 
     $entities = $this->getDoctrine()->getRepository(Shiptable::class)
-            ->getTableAll('2019-20');
+            ->getTableAll($lastSeason);
     foreach ($entities as $ent) {
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
 
-      $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
-        ->getBomb5All('2019-20');
+    $eurocups = $this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEntityByWeek($fromDate);
+    $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
+        ->getBomb5All($lastSeason);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
       'rfplMatch' => $rfplMatch,
       'tours' => $tours,
-      'today' => $today
+      'today' => $today,
+      'eurocups' => $eurocups
     ]);
   }
 

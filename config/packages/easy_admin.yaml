@@ -29,6 +29,33 @@ easy_admin:
                     - bomb
                     - number
                 filters: ['team', 'team2', 'turnir', 'season', 'stadia', 'number']
+          Cup:
+            class: App\Entity\Cup
+            list:
+                fields:
+                    - id
+                    - stadia
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - score
+                    - bomb
+                filters: ['team', 'team2', 'season', 'stadia']
+          NationCup:
+            class: App\Entity\NationCup
+            list:
+                fields:
+                    - id
+                    - stadia
+                    - country
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - score
+                    - bomb
+                filters: ['team', 'team2', 'season', 'stadia', 'country']
           Rfplmatch:
             class: App\Entity\Rfplmatch
             list:
@@ -93,6 +120,24 @@ easy_admin:
                     - supercup
                     - eurocup
                     - sum
+          Cupplayer:
+            class: App\Entity\Cupplayer
+            list:
+                fields:
+                    - id
+                    - player
+                    - season
+                    - team
+                    - game
+                    - goal
+                filters: ['season', 'team', 'player']
+            form:
+                fields:
+                    - player
+                    - season
+                    - team
+                    - game
+                    - goal
           News:
             class: App\Entity\News
             list:

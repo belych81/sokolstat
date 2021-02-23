@@ -19,16 +19,29 @@
   <span>№ <strong>1</strong></span>
   <span>{{ today | date('d.m') }}</span>
   <div>
-  <h3>Российская Премьер-Лига</h3>
-    {% for tour in rfplTours %}
-    <h4>{{ tour }}-й тур</h4>
-      {% for match in rfplMatch %}
-        {% if match.tour == tour %}
-          <span>{{ match.team.name }}</span> - <span>{{ match.team2.name }}</span> -
-          {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
-        {% endif %}
+    {% if rfplMatch is not empty %}
+      <h3>Российская Премьер-Лига</h3>
+      {% for tour in rfplTours %}
+      <h4>{{ tour }}-й тур</h4>
+        {% for match in rfplMatch %}
+          {% if match.tour == tour %}
+            <span>{{ match.team.name }}</span> - <span>{{ match.team2.name }}</span> -
+            {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
+          {% endif %}
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
+    {% endif %}
+
+    <div class="np-champ-matches">
+      {% for eurocup in eurocups %}
+        <div>
+          <span class="np-matches-team">{{ eurocup.team.name }} -
+          {{ eurocup.team2.name }} -
+          {{ eurocup.score }}</span>
+          (<span>{{ eurocup.bomb }}</span>).
+        </div>
+      {% endfor %}
+    </div>
 
     {% for key, country in tours %}
       <h3>{{ key }}</h3>
@@ -40,8 +53,8 @@
                 <h4>{{ numb }}-й тур</h4>
                 {% for match in tour %}
                   <div>
-                    <span class="np-matches-team">&laquo;{{ match.team.name }}&raquo; -
-                    &laquo;{{ match.team2.name }}&raquo; -
+                    <span class="np-matches-team">{{ match.team.name }} -
+                    {{ match.team2.name }} -
                     {{ match.goal1 }}:{{ match.goal2 }}</span>
                     (<span>{{ match.bomb }}</span>).
                   </div>
@@ -70,7 +83,7 @@
                   {% for entity in arr %}
                       <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                           <td class="player-position">{{ loop.index }}.</td>
-                          <td class="tableLeft">&laquo;{{ entity.team.name }}&raquo;</td>
+                          <td class="tableLeft">{{ entity.team.name }}</td>
                           <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
                           <td>{{ entity.wins }}</td>
                           <td>{{ entity.nich }}</td>
