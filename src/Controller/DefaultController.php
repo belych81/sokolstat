@@ -197,7 +197,7 @@ class DefaultController extends AbstractController
     $fromDate->modify('-1 year');
     $notStadia = [18, 19, 20, 21, 25];
     $matches = $this->getDoctrine()->getRepository(Tour::class)
-      ->findByLastYear($fromDate);
+      ->findByLastWeek($fromDate);
     $matchesRus = $this->getDoctrine()->getRepository(Rfplmatch::class)
         ->findByLastYear($fromDate);
     $matchesEc = $this->getDoctrine()->getRepository(Eurocup::class)
