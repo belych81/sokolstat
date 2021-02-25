@@ -98,7 +98,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryRusTeamPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -117,7 +117,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryFnlPlayers($season)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -133,7 +133,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function querySbPlayers($season)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -267,7 +267,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryLchPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -285,7 +285,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryTeamPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -303,7 +303,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryTop5Players($season, $country)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -322,7 +322,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryLChampPlayers($season)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -337,7 +337,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryCountryPlayers($season, $team, $country)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
@@ -355,7 +355,7 @@ class PlayerRepository extends ServiceEntityRepository
 
     public function queryMundPlayers($year, $country)
     {
-        $start = $year-39;
+        $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
