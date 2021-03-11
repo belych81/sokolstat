@@ -177,10 +177,10 @@ class DefaultController extends AbstractController
     }
     $rfplTours = [];
     foreach ($rfplMatch as $value) {
-      $tour = $value->getTour();
-      if(!in_array($tour, $rfplTours))
+      $tur = $value->getTour();
+      if(!in_array($tur, $rfplTours))
       {
-        $rfplTours[] = $tour;
+        $rfplTours[] = $tur;
       }
     }
 

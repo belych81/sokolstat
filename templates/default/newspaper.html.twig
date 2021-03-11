@@ -97,6 +97,67 @@
         {% endfor %}
       {% endif %}
 
+      {% for key, country in tours %}
+        {% if key == 'ФНЛ' %}
+
+
+          {% for k, arr in country %}
+            {% set isMatches = false %}
+            {% if k == 'tour' %}
+              <h3>{{ key }}</h3>
+              <div class="np-champ-matches">
+                {% for numb, tour in arr %}
+                  <h4>{{ numb }}-й тур</h4>
+                  {% for match in tour %}
+                    {% set isMatches = true %}
+                    <div>
+                      <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+                      <b>{{ match.team2.name }}</b> -
+                      {{ match.goal1 }}:{{ match.goal2 }}</span>
+                      (<span>{{ match.bomb }}</span>).
+                    </div>
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if k == 'table' and country.tour is defined %}
+              <div class="champ-table champs">
+                <table class="shipTable">
+                    <thead>
+                        <tr class="shipTableTitle">
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th class="winsTable">И</th>
+                            <th class="winsTable">В</th>
+                            <th class="winsTable">Н</th>
+                            <th class="winsTable">П</th>
+                            <th class="goalsTable">M</th>
+                            <th class="winsTable">О</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in arr %}
+                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                            <td class="player-position">{{ loop.index }}.</td>
+                            <td class="tableLeft">{{ entity.team.name }}</td>
+                            <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                            <td>{{ entity.wins }}</td>
+                            <td>{{ entity.nich }}</td>
+                            <td>{{ entity.porazh }}</td>
+                            <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                            <td class="table-score">{{ entity.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
       <div class="np-champ-matches">
         {% if lch is not empty %}
         <div class="title-emblem">
@@ -131,14 +192,17 @@
 
       {% for key, country in tours %}
         {% if key != 'Россия' and key != 'ФНЛ' %}
-        <h3>{{ key }}</h3>
+
 
           {% for k, arr in country %}
+            {% set isMatches = false %}
             {% if k == 'tour' %}
+              <h3>{{ key }}</h3>
               <div class="np-champ-matches">
                 {% for numb, tour in arr %}
                   <h4>{{ numb }}-й тур</h4>
                   {% for match in tour %}
+                    {% set isMatches = true %}
                     <div>
                       <span class="np-matches-team"><b>{{ match.team.name }}</b> -
                       <b>{{ match.team2.name }}</b> -
@@ -150,7 +214,7 @@
               </div>
             {% endif %}
 
-            {% if k == 'table' %}
+            {% if k == 'table' and country.tour is defined %}
               <div class="champ-table champs">
                 <table class="shipTable">
                     <thead>
