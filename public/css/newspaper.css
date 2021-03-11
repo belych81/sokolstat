@@ -1,26 +1,78 @@
-h1{
-  font-size: 72px;
-  color: red;
+body {
+  font-family: DejaVu Sans;
+  font-size: 10px;
 }
-.container{
-  padding: 0;
+.container {
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
-  width: 1100px;
 }
+.emblem-turnir {
+  width: 30px;
+  height: 30px;
+}
+
 .np-champ-matches{
 }
 .np-matches-team{
   font-weight: bold;
 }
 .np-title{
-  height: 72px;
+  text-align: center;
 }
-.title-year{
-  height: 24px;
-  position: absolute;
-  top: 50%;
-  right: 280px;
+.np-title img {
+  width: 100%;
+}
+.np-title div {
+  position: relative;
+  display: inline-block;
+}
+.prime-bottom-blocks {
+  margin-top: 30px;
+  padding-top: 20px;
+  width: 100%;
+}
+.prime-bottom-blocks div {
+  display: inline-block;
+  border: 3px solid red;
+  border-radius: 10px;
+  height: 180px;
+  width: 30%;
+  padding: 5px;
+}
+.prime-image img {
+  width: 100%;
+}
+.prime-image-title {
+  display: block;
+  text-align: center;
+  font-size: 28px;
+  color: red;
   font-weight: bold;
+  height: 100px;
+}
+.title-emblem {
+  text-align: center;
+}
+.title-emblem h2 {
+  display: inline-block;
+  margin-left: 50px;
+}
+.title-emblem img {
+  float: left;
+}
+.title-number {
+  position: absolute;
+  left: 95px;
+  bottom: 5px;
+  font-size: 11px;
+  color: green;
+}
+.title-year {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: #ffc;
+  position: absolute;
+  right: 168px;
+  bottom: 16px;
   font-size: 20px;
 }

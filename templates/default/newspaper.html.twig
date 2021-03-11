@@ -1,106 +1,193 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>
-        {% block title %}
-            Еженедельник "Классический Футбол"
-        {% endblock %}
-    </title>
-    {% block stylesheets %}
-        <link href="{{ asset('css/newspaper.css') }}" rel="stylesheet" />
-    {% endblock %}
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Еженедельник "Классический Футбол"</title>
+    <link type="text/css" rel="stylesheet" href="https://localhost:8000/css/newspaper.css" />
 </head>
 <body>
   <div class="container">
     <div class="np-title">
-      <h1>Классический ФУТБОЛ</h1>
-      <span class="title-year">{{ today | date('y') }}</span>
+      <img src="https://localhost:8000/images/2021-03-09_11-34.png" />
     </div>
-  <span>№ <strong>1</strong></span>
-  <span>{{ today | date('d.m') }}</span>
-  <div>
-    {% if rfplMatch is not empty %}
-      <h3>Российская Премьер-Лига</h3>
-      {% for tour in rfplTours %}
-      <h4>{{ tour }}-й тур</h4>
-        {% for match in rfplMatch %}
-          {% if match.tour == tour %}
-            <span>{{ match.team.name }}</span> - <span>{{ match.team2.name }}</span> -
-            {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    {% endif %}
-
-    <div class="np-champ-matches">
-      {% for eurocup in eurocups %}
+    <div>9 МАРТА</div>
+    <div class="prime-image"><img src="https://localhost:8000/images/2021-03-09_12-50.png" /></div>
+    <div class="prime-image-title">Квинси Промес - автор победного мяча в ворота "Краснодара"</div>
+    <div class="prime-bottom-blocks">
         <div>
-          <span class="np-matches-team">{{ eurocup.team.name }} -
-          {{ eurocup.team2.name }} -
-          {{ eurocup.score }}</span>
-          (<span>{{ eurocup.bomb }}</span>).
+            <h3>Заголовок</h3>
         </div>
-      {% endfor %}
+        <div>
+          <h3>Заголовок</h3>
+        </div>
+        <div>
+          <h3>Заголовок</h3>
+        </div>
     </div>
 
-    {% for key, country in tours %}
-      <h3>{{ key }}</h3>
-
-        {% for k, arr in country %}
-          {% if k == 'tour' %}
-            <div class="np-champ-matches">
-              {% for numb, tour in arr %}
-                <h4>{{ numb }}-й тур</h4>
-                {% for match in tour %}
-                  <div>
-                    <span class="np-matches-team">{{ match.team.name }} -
-                    {{ match.team2.name }} -
-                    {{ match.goal1 }}:{{ match.goal2 }}</span>
-                    (<span>{{ match.bomb }}</span>).
-                  </div>
-                {% endfor %}
-              {% endfor %}
-            </div>
-          {% endif %}
-
-          {% if k == 'table' %}
-            <div class="champ-table champs">
-              <table class="shipTable">
-                  <thead>
-                      <tr class="shipTableTitle">
-                          <th>&nbsp;</th>
-                          <th>&nbsp;</th>
-                          <th class="winsTable">И</th>
-                          <th class="winsTable">В</th>
-                          <th class="winsTable">Н</th>
-                          <th class="winsTable">П</th>
-                          <th class="goalsTable">M</th>
-                          <th class="winsTable">О</th>
-
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {% for entity in arr %}
-                      <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                          <td class="player-position">{{ loop.index }}.</td>
-                          <td class="tableLeft">{{ entity.team.name }}</td>
-                          <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                          <td>{{ entity.wins }}</td>
-                          <td>{{ entity.nich }}</td>
-                          <td>{{ entity.porazh }}</td>
-                          <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                          <td class="table-score">{{ entity.score }}</td>
-                      </tr>
-                  {% endfor %}
-                  </tbody>
-              </table>
-              </div>
-          {% endif %}
+    <div>
+      {% if rfplMatch is not empty %}
+        <h3>Российская Премьер-Лига</h3>
+        {% for tour in rfplTours %}
+        <h4>{{ tour }}-й тур</h4>
+          {% for match in rfplMatch %}
+            {% if match.tour == tour %}
+              <b>{{ match.team.name }}</b> - <b>{{ match.team2.name }}</b> -
+              {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
+            {% endif %}
+          {% endfor %}
         {% endfor %}
 
-    {% endfor %}
+        {% for key, country in tours %}
+          {% if key == 'Россия' %}
+          <h3>{{ key }}</h3>
 
+            {% for k, arr in country %}
+              {% if k == 'tour' %}
+                <div class="np-champ-matches">
+                  {% for numb, tour in arr %}
+                    <h4>{{ numb }}-й тур</h4>
+                    {% for match in tour %}
+                      <div>
+                        <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+                        <b>{{ match.team2.name }}</b> -
+                        {{ match.goal1 }}:{{ match.goal2 }}</span>
+                        (<span>{{ match.bomb }}</span>).
+                      </div>
+                    {% endfor %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if k == 'table' %}
+                <div class="champ-table champs">
+                  <table class="shipTable">
+                      <thead>
+                          <tr class="shipTableTitle">
+                              <th>&nbsp;</th>
+                              <th>&nbsp;</th>
+                              <th class="winsTable">И</th>
+                              <th class="winsTable">В</th>
+                              <th class="winsTable">Н</th>
+                              <th class="winsTable">П</th>
+                              <th class="goalsTable">M</th>
+                              <th class="winsTable">О</th>
+
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {% for entity in arr %}
+                          <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                              <td class="player-position">{{ loop.index }}.</td>
+                              <td class="tableLeft">{{ entity.team.name }}</td>
+                              <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                              <td>{{ entity.wins }}</td>
+                              <td>{{ entity.nich }}</td>
+                              <td>{{ entity.porazh }}</td>
+                              <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                              <td class="table-score">{{ entity.score }}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+                  </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      <div class="np-champ-matches">
+        {% if lch is not empty %}
+        <div class="title-emblem">
+          <img src="https://localhost:8000/images/lch.jpg" class="emblem-turnir" />
+          <h2>Дальше без Роналду</h2>
+        </div>
+          {% for match in lch %}
+            <div>
+              <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+              <b>{{ match.team2.name }}</b> -
+              {{ match.score }}</span>
+              (<span>{{ match.bomb }}</span>).
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if le is not empty %}
+        <div class="title-emblem">
+          <img src="https://localhost:8000/images/le.png" class="emblem-turnir" />
+          <h2>Провал Германии</h2>
+        </div>
+          {% for match in le %}
+            <div>
+              <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+              <b>{{ match.team2.name }}</b> -
+              {{ match.score }}</span>
+              (<span>{{ match.bomb }}</span>).
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      {% for key, country in tours %}
+        {% if key != 'Россия' and key != 'ФНЛ' %}
+        <h3>{{ key }}</h3>
+
+          {% for k, arr in country %}
+            {% if k == 'tour' %}
+              <div class="np-champ-matches">
+                {% for numb, tour in arr %}
+                  <h4>{{ numb }}-й тур</h4>
+                  {% for match in tour %}
+                    <div>
+                      <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+                      <b>{{ match.team2.name }}</b> -
+                      {{ match.goal1 }}:{{ match.goal2 }}</span>
+                      (<span>{{ match.bomb }}</span>).
+                    </div>
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if k == 'table' %}
+              <div class="champ-table champs">
+                <table class="shipTable">
+                    <thead>
+                        <tr class="shipTableTitle">
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th class="winsTable">И</th>
+                            <th class="winsTable">В</th>
+                            <th class="winsTable">Н</th>
+                            <th class="winsTable">П</th>
+                            <th class="goalsTable">M</th>
+                            <th class="winsTable">О</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in arr %}
+                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                            <td class="player-position">{{ loop.index }}.</td>
+                            <td class="tableLeft">{{ entity.team.name }}</td>
+                            <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                            <td>{{ entity.wins }}</td>
+                            <td>{{ entity.nich }}</td>
+                            <td>{{ entity.porazh }}</td>
+                            <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                            <td class="table-score">{{ entity.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      </div>
     </div>
-  </div>
 </body>
 </html>

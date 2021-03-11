@@ -22,6 +22,10 @@ newspaper:
       path:     /newspaper/
       controller: App\Controller\DefaultController::newspaper
 
+newspaper_data:
+      path:     /newspaper-data/
+      controller: App\Controller\DefaultController::newspaperData
+
 clear_cache:
       path:     /cache/
       controller: App\Controller\DefaultController::cache

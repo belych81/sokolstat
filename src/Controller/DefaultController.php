@@ -18,8 +18,12 @@ use App\Entity\News;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
+use App\Service\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController
@@ -113,10 +117,44 @@ class DefaultController extends AbstractController
 
   public function newspaper(Props $props)
   {
+    $options = new Options();
+    $options->setIsRemoteEnabled(true);
+    $dompdf = new Dompdf($options);
+    $html = file_get_contents(__DIR__."/test.html");
+    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+    $dompdf->loadHtml($html);
+    // (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render the HTML as PDF
+    $dompdf->render();
+    $x          = 505;
+    $y          = 790;
+    $text       = "{PAGE_NUM}";
+    $font       = $dompdf->getFontMetrics()->get_font('Helvetica', 'normal');
+    $size       = 10;
+    $color      = array(0,0,0);
+    $word_space = 0.0;
+    $char_space = 0.0;
+    $angle      = 0.0;
+
+    $dompdf->getCanvas()->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+    /*$canvas = $dompdf->getCanvas();
+    $canvas->page_script(
+        'Pdf:outputPageNumbers($pdf, $fontMetrics, $PAGE_NUM, $PAGE_COUNT);'
+    );*/
+
+    // Output the generated PDF to Browser
+    $dompdf->stream('football_'.date("Y_m_d").'.pdf', ["Attachment" => true]);
+    return new Response("<h1>Футбол</h1>");
+  }
+
+  public function newspaperData(Props $props)
+  {
     $today = date('j.m.Y');
     $fromDate = new \DateTime('now');
     $fromDate->setTime(0, 0, 0);
-    $fromDate->modify('-7 days');
+    $fromDate->modify('-24 days');
     $lastSeason = $props->getLastSeason();
 
     $em = $this->getDoctrine();
@@ -152,8 +190,10 @@ class DefaultController extends AbstractController
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
 
-    $eurocups = $this->getDoctrine()->getRepository(Eurocup::class)
-            ->getEntityByWeek($fromDate);
+    $lch = $this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEntityByWeek($fromDate, 'leagueChampions');
+    $le = $this->getDoctrine()->getRepository(Eurocup::class)
+            ->getEntityByWeek($fromDate, 'leagueEuropa');
     $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
         ->getBomb5All($lastSeason);
 
@@ -162,7 +202,8 @@ class DefaultController extends AbstractController
       'rfplMatch' => $rfplMatch,
       'tours' => $tours,
       'today' => $today,
-      'eurocups' => $eurocups
+      'lch' => $lch,
+      'le' => $le
     ]);
   }
 
