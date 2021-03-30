@@ -53,12 +53,18 @@ class Turnir
      */
     private $mundials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="turnir")
+     */
+    private $mundialTables;
+
     public function __construct()
     {
         $this->eurocups = new ArrayCollection();
         $this->ectables = new ArrayCollection();
         $this->ecplayers = new ArrayCollection();
         $this->mundials = new ArrayCollection();
+        $this->mundialTables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +232,36 @@ class Turnir
             // set the owning side to null (unless already changed)
             if ($mundial->getTurnir() === $this) {
                 $mundial->setTurnir(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MundialTable[]
+     */
+    public function getMundialTables(): Collection
+    {
+        return $this->mundialTables;
+    }
+
+    public function addMundialTable(MundialTable $mundialTable): self
+    {
+        if (!$this->mundialTables->contains($mundialTable)) {
+            $this->mundialTables[] = $mundialTable;
+            $mundialTable->setTurnir($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundialTable(MundialTable $mundialTable): self
+    {
+        if ($this->mundialTables->removeElement($mundialTable)) {
+            // set the owning side to null (unless already changed)
+            if ($mundialTable->getTurnir() === $this) {
+                $mundialTable->setTurnir(null);
             }
         }
 

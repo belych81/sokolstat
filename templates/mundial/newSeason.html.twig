@@ -1,7 +1,7 @@
-{% extends 'eurocup/new.html.twig' %}
+{% extends 'eurocup/newMatch.html.twig' %}
 
 {% block title %}
-    Добавить матч
+    Добавить сезон
 {% endblock %}
 
 {% block description %}
@@ -12,7 +12,7 @@
 
 {% block content %}
 
-<form action="{{ path('eurocup_createSeason',
+<form action="{{ path('sbornie_createSeason',
   {'turnir': app.request.get('turnir'), 'season': app.request.get('season')}) }}"
       method="post" >
    <table>
@@ -26,10 +26,10 @@
             </tr>
 
             <tr>
-                <th>{{ form_label(form.team) }}</th>
+                <th>{{ form_label(form.country) }}</th>
                 <td>
-                    {{ form_errors(form.team) }}
-                    {{ form_widget(form.team) }}
+                    {{ form_errors(form.country) }}
+                    {{ form_widget(form.country) }}
                 </td>
             </tr>
         </tbody>

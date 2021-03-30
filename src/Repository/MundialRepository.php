@@ -23,12 +23,12 @@ class MundialRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('m')
-                ->select('m', 's')
+                ->select('DISTINCT s.name')
                 ->join('m.turnir', 't')
                 ->join('m.season', 's')
                 ->where("t.alias = :turnir")
                 ->setParameter('turnir', $turnir)
-                ->groupBy('s');
+                ;
 
         $query = $qb->getQuery();
 

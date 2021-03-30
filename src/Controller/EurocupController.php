@@ -157,13 +157,14 @@ class EurocupController extends AbstractController
             ]);
     }
 
-    public function newSeason($turnir, $season)
+    public function newSeason(SessionInterface $session, $turnir, $season)
     {
         $entity = new Ectable();
 
         $form   = $this->createForm(EctableType::class, $entity, [
             'turnir' => $turnir,
-            'season' => $season
+            'season' => $season,
+            'stadia' => $session->get('stadia')
             ]);
 
         return $this->render('eurocup/newSeason.html.twig', array(

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210212150814 extends AbstractMigration
+final class Version20210329175548 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -21,10 +21,12 @@ final class Version20210212150814 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C099E6F5DF');
-        $this->addSql('DROP INDEX IDX_4034A3C099E6F5DF ON transfer');
-        $this->addSql('ALTER TABLE transfer ADD player VARCHAR(255) NOT NULL, DROP player_id');
-  }
+
+        $this->addSql('ALTER TABLE mundial_table ADD stadia_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE mundial_table ADD CONSTRAINT FK_4DA860403721E7B1 FOREIGN KEY (stadia_id) REFERENCES stadia (id)');
+        $this->addSql('CREATE INDEX IDX_4DA860403721E7B1 ON mundial_table (stadia_id)');
+        
+    }
 
     public function down(Schema $schema) : void
     {
@@ -55,6 +57,7 @@ final class Version20210212150814 extends AbstractMigration
         $this->addSql('ALTER TABLE voteemail ADD CONSTRAINT FK_DD5FD5E72DCDAFC FOREIGN KEY (vote_id) REFERENCES vote (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('ALTER TABLE voteplayer ADD CONSTRAINT FK_4348F43272DCDAFC FOREIGN KEY (vote_id) REFERENCES vote (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('ALTER TABLE voteplayer ADD CONSTRAINT FK_4348F43299E6F5DF FOREIGN KEY (player_id) REFERENCES player (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('DROP TABLE newsdb');
         $this->addSql('DROP TABLE newspaper');
         $this->addSql('DROP TABLE nhl_play_off');
         $this->addSql('DROP TABLE nhl_season');
@@ -70,8 +73,14 @@ final class Version20210212150814 extends AbstractMigration
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b296cd8ae TO IDX_88241BA7296CD8AE');
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b4ec001d1 TO IDX_88241BA74EC001D1');
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b99e6f5df TO IDX_88241BA799E6F5DF');
+        $this->addSql('ALTER TABLE lchplayer DROP FOREIGN KEY FK_93B818024EC001D1');
+        $this->addSql('ALTER TABLE lchplayer DROP FOREIGN KEY FK_93B81802296CD8AE');
+        $this->addSql('ALTER TABLE lchplayer DROP FOREIGN KEY FK_93B8180299E6F5DF');
         $this->addSql('ALTER TABLE lchplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE mundial CHANGE season_id season_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE country2_id country2_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE city_id city_id INT DEFAULT NULL, CHANGE referee_id referee_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE mundial_table DROP FOREIGN KEY FK_4DA860403721E7B1');
+        $this->addSql('DROP INDEX IDX_4DA860403721E7B1 ON mundial_table');
+        $this->addSql('ALTER TABLE mundial_table DROP stadia_id');
         $this->addSql('ALTER TABLE nation_cup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE nation_cup RENAME INDEX idx_559abdaf296cd8ae TO IDX_D172AD4D296CD8AE');
         $this->addSql('ALTER TABLE nation_cup RENAME INDEX idx_559abdaf3721e7b1 TO IDX_D172AD4D3721E7B1');
@@ -117,6 +126,9 @@ final class Version20210212150814 extends AbstractMigration
         $this->addSql('ALTER TABLE rus_supercup RENAME INDEX idx_c3d1ea6bf59e604a TO IDX_5B1296F0F59E604A');
         $this->addSql('ALTER TABLE rusplayer CHANGE player_id player_id INT DEFAULT NULL, CHANGE ecgame ecgame INT DEFAULT 0 NOT NULL, CHANGE ecgoal ecgoal INT DEFAULT 0 NOT NULL, CHANGE cupgame cupgame INT DEFAULT 0 NOT NULL, CHANGE cupgoal cupgoal INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE sbplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE shipplayer DROP FOREIGN KEY FK_1358C52C4EC001D1');
+        $this->addSql('ALTER TABLE shipplayer DROP FOREIGN KEY FK_1358C52C296CD8AE');
+        $this->addSql('ALTER TABLE shipplayer DROP FOREIGN KEY FK_1358C52C99E6F5DF');
         $this->addSql('ALTER TABLE shipplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL');
         $this->addSql('CREATE INDEX team_id ON shipplayer (team_id, season_id)');
         $this->addSql('ALTER TABLE shiptable CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL');
@@ -126,9 +138,13 @@ final class Version20210212150814 extends AbstractMigration
         $this->addSql('ALTER TABLE task CHANGE dataend dataend DATETIME DEFAULT NULL');
         $this->addSql('ALTER TABLE team CHANGE country_id country_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL, CHANGE wins wins INT DEFAULT 0 NOT NULL, CHANGE nich nich INT DEFAULT 0 NOT NULL, CHANGE porazh porazh INT DEFAULT 0 NOT NULL, CHANGE mz mz INT DEFAULT 0 NOT NULL, CHANGE mp mp INT DEFAULT 0 NOT NULL, CHANGE score score INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE tour CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE bomb bomb VARCHAR(255) CHARACTER SET utf8 DEFAULT \'-\' NOT NULL COLLATE `utf8_unicode_ci`, CHANGE data data DATETIME NOT NULL, CHANGE status status TINYINT(1) NOT NULL');
-        $this->addSql('ALTER TABLE transfer ADD player_id INT NOT NULL, DROP player');
-        $this->addSql('ALTER TABLE transfer ADD CONSTRAINT FK_4034A3C099E6F5DF FOREIGN KEY (player_id) REFERENCES player (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
-        $this->addSql('CREATE INDEX IDX_4034A3C099E6F5DF ON transfer (player_id)');
+        $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C039E6FA16');
+        $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C0BD06B3B3');
+        $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C0EC8B7ADE');
+        $this->addSql('DROP INDEX IDX_4034A3C039E6FA16 ON transfer');
+        $this->addSql('DROP INDEX IDX_4034A3C0BD06B3B3 ON transfer');
+        $this->addSql('DROP INDEX IDX_4034A3C0EC8B7ADE ON transfer');
+        $this->addSql('ALTER TABLE transfer CHANGE old_id old_id INT NOT NULL, CHANGE new_id new_id INT NOT NULL');
         $this->addSql('ALTER TABLE uefa_supercup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE data data DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE status status TINYINT(1) DEFAULT \'0\' NOT NULL');
         $this->addSql('ALTER TABLE uefa_supercup RENAME INDEX idx_7c64527d296cd8ae TO IDX_3ECB96C3296CD8AE');
         $this->addSql('ALTER TABLE uefa_supercup RENAME INDEX idx_7c64527d4ec001d1 TO IDX_3ECB96C34EC001D1');

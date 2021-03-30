@@ -154,7 +154,7 @@ class DefaultController extends AbstractController
     $today = date('j.m.Y');
     $fromDate = new \DateTime('now');
     $fromDate->setTime(0, 0, 0);
-    $fromDate->modify('-24 days');
+    $fromDate->modify('-35 days');
     $lastSeason = $props->getLastSeason();
 
     $em = $this->getDoctrine();
@@ -189,9 +189,16 @@ class DefaultController extends AbstractController
     foreach ($entities as $ent) {
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
-
+    $isLchEmblems = false;
     $lch = $this->getDoctrine()->getRepository(Eurocup::class)
             ->getEntityByWeek($fromDate, 'leagueChampions');
+    if(!empty($lch)){
+      $lchStadia = $lch[0]->getStadia()->getName();
+      if(strpos($lchStadia, 'инал') !== false){
+        $isLchEmblems = true;
+      }
+    }
+
     $le = $this->getDoctrine()->getRepository(Eurocup::class)
             ->getEntityByWeek($fromDate, 'leagueEuropa');
     $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
@@ -203,7 +210,9 @@ class DefaultController extends AbstractController
       'tours' => $tours,
       'today' => $today,
       'lch' => $lch,
-      'le' => $le
+      'le' => $le,
+      'isLchEmblems' => $isLchEmblems,
+      'lchStadia' => $lchStadia
     ]);
   }
 

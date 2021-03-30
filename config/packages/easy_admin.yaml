@@ -138,6 +138,63 @@ easy_admin:
                     - team
                     - game
                     - goal
+          Mundial:
+            class: App\Entity\Mundial
+            list:
+                fields:
+                    - id
+                    - data
+                    - turnir
+                    - season
+                    - country
+                    - country2
+                    - stadia
+                    - score
+                    - goal
+                filters: ['season', 'turnir', 'country', 'country2']
+            form:
+                fields:
+                    - data
+                    - turnir
+                    - season
+                    - country
+                    - country2
+                    - stadia
+                    - score
+                    - goal
+                    - city
+                    - penalty
+                    - game
+                    - game2
+                    - zriteli
+                    - referee
+                    - status
+          Turnir:
+            class: App\Entity\Turnir
+            list:
+                fields:
+                    - id
+                    - name
+                    - alias
+                    - russianalias
+                filters: ['name', 'alias']
+            form:
+                fields:
+                    - name
+                    - alias
+                    - russianalias
+          Referee:
+            class: App\Entity\Referee
+            list:
+                fields:
+                    - id
+                    - name
+                    - country
+                filters: ['name', 'country']
+            form:
+                fields:
+                    - name
+                    - country
           News:
             class: App\Entity\News
             list:
@@ -240,6 +297,46 @@ easy_admin:
                     - mp
                     - score
                 filters: ['team', 'turnir', 'season', 'stadia']
+            form:
+                fields:
+                    - turnir
+                    - season
+                    - stadia
+                    - team
+                    - wins
+                    - nich
+                    - porazh
+                    - mz
+                    - mp
+                    - score
+          MundialTable:
+            class: App\Entity\MundialTable
+            list:
+                fields:
+                    - id
+                    - year
+                    - stadia
+                    - country
+                    - wins
+                    - nich
+                    - porazh
+                    - mz
+                    - mp
+                    - score
+                filters: ['country', 'turnir', 'year', 'stadia']
+            form:
+                fields:
+                    - turnir
+                    - year
+                    - stadia
+                    - country
+                    - wins
+                    - nich
+                    - porazh
+                    - mz
+                    - mp
+                    - score
+                    - seat
           Ecsostav:
             class: App\Entity\Ecsostav
             list:

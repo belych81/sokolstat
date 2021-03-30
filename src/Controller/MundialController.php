@@ -11,8 +11,10 @@ use App\Entity\Sostav;
 use App\Entity\Stadia;
 use App\Entity\Turnir;
 use App\Entity\Mundial;
+use App\Entity\MundialTable;
 use App\Entity\Seasons;
 use App\Form\MundialType;
+use App\Form\MundialtableType;
 use App\Service\Menu;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +25,7 @@ class MundialController extends AbstractController
     {
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
+
         $champ = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
         $raunds = $this->getDoctrine()->getRepository(Stadia::class)
@@ -100,6 +103,53 @@ class MundialController extends AbstractController
             'games' => null,
             'goals' => null
             ]);
+    }
+
+    public function newSeason(SessionInterface $session, $turnir, $season)
+    {
+        $entity = new MundialTable();
+
+        $form   = $this->createForm(MundialtableType::class, $entity, [
+            'turnir' => $turnir,
+            'season' => $season,
+            'stadia' => $session->get('stadia')
+            ]);
+
+        return $this->render('mundial/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function createSeason(SessionInterface $session, Request $request,
+      $turnir, $season)
+    {
+        $ent = MundialtableType::class;
+        $entity  = new MundialTable();
+        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)
+            ->findOneByAlias($turnir);
+        $entity->setYear($season);
+        $entity->setTurnir($obTurnir);
+
+        $form = $this->createForm($ent, $entity, [
+          'turnir' => $turnir,
+          'season' => $season
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $session->set('stadia', $entity->getStadia()->getName());
+            $em->persist($entity);
+            $em->flush();
+            //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
+        }
+
+        return $this->render('mundial/newSeason.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 
     public function newMatch($season, $turnir)

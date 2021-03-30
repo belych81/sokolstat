@@ -78,6 +78,11 @@ class Country
      */
     private $nhlPlayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="country")
+     */
+    private $mundialTables;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -90,6 +95,7 @@ class Country
         $this->referees = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
         $this->nhlPlayers = new ArrayCollection();
+        $this->mundialTables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -430,6 +436,36 @@ class Country
             // set the owning side to null (unless already changed)
             if ($nhlPlayer->getCountry() === $this) {
                 $nhlPlayer->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MundialTable[]
+     */
+    public function getMundialTables(): Collection
+    {
+        return $this->mundialTables;
+    }
+
+    public function addMundialTable(MundialTable $mundialTable): self
+    {
+        if (!$this->mundialTables->contains($mundialTable)) {
+            $this->mundialTables[] = $mundialTable;
+            $mundialTable->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundialTable(MundialTable $mundialTable): self
+    {
+        if ($this->mundialTables->removeElement($mundialTable)) {
+            // set the owning side to null (unless already changed)
+            if ($mundialTable->getCountry() === $this) {
+                $mundialTable->setCountry(null);
             }
         }
 

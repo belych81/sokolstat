@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Еженедельник "Классический Футбол"</title>
+    <title>Еженедельник "СоколСтат"</title>
     <link type="text/css" rel="stylesheet" href="https://localhost:8000/css/newspaper.css" />
 </head>
 <body>
   <div class="container">
     <div class="np-title">
-      <img src="https://localhost:8000/images/2021-03-09_11-34.png" />
+      <img src="https://localhost:8000/images/logo-newspaper.png" />
     </div>
-    <div>9 МАРТА</div>
+    <div><strong>№ 1</strong>&nbsp;&nbsp;&nbsp;&nbsp;12 МАРТА</div>
     <div class="prime-image"><img src="https://localhost:8000/images/2021-03-09_12-50.png" /></div>
     <div class="prime-image-title">Квинси Промес - автор победного мяча в ворота "Краснодара"</div>
     <div class="prime-bottom-blocks">
@@ -162,31 +162,60 @@
         {% if lch is not empty %}
         <div class="title-emblem">
           <img src="https://localhost:8000/images/lch.jpg" class="emblem-turnir" />
+          <div class="top-line">ЛИГА ЧЕМПИОНОВ. 1/8 финала. ОТВЕТНЫЕ МАТЧИ</div>
           <h2>Дальше без Роналду</h2>
         </div>
+        <article class="textcols">
+          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
+        </article>
+        <div>
           {% for match in lch %}
-            <div>
-              <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-              <b>{{ match.team2.name }}</b> -
-              {{ match.score }}</span>
-              (<span>{{ match.bomb }}</span>).
+            <div class="eurocup-matches-sostav">
+              <div class="eurocup-matches-sostav-title">
+                <img src="{{ asset('images/clubs/') }}{{ match.team.image2 }}" />
+                <span class="np-matches-team"><b>{{ match.team.name | upper}}</b> -
+                <b>{{ match.team2.name | upper }}</b> -
+                {{ match.score | replace({'-': ":"}) }}</span>
+                <img src="{{ asset('images/clubs/') }}{{ match.team2.image2 }}" />
+              </div>
+              {% if match.ecsostav %}
+                   <div>
+                      <p><em><b>{{ match.team.name }}</b></em>:
+                        {{ match.ecsostav.team }}</p>
+                      <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
+                      {% if match.score != '0-0' %}
+                      <p><b>Голы</b>: {{ match.bomb }}.</p>
+                      {% endif %}
+                  </div>
+              {% endif %}
             </div>
           {% endfor %}
+        </div>
         {% endif %}
 
         {% if le is not empty %}
-        <div class="title-emblem">
-          <img src="https://localhost:8000/images/le.png" class="emblem-turnir" />
-          <h2>Провал Германии</h2>
-        </div>
-          {% for match in le %}
-            <div>
-              <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-              <b>{{ match.team2.name }}</b> -
-              {{ match.score }}</span>
-              (<span>{{ match.bomb }}</span>).
-            </div>
-          {% endfor %}
+          <div class="title-emblem">
+            <img src="https://localhost:8000/images/le.png" class="emblem-turnir" />
+            <div class="top-line">ЛИГА ЕВРОПЫ. 1/16 финала. ОТВЕТНЫЕ МАТЧИ</div>
+            <h2>Провал Германии</h2>
+          </div>
+          <article class="textcols">
+            Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
+          </article>
+          <div class="eurocup-matches">
+            {% for match in le %}
+              <div>
+                <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
+                <b>{{ match.team2.name | upper }}</b> -
+                {{ match.score }}</span>
+                (<span>{{ match.bomb }}</span>).
+              </div>
+            {% endfor %}
+          </div>
         {% endif %}
       </div>
 

@@ -50,6 +50,7 @@ class Stadia
         $this->nationCups = new ArrayCollection();
         $this->ectables = new ArrayCollection();
         $this->mundials = new ArrayCollection();
+        $this->mundialTables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +228,11 @@ class Stadia
      */
     private $rank;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="stadia")
+     */
+    private $mundialTables;
+
     public function setStadiaTable($table)
     {
         $this->stadia_table = $table;
@@ -312,6 +318,36 @@ class Stadia
     public function setRank(?int $rank): self
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MundialTable[]
+     */
+    public function getMundialTables(): Collection
+    {
+        return $this->mundialTables;
+    }
+
+    public function addMundialTable(MundialTable $mundialTable): self
+    {
+        if (!$this->mundialTables->contains($mundialTable)) {
+            $this->mundialTables[] = $mundialTable;
+            $mundialTable->setStadia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMundialTable(MundialTable $mundialTable): self
+    {
+        if ($this->mundialTables->removeElement($mundialTable)) {
+            // set the owning side to null (unless already changed)
+            if ($mundialTable->getStadia() === $this) {
+                $mundialTable->setStadia(null);
+            }
+        }
 
         return $this;
     }

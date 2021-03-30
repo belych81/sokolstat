@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Ectable;
-use App\Entity\Team;
+use App\Entity\MundialTable;
+use App\Entity\Country;
 use App\Entity\Stadia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,11 +12,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Repository\TeamRepository;
 use App\Repository\StadiaRepository;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class EctableType extends AbstractType
+class MundialtableType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,20 +29,14 @@ class EctableType extends AbstractType
                 return $repository->queryGroupStadia();
               }
             ])
-            ->add('team', EntityType::class, [
-                'class' => Team::class,
-                'query_builder' => function (TeamRepository $repository) {
-                return $repository->queryTeams();
-                }
-              ]
-        );
+            ->add('country');
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Ectable::class
+            'data_class' => MundialTable::class
         ]);
         $resolver->setDefined(['turnir', 'season', 'stadia']);
     }
@@ -53,6 +46,6 @@ class EctableType extends AbstractType
      */
     public function getName()
     {
-        return 'ectable';
+        return 'mundialtable';
     }
 }
