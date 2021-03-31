@@ -112,6 +112,11 @@ class Menu
           'route' => 'sbornie'
         ],
         [
+          'name' => 'Чемпионаты Мира (отбор)',
+          'url' => $this->router->generate('sbornie', ['turnir' => 'otbor-worldcup', 'year' => '2022']),
+          'route' => 'sbornie'
+        ],
+        [
           'name' => 'Сборная России',
           'url' => $this->router->generate('sbornieRus', ['season' => '2019']),
           'route' => 'sbornieRus'

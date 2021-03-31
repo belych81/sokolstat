@@ -19,32 +19,22 @@ class MundialTableRepository extends ServiceEntityRepository
         parent::__construct($registry, MundialTable::class);
     }
 
-    // /**
-    //  * @return MundialTable[] Returns an array of MundialTable objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getTable($turnir, $season, $stadia)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+      return $this->createQueryBuilder('m')
+              ->select('m')
+              ->join('m.turnir', 't')
+              ->join('m.stadia', 'st')
+              ->where("t.alias = :turnir")
+              ->andWhere("m.year = :season")
+              ->andWhere("st.alias = :stadia")
+              ->setParameters([
+                    'turnir' => $turnir,
+                    'season' => $season,
+                    'stadia' => $stadia
+                        ])
+              ->orderBy('m.score DESC, m.wins DESC, m.mz')
+              ->getQuery()
+              ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MundialTable
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -14,11 +14,6 @@ class MundialType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $season = $options['season'];
-
-        if (!in_array('data', $_SESSION)) {
-            $_SESSION['data'] = new \DateTime();
-        }
 
         $builder
             ->add('country2')
@@ -27,7 +22,7 @@ class MundialType extends AbstractType
             ->add('game')
             ->add('game2')
             ->add('penalty')
-            ->add('data', null, ['data' => $_SESSION['data'], 'years' => range(1990, 2026)])
+            ->add('data', null, ['data' => new \DateTime(), 'years' => range(1990, 2026)])
             ->add('zriteli')
             ->add('country')
             ->add('turnir')

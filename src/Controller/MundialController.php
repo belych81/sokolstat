@@ -34,6 +34,8 @@ class MundialController extends AbstractController
         foreach ($raunds as $raund) {
             $raund->setStadiaMatches($this->getDoctrine()->getRepository(Mundial::class)
               ->getEntityByTurnir($turnir, $year, $raund->getId()));
+            $raund->setStadiaTable($this->getDoctrine()->getRepository(MundialTable::class)
+              ->getTable($turnir, $year, $raund->getAlias()));
         }
         $menu = $serviceMenu->generateMundial();
 
@@ -105,7 +107,7 @@ class MundialController extends AbstractController
             ]);
     }
 
-    public function newSeason(SessionInterface $session, $turnir, $season)
+    public function newSeason(Menu $serviceMenu, SessionInterface $session, $turnir, $season)
     {
         $entity = new MundialTable();
 
@@ -115,8 +117,11 @@ class MundialController extends AbstractController
             'stadia' => $session->get('stadia')
             ]);
 
+        $menu = $serviceMenu->generateMundial();
+
         return $this->render('mundial/newSeason.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
@@ -152,7 +157,7 @@ class MundialController extends AbstractController
         ));
     }
 
-    public function newMatch($season, $turnir)
+    public function newMatch(Menu $serviceMenu, $season, $turnir)
     {
         $entity = new Mundial();
 
@@ -160,13 +165,16 @@ class MundialController extends AbstractController
             'season' => $season
             ]);
 
+        $menu = $serviceMenu->generateMundial();
+
         return $this->render('mundial/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function createMatch(Request $request, $season, $turnir)
+    public function createMatch(Menu $serviceMenu, Request $request, $season, $turnir)
     {
         $em = $this->getDoctrine()->getManager();
         $entity  = new Mundial();
@@ -188,9 +196,11 @@ class MundialController extends AbstractController
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
+        $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

@@ -249,6 +249,16 @@ easy_admin:
               fields:
                 - name
                 - translit
+          Seasons:
+            class: App\Entity\Seasons
+            list:
+                fields:
+                    - id
+                    - name
+                filters: ['name']
+            form:
+              fields:
+                - name
           Team:
             class: App\Entity\Team
             list:
