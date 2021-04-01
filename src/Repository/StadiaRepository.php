@@ -96,6 +96,7 @@ class StadiaRepository extends ServiceEntityRepository
               ->andWhere("t.alias = :turnir")
               ->setParameter('season', $season)
               ->setParameter('turnir', $turnir)
+              ->orderBy('s.rank ASC, s.alias')
               ->getQuery()
               ->getResult()
               ;

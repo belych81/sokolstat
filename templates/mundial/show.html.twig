@@ -33,11 +33,13 @@
     {% endif %}
     </div>
 
-    <div class="teams-list">
-        {% for country in countries %}
-            <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
-                        'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
-                        class="spiski teamlch">{{ country.name }}</a>
-        {% endfor %}
-    </div>
+    {% if app.request.get('turnir') == 'worldcup' %}
+      <div class="teams-list">
+          {% for country in countries %}
+              <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                          'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                          class="spiski teamlch">{{ country.name }}</a>
+          {% endfor %}
+      </div>
+    {% endif %}
 {% endblock %}

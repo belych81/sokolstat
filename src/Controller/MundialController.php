@@ -14,6 +14,7 @@ use App\Entity\Mundial;
 use App\Entity\MundialTable;
 use App\Entity\Seasons;
 use App\Form\MundialType;
+use App\Form\Mundial2Type;
 use App\Form\MundialtableType;
 use App\Service\Menu;
 
@@ -202,6 +203,127 @@ class MundialController extends AbstractController
             'entity' => $entity,
             'menu' => $menu,
             'form'   => $form->createView(),
+        ));
+    }
+
+    public function edit($id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Mundial::class)->find($id);
+
+        $editForm = $this->createForm(Mundial2Type::class, $entity);
+
+        return $this->render('mundial/updateMundial.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function update(Request $request, $id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Mundial::class)->find($id);
+
+        $editForm = $this->createForm(Mundial2Type::class, $entity);
+        $entity->setStatus(0);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid() && $editForm->isSubmitted()) {
+            $em->persist($entity);
+            $em->flush();
+            $country = $entity->getCountry()->getId();
+            $country2 = $entity->getCountry2()->getId();
+            $score = $entity->getScore();
+            $season = $entity->getSeason()->getName();
+            $stadia = $entity->getStadia()->getAlias();
+            if(strpos($stadia, 'group') !== false)
+            {
+              $em->getRepository(MundialTable::class)->updateTable($country, $country2, $score, $season);
+            }
+            return $this->redirect($this->generateUrl('sbornie', ['turnir' => $turnir, 'year' => $season]));
+
+        }
+
+        return $this->render('mundial/updateMundial.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function editMatch($id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Mundial::class)->find($id);
+
+        $editForm = $this->createForm(Mundial2Type::class, $entity);
+
+        return $this->render('mundial/editMundial.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function updateMatch(Request $request, $id, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Mundial::class)->find($id);
+
+        $editForm = $this->createForm(Mundial2Type::class, $entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $season=$entity->getSeason()->getName();
+
+            return $this->redirect($this->generateUrl('sbornie', [
+              'turnir' => $turnir,
+              'year' => $season
+            ]));
+
+        }
+
+        return $this->render('mundial/editMundial.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
+        ));
+    }
+
+    public function editMundialTable($id, $season, $turnir)
+    {
+        $entity = $this->getDoctrine()->getRepository(Mundial::class)->find($id);
+        $form   = $this->createForm(EctableEditType::class, $entity);
+
+        return $this->render('mundial/editEctable.html.twig', array(
+            'entity' => $entity,
+            'edit_form'   => $form->createView(),
+        ));
+    }
+
+    public function updateMundialTable(Request $request, $id, $season, $turnir)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Mundial::class)->find($id);
+
+        $editForm = $this->createForm(EctableEditType::class, $entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('eurocup', [
+              'turnir' => $turnir, 'season' => $season,
+                'stadia' => $stadia]));
+        }
+
+        return $this->render('mundial/editEctable.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView()
         ));
     }
 }

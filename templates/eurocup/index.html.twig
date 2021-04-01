@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
+        <h1>{{ rus_turnir.russianalias }} {{ app.request.get('season') }}</h1>
         {% if is_granted("ROLE_ADMIN") %}
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">
                 Добавить матч</a></p>
@@ -69,7 +69,7 @@
                </tr>
                {{ include('eurocup/matches.html.twig', { 'entities': stad.stadiamatches1 }) }}
              {% endif %}
-            {% if stad.stadiamatches1 is empty and stad.stadiamatches2 is empty%}
+            {% if stad.stadiamatches1 is empty and stad.stadiamatches2 is empty %}
               {{ include('eurocup/matches.html.twig', { 'entities': stad.stadiamatches }) }}
             {% endif %}
         {% if stad.stadiatable %}

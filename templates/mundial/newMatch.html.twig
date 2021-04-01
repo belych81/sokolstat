@@ -69,48 +69,6 @@
                         {{ form_widget(form.city) }}
                     </td>
                 </tr>
-                <tr>
-                    <th>{{ form_label(form.zriteli) }}</th>
-                    <td>
-                        {{ form_errors(form.zriteli) }}
-                        {{ form_widget(form.zriteli) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.penalty) }}</th>
-                    <td>
-                        {{ form_errors(form.penalty) }}
-                        {{ form_widget(form.penalty) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.score) }}</th>
-                    <td>
-                        {{ form_errors(form.score) }}
-                        {{ form_widget(form.score) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.goal) }}</th>
-                    <td>
-                        {{ form_errors(form.goal) }}
-                        {{ form_widget(form.goal) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.game) }}</th>
-                    <td>
-                        {{ form_errors(form.game) }}
-                        {{ form_widget(form.game) }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form_label(form.game2) }}</th>
-                    <td>
-                        {{ form_errors(form.game2) }}
-                        {{ form_widget(form.game2) }}
-                    </td>
-                </tr>
             </tbody>
        </table>
         <p>
@@ -120,7 +78,7 @@
         </p>
     </form>
 
-    <a href="{{ path('sbornie', { 'turnir': 'worldcup',
+    <a href="{{ path('sbornie', { 'turnir': app.request.get('turnir'),
         'year': app.request.get('season')}) }}">Назад</a>
 
 {% endblock %}

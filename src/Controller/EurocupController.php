@@ -73,11 +73,8 @@ class EurocupController extends AbstractController
         return $this->render('eurocup/index.html.twig', [
             'seasons' => $seasons,
             'stadies' => $stadies,
-            //'rus_stadia' => $rus_stadia,
             'rus_turnir' => $rus_turnir,
             'teams' => $teams,
-            //'ectables' => $ectables,
-            //'laststadia' => $laststadia2,
             'menu' => $menu
           ]);
     }

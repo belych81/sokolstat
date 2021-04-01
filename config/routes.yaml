@@ -478,6 +478,39 @@ sbornie_createMatch:
     controller: App\Controller\MundialController:createMatch
     requirements: { _method: post }
 
+sbornie_editMatch:
+    path:  /sbornie/{turnir}/{id}/editMatch
+    controller: App\Controller\MundialController:editMatch
+    requirements:
+        id: \d+
+
+sbornie_updateMatch:
+    path:  /sbornie/{turnir}/{id}/updateMatch
+    controller: App\Controller\MundialController:updateMatch
+    requirements: { _method: post|put }
+
+sbornieTable_edit:
+    path:  /sbornie/{turnir}/{id}/{season}/editMundialTable/
+    controller: App\Controller\MundialController:editMundialTable
+    requirements:
+        id: \d+
+
+sbornieTable_update:
+    path:  /sbornie/{turnir}/{id}/{season}/updateMundialTable/
+    controller: App\Controller\MundialController:updateMundialTable
+    requirements: { _method: post|put }
+
+sbornie_edit:
+    path:  /sbornie/{turnir}/{id}/edit
+    controller: App\Controller\MundialController:edit
+    requirements:
+        id: \d+
+
+sbornie_update:
+    path:  /sbornie/{turnir}/{id}/update
+    controller: App\Controller\MundialController:update
+    requirements: { _method: post|put }
+
 sbornie:
     path:  /sbornie/{turnir}/{year}
     controller: App\Controller\MundialController:index

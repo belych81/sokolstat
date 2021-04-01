@@ -29,7 +29,7 @@
           'turnir': app.request.get('turnir')}) }}">
                 Добавить матч</a></p>
          {% endif %}
-    <table>
+         <table>
         {% for raund in raunds %}
             <tr class="shipTableTitle">
                 <td colspan="5" class="tableGoal">
@@ -44,13 +44,37 @@
                         {{ entity.country.name }} - {{ entity.country2.name }}</a>
                 </td>
                 <td class="scScore">
-                        {{ entity.data | date('d.m H:i') }}
+                  {% if is_granted("ROLE_ADMIN") %}
+                      <a href="{{ path('sbornie_editMatch', {'id': entity.id,
+                        'turnir': app.request.get('turnir') })}}">
+                            {{ entity.data | date('d.m H:i') }}</a>
+                  {% else %}
+                        {% if entity.status == 1 %}
+                          {{ entity.data | date('d.m H:i') }}
+                        {% else %}
+                            {{ entity.data | date('d.m') }}
+                        {% endif %}
+                  {% endif %}
                 </td>
                 <td class="scScore">
-                        {{ entity.score }}
+                    {% if entity.status == 1 %}
+                      {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('sbornie_edit', {'id': entity.id,
+                          'turnir': app.request.get('turnir') })}}">
+                          -:-</a>
+                      {% else %}
+                        -:-
+                      {%  endif %}
+                    {% else %}
+                      {{ entity.score }}
+                    {% endif %}
                 </td>
                 <td class="scCity scScore">
-                        {{ entity.city.name }}
+                    {% if app.request.get('turnir') == 'otbor-worldcup' and entity.status == 1 %}
+                      -
+                    {% else %}
+                      {{ entity.city.name }}
+                    {% endif %}
                 </td>
                 <td class="mundialGoal">
                     {{ entity.goal }}
@@ -64,6 +88,7 @@
                     <thead>
                       <tr class="shipTableTitle">
                           <th>&nbsp;</th>
+                          <th>&nbsp;</th>
                           <th>И</th>
                           <th>В</th>
                           <th>Н</th>
@@ -75,7 +100,8 @@
                     </thead>
                     <tbody>
                      {% for ectable in raund.stadiatable %}
-                          <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                          <td class="player-position">{{ loop.index }}</td>
                           <td class="tableLeft">
                             <span class="shipTableTeam">
                                   {{ ectable.country.name }}

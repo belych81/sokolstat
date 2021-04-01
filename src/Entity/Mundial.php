@@ -55,27 +55,27 @@ class Mundial
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $goal;
+    private $goal = '-';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $score;
+    private $score = '0-0';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $game;
+    private $game = '-';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $game2;
+    private $game2 = '-';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $penalty;
+    private $penalty = '-';
 
     /**
      * @ORM\Column(type="datetime")
@@ -85,12 +85,12 @@ class Mundial
     /**
      * @ORM\Column(type="integer")
      */
-    private $zriteli;
+    private $zriteli = 0;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $status;
+    private $status = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Referee", inversedBy="mundials")
