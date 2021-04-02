@@ -15,6 +15,7 @@ use App\Entity\MundialTable;
 use App\Entity\Seasons;
 use App\Form\MundialType;
 use App\Form\Mundial2Type;
+use App\Form\MundialUpdateType;
 use App\Form\MundialtableType;
 use App\Service\Menu;
 
@@ -212,7 +213,7 @@ class MundialController extends AbstractController
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
-        $editForm = $this->createForm(Mundial2Type::class, $entity);
+        $editForm = $this->createForm(MundialUpdateType::class, $entity);
 
         return $this->render('mundial/updateMundial.html.twig', array(
             'entity'      => $entity,
@@ -226,7 +227,7 @@ class MundialController extends AbstractController
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
-        $editForm = $this->createForm(Mundial2Type::class, $entity);
+        $editForm = $this->createForm(MundialUpdateType::class, $entity);
         $entity->setStatus(0);
         $editForm->handleRequest($request);
 

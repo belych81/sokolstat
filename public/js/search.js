@@ -14,7 +14,7 @@ function parseUrlQuery() {
 		$("select").chosen({
 			no_results_text: "Не нашлось",
 			search_contains: true,
-			width: '100%'
+			width: '130px'
 		});
 
 		$("select[name=teams]").change(function(){

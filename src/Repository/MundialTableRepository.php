@@ -33,7 +33,7 @@ class MundialTableRepository extends ServiceEntityRepository
                     'season' => $season,
                     'stadia' => $stadia
                         ])
-              ->orderBy('m.score DESC, m.wins DESC, m.mz')
+              ->orderBy('m.score DESC, m.wins DESC, m.mz DESC, m.mp')
               ->getQuery()
               ->getResult();
     }

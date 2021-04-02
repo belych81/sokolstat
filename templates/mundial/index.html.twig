@@ -29,10 +29,17 @@
           'turnir': app.request.get('turnir')}) }}">
                 Добавить матч</a></p>
          {% endif %}
+
+         {% if app.request.get('turnir') != 'otbor-worldcup' %}
+          {% set cols = 5 %}
+         {% else %}
+             {% set cols = 4 %}
+         {% endif %}
+
          <table>
         {% for raund in raunds %}
             <tr class="shipTableTitle">
-                <td colspan="5" class="tableGoal">
+                <td colspan="{{ cols }}" class="tableGoal">
                     {{ raund.name }}
                 </td>
             </tr>
@@ -69,13 +76,11 @@
                       {{ entity.score }}
                     {% endif %}
                 </td>
-                <td class="scCity scScore">
-                    {% if app.request.get('turnir') == 'otbor-worldcup' and entity.status == 1 %}
-                      -
-                    {% else %}
-                      {{ entity.city.name }}
-                    {% endif %}
-                </td>
+                {% if app.request.get('turnir') != 'otbor-worldcup' %}
+                  <td class="scCity scScore">
+                        {{ entity.city.name }}
+                  </td>
+                {% endif %}
                 <td class="mundialGoal">
                     {{ entity.goal }}
                 </td>
