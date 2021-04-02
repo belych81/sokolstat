@@ -187,6 +187,23 @@ class ShipplayerRepository extends ServiceEntityRepository
             $qb->execute();
     }
 
+    public function updateShipplayerGoalSbornie($id, $change)
+    {
+        switch ($change) {
+            case 'plus' : $changeParam = 's.sbornie+1'; $changeParam1 = 's.sum+1'; break;
+            case 'minus' : $changeParam = 's.sbornie-1'; $changeParam1 = 's.sum-1'; break;
+        }
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\Shipplayer', 's')
+                ->set('s.sbornie', $changeParam)
+                ->set('s.sum', $changeParam1)
+                ->where('s.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery();
+
+            $qb->execute();
+    }
+
     public function updateShipplayers($arr)
     {
       $qb = $this->_em->createQueryBuilder()

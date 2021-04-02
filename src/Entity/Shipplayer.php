@@ -64,6 +64,11 @@ class Shipplayer
      */
     private $game = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sbornie = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -185,5 +190,17 @@ class Shipplayer
     public function __toString()
     {
         return (string)$this->id;
+    }
+
+    public function getSbornie(): ?int
+    {
+        return $this->sbornie;
+    }
+
+    public function setSbornie(int $sbornie): self
+    {
+        $this->sbornie = $sbornie;
+
+        return $this;
     }
 }

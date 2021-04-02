@@ -225,7 +225,7 @@ class PlayerRepository extends ServiceEntityRepository
     }
 
     public function updatePlayerGoal($id, $change, $goal=0, $cup=0,
-      $supercup=0, $eurocup=0, $game=0)
+      $supercup=0, $eurocup=0, $game=0, $sbornie=0)
     {
         switch ($change) {
             case 'plus' :
@@ -235,6 +235,7 @@ class PlayerRepository extends ServiceEntityRepository
                 $changeParam3 = "s.supercup+$supercup";
                 $changeParam4 = "s.eurocup+$eurocup";
                 $changeParam5 = "s.game";
+                $changeParam6 = "s.sbornie+$sbornie";
                  break;
             case 'minus' :
                 $changeParam = "s.goal-$goal";
@@ -242,6 +243,7 @@ class PlayerRepository extends ServiceEntityRepository
                 $changeParam2 = "s.cup-$cup";
                 $changeParam3 = "s.supercup-$supercup";
                 $changeParam4 = "s.eurocup-$eurocup";
+                $changeParam6 = "s.sbornie-$sbornie";
                 break;
             default :
                 $changeParam = "s.goal+$goal";
@@ -249,6 +251,7 @@ class PlayerRepository extends ServiceEntityRepository
                 $changeParam2 = "s.cup+$cup";
                 $changeParam3 = "s.supercup+$supercup";
                 $changeParam4 = "s.eurocup+$eurocup";
+                $changeParam6 = "s.sbornie+$sbornie";
         }
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Player', 's')
@@ -256,6 +259,7 @@ class PlayerRepository extends ServiceEntityRepository
                 ->set('s.cup', $changeParam2)
                 ->set('s.supercup', $changeParam3)
                 ->set('s.eurocup', $changeParam4)
+                ->set('s.sbornie', $changeParam6)
                 ->set('s.sum', $changeParam1)
                 ->where('s.id = ?1')
                 ->setParameter(1, $id)

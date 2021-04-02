@@ -155,6 +155,11 @@ class Player
      */
     private $game = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sbornie = 0;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -729,6 +734,18 @@ class Player
     public function setGame(int $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function getSbornie(): ?int
+    {
+        return $this->sbornie;
+    }
+
+    public function setSbornie(int $sbornie): self
+    {
+        $this->sbornie = $sbornie;
 
         return $this;
     }

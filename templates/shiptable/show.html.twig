@@ -103,6 +103,7 @@
                 <th class="teamStatGoal">Г</th>
                 <th class="teamStatGoal nation-cups">Кубок-Г (Суперкубок-Г)</th>
                 <th class="teamStatGoal nation-cups">Еврокубки (Г)</th>
+                <th class="teamStatGoal nation-cups">Сборные (Г)</th>
                 <th class="teamStatGoal">В сезоне (Г)</th>
                 <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (И)</th>
                 <th class="teamStatTotalGoal nation-champs">Всего в чемпионатах топ-5 (Г)</th>
@@ -222,7 +223,28 @@
                              'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
                             {% else %}
                             {{ player.eurocup }}
-                            {% endif %}</td>
+                            {% endif %}
+                        </td>
+
+                        <td class="tableGoal nation-cups">
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <a href="{{ path('playeradmin_editNationSbornie',
+                                  {'id': player.id, 'season': app.request.get('season'),
+                             'team': app.request.get('id'),
+                             'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                                    {{ player.sbornie }}
+                                <a href="{{ path('playeradmin_editNationSbornie',
+                                      {'id': player.id, 'season': app.request.get('season'),
+                             'team': app.request.get('id'),
+                             'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                            {% else %}
+                              {% if player.sbornie == '' %}
+                                  0
+                              {% else %}
+                                {{ player.sbornie }}
+                              {% endif %}
+                            {% endif %}
+                        </td>
 
                 <td class="tableGoal">
                     {{ player.sum }}

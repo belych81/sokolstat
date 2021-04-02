@@ -259,6 +259,16 @@ easy_admin:
             form:
               fields:
                 - name
+          City:
+            class: App\Entity\City
+            list:
+                fields:
+                    - id
+                    - name
+                filters: ['name']
+            form:
+              fields:
+                - name
           Team:
             class: App\Entity\Team
             list:

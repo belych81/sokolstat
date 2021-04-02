@@ -27,6 +27,7 @@ class PlayerEditType extends AbstractType
             ->add('cup')
             ->add('eurocup')
             ->add('supercup')
+            ->add('sbornie')
             ->add('lch_game')
             ->add('lch_goal')
             ->add('sum')

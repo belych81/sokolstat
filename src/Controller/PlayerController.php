@@ -558,6 +558,24 @@ class PlayerController extends AbstractController
                     ]));
     }
 
+    public function editNationSbornie(SessionInterface $session, $id, $country,
+      $season, $team, $change)
+    {
+        $this->getDoctrine()->getRepository(Shipplayer::class)
+          ->updateShipplayerGoalSbornie($id, $change);
+        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player_id = $player->getPlayer()->getId();
+        $this->getDoctrine()->getRepository(Player::class)
+          ->updatePlayerGoal($player_id, $change, 0, 0, 0, 0, 0, 1);
+        $session->set('lastPlayer', $player->getPlayer()->getName());
+
+        return $this->redirect($this->generateUrl('championships_show', [
+                'id' => $team,
+                'season' => $season,
+                'country' => $country
+                    ]));
+    }
+
     public function newChampNation($season, $team, $flag)
     {
         $entity = new Shipplayer();
