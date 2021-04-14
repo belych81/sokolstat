@@ -118,7 +118,7 @@ class Menu
         ],
         [
           'name' => 'Сборная России',
-          'url' => $this->router->generate('sbornieRus', ['season' => '2019']),
+          'url' => $this->router->generate('sbornieRus', ['season' => $this->props->getSbornieRusYear()]),
           'route' => 'sbornieRus'
         ]
       ];

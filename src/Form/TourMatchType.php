@@ -28,16 +28,10 @@ class TourMatchType extends AbstractType
             case 'fnl' : $country = 'ФНЛ'; break;
         }
         $season = $options['season'];
-        if (!in_array('tour', $_SESSION)) {
-            $_SESSION['tour']=1;
-        }
-        if (!in_array('date', $_SESSION)) {
-            $_SESSION['date'] = new \DateTime();
-        }
 
         $builder
-            ->add('tour', null, ['data' => $_SESSION['tour']])
-            ->add('data', null, ['data' => $_SESSION['date'], 'years' => range(1991, 2023)])
+            ->add('tour')
+            ->add('data', null, ['data' => new \DateTime(), 'years' => range(1991, 2023)])
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($country, $season) {

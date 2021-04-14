@@ -14,7 +14,7 @@ function parseUrlQuery() {
 		$("select").chosen({
 			no_results_text: "Не нашлось",
 			search_contains: true,
-			width: '130px'
+			width: '180px'
 		});
 
 		$("select[name=teams]").change(function(){
@@ -173,5 +173,61 @@ function parseUrlQuery() {
       window.location.search = newArr.join('&');
   });
 
+});
 
+$(window).on("ready", function(event){
+	console.log(24);
+	// slice menu func
+	function sliceMainMenu(resize){
+		console.log(333);
+		var $mainMenu = $("#subMenu");
+		if(resize == true){
+			$mainMenu.find(".removed").each(function(i, nextElement){
+				var $nextElement = $(nextElement);
+				$mainMenu.append(
+					$nextElement.removeClass("removed")
+				)
+			});
+			$mainMenu.find(".removedItemsLink").remove();
+		}
+
+		var $mainMenuItems = $mainMenu.children("li");
+		var visibleMenuWidth = $mainMenu.width() - 100;
+		var totalSumMenuWidth = 0;
+
+		if($(window).width() >= 1024){
+
+			$mainMenuItems.each(function(i, nextElement){
+				var $nextElement = $(nextElement);
+				totalSumMenuWidth += $nextElement.outerWidth(true);
+				if(totalSumMenuWidth > visibleMenuWidth){
+					$nextElement.addClass("removed");
+				}
+			});
+
+			var $removedItems = $mainMenu.find(".removed");
+			if($removedItems.length > 0){
+				var $removedItemsList = $("<ul/>").addClass("removedItemsList");
+				var $removedItemsLink = $("<li/>").addClass("removedItemsLink").append($("<a/>"));
+				$removedItems.each(function(i, nextElement){
+					var $nextElement = $(nextElement);
+					$removedItemsList.append(
+						$nextElement
+					)
+				});
+				$mainMenu.append($removedItemsLink.append($removedItemsList));
+				$removedItemsList.css({
+					left: $removedItemsLink.offset().left + "px"
+				});
+			}
+		}
+	}
+
+	$(window).on("load", function(){
+		sliceMainMenu(false);
+	});
+
+	$(window).on("resize", function(){
+		sliceMainMenu(true);
+	});
 });

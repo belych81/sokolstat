@@ -8,14 +8,15 @@
     <meta name="description" content="Сборная России по футболу в {{ app.request.get('season') }} году, статистика игроков, игры и голы">
 {% endblock %}
 
+{% block seasons %}
+  <div class="seasons">
+    {% for season in seasons %}
+        <a href="{{ path('sbornieRus', {'season': season}) }}" class="spiski">{{ season }}</a>
+        {% endfor %}
+  </div>
+{% endblock %}
+
 {% block content %}
-  {% block seasons %}
-    <div class="seasons">
-      {% for season in seasons %}
-          <a href="{{ path('sbornieRus', {'season': season}) }}" class="spiski">{{ season }}</a>
-          {% endfor %}
-    </div>
-  {% endblock %}
 
   <h1>Сборная России {{ app.request.get('season') }}</h1>
   <div class="champ-teams-list">

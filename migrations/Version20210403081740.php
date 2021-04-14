@@ -21,9 +21,9 @@ final class Version20210402171740 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE player ADD sbornie INT');
-        $this->addSql('ALTER TABLE shipplayer ADD sbornie INT');        
+        $this->addSql('UPDATE shipplayer SET sbornie = 0');
+        //$this->addSql('ALTER TABLE player ADD sbornie INT');
+        //$this->addSql('ALTER TABLE shipplayer ADD sbornie INT');
     }
 
     public function down(Schema $schema) : void

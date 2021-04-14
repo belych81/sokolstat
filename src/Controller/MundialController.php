@@ -18,6 +18,7 @@ use App\Form\Mundial2Type;
 use App\Form\MundialUpdateType;
 use App\Form\MundialtableType;
 use App\Service\Menu;
+use App\Service\Props;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -93,11 +94,11 @@ class MundialController extends AbstractController
             ]);
     }
 
-    public function showRus(Menu $serviceMenu, $season)
+    public function showRus(Props $lastYear, Menu $serviceMenu, $season)
     {
         $entity = $this->getDoctrine()->getRepository(Sbplayer::class)
           ->getSbPlayersBySeason($season);
-        $seasons = range(1992, 2019);
+        $seasons = range(1992, $lastYear->getSbornieRusYear());
         $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/showRus.html.twig', [
