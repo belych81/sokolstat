@@ -175,59 +175,61 @@ function parseUrlQuery() {
 
 });
 
-$(window).on("ready", function(event){
-	console.log(24);
-	// slice menu func
-	function sliceMainMenu(resize){
-		console.log(333);
-		var $mainMenu = $("#subMenu");
-		if(resize == true){
-			$mainMenu.find(".removed").each(function(i, nextElement){
-				var $nextElement = $(nextElement);
-				$mainMenu.append(
-					$nextElement.removeClass("removed")
-				)
-			});
-			$mainMenu.find(".removedItemsLink").remove();
-		}
+function sliceMainMenu(resize){
 
-		var $mainMenuItems = $mainMenu.children("li");
-		var visibleMenuWidth = $mainMenu.width() - 100;
-		var totalSumMenuWidth = 0;
-
-		if($(window).width() >= 1024){
-
-			$mainMenuItems.each(function(i, nextElement){
-				var $nextElement = $(nextElement);
-				totalSumMenuWidth += $nextElement.outerWidth(true);
-				if(totalSumMenuWidth > visibleMenuWidth){
-					$nextElement.addClass("removed");
-				}
-			});
-
-			var $removedItems = $mainMenu.find(".removed");
-			if($removedItems.length > 0){
-				var $removedItemsList = $("<ul/>").addClass("removedItemsList");
-				var $removedItemsLink = $("<li/>").addClass("removedItemsLink").append($("<a/>"));
-				$removedItems.each(function(i, nextElement){
-					var $nextElement = $(nextElement);
-					$removedItemsList.append(
-						$nextElement
-					)
-				});
-				$mainMenu.append($removedItemsLink.append($removedItemsList));
-				$removedItemsList.css({
-					left: $removedItemsLink.offset().left + "px"
-				});
-			}
-		}
+	var $mainMenu = $("#subMenu");
+	if(resize == true){
+		$mainMenu.find(".removed").each(function(i, nextElement){
+			var $nextElement = $(nextElement);
+			$mainMenu.append(
+				$nextElement.removeClass("removed")
+			)
+		});
+		$mainMenu.find(".removedItemsLink").remove();
 	}
 
-	$(window).on("load", function(){
-		sliceMainMenu(false);
-	});
+	var $mainMenuItems = $mainMenu.children("li");
+	var visibleMenuWidth = $mainMenu.width() - 100;
+	var windowWidth = $(window).width() - 100;
+	var totalSumMenuWidth = 0;
+console.log(windowWidth);
+console.log(visibleMenuWidth);
 
-	$(window).on("resize", function(){
-		sliceMainMenu(true);
-	});
+		$mainMenuItems.each(function(i, nextElement){
+			var $nextElement = $(nextElement);
+			totalSumMenuWidth += $nextElement.outerWidth(true);
+
+			if(totalSumMenuWidth > windowWidth){
+				$nextElement.addClass("removed");
+			}
+		});
+console.log(totalSumMenuWidth);
+		var $removedItems = $mainMenu.find(".removed");
+		if($removedItems.length > 0){
+			var $removedItemsList = $("<ul/>").addClass("removedItemsList");
+			var $removedItemsLink = $("<li/>").addClass("removedItemsLink").append($(`<button type="button" class="navbar-toggle-sub">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+			</button>`));
+			$removedItems.each(function(i, nextElement){
+				var $nextElement = $(nextElement);
+				$removedItemsList.append(
+					$nextElement
+				)
+			});
+			$mainMenu.append($removedItemsLink.append($removedItemsList));
+			$removedItemsList.css({
+				left: $removedItemsLink.offset().left + "px"
+			});
+		}
+
+}
+
+$(window).on("resize", function(){
+	sliceMainMenu(true);
+});
+
+$(document).ready(function(event){
+	sliceMainMenu(false);
 });

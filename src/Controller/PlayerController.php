@@ -1124,7 +1124,7 @@ class PlayerController extends AbstractController
               ->getSbSum($entity->getPlayer()->getId());
             $goals = $em->getRepository(Sbplayer::class)
               ->getSbSum($entity->getPlayer()->getId(), 'goal');
-            $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
+            $em->getRepository(Rusplayer::class)->updateRusplayerSb($player, $goal);
 
             return $this->redirect($this->generateUrl('sbornieRus', [
                 'season' => $season

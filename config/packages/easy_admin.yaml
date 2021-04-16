@@ -138,6 +138,22 @@ easy_admin:
                     - team
                     - game
                     - goal
+          Sbplayer:
+            class: App\Entity\Sbplayer
+            list:
+                fields:
+                    - id
+                    - player
+                    - season
+                    - game
+                    - goal
+                filters: ['season', 'player']
+            form:
+                fields:
+                    - player
+                    - season
+                    - game
+                    - goal
           Mundial:
             class: App\Entity\Mundial
             list:
