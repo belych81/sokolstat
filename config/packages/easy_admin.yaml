@@ -1,4 +1,6 @@
 easy_admin:
+  show:
+        max_results: 30
   site_name: SokolStat
   entities:
           Tour:
@@ -120,6 +122,25 @@ easy_admin:
                     - supercup
                     - eurocup
                     - sum
+          Gamers:
+            class: App\Entity\Gamers
+            list:
+                fields:
+                    - id
+                    - player
+                    - born
+                    - season
+                    - team
+                    - game
+                    - goal
+                filters: ['season', 'team', 'player']
+            form:
+                fields:
+                    - player
+                    - season
+                    - team
+                    - game
+                    - goal
           Cupplayer:
             class: App\Entity\Cupplayer
             list:

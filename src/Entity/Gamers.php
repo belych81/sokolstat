@@ -137,6 +137,11 @@ class Gamers
         return $this->goalTeam;
     }
 
+    public function getBorn()
+    {
+        return $this->player->getBorn()->format("Y-m-d");
+    }
+
     public function getcompetition()
     {
       return 'Чемпионат России';

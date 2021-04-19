@@ -173,6 +173,7 @@ function parseUrlQuery() {
       window.location.search = newArr.join('&');
   });
 
+
 });
 
 function sliceMainMenu(resize){
@@ -190,7 +191,7 @@ function sliceMainMenu(resize){
 
 	var $mainMenuItems = $mainMenu.children("li");
 	var visibleMenuWidth = $mainMenu.width() - 100;
-	var windowWidth = $(window).width() - 100;
+	var windowWidth = $(window).width() - 120;
 	var totalSumMenuWidth = 0;
 console.log(windowWidth);
 console.log(visibleMenuWidth);
@@ -205,6 +206,7 @@ console.log(visibleMenuWidth);
 		});
 console.log(totalSumMenuWidth);
 		var $removedItems = $mainMenu.find(".removed");
+		console.log($removedItems.length);
 		if($removedItems.length > 0){
 			var $removedItemsList = $("<ul/>").addClass("removedItemsList");
 			var $removedItemsLink = $("<li/>").addClass("removedItemsLink").append($(`<button type="button" class="navbar-toggle-sub">
@@ -219,11 +221,53 @@ console.log(totalSumMenuWidth);
 				)
 			});
 			$mainMenu.append($removedItemsLink.append($removedItemsList));
-			$removedItemsList.css({
+			/*$removedItemsList.css({
 				left: $removedItemsLink.offset().left + "px"
+			});*/
+			$(".navbar-toggle-sub").mouseover(function(){
+				$(".removedItemsList").show();
 			});
 		}
 
+		var __sectionMenuActive = "activeDrop";
+		var __sectionMenuMenuID = "menuCatalogSection";
+		var __sectionMenuOpener = "menuSection";
+		var __sectionMenuDrop	 = "drop";
+		var __active = "activeDrop";
+		var __menuID = "mainMenu";
+		var __opener = "eChild";
+		var __drop	 = "drop";
+
+	var $_self = $("#" + __menuID);
+	var $_eChild = $_self.children("." + __opener);
+
+	var openChild = function(){
+
+		var $_this = $(this);
+		if(!$_this.hasClass("removed")){
+
+			__menuFirstOpenTimeoutID = setTimeout(function(){
+				if($_this.is(":hover")){
+					clearTimeout(__menuFirstOpenTimeoutID);
+					$_sectionMenuEChild.removeClass(__sectionMenuActive).find("." + __sectionMenuDrop).hide();
+					$_eChild.removeClass(__active).find("." + __drop).hide();
+					$_this.addClass(__active).find("." + __drop).css("display", "table");
+					return clearTimeout(__menuTimeoutID);
+				}
+			}, 300);
+
+		}
+
+	}
+
+	var closeChild = function(){
+		var $_captureThis = $(this);
+		__menuTimeoutID = setTimeout(function(){
+			$_captureThis.removeClass(__active).find("." + __drop).hide();
+		}, 500);
+	}
+
+	$_eChild.hover(openChild, closeChild);
 }
 
 $(window).on("resize", function(){
