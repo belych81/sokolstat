@@ -159,6 +159,27 @@ easy_admin:
                     - team
                     - game
                     - goal
+          Sostav:
+            class: App\Entity\Sostav
+            list:
+                fields:
+                    - id
+                    - player
+                    - season
+                    - team
+                    - country
+                    - game
+                    - goal
+                filters: ['season', 'team', 'player', 'country']
+            form:
+                fields:
+                    - player
+                    - season
+                    - team
+                    - country
+                    - number
+                    - game
+                    - goal
           Sbplayer:
             class: App\Entity\Sbplayer
             list:
