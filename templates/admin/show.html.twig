@@ -1,0 +1,75 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}
+   Админка
+{% endblock %}
+
+{% block content %}
+  <h1>{{ entity }}</h1>
+
+  {% for entity in adminEntities %}
+    <a href="{{ path('adminka_show', {'entity': entity}) }}" class="spiski">{{ entity }}</a>
+  {% endfor %}
+
+  <table class="table admin-table">
+  <thead>
+    <tr>
+      {% for col in cols %}
+      <th><a href="{{ path('adminka_show', {'entity': entity}) }}?sortField={{col}}&sortOrder={{ fieldsSortOrder[col] }}">
+        {{col}} <i class="fa fa-fw fa-sort"></i></a></th>
+      {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+     {% for elem in elems %}
+       <tr>
+         {% for col in cols %}
+           <td>
+            {% if col == 'data' %}
+              {{ attribute(elem, col) | date('d.m.Y H:i') }}
+            {% else %}
+              {{ attribute(elem, col) }}
+            {% endif %}
+           </td>
+         {% endfor %}
+       </tr>
+     {% endfor %}
+    </tbody>
+   </table>
+
+   <p>Всего записей: <strong>{{ total }}.</strong></p>
+
+   {% if app.request.get('sortField') != '' %}
+      {% set sortField = app.request.get('sortField') %}
+   {% else %}
+     {% set sortField = 'id' %}
+   {% endif %}
+
+   {% if app.request.get('sortOrder') != '' %}
+      {% set sortOrder = app.request.get('sortOrder') %}
+   {% else %}
+     {% set sortOrder = 'desc' %}
+   {% endif %}
+
+   {% if lastPage > 1 %}
+       {% if app.request.get('page') > 1 %}
+           <a href="{{ path('adminka_show', {'entity': entity}) }}?page=1&sortField={{sortField}}&sortOrder={{sortOrder}}">
+             <img src="{{ asset('images/double_arrows2.png') }}"
+                alt="Первая" title="Первая" class="arrow" /></a>
+
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{previousPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+             <img src="{{ asset('images/strelkaLeft.png') }}"
+                alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
+       {% endif %}
+       Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
+       {% if lastPage != app.request.get('page') %}
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{nextPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+             <img src="{{ asset('images/strelka.png') }}"
+                alt="Следующая" title="Следующая" class="arrow"/></a>
+
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{lastPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+             <img src="{{ asset('images/double_arrows1.png') }}"
+                alt="Последняя" title="Последняя" class="arrow" /></a>
+        {% endif %}
+   {% endif %}
+{% endblock %}

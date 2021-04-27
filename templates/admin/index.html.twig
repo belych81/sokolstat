@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Админка
+{% endblock %}
+
+{% block content %}
+ {% for entity in adminEntities %}
+   <a href="{{ path('adminka_show', {'entity': entity}) }}" class="spiski">{{ entity }}</a>
+ {% endfor %}
+{% endblock %}

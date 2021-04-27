@@ -159,4 +159,26 @@ class TourRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function getEntity($max, $offset=null, $sort='id', $order='desc')
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->orderBy('r.'.$sort, $order)
+            ->setMaxResults($max)
+            ;
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function countEntity()
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('count(r.id)');
+
+        $query = $qb->getQuery();
+        return $query->getSingleScalarResult();
+    }
 }

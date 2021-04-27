@@ -21,4 +21,21 @@ class Sort
             return 0;
         }
     }
+
+    public function prepareSort(array $fields, ?string $currentField, string $currentOrder): array
+    {
+      $arSort = ['field' => '', 'order' => ''];
+      if($currentField){
+        $arSort = ['field' => $currentField, 'order' => $currentOrder];
+      }
+      $fieldsSortOrder = [];
+      foreach ($fields as $field) {
+        if($currentField == $field && $currentOrder == 'ASC'){
+          $fieldsSortOrder[$field] = 'DESC';
+        } else {
+          $fieldsSortOrder[$field] = 'ASC';
+        }
+      }
+      return ['arSort' => $arSort, 'fieldsSortOrder' => $fieldsSortOrder];
+    }
 }

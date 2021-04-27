@@ -1631,3 +1631,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
     border-radius: 1px;
     margin-top: 3px;
 }
+
+.admin-table {
+  width: 1300px;
+}
