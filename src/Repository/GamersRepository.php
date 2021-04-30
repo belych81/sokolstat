@@ -59,7 +59,7 @@ class GamersRepository extends ServiceEntityRepository
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->setParameter('id', $id)
-              ->orderBy('g.game DESC, g.goal DESC, p.name')
+              ->orderBy('g.totalgame DESC, g.game DESC, g.goal DESC, p.name')
               ->getQuery()
               ->getResult();
     }
@@ -84,23 +84,32 @@ class GamersRepository extends ServiceEntityRepository
             case 'plusGame' :
                 $changeParam = 'g.game';
                 $changeParam2 = 'g.game+1';
+                $changeParam3 = 'g.totalgame';
+                $changeParam4 = 'g.totalgame+1';
                 break;
             case 'minusGame' :
                 $changeParam = 'g.game';
                 $changeParam2 = 'g.game-1';
+                $changeParam3 = 'g.totalgame';
+                $changeParam4 = 'g.totalgame-1';
                 break;
             case 'plusGoal' :
                 $changeParam = 'g.goal';
                 $changeParam2 = 'g.goal+1';
+                $changeParam3 = 'g.totalgoal';
+                $changeParam4 = 'g.totalgoal+1';
                 break;
             case 'minusGoal' :
                 $changeParam = 'g.goal';
                 $changeParam2 = 'g.goal-1';
+                $changeParam3 = 'g.totalgoal';
+                $changeParam4 = 'g.totalgoal-1';
                 break;
         }
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Gamers', 'g')
                 ->set($changeParam, $changeParam2)
+                ->set($changeParam3, $changeParam4)
                 ->where('g.id = ?1')
                 ->setParameter(1, $id)
                 ->getQuery();

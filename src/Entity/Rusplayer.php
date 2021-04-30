@@ -86,6 +86,16 @@ class Rusplayer
      */
     private $cupgoal = 0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $supercupgame;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $supercupgoal;
+
     public function setGameTeam(int $gameTeam)
     {
         $this->gameTeam = $gameTeam;
@@ -267,6 +277,30 @@ class Rusplayer
     public function setCupgoal(?int $cupgoal): self
     {
         $this->cupgoal = $cupgoal;
+
+        return $this;
+    }
+
+    public function getSupercupgame(): ?int
+    {
+        return $this->supercupgame;
+    }
+
+    public function setSupercupgame(?int $supercupgame): self
+    {
+        $this->supercupgame = $supercupgame;
+
+        return $this;
+    }
+
+    public function getSupercupgoal(): ?int
+    {
+        return $this->supercupgoal;
+    }
+
+    public function setSupercupgoal(?int $supercupgoal): self
+    {
+        $this->supercupgoal = $supercupgoal;
 
         return $this;
     }

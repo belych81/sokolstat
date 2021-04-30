@@ -48,6 +48,16 @@ class Gamers
 
     private $goalTeam;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalgame;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalgoal;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,5 +160,29 @@ class Gamers
     public function __toString()
     {
         return (string)$this->id;
+    }
+
+    public function getTotalgame(): ?int
+    {
+        return $this->totalgame;
+    }
+
+    public function setTotalgame(?int $totalgame): self
+    {
+        $this->totalgame = $totalgame;
+
+        return $this;
+    }
+
+    public function getTotalgoal(): ?int
+    {
+        return $this->totalgoal;
+    }
+
+    public function setTotalgoal(?int $totalgoal): self
+    {
+        $this->totalgoal = $totalgoal;
+
+        return $this;
     }
 }
