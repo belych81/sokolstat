@@ -193,8 +193,6 @@ function sliceMainMenu(resize){
 	var visibleMenuWidth = $mainMenu.width() - 100;
 	var windowWidth = $(window).width() - 120;
 	var totalSumMenuWidth = 0;
-console.log(windowWidth);
-console.log(visibleMenuWidth);
 
 		$mainMenuItems.each(function(i, nextElement){
 			var $nextElement = $(nextElement);
@@ -204,9 +202,7 @@ console.log(visibleMenuWidth);
 				$nextElement.addClass("removed");
 			}
 		});
-console.log(totalSumMenuWidth);
 		var $removedItems = $mainMenu.find(".removed");
-		console.log($removedItems.length);
 		if($removedItems.length > 0){
 			var $removedItemsList = $("<ul/>").addClass("removedItemsList");
 			var $removedItemsLink = $("<li/>").addClass("removedItemsLink").append($(`<button type="button" class="navbar-toggle-sub">
@@ -238,23 +234,23 @@ console.log(totalSumMenuWidth);
 		var __opener = "eChild";
 		var __drop	 = "drop";
 
-	var $_self = $("#" + __menuID);
-	var $_eChild = $_self.children("." + __opener);
+		var $_self = $("#" + __menuID);
+		var $_eChild = $_self.children("." + __opener);
 
-	var openChild = function(){
+		var openChild = function(){
 
-		var $_this = $(this);
-		if(!$_this.hasClass("removed")){
+			var $_this = $(this);
+			if(!$_this.hasClass("removed")){
 
-			__menuFirstOpenTimeoutID = setTimeout(function(){
-				if($_this.is(":hover")){
-					clearTimeout(__menuFirstOpenTimeoutID);
-					$_sectionMenuEChild.removeClass(__sectionMenuActive).find("." + __sectionMenuDrop).hide();
-					$_eChild.removeClass(__active).find("." + __drop).hide();
-					$_this.addClass(__active).find("." + __drop).css("display", "table");
-					return clearTimeout(__menuTimeoutID);
-				}
-			}, 300);
+				__menuFirstOpenTimeoutID = setTimeout(function(){
+					if($_this.is(":hover")){
+						clearTimeout(__menuFirstOpenTimeoutID);
+						$_sectionMenuEChild.removeClass(__sectionMenuActive).find("." + __sectionMenuDrop).hide();
+						$_eChild.removeClass(__active).find("." + __drop).hide();
+						$_this.addClass(__active).find("." + __drop).css("display", "table");
+						return clearTimeout(__menuTimeoutID);
+					}
+				}, 300);
 
 		}
 
@@ -271,9 +267,9 @@ console.log(totalSumMenuWidth);
 }
 
 $(window).on("resize", function(){
-	sliceMainMenu(true);
+	//sliceMainMenu(true);
 });
 
 $(document).ready(function(event){
-	sliceMainMenu(false);
+	//sliceMainMenu(false);
 });

@@ -51,12 +51,12 @@ class Gamers
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $totalgame;
+    private $totalgame = 1;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $totalgoal;
+    private $totalgoal = 0;
 
     public function getId(): ?int
     {

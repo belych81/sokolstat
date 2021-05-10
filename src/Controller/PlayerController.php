@@ -262,16 +262,18 @@ class PlayerController extends AbstractController
         $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
+
         $form = $this->createForm(RusType::class, $entity, ['season' => $season,
             'team' => $team]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $goal = (int)$form->get('goal')->getData();
+            $entity->setTotalgoal($goal);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer();
-            $goal = $entity->getGoal();
             $this->getDoctrine()->getRepository(Rusplayer::class)
                 ->updateRusplayerChamp($player, $goal);
             $this->getDoctrine()->getRepository(Playersteam::class)
