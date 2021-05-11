@@ -43,6 +43,10 @@ class Menu
                 'name' => 'Статистика',
                 'url' => $this->router->generate('stat', ['country' => 'russia'])
         ];
+        $menu[5] = [
+                'name' => 'Сводная таблица',
+                'url' => $this->router->generate('svod', ['country' => 'russia'])
+        ];
       } else {
         $menu = [
           [

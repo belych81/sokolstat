@@ -267,9 +267,9 @@ function sliceMainMenu(resize){
 }
 
 $(window).on("resize", function(){
-	//sliceMainMenu(true);
+	sliceMainMenu(true);
 });
 
 $(document).ready(function(event){
-	//sliceMainMenu(false);
+	sliceMainMenu(false);
 });

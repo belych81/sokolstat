@@ -421,7 +421,7 @@ class ShiptableController extends AbstractController
     {
         $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
         $form   = $this->createForm(TourType::class, $entity);
-        
+
         return $this->render('shiptable/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -558,7 +558,8 @@ class ShiptableController extends AbstractController
 
         return $this->render('shiptable/svod.html.twig', array(
             'entity' => $entity,
-            'country' => $country2
+            'country' => $country2,
+            'menu' => $menu
         ));
     }
 

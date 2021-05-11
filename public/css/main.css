@@ -1521,7 +1521,6 @@ display: inline-block; /* Выстраиваем по горизонтали */
 	text-align: center;
 	list-style: none;
 	padding: 0px;
-	height: 40px;
 	margin: 0px;
 }
 
@@ -1595,7 +1594,6 @@ display: inline-block; /* Выстраиваем по горизонтали */
 	-o-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 	vertical-align: middle;
-	display: inline-block;
 	line-height: 60px;
 }
 
@@ -1608,6 +1606,10 @@ display: inline-block; /* Выстраиваем по горизонтали */
 	text-decoration: none;
 }
 
+.collapse.in {
+  position: relative;
+  z-index: 100;
+}
 .navbar {
   margin-bottom: 0;
 }
