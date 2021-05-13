@@ -103,6 +103,9 @@
                     'id': player.player.translit}) }}" data-id="{{ player.id }}"
                     class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                     {{ player.player.name }}</a>
+                    <span class="loading" data-id="{{ player.id }}">
+                      <img src="{{ asset('/images/loading.gif') }}">
+                    </span>
                </td>
                 <td class="tableGoal shipplayer-game">
                     {% if is_granted("ROLE_ADMIN") %}

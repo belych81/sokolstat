@@ -148,26 +148,29 @@
                                         'id': player.player.translit}) }}" data-id="{{ player.id }}"
                                         class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                                         {{ player.player.name }}</a>
+                                        <span class="loading" data-id="{{ player.id }}">
+                                          <img src="{{ asset('/images/loading.gif') }}">
+                                        </span>
                                    </td>
                                     <td class="tableGoal">
                                         {% if is_granted("ROLE_ADMIN") %}
-                                        <span class="changeGameGoalPlayer"
-                                          data-change="minusGame"
-                                          data-path="playeradmin_editChamp"
-                                          data-id="{{ player.id }}"
-                                          data-season="{{ app.request.get('season') }}"
-                                          data-team="{{ app.request.get('id') }}">-</span>
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="minusGame"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">-</span>
                                         {% endif %}
                                         <span data-id="{{ player.id }}" data-param="game">
                                           {{ player.game }}
                                         </span>
-                                    {% if is_granted("ROLE_ADMIN") %}
-                                      <span class="changeGameGoalPlayer"
-                                        data-change="plusGame"
-                                        data-path="playeradmin_editChamp"
-                                        data-id="{{ player.id }}"
-                                        data-season="{{ app.request.get('season') }}"
-                                        data-team="{{ app.request.get('id') }}">+</span>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="plusGame"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">+</span>
                                         {% endif %}
                                     </td>
                                     <td class="tableGoal">

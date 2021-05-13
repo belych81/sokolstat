@@ -1637,3 +1637,14 @@ display: inline-block; /* Выстраиваем по горизонтали */
 .admin-table {
   width: 1300px;
 }
+
+.loading {
+  display: none;
+  /*background: url("../images/loading.gif") no-repeat center center;*/
+  width: 8px;
+  height: 8px;
+}
+
+.changed-player {
+  color: #168a44;
+}

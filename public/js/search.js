@@ -105,7 +105,9 @@ function parseUrlQuery() {
     var team = $(this).data('team');
     var route = $(this).data('path');
 		var turnir = $(this).data('turnir');
+		var $this = $(this);
 		var params = {'id': id, 'season': season, 'change': change};
+		$(".loading[data-id="+id+"]").css('display', 'inline-block');
 		if(turnir != undefined){
 			params['turnir'] = turnir;
 		}
@@ -127,6 +129,8 @@ function parseUrlQuery() {
             $("[data-id="+id+"][data-param='score']").text(data['score']);
             $("[data-id="+id+"][data-param='missed']").text(data['missed']);
             $("[data-id="+id+"][data-param='zero']").text(data['zero']);
+						$(".loading[data-id="+id+"]").hide();
+						$this.addClass('changed-player');
         },
         error: function (xhr, ajaxOptions, thrownError) {
           console.log(xhr.status);
