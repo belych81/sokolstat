@@ -89,12 +89,12 @@ class Rusplayer
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $supercupgame;
+    private $supercupgame = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $supercupgoal;
+    private $supercupgoal = 0;
 
     public function setGameTeam(int $gameTeam)
     {
