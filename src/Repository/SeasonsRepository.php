@@ -32,4 +32,13 @@ class SeasonsRepository extends ServiceEntityRepository
               ->getResult()
               ;
     }
+
+    public function getSeasons()
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

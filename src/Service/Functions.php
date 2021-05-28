@@ -22,4 +22,15 @@ class Functions
       return false;
   }
 
+  public function filterToUrl(array $filter) :string
+  {
+    $str = '';
+    foreach ($filter as $key => $value) {
+      if($value){
+        $str .= '&'.$key.'='.$value;
+      }
+    }
+    return $str;
+  }
+
 }

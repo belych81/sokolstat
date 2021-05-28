@@ -116,4 +116,86 @@ class GamersRepository extends ServiceEntityRepository
 
             $qb->execute();
     }
+
+    public function countEntity(array $arFilter)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('count(r.id)');
+        foreach($arFilter as $field => $value){
+          if(!empty($value) && $value != 'all'){
+            switch($field){
+              case 'season':
+                $qb->join('r.season', 's')
+                    ->andWhere('s.id = :season')
+                    ->setParameter('season', $value);
+                break;
+              case 'team':
+                $qb->join('r.team', 't')
+                    ->andWhere('t.id = :team')
+                    ->setParameter('team', $value);
+                break;
+            }
+          }
+        }
+        $query = $qb->getQuery();
+        return $query->getSingleScalarResult();
+    }
+
+    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter)
+    {
+        $qb = $this->createQueryBuilder('r');
+        switch($sort){
+          case 'born':
+            $qb->join('r.player', 'p')
+                ->orderBy('p.born', $order);
+            break;
+          case 'player':
+            $qb->join('r.player', 'p')
+                ->orderBy('p.name', $order);
+            break;
+          case 'season':
+            $qb->join('r.season', 's')
+                ->orderBy('s.name', $order);
+            break;
+          case 'team':
+            $qb->join('r.team', 't')
+                ->orderBy('t.name', $order);
+            break;
+          case 'country':
+            $qb->join('r.player', 'p')
+                ->join('p.country', 'c')
+                ->orderBy('c.name', $order);
+            break;
+          default:
+            $qb->orderBy('r.'.$sort, $order);
+        }
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
+        foreach($arFilter as $field => $value){
+          if(!empty($value) && $value != 'all'){
+            switch($field){
+              case 'season':
+                $qb->join('r.season', 's')
+                    ->andWhere('s.id = :season')
+                    ->setParameter('season', $value);
+                break;
+              case 'team':
+                $qb->join('r.team', 't')
+                    ->andWhere('t.id = :team')
+                    ->setParameter('team', $value);
+                break;
+                case 'country':
+                  $qb->join('r.player', 'p')
+                    ->join('p.country', 'c')
+                    ->andWhere('c.id = :country')
+                    ->setParameter('country', $value);
+            }
+          }
+        }
+        $qb->setMaxResults($max);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 }

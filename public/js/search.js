@@ -24,7 +24,7 @@ function parseUrlQuery() {
 			window.location.href = url;
 		});
 
-		$("select[name=country]").change(function(){
+		$("select[name=country][placeholder=Страна]").change(function(){
 			var url = Routing.generate('player', {
 				'country': $(this).val(), 'team': $(this).data('team')
 			});

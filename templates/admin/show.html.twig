@@ -11,11 +11,35 @@
     <a href="{{ path('adminka_show', {'entity': entity}) }}" class="spiski">{{ entity }}</a>
   {% endfor %}
 
+  {% if filterEntity is not empty %}
+    <div>
+        <form method="get" action="{{ path('adminka_show', {'entity': entity}) }}" class="form-inline">
+          {% for name, filts in filterEntity %}
+          <div class="form-group">
+            <label for="city">{{name}}</label>
+            <select name="{{name}}" id="{{name}}_admin">
+                <option value="all" {% if attribute(arFilter, name) == false %}selected="selected"{% endif %}>
+                  Все
+                </option>
+                {% for filt in filts %}
+                  <option {% if attribute(arFilter, name) and attribute(arFilter, name) == filt.id %}selected="selected"{% endif %}
+                    value="{{ filt.id }}">
+                    {{ filt.name }}
+                  </option>
+                {% endfor %}
+            </select>
+          </div>
+          {% endfor %}
+          <input type="submit" class="btn btn-success" value="Применить"/>
+        </form>
+    </div>
+  {% endif %}
+
   <table class="table admin-table">
   <thead>
     <tr>
       {% for col in cols %}
-      <th><a href="{{ path('adminka_show', {'entity': entity}) }}?sortField={{col}}&sortOrder={{ fieldsSortOrder[col] }}">
+      <th><a href="{{ path('adminka_show', {'entity': entity}) }}?sortField={{col}}&sortOrder={{ fieldsSortOrder[col] }}{{filterUrl}}">
         {{col}} <i class="fa fa-fw fa-sort"></i></a></th>
       {% endfor %}
     </tr>
@@ -27,6 +51,10 @@
            <td>
             {% if col == 'data' %}
               {{ attribute(elem, col) | date('d.m.Y H:i') }}
+            {% elseif col == 'country' %}
+              {{ elem.player.country.name }}
+            {% elseif col == 'born' %}
+              {{ elem.player.born | date('d.m.Y') }}
             {% else %}
               {{ attribute(elem, col) }}
             {% endif %}
@@ -53,21 +81,21 @@
 
    {% if lastPage > 1 %}
        {% if app.request.get('page') > 1 %}
-           <a href="{{ path('adminka_show', {'entity': entity}) }}?page=1&sortField={{sortField}}&sortOrder={{sortOrder}}">
+           <a href="{{ path('adminka_show', {'entity': entity}) }}?page=1&sortField={{sortField}}&sortOrder={{sortOrder}}{{filterUrl}}">
              <img src="{{ asset('images/double_arrows2.png') }}"
                 alt="Первая" title="Первая" class="arrow" /></a>
 
-           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{previousPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{previousPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}{{filterUrl}}">
              <img src="{{ asset('images/strelkaLeft.png') }}"
                 alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
        {% endif %}
        Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
        {% if lastPage != app.request.get('page') %}
-           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{nextPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{nextPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}{{filterUrl}}">
              <img src="{{ asset('images/strelka.png') }}"
                 alt="Следующая" title="Следующая" class="arrow"/></a>
 
-           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{lastPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}">
+           <a href="{{ path('adminka_show', {'entity': entity})}}?page={{lastPage}}&sortField={{sortField}}&sortOrder={{sortOrder}}{{filterUrl}}">
              <img src="{{ asset('images/double_arrows1.png') }}"
                 alt="Последняя" title="Последняя" class="arrow" /></a>
         {% endif %}

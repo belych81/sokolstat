@@ -154,9 +154,10 @@ class RfplmatchRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getEntity($max, $offset=null, $sort='id', $order='desc')
+    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter)
     {
         $qb = $this->createQueryBuilder('r')
+            ->join('r.season', 's')
             ->orderBy('r.'.$sort, $order)
             ->setMaxResults($max)
             ;
@@ -164,15 +165,37 @@ class RfplmatchRepository extends ServiceEntityRepository
         {
             $qb->setFirstResult($offset);
         }
+
+        foreach($arFilter as $field => $value){
+          if(!empty($value) && $value != 'all'){
+            switch($field){
+              case 'season':
+                $qb->andWhere('s.id = :season')
+                    ->setParameter('season', $value);
+                break;
+            }
+          }
+        }
+
         $query = $qb->getQuery();
         return $query->getResult();
     }
 
-    public function countEntity()
+    public function countEntity(array $arFilter)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('count(r.id)');
-
+            ->select('count(r.id)')
+            ->join('r.season', 's');
+        foreach($arFilter as $field => $value){
+          if(!empty($value) && $value != 'all'){
+            switch($field){
+              case 'season':
+                $qb->andWhere('s.id = :season')
+                    ->setParameter('season', $value);
+                break;
+            }
+          }
+        }
         $query = $qb->getQuery();
         return $query->getSingleScalarResult();
     }
