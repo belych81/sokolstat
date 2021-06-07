@@ -33,7 +33,7 @@
          {% if app.request.get('turnir') != 'otbor-worldcup' %}
           {% set cols = 5 %}
          {% else %}
-             {% set cols = 4 %}
+          {% set cols = 4 %}
          {% endif %}
 
          <table>
@@ -46,9 +46,13 @@
             {% for entity in raund.stadiamatches %}
                 <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td class="scMatch">
+                  {% if entity.status == 0 %}
                     <a href="{{ path('sbornie_show', {'turnir': app.request.get('turnir'),
                      'year': app.request.get('year'), 'id': entity.id})}}" class="spiski">
                         {{ entity.country.name }} - {{ entity.country2.name }}</a>
+                  {% else %}
+                    <span class="spiski">{{ entity.country.name }} - {{ entity.country2.name }}</span>
+                  {% endif %}
                 </td>
                 <td class="scScore">
                   {% if is_granted("ROLE_ADMIN") %}

@@ -57,7 +57,7 @@ class MundialController extends AbstractController
           ->getSeasonsByTurnir($turnir);
         $champ = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $countries = $this->getDoctrine()->getRepository(Mundial::class)
+        $countries = $this->getDoctrine()->getRepository(MundialTable::class)
           ->getCountriesBySeason($year);
         $menu = $serviceMenu->generateMundial();
 
@@ -78,7 +78,7 @@ class MundialController extends AbstractController
           ->findOneByTranslit($country);
         $champ = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $countries = $this->getDoctrine()->getRepository(Mundial::class)
+        $countries = $this->getDoctrine()->getRepository(MundialTable::class)
           ->getCountriesBySeason($year);
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);

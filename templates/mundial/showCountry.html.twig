@@ -69,14 +69,14 @@
         {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newMund', {'year': app.request.get('year'),
             'country': app.request.get('country'), 'turnir': app.request.get('turnir')}) }}">
-            Добавить игрока</a-->
+            Добавить игрока</a>
             {% endif %}
 
-    <div class="lch-teams">
-        {% for country in countries %}
-            <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
-                        'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
-                        class="spiski teamlch">{{ country.name }}</a>
-        {% endfor %}
-    </div>
+        <div class="teams-list">
+            {% for country in countries %}
+                <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                            'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                            class="spiski teamlch">{{ country.name }}</a>
+            {% endfor %}
+        </div>
  {% endblock %}

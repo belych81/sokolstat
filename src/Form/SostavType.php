@@ -26,7 +26,8 @@ class SostavType extends AbstractType
               return $repository->queryMundPlayers($year, $country);
               }
             ])
-            ->add('goal');
+            ->add('team')
+            ->add('number');
     }
 
     public function configureOptions(OptionsResolver $resolver)

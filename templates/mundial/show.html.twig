@@ -33,7 +33,7 @@
     {% endif %}
     </div>
 
-    {% if app.request.get('turnir') == 'worldcup' %}
+    {% if app.request.get('turnir') == 'worldcup' or app.request.get('turnir') == 'euro' %}
       <div class="teams-list">
           {% for country in countries %}
               <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),

@@ -38,6 +38,21 @@ class MundialTableRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function getCountriesBySeason($year)
+    {
+        $qb = $this->createQueryBuilder('m')
+                ->select('c.name', 'c.translit')
+                ->join('m.country', 'c')
+                ->where("m.year = :year")
+                ->setParameter('year', $year)
+                ->groupBy('c')
+                ->orderBy('c.name');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
     public function updateTable($country, $country2, $score, $season)
     {
         $goal1 = substr($score, 0, strpos($score, '-'));

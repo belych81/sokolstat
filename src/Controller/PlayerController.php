@@ -17,6 +17,7 @@ use App\Entity\Playersteam;
 use App\Entity\Seasons;
 use App\Entity\Sostav;
 use App\Entity\Turnir;
+use App\Entity\Country;
 use App\Form\RusType;
 use App\Form\FnlType;
 use App\Form\RusplayerType;
@@ -308,19 +309,20 @@ class PlayerController extends AbstractController
     {
         $entity  = new Sostav();
         $rusplayer = new RusPlayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
-        $entity->setTeam($club);
-        $entity->setSeason($year);
-        $form = $this->createForm(RusType::class, $entity, ['season' => $season,
-            'team' => $team]);
+
+        $form   = $this->createForm(SostavType::class, $entity, ['year' => $year,
+            'country' => $country]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $year = $em->getRepository(Seasons::class)->findOneByName($year);
+            $countr = $em->getRepository(Country::class)->findOneByTranslit($country);
+            $entity->setSeason($year);
+            $entity->setCountry($countr);
             $em->persist($entity);
             $em->flush();
-            $player = $entity->getPlayer();
+            /*$player = $entity->getPlayer();
             $goal = $entity->getGoal();
             $this->getDoctrine()->getRepository(Rusplayer::class)
                 ->updateRusplayerChamp($player, $goal);
@@ -330,7 +332,7 @@ class PlayerController extends AbstractController
                 'id' => $team,
                 'country' => 'russia',
                 'season' => $season
-                    ]));
+              ]));*/
         }
 
         return $this->render('rusplayer/newMund.html.twig', array(

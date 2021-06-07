@@ -43,17 +43,17 @@ class Sostav
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goal;
+    private $goal = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $number;
+    private $number = 1;
 
     public function getId(): ?int
     {

@@ -107,7 +107,7 @@ class Menu
         ],
         [
           'name' => 'Чемпионаты Европы',
-          'url' => $this->router->generate('sbornie', ['turnir' => 'euro', 'year' => '2016']),
+          'url' => $this->router->generate('sbornie', ['turnir' => 'euro', 'year' => '2020']),
           'route' => 'sbornie'
         ],
         [
