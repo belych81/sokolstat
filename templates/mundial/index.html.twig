@@ -113,7 +113,9 @@
                           <td class="player-position">{{ loop.index }}</td>
                           <td class="tableLeft">
                             <span class="shipTableTeam">
-                                  {{ ectable.country.name }}
+                                  <a href="{{ path('sbornieCountry', {'turnir': app.request.get('turnir'),
+                                  'year': app.request.get('year'), 'country': ectable.country.translit
+                                  }) }}" class="shipTableTeam">{{ ectable.country.name }}
                             </span>
                           </td>
                           <td class="shipTableParams">{{ ectable.wins+ectable.nich+ectable.porazh }}</td>

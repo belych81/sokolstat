@@ -307,6 +307,8 @@ easy_admin:
               fields:
                 - name
                 - translit
+                - image
+                - image2
           Seasons:
             class: App\Entity\Seasons
             list:

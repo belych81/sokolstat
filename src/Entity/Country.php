@@ -83,6 +83,16 @@ class Country
      */
     private $mundialTables;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image = "-";
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image2 = "-";
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -468,6 +478,30 @@ class Country
                 $mundialTable->setCountry(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImage2(): ?string
+    {
+        return $this->image2;
+    }
+
+    public function setImage2(?string $image2): self
+    {
+        $this->image2 = $image2;
 
         return $this;
     }

@@ -7,6 +7,10 @@
 {% block content %}
 <h1>{{ champ.russianAlias }} {{ app.request.get('year') }}</h1>
     <h2>{{ sborn.name }}</h2>
+    {% if sborn.image %}
+      <img src="{{ asset('images/clubs/') }}{{ sborn.image }}"
+        alt="{{ sborn.name }}" title="{{ sborn.name }}" />
+    {% endif %}
     <table>
         <thead>
             <tr class="shipTableTitle">
@@ -27,10 +31,10 @@
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
                </td>
-                <td class="tableGoal">
+                <td>
                     {{ player.team.name }}
                 </td>
-                <td class="tableGoal">
+                <td>
                     {{ player.player.born | date('d.m.Y') }}
                 </td>
                 <td class="tableGoal">
