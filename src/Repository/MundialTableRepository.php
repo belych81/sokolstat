@@ -41,7 +41,7 @@ class MundialTableRepository extends ServiceEntityRepository
     public function getCountriesBySeason($year)
     {
         $qb = $this->createQueryBuilder('m')
-                ->select('c.name', 'c.translit')
+                ->select('c.name', 'c.translit', 'c.image')
                 ->join('m.country', 'c')
                 ->where("m.year = :year")
                 ->setParameter('year', $year)

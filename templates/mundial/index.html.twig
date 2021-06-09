@@ -44,14 +44,22 @@
                 </td>
             </tr>
             {% for entity in raund.stadiamatches %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <tr class="{{ cycle(['odd', 'even'], loop.index) }} mundial-match">
                 <td class="scMatch">
+                  {% if entity.country.image %}
+                    <img src="{{ asset('images/') }}{{ entity.country.image }}"
+                      alt="{{ entity.country.name }}" title="{{ entity.country.name }}" />
+                  {% endif %}
                   {% if entity.status == 0 %}
                     <a href="{{ path('sbornie_show', {'turnir': app.request.get('turnir'),
                      'year': app.request.get('year'), 'id': entity.id})}}" class="spiski">
                         {{ entity.country.name }} - {{ entity.country2.name }}</a>
                   {% else %}
                     <span class="spiski">{{ entity.country.name }} - {{ entity.country2.name }}</span>
+                  {% endif %}
+                  {% if entity.country2.image %}
+                    <img src="{{ asset('images/') }}{{ entity.country2.image }}"
+                      alt="{{ entity.country2.name }}" title="{{ entity.country2.name }}" />
                   {% endif %}
                 </td>
                 <td class="scScore">
