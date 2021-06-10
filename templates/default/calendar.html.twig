@@ -24,17 +24,19 @@
          {% set route = path('eurocup', {'season': ymatch.season.name }) %}
     {% elseif ymatch.route == 'nationsupercup' %}
       {% set route = path('supercup', {'country':ymatch.country.translit }) %}
+    {% elseif ymatch.route == 'sbornie' %}
+      {% set route = path('sbornie', {'turnir':ymatch.turnir.alias, 'year':  ymatch.season.name}) %}
     {% endif %}
     <div class="row list-item">
       <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        {% if ymatch.team %}
+        {% if ymatch.team is defined %}
             {{ ymatch.team }}
         {% else %}
             {{ ymatch.country.name }}
         {% endif %}
       </div>
       <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        {% if ymatch.team2 %}
+        {% if ymatch.team2 is defined %}
             {{ ymatch.team2 }}
         {% else %}
             {{ ymatch.country2.name }}

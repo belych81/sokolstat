@@ -1235,7 +1235,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
   font-weight: bold;
   margin-bottom: 5px;
 }
-.teams-list img {
+.teams-list.mund img {
   border-radius: 100%;
   height: 35px;
 }

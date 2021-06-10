@@ -15,6 +15,7 @@ use App\Entity\NationCup;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\News;
+use App\Entity\Mundial;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
@@ -48,9 +49,11 @@ class DefaultController extends AbstractController
           ->getCurMatches();
       $curMatches5 = $this->getDoctrine()->getRepository(Tour::class)
           ->getCurMatches();
+      $curMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getCurMatches();
       $curmatch = array_merge($currentMatches, $curEcMatches,
         $curMatches5, $curRscMatches, $curcup,
-        $cursupercup, $curNcup, $curUsupercup);
+        $cursupercup, $curNcup, $curUsupercup, $curMatchesMund);
       $tomMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
           ->getTomMatches();
       $tomcup = $this->getDoctrine()->getRepository(Cup::class)
@@ -67,9 +70,11 @@ class DefaultController extends AbstractController
           ->getTomMatches();
       $tomMatches5 = $this->getDoctrine()->getRepository(Tour::class)
           ->getTomMatches();
+      $tomMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getTomMatches();
       $tommatch = array_merge($tomMatches, $tomEcMatches,
         $tomMatches5, $tomRscMatches, $tomcup,
-        $tomsupercup, $tomNcup, $tomUsupercup);
+        $tomsupercup, $tomNcup, $tomUsupercup, $tomMatchesMund);
       $yescup = $this->getDoctrine()->getRepository(Cup::class)
           ->getYesterdayMatches();
       $yesterdayMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
@@ -86,9 +91,11 @@ class DefaultController extends AbstractController
           ->getYesterdayMatches();
       $yesterdayMatches5 = $this->getDoctrine()->getRepository(Tour::class)
           ->getYesterdayMatches5();
+      $yesterdayMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getYesterdayMatches();
       $yestmatch = array_merge($yesterdayMatches, $yesterdayEcMatches,
         $yesterdayMatches5, $yesterdayRscMatches, $yescup,
-        $yessupercup, $yesNcup, $yesUsupercup);
+        $yessupercup, $yesNcup, $yesUsupercup, $yesterdayMatchesMund);
 
       uasort($tommatch, ['App\Service\Sort', 'sortByDate']);
       uasort($curmatch, ['App\Service\Sort', 'sortByDate']);

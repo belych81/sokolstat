@@ -98,9 +98,23 @@ class Mundial
      */
     private $referee;
 
+    private $route = 'sbornie';
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?string $route): self
+    {
+        $this->route = $route;
+
+        return $this;
     }
 
     public function getSeason(): ?Seasons

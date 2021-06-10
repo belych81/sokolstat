@@ -83,7 +83,7 @@
             Добавить игрока</a>
             {% endif %}
 
-        <div class="teams-list">
+        <div class="teams-list mund">
             {% for country in countries %}
               {% if country.image %}
                 <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
