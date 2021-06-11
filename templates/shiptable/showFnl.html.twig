@@ -6,7 +6,7 @@
   {% for team in teams %}
       <a href="{{ path('championships_show', {'season': app.request.get('season'),
         'id': team.translit, 'country': app.request.get('country')}) }}"
-        class="">
+        class="spiski">
         {% if team.image2 %}
           <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
