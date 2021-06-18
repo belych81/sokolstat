@@ -361,7 +361,7 @@ eurocup:
     defaults:
       turnir: leagueChampions
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
 
 eurocup_show:
     path:  /eurocup/{turnir}/{season}/{id}/show
@@ -376,7 +376,7 @@ eurocup_showmatch:
     controller: App\Controller\EurocupController:showMatch
     requirements:
         id: \d+
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
 
 eurocup_edit:
     path:  /eurocup/{turnir}/{id}/edit
@@ -430,7 +430,7 @@ eurocup_new:
     defaults:
       stadia: null
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
 
 eurocup_create:
     path:  /eurocup/admin/create/{turnir}/{season}/{stadia}
@@ -443,7 +443,7 @@ eurocup_newSeason:
     path:  /eurocup/admin/season/{turnir}/{season}/
     controller: App\Controller\EurocupController:newSeason
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
 
 eurocup_createSeason:
     path:  /eurocup/admin/season/create/{turnir}/{season}/
