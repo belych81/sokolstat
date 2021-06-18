@@ -69,7 +69,7 @@ class Menu
       return $menu;
     }
 
-    public function generateEurocup($season = '2020-21')
+    public function generateEurocup($season = '2021-22')
     {
       $menu = [
         [
@@ -83,13 +83,18 @@ class Menu
           'route' => 'eurocup'
         ],
         [
+          'name' => 'Лига Конференций',
+          'url' => $this->router->generate('eurocup', ['turnir' => 'conference-league', 'season' => $season]),
+          'route' => 'eurocup'
+        ],
+        [
           'name' => 'Суперкубок Европы',
           'url' => $this->router->generate('supercup', ['country' => 'uefa']),
           'route' => 'supercup'
         ],
         [
           'name' => 'Клубный чемпионат мира',
-          'url' => $this->router->generate('eurocup', ['turnir' => 'worldCupClub', 'season' => '2019']),
+          'url' => $this->router->generate('eurocup', ['turnir' => 'worldCupClub', 'season' => '2020']),
           'route' => 'eurocup'
         ]
       ];

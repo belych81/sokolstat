@@ -54,11 +54,12 @@
                       <ul>
                       <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
                       <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
+                      <li><a href="{{ path('eurocup', {'turnir': 'conference-league', 'season': season}) }}">ЛИГА КОНФЕРЕНЦИЙ</a></li>
                       <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2019', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
+                      <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2020', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
                       </ul>
                   </li>
-                  <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2018'}) }}">СБОРНЫЕ</a>
+                  <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2020'}) }}">СБОРНЫЕ</a>
                   <ul>
                    <li><a href="{{ path('sbornie', {'turnir': 'otbor-worldcup', 'year': '2022'}) }}">ЧЕМПИОНАТЫ МИРА</a></li>
                    <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2020'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a></li>
