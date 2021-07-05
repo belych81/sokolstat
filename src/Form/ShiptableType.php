@@ -23,12 +23,8 @@ class ShiptableType extends AbstractType
         if($country == 'fnl'){
           $country = 'russia';
         }
-        $season = "2010-11";
-        if(\key_exists('season', $_SESSION)){
-          $season = $_SESSION['season'];
-        }
         $builder
-            ->add('season', null, ['data' => $season])
+            ->add('season')
             ->add('team', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function (TeamRepository $repository) use ($country) {
