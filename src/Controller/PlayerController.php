@@ -1037,17 +1037,21 @@ class PlayerController extends AbstractController
         return new Response($response);
     }
 
-    public function editMund($id, $year, $country, $turnir, $change)
+    public function editMund(SessionInterface $session, $id, $change)
     {
         $em = $this->getDoctrine()->getManager();
 
         $em->getRepository(Sostav::class)->updateGamer($id, $change);
+        $sostavPlayer = $em->getRepository(Sostav::class)->find($id);
+        $playerName = $sostavPlayer->getPlayer()->getName();
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('sbornieCountry', [
-                'country' => $country,
-                'year' => $year,
-                'turnir' => $turnir
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'game' => $sostavPlayer->getGame(),
+            'goal' => $sostavPlayer->getGoal()
+        ]);
+        return new Response($response);
     }
 
     public function newEc($season, $team)

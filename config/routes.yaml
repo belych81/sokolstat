@@ -745,7 +745,7 @@ playeradmin_editNation:
         expose: true
 
 playeradmin_editMund:
-    path:  /playeradmin/admin/{id}/editMund/{year}/{turnir}/{country}/{change}/
+    path:  /playeradmin/admin/{id}/editMund/{change}/
     controller: App\Controller\PlayerController:editMund
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus

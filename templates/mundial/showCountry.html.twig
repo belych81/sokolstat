@@ -30,10 +30,13 @@
                     {{ player.number }}
                 </td>
                 <td>
-                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">{{ player.player.name }}</a>
+                    <a href="{{ path('player_show', {'id': player.player.translit}) }}" data-id="{{ player.id }}" class="spiski">{{ player.player.name }}</a>
                     {% if player.player.amplua == 'вратарь' %}
                       (в)
                     {% endif %}
+                    <span class="loading" data-id="{{ player.id }}">
+                      <img src="{{ asset('/images/loading.gif') }}">
+                    </span>
                </td>
                 <td>
                     {{ player.team.name }}
@@ -45,31 +48,43 @@
                     {{ player.player.born | date('d.m.Y') }}
                 </td>
                 <td class="tableGoal">
-                {% if is_granted("ROLE_ADMIN") %}
-                       <a href="{{ path('playeradmin_editMund',
-                 {'id': player.id, 'year': app.request.get('year'),
-                    'turnir': app.request.get('turnir'),
-                    'country': app.request.get('country'), 'change': 'minusGame'}) }}">-</a>
-                           {{ player.game }}
-                           <a href="{{ path('playeradmin_editMund',
-                 {'id': player.id, 'year': app.request.get('year'),
-                    'turnir': app.request.get('turnir'),
-                    'country': app.request.get('country'), 'change': 'plusGame'}) }}">+</a>
+                  {% if is_granted("ROLE_ADMIN") %}
+                  <span class="changeGameGoalPlayer"
+                    data-change="minusGame"
+                    data-path="playeradmin_editMund"
+                    data-id="{{ player.id }}"
+                    data-season="{{ app.request.get('season') }}"
+                    data-team="{{ app.request.get('id') }}">-</span>
+                   <span data-id="{{ player.id }}" data-param="game">
+                     {{ player.game }}
+                   </span>
+                    <span class="changeGameGoalPlayer"
+                      data-change="plusGame"
+                      data-path="playeradmin_editMund"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">+</span>
                 {% else %}
                 {{ player.game }}
                    {% endif %}
                 </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
-                       <a href="{{ path('playeradmin_editMund',
-                 {'id': player.id, 'year': app.request.get('year'),
-                    'turnir': app.request.get('turnir'),
-                    'country': app.request.get('country'), 'change': 'minusGoal'}) }}">-</a>
-                           {{ player.goal }}
-                           <a href="{{ path('playeradmin_editMund',
-                 {'id': player.id, 'year': app.request.get('year'),
-                    'turnir': app.request.get('turnir'),
-                    'country': app.request.get('country'), 'change': 'plusGoal'}) }}">+</a>
+                    <span class="changeGameGoalPlayer"
+                      data-change="minusGoal"
+                      data-path="playeradmin_editMund"
+                      data-id="{{ player.id }}"
+                      data-season="{{ app.request.get('season') }}"
+                      data-team="{{ app.request.get('id') }}">-</span>
+                     <span data-id="{{ player.id }}" data-param="goal">
+                       {{ player.goal }}
+                     </span>
+                      <span class="changeGameGoalPlayer"
+                        data-change="plusGoal"
+                        data-path="playeradmin_editMund"
+                        data-id="{{ player.id }}"
+                        data-season="{{ app.request.get('season') }}"
+                        data-team="{{ app.request.get('id') }}">+</span>
                    {% else %}
                    {{ player.goal }}
                    {% endif %}</td>
