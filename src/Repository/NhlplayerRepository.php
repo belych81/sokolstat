@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Nhlplayer;
+use App\Entity\NhlPlayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
