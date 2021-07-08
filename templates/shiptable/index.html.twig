@@ -120,8 +120,8 @@
                                     'id': match.team.translit}) }}">{{ match.team.name }}</a>
                             </td>
                             <td class="champTourImage">
-                                {% if match.team.image2 %}
-                                    <img src="{{ asset('images/clubs/') }}{{ match.team.image2 }}"
+                                {% if match.team.image %}
+                                    <img src="{{ asset('images/clubs/') }}{{ match.team.image }}"
                                          alt="{{ match.team.name }}" title="{{ match.team.name }}" />
                                 {% endif %}
                             </td>
@@ -133,8 +133,8 @@
                                 {% endif %}
                             </td>
                             <td class="champTourImage">
-                                {% if match.team2.image2 %}
-                                    <img src="{{ asset('images/clubs/') }}{{ match.team2.image2 }}"
+                                {% if match.team2.image %}
+                                    <img src="{{ asset('images/clubs/') }}{{ match.team2.image }}"
                                          alt="{{ match.team2.name }}" title="{{ match.team2.name }}" />
                                 {% endif %}
                             </td>

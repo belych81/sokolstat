@@ -31,8 +31,8 @@
       <a href="{{ path('championships_show', {'season': app.request.get('season'),
         'id': team.translit, 'country': app.request.get('country')}) }}"
         class="spiski">
-        {% if team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
+        {% if team.image %}
+          <img src="{{ asset('images/clubs/') }}{{ team.image }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}

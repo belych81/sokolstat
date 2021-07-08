@@ -51,7 +51,7 @@
       </td>
       <td class="scBomb">
           {{ entity.bomb }}
-          {% if number is defined and number == 2 %}
+          {% if number is defined and number == 2 and matches1[entity.team2.id].status == 0 %}
           {% set score1 = matches1[entity.team2.id].score |split('-') %}
             (1-й матч - <strong>{{ score1.1 }}-{{ score1.0 }}</strong>)
           {% endif %}
