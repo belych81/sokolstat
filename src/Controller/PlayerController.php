@@ -199,7 +199,16 @@ class PlayerController extends AbstractController
           case 'fnl' : $entity = new Fnlplayer(); break;
           case 'leagueChampions' : $entity = new Lchplayer(); break;
           case 'cup' :
-            $entity = new Cupplayer();
+          case 'russia' :
+            if($country == 'cup'){
+              $entity = new Cupplayer();
+            } else {
+              $entity = new Gamers();
+            }
+            $rusplayer = new Rusplayer();
+            $rusplayer->setPlayer($player);
+            $em->persist($rusplayer);
+            $em->flush();
             $entity2 = new Playersteam();
             $entity2->setGame(0);
             $entity2->setGoal(0);
@@ -416,6 +425,16 @@ class PlayerController extends AbstractController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+            $em->flush();
+
+            $entity2 = new Playersteam();
+            $entity2->setGame(0);
+            $entity2->setGoal(0);
+            $entity2->setPlayer($entity->getPlayer());
+            $team2 = $this->getDoctrine()->getRepository(Team::class)
+                        ->findOneByTranslit($team);
+            $entity2->setTeam($team2);
+            $em->persist($entity2);
             $em->flush();
 
             return $this->redirect($this->generateUrl('championships_show', [
@@ -861,10 +880,10 @@ class PlayerController extends AbstractController
             $goal = $entity->getGoal();
             $em->getRepository(Rusplayer::class)->updateRusplayerEc($player, $goal);
             $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
-            return $this->redirect($this->generateUrl('supercup_show', [
+            /*return $this->redirect($this->generateUrl('supercup_show', [
                 'id' => $id,
                 'country' => 'russia'
-                    ]));
+              ]));*/
         }
 
         return $this->render('rusplayer/newSc.html.twig', [

@@ -299,6 +299,9 @@
                             <a href="{{ path('player_newChamp', {'season': app.request.get('season'),
                               'team': app.request.get('id')}) }}">
                                 Добавить игрока</a> |
+                            <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'championships_show',
+                                'country': 'russia', 'team': app.request.get('id'), 'isTeam': true}) }}">
+                                    Добавить последнего игрока команды</a> |
                             <a href="{{ path('player_newPlayersteam', {
                             'season': app.request.get('season'), 'team': app.request.get('id'),
                             'turnir' : 'champ'}) }}">
@@ -306,6 +309,9 @@
                             <a href="{{ path('player_newRusplayer', {'country': 'russia',
                               'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
                                 Добавить нового игрока</a> |
+                            <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route' : 'championships_show',
+                              'country': 'russia', 'team': app.request.get('id')}) }}">
+                                Добавить последнего игрока</a> |
                             <a href="{{ path('player_newPlayer', {'country': 'russia', 'route' : 'championships_show',
                             'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
                                 Создать игрока</a>

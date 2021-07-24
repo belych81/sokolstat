@@ -15,7 +15,7 @@ class Menu
         $this->props = $props;
     }
 
-    public function generate($country, $season = '')
+    public function generate($country, $season = '2021-22')
     {
       if(empty($season)){
         $season = $this->props->getLastSeason();
