@@ -257,6 +257,9 @@ footer {
 .champTourImage img {
   height: 30px;
 }
+.champTourImage img.long {
+  height: 20px;
+}
 .champ-show-table tbody tr{
   height: 25px;
 }
