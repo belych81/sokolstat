@@ -205,10 +205,12 @@ class PlayerController extends AbstractController
             } else {
               $entity = new Gamers();
             }
-            $rusplayer = new Rusplayer();
-            $rusplayer->setPlayer($player);
-            $em->persist($rusplayer);
-            $em->flush();
+            if(!$isTeam){
+              $rusplayer = new Rusplayer();
+              $rusplayer->setPlayer($player);
+              $em->persist($rusplayer);
+              $em->flush();
+            }
             $entity2 = new Playersteam();
             $entity2->setGame(0);
             $entity2->setGoal(0);
