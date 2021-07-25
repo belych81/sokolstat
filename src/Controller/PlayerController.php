@@ -204,6 +204,7 @@ class PlayerController extends AbstractController
               $entity = new Cupplayer();
             } else {
               $entity = new Gamers();
+              $entity->setTotalgame(0);
             }
             if(!$isTeam){
               $rusplayer = new Rusplayer();
