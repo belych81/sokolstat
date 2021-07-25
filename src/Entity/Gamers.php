@@ -51,7 +51,7 @@ class Gamers
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $totalgame = 1;
+    private $totalgame = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
