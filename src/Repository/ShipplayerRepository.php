@@ -22,7 +22,7 @@ class ShipplayerRepository extends ServiceEntityRepository
     public function getBombSum($season)
     {
       return $this->createQueryBuilder('sp')
-          ->select('sp.sum', 'p.name AS playername', 'p.translit', 't.name')
+          ->select('sp.sum AS sum', 'p.name AS playername', 'p.translit', 't.name')
           ->join('sp.season', 's')
           ->join('sp.team', 't')
           ->join('sp.player', 'p')

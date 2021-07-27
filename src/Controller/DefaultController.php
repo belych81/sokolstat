@@ -6,6 +6,7 @@ use App\Entity\Tour;
 use App\Entity\Rfplmatch;
 use App\Entity\Eurocup;
 use App\Entity\Shipplayer;
+use App\Entity\Gamers;
 use App\Entity\Shiptable;
 use App\Entity\Cup;
 use App\Entity\RusSupercup;
@@ -31,8 +32,13 @@ class DefaultController extends AbstractController
 {
   public function index(Props $props, Functions $functions)
   {
-      $bombTotal = $this->getDoctrine()->getRepository(Shipplayer::class)
+      $bombTotal5 = $this->getDoctrine()->getRepository(Shipplayer::class)
         ->getBombSum($props->getLastSeason());
+      $bombTotalRus = $this->getDoctrine()->getRepository(Gamers::class)
+        ->getBombSum($props->getLastSeason());
+      $bombTotal = array_merge($bombTotal5, $bombTotalRus);
+      uasort($bombTotal, ['App\Service\Sort', 'sortBySum']);
+
       $currentMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
           ->getCurMatches();
       $curcup = $this->getDoctrine()->getRepository(Cup::class)

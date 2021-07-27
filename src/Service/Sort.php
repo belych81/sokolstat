@@ -10,6 +10,13 @@ class Sort
     	return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
     }
 
+    public function sortBySum($v1, $v2) {
+    	if($v1['sum'] == $v2['sum']) {
+    		return 0;
+    	}
+    	return ($v1['sum'] < $v2['sum']) ? - 1 : 1;
+    }
+
     public static function sortByDate($v1, $v2) {
         if($v1->getData() < $v2->getData()){
             return -1;

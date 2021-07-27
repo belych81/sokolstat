@@ -33,7 +33,7 @@ class Player
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name = ' ';
+    private $name = '';
 
     /**
      * @ORM\Column(type="date")

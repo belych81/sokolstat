@@ -1045,7 +1045,8 @@ class PlayerController extends AbstractController
         $ecplayer = $em->getRepository(Ecplayer::class)->find($id);
         $player = $ecplayer->getPlayer();
         $club = $ecplayer->getTeam();
-
+        $gamerId = $em->getRepository(Gamers::class)->getGamerByPlayerAndTeamAndSeason($player->getId(), $club->getId(), $season);
+        $em->getRepository(Gamers::class)->updateGamer($gamerId, $change, true);
         $em->getRepository(Rusplayer::class)->updateRusplayerEcTotal($player, $change);
         $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $change);
         $playerName = $player->getName();

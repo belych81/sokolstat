@@ -78,30 +78,56 @@ class GamersRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function updateGamer($id, $change)
+    public function getGamerByPlayerAndTeamAndSeason($playerId, $teamId, $season)
     {
+      return $this->createQueryBuilder('g')
+              ->select('g.id')
+              ->join('g.player', 'p')
+              ->join('g.season', 's')
+              ->join('g.team', 't')
+              ->where("p.id = :player")
+              ->setParameter('player', $playerId)
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("t.id = :team")
+              ->setParameter('team', $teamId)
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function updateGamer($id, $change, $onlyTotal = false)
+    {
+        $changeParam = $changeParam2 = 'g.game';
         switch ($change) {
             case 'plusGame' :
-                $changeParam = 'g.game';
-                $changeParam2 = 'g.game+1';
+                if(!$onlyTotal){
+                  $changeParam = 'g.game';
+                  $changeParam2 = 'g.game+1';
+                }
                 $changeParam3 = 'g.totalgame';
                 $changeParam4 = 'g.totalgame+1';
                 break;
             case 'minusGame' :
-                $changeParam = 'g.game';
-                $changeParam2 = 'g.game-1';
+                if(!$onlyTotal){
+                  $changeParam = 'g.game';
+                  $changeParam2 = 'g.game-1';
+                }
                 $changeParam3 = 'g.totalgame';
                 $changeParam4 = 'g.totalgame-1';
                 break;
             case 'plusGoal' :
-                $changeParam = 'g.goal';
-                $changeParam2 = 'g.goal+1';
+                if(!$onlyTotal){
+                  $changeParam = 'g.goal';
+                  $changeParam2 = 'g.goal+1';
+                }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal+1';
                 break;
             case 'minusGoal' :
-                $changeParam = 'g.goal';
-                $changeParam2 = 'g.goal-1';
+                if(!$onlyTotal){
+                  $changeParam = 'g.goal';
+                  $changeParam2 = 'g.goal-1';
+                }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal-1';
                 break;
@@ -197,5 +223,21 @@ class GamersRepository extends ServiceEntityRepository
         $qb->setMaxResults($max);
         $query = $qb->getQuery();
         return $query->getResult();
+    }
+
+    public function getBombSum($season)
+    {
+      return $this->createQueryBuilder('sp')
+          ->select('sp.totalgoal AS sum', 'p.name AS playername', 'p.translit', 't.name')
+          ->join('sp.season', 's')
+          ->join('sp.team', 't')
+          ->join('sp.player', 'p')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->orderBy('sp.totalgoal DESC, p.name')
+          ->setMaxResults(20)
+          ->getQuery()
+          ->getResult()
+      ;
     }
 }
