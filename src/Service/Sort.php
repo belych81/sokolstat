@@ -14,7 +14,7 @@ class Sort
     	if($v1['sum'] == $v2['sum']) {
     		return 0;
     	}
-    	return ($v1['sum'] < $v2['sum']) ? - 1 : 1;
+    	return ($v1['sum'] < $v2['sum']) ? 1 : -1;
     }
 
     public static function sortByDate($v1, $v2) {

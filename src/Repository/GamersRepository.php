@@ -234,6 +234,7 @@ class GamersRepository extends ServiceEntityRepository
           ->join('sp.player', 'p')
           ->where('s.name = :season')
           ->setParameter('season', $season)
+          ->andWhere('sp.totalgoal > 0')
           ->orderBy('sp.totalgoal DESC, p.name')
           ->setMaxResults(20)
           ->getQuery()

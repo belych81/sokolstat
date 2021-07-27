@@ -28,6 +28,7 @@ class ShipplayerRepository extends ServiceEntityRepository
           ->join('sp.player', 'p')
           ->where('s.name = :season')
           ->setParameter('season', $season)
+          ->andWhere('sp.sum > 0')
           ->orderBy('sp.sum DESC, p.name')
           ->setMaxResults(20)
           ->getQuery()
