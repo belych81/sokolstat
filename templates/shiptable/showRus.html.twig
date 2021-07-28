@@ -196,14 +196,46 @@
                                         {% endif %}
                                     </td>
                                     <td class="tableGoal">
-                                        <span data-id="{{ player.id }}">
+                                      {% if is_granted("ROLE_ADMIN") %}
+                                        <span class="changeGameGoalPlayer"
+                                          data-change="minusGame"
+                                          data-path="playeradmin_editChampTotal"
+                                          data-id="{{ player.id }}"
+                                          data-season="{{ app.request.get('season') }}"
+                                          data-team="{{ app.request.get('id') }}">-</span>
+                                      {% endif %}
+                                        <span data-id="{{ player.id }}" data-param="totalgame">
                                           {{ player.totalgame }}
                                         </span>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="plusGame"
+                                            data-path="playeradmin_editChampTotal"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">+</span>
+                                        {% endif %}
                                     </td>
                                     <td class="tableGoal">
-                                        <span data-id="{{ player.id }}">
+                                      {% if is_granted("ROLE_ADMIN") %}
+                                      <span class="changeGameGoalPlayer"
+                                        data-change="minusGoal"
+                                        data-path="playeradmin_editChampTotal"
+                                        data-id="{{ player.id }}"
+                                        data-season="{{ app.request.get('season') }}"
+                                        data-team="{{ app.request.get('id') }}">-</span>
+                                      {% endif %}
+                                        <span data-id="{{ player.id }}" data-param="totalgoal">
                                           {{ player.totalgoal }}
                                         </span>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                        <span class="changeGameGoalPlayer"
+                                          data-change="plusGoal"
+                                          data-path="playeradmin_editChampTotal"
+                                          data-id="{{ player.id }}"
+                                          data-season="{{ app.request.get('season') }}"
+                                          data-team="{{ app.request.get('id') }}">+</span>
+                                        {% endif %}
                                     </td>
                                     <td class="champ-team-column total-game">
                                         {% if is_granted("ROLE_ADMIN") %}

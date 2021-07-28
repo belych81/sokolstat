@@ -124,6 +124,21 @@ class PlayerController extends AbstractController
         return new Response($response);
     }
 
+    public function editChampTotal(SessionInterface $session, $id, $season, $team, $change)
+    {
+        $this->getDoctrine()->getRepository(Gamers::class)->updateGamer($id, $change, true);
+        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
+
+        $session->set('lastPlayer', $entity->getPlayer()->getName());
+
+        $response = json_encode([
+            'name' => $entity->getPlayer()->getName(),
+            'game' => $entity->getTotalgame(),
+            'goal' => $entity->getTotalgoal()
+        ]);
+        return new Response($response);
+    }
+
     public function editSb(SessionInterface $session, $id, $season, $change)
     {
         $this->getDoctrine()->getRepository(Sbplayer::class)->updateSb($id, $change);

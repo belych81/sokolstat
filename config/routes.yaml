@@ -703,6 +703,12 @@ playeradmin_editChamp:
     options:
         expose: true
 
+playeradmin_editChampTotal:
+    path:  /playeradmin/admin/{id}/editTotal/{season}/{team}/{change}
+    controller: App\Controller\PlayerController:editChampTotal
+    options:
+        expose: true
+
 playeradmin_editFnl:
     path:  /playeradmin/admin/{id}/editFnl/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editFnl
