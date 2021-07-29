@@ -58,6 +58,7 @@ class NationCupRepository extends ServiceEntityRepository
                 ->select('DISTINCT s.name')
                 ->join('c.season', 's')
                 ->join('c.team', 't')
+                ->orderBy('s.name', 'ASC')
                 ->getQuery()
                 ->getResult();
     }
