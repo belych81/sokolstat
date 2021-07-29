@@ -17,15 +17,9 @@ class NationCupType extends AbstractType
 
         $season = $options['season'];
         $country = $options['country'];
-        if (!in_array('stadia', $_SESSION)) {
-            $_SESSION['stadia']='1/16 финала';
-        }
-        if (!in_array('date', $_SESSION)) {
-            $_SESSION['date']=new \DateTime();
-        }
         $builder
             ->add('stadia')
-            ->add('data', null, ['data' => $_SESSION['date']])
+            ->add('data', null, ['years' => \range(1992, \date('Y')+1)])
             ->add('team', EntityType::class, [
               'class' => Team::class,
               'query_builder' => function (TeamRepository $repository) use ($country) {

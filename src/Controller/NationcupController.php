@@ -41,7 +41,7 @@ class NationcupController extends AbstractController
         ]);
     }
 
-    public function newMatch($season, $country)
+    public function newMatch(Menu $serviceMenu, $season, $country)
     {
         $entity = new NationCup();
 
@@ -50,8 +50,11 @@ class NationcupController extends AbstractController
               'country' => $country
               ]);
 
+        $menu = $serviceMenu->generate($country, $season);
+
         return $this->render('nationcup/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
