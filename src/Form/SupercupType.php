@@ -17,12 +17,9 @@ class SupercupType extends AbstractType
     {
 
         $country = $options['country'];
-        if (!\key_exists('date', $_SESSION)) {
-            $_SESSION['date'] = new \DateTime();
-        }
         $builder
             ->add('season')
-            ->add('data', null, ['data' => $_SESSION['date']])
+            ->add('data', null, ['years' => \range(1992, \date('Y')+1)])
             ->add('team', EntityType::class, [
               'class' => Team::class,
               'query_builder' => function (TeamRepository $repository) use ($country) {

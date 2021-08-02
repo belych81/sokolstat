@@ -99,5 +99,35 @@
            {% endfor %}
            </tbody>
        </table>
+
+       <table class="leader-table">
+           <caption>Самые возрастные (действующие игроки)</caption>
+           <tbody>
+           {% for maxAgePlayer in maxAgePlayers %}
+
+               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
+                   <td class="player-position">{{ loop.index }}</td>
+                   <td><a href="{{ path ('player_show', {'id': maxAgePlayer.translit}) }}" class="spiski">
+                           {{ maxAgePlayer.name }}</a></td>
+                   <td class="playerListGame">{{ maxAgePlayer.born | date('d.m.Y') }}</td>
+               </tr>
+           {% endfor %}
+           </tbody>
+       </table>
+
+       <table class="leader-table">
+           <caption>Самые молодые (действующие игроки)</caption>
+           <tbody>
+           {% for minAgePlayer in minAgePlayers %}
+
+               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
+                   <td class="player-position">{{ loop.index }}</td>
+                   <td><a href="{{ path ('player_show', {'id': minAgePlayer.translit}) }}" class="spiski">
+                           {{ minAgePlayer.name }}</a></td>
+                   <td class="playerListGame">{{ minAgePlayer.born | date('d.m.Y') }}</td>
+               </tr>
+           {% endfor %}
+           </tbody>
+       </table>
  </div>
 {% endblock %}

@@ -241,4 +241,19 @@ class GamersRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getAgeListPlayers($season, $order)
+    {
+      return $this->createQueryBuilder('g')
+          ->select('p.name', 'p.translit', 'p.born')
+          ->join('g.season', 's')
+          ->join('g.player', 'p')
+          ->where('s.name = :season')
+          ->setParameter('season', $season)
+          ->orderBy('p.born '.$order.', p.name')
+          ->setMaxResults(20)
+          ->getQuery()
+          ->getResult()
+      ;
+    }
 }

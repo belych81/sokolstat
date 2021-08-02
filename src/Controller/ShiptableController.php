@@ -156,6 +156,10 @@ class ShiptableController extends AbstractController
       $menu = $serviceMenu->generate($country);
       $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
               ->translateCountry($country)['rusCountry'];
+      $maxAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+              ->getAgeListPlayers($props->getLastSeason(), 'ASC');
+      $minAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+              ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
       return $this->render('stat/index.html.twig', [
             'menu' => $menu,
@@ -165,7 +169,9 @@ class ShiptableController extends AbstractController
             'topGoalsRus' => $topGoalsRus,
             'topGoalsRusCurr' => $topGoalsRusCurr,
             'topGoalkeepers' => $topGoalkeepers,
-            'topGoalkeepersCurr' => $topGoalkeepersCurr
+            'topGoalkeepersCurr' => $topGoalkeepersCurr,
+            'maxAgePlayers' => $maxAgePlayers,
+            'minAgePlayers' => $minAgePlayers
       ]);
     }
 
