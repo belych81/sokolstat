@@ -149,14 +149,14 @@ class Rating
         switch ($country) {
           case 'Англия' :
           case 'Испания' :
-            $coef = 6;
+            $coef = 5;
             break;
             case 'Италия' :
             case 'Германия' :
               $coef = 5;
               break;
               case 'Франция' :
-                $coef = 4;
+                $coef = 5;
                 break;
                 case 'Россия' :
                   $coef = 3;
@@ -166,14 +166,14 @@ class Rating
         switch ($country) {
           case 'Англия' :
           case 'Испания' :
-            $coef = 4;
+            $coef = 5;
             break;
             case 'Италия' :
             case 'Германия' :
               $coef = 5;
               break;
               case 'Франция' :
-                $coef = 6;
+                $coef = 5;
                 break;
                 case 'Россия' :
                   $coef = 7;
