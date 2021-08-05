@@ -106,22 +106,22 @@
                   </div>
                     {% block playersTeam %}
                     <div class="champ-teams-list">
-                        <table>
+                        <table class="table_sort">
                         {% if is_granted("ROLE_ADMIN") == false %}
                             <thead>
                                 <tr class="shipTableTitle">
-                                    <th rowspan="2">&nbsp;</th>
-                                    <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                    <th class="teamStatPlayer">&nbsp;</th>
                                     <th colspan="2">Чемпионат {{ app.request.get('season') }}</th>
                                     <th colspan="2">Всего в сезоне {{ app.request.get('season') }}</th>
                                     <th colspan="2">Всего в чемпионатах</th>
                                     <th colspan="2" class="champ-total-club">Всего за клуб</th>
                                     <th colspan="2" class="champ-total-all">Всего</th>
-                                    <th rowspan="2" class="teamStatGoal champ-born">Дата рождения</th>
-                                    <th rowspan="2" class="teamStatGoal champ-country">Страна</th>
+                                    <th colspan="2" class="champ-total-club"></th>
                                 </tr>
                                 <tr class="shipTableTitle">
-
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
                                     <th class="teamStatGoal">И</th>
                                     <th class="teamStatGoal">Г</th>
                                     <th class="teamStatGoal">И</th>
@@ -132,6 +132,8 @@
                                     <th class="teamStatGoal champ-total-club">Г</th>
                                     <th class="teamStatGoal champ-total-all">И</th>
                                     <th class="teamStatGoal champ-total-all">Г</th>
+                                    <th class="teamStatGoal champ-born">Дата рождения</th>
+                                    <th class="teamStatGoal champ-country">Страна</th>
                                 </tr>
                             </thead>
                             {% endif %}
@@ -317,7 +319,7 @@
                                     </td>
                                     <td class="champ-team-column champ-born">
 
-                                        {{ player.player.born | date('d.m.Y') }}
+                                        {{ player.player.born | date('Y.m.d') }}
 
                                     </td>
                                     <td class="champ-team-column champ-country">

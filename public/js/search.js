@@ -282,3 +282,27 @@ $(window).on("resize", function(){
 $(document).ready(function(event){
 	sliceMainMenu(false);
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const getSort = ({ target }) => {
+        const order = (target.dataset.order = -(target.dataset.order || -1));
+        const index = [...target.parentNode.cells].indexOf(target);
+        const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+        const comparator = (index, order) => (a, b) => order * collator.compare(
+            b.children[index].innerText,
+            a.children[index].innerText
+        );
+
+        for(const tBody of target.closest('table').tBodies)
+            tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+
+        for(const cell of target.parentNode.cells)
+            cell.classList.toggle('sorted', cell === target);
+    };
+		const thead = document.querySelectorAll('.table_sort thead tr')[1];
+		//console.log(thead);
+    thead.addEventListener('click', () => getSort(event));
+
+});

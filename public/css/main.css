@@ -1666,3 +1666,11 @@ display: inline-block; /* Выстраиваем по горизонтали */
 .changed-player {
   color: #f06413;
 }
+
+th.sorted[data-order="-1"]::after {
+	content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+	content: "▲"
+}
