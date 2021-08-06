@@ -119,13 +119,19 @@ function parseUrlQuery() {
         url: Routing.generate(route, params),
         dataType: 'json',
         success: function(data){
-          console.log(id);
-          console.log(data);
             $(".spiski.selected").removeClass('selected');
             $(".spiski[data-id="+id+"]").addClass('selected');
 						if(route == 'playeradmin_editChampTotal'){
 							$("[data-id="+id+"][data-param='totalgame']").text(data['game']);
             	$("[data-id="+id+"][data-param='totalgoal']").text(data['goal']);
+						} else if(route == 'playeradmin_editNationCup'){
+	            	$("[data-id="+id+"][data-param='cup']").text(data['goal']);
+						} else if(route == 'playeradmin_editNationSupercup'){
+								$("[data-id="+id+"][data-param='supercup']").text(data['goal']);
+						} else if(route == 'playeradmin_editNationEurocup'){
+								$("[data-id="+id+"][data-param='eurocup']").text(data['goal']);
+						} else if(route == 'playeradmin_editNationSbornie'){
+								$("[data-id="+id+"][data-param='sbornie']").text(data['goal']);
 						} else {
             	$("[data-id="+id+"][data-param='game']").text(data['game']);
             	$("[data-id="+id+"][data-param='goal']").text(data['goal']);
@@ -303,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 		const thead = document.querySelectorAll('.table_sort thead tr')[1];
 		//console.log(thead);
-    thead.addEventListener('click', () => getSort(event));
+		if(thead != undefined)
+    	thead.addEventListener('click', () => getSort(event));
 
 });

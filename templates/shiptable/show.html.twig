@@ -188,24 +188,36 @@
                     </td>
                    <td class="column-supercup tableGoal nation-cups">
                       {% if is_granted("ROLE_ADMIN") %}
-                          <a href="{{ path('playeradmin_editNationCup',
-                            {'id': player.id, 'season': app.request.get('season'),
-                              'team': app.request.get('id'),
-                              'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
-                              {{ player.cup }}
-                              <a href="{{ path('playeradmin_editNationCup',
-                                {'id': player.id, 'season': app.request.get('season'),
-                                  'team': app.request.get('id'),
-                                  'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
-                           (<a href="{{ path('playeradmin_editNationSupercup',
-                            {'id': player.id, 'season': app.request.get('season'),
-                              'team': app.request.get('id'),
-                                'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
-                               {{ player.supercup }}
-                               <a href="{{ path('playeradmin_editNationSupercup',
-                                {'id': player.id, 'season': app.request.get('season'),
-                                  'team': app.request.get('id'),
-                                    'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>)
+                          <span class="changeGameGoalPlayer"
+                            data-change="minus"
+                            data-path="playeradmin_editNationCup"
+                            data-id="{{ player.id }}"
+                            data-season="{{ app.request.get('season') }}"
+                            data-team="{{ app.request.get('id') }}">-</span>
+                              <span data-id="{{ player.id }}" data-param="cup">
+                                {{ player.cup }}
+                              </span>
+                            <span class="changeGameGoalPlayer"
+                              data-change="plus"
+                              data-path="playeradmin_editNationCup"
+                              data-id="{{ player.id }}"
+                              data-season="{{ app.request.get('season') }}"
+                              data-team="{{ app.request.get('id') }}">+</span>
+                           (<span class="changeGameGoalPlayer"
+                             data-change="minus"
+                             data-path="playeradmin_editNationSupercup"
+                             data-id="{{ player.id }}"
+                             data-season="{{ app.request.get('season') }}"
+                             data-team="{{ app.request.get('id') }}">-</span>
+                               <span data-id="{{ player.id }}" data-param="supercup">
+                                 {{ player.supercup }}
+                               </span>
+                             <span class="changeGameGoalPlayer"
+                               data-change="plus"
+                               data-path="playeradmin_editNationSupercup"
+                               data-id="{{ player.id }}"
+                               data-season="{{ app.request.get('season') }}"
+                               data-team="{{ app.request.get('id') }}">+</span>)
                       {% else %}
                         {{ player.cup }}
                         {% if player.supercup > 0 %}
@@ -215,31 +227,43 @@
 
                       <td class="tableGoal nation-cups">
                             {% if is_granted("ROLE_ADMIN") %}
-                                <a href="{{ path('playeradmin_editNationEurocup',
-                          {'id': player.id, 'season': app.request.get('season'),
-                             'team': app.request.get('id'),
-                             'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
-                                    {{ player.eurocup }}
-                                    <a href="{{ path('playeradmin_editNationEurocup',
-                          {'id': player.id, 'season': app.request.get('season'),
-                             'team': app.request.get('id'),
-                             'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                            <span class="changeGameGoalPlayer"
+                              data-change="minus"
+                              data-path="playeradmin_editNationEurocup"
+                              data-id="{{ player.id }}"
+                              data-season="{{ app.request.get('season') }}"
+                              data-team="{{ app.request.get('id') }}">-</span>
+                                <span data-id="{{ player.id }}" data-param="eurocup">
+                                  {{ player.eurocup }}
+                                </span>
+                              <span class="changeGameGoalPlayer"
+                                data-change="plus"
+                                data-path="playeradmin_editNationEurocup"
+                                data-id="{{ player.id }}"
+                                data-season="{{ app.request.get('season') }}"
+                                data-team="{{ app.request.get('id') }}">+</span>
                             {% else %}
-                            {{ player.eurocup }}
+                              {{ player.eurocup }}
                             {% endif %}
                         </td>
 
                         <td class="tableGoal nation-cups">
                             {% if is_granted("ROLE_ADMIN") %}
-                                <a href="{{ path('playeradmin_editNationSbornie',
-                                  {'id': player.id, 'season': app.request.get('season'),
-                             'team': app.request.get('id'),
-                             'country': app.request.get('country'), 'change': 'minus'}) }}">-</a>
+                              <span class="changeGameGoalPlayer"
+                                data-change="minus"
+                                data-path="playeradmin_editNationSbornie"
+                                data-id="{{ player.id }}"
+                                data-season="{{ app.request.get('season') }}"
+                                data-team="{{ app.request.get('id') }}">-</span>
+                                  <span data-id="{{ player.id }}" data-param="sbornie">
                                     {{ player.sbornie }}
-                                <a href="{{ path('playeradmin_editNationSbornie',
-                                      {'id': player.id, 'season': app.request.get('season'),
-                             'team': app.request.get('id'),
-                             'country': app.request.get('country'), 'change': 'plus'}) }}">+</a>
+                                  </span>
+                              <span class="changeGameGoalPlayer"
+                                data-change="plus"
+                                data-path="playeradmin_editNationSbornie"
+                                data-id="{{ player.id }}"
+                                data-season="{{ app.request.get('season') }}"
+                                data-team="{{ app.request.get('id') }}">+</span>
                             {% else %}
                               {% if player.sbornie == '' %}
                                   0

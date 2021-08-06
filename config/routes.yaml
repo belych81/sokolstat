@@ -759,28 +759,36 @@ playeradmin_editMund:
         expose: true
 
 playeradmin_editNationCup:
-    path:  /playeradmin/admin/{id}/editNationCup/{country}/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNationCup/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNationCup
     requirements:
         change: minus|plus
+    options:
+        expose: true
 
 playeradmin_editNationSupercup:
-    path:  /playeradmin/admin/{id}/editNationSupercup/{country}/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNationSupercup/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNationSupercup
     requirements:
         change: minus|plus
+    options:
+        expose: true
 
 playeradmin_editNationEurocup:
-    path:  /playeradmin/admin/{id}/editNationEurocup/{country}/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNationEurocup/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNationEurocup
     requirements:
         change: minus|plus
+    options:
+        expose: true
 
 playeradmin_editNationSbornie:
-    path:  /playeradmin/admin/{id}/editNationSbornie/{country}/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNationSbornie/{season}/{team}/{change}
     controller: App\Controller\PlayerController:editNationSbornie
     requirements:
         change: minus|plus
+    options:
+        expose: true
 
 playeradmin_editLchplayer:
     path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}

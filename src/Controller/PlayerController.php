@@ -545,76 +545,76 @@ class PlayerController extends AbstractController
         return new Response($response);
     }
 
-    public function editNationCup(SessionInterface $session, $id, $country,
-      $season, $team, $change)
+    public function editNationCup(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoalCup($id, $change);
         $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
+        $playerName = $player->getPlayer()->getName();
         $this->getDoctrine()->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 1);
-        $session->set('lastPlayer', $player->getPlayer()->getName());
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => $country
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'goal' => $player->getCup()
+        ]);
+        return new Response($response);
     }
 
-    public function editNationSupercup(SessionInterface $session, $id, $country,
-      $season, $team, $change)
+    public function editNationSupercup(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoalSupercup($id, $change);
         $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $playerName = $player->getPlayer()->getName();
         $player_id = $player->getPlayer()->getId();
         $this->getDoctrine()->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 1);
-        $session->set('lastPlayer', $player->getPlayer()->getName());
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => $country
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'goal' => $player->getSupercup()
+        ]);
+        return new Response($response);
     }
 
-    public function editNationEurocup(SessionInterface $session, $id, $country,
-      $season, $team, $change)
+    public function editNationEurocup(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoalEurocup($id, $change);
         $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $playerName = $player->getPlayer()->getName();
         $player_id = $player->getPlayer()->getId();
         $this->getDoctrine()->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 0, 1);
-        $session->set('lastPlayer', $player->getPlayer()->getName());
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => $country
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'goal' => $player->getEurocup()
+        ]);
+        return new Response($response);
     }
 
-    public function editNationSbornie(SessionInterface $session, $id, $country,
-      $season, $team, $change)
+    public function editNationSbornie(SessionInterface $session, $id, $season, $team, $change)
     {
         $this->getDoctrine()->getRepository(Shipplayer::class)
           ->updateShipplayerGoalSbornie($id, $change);
         $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
+        $playerName = $player->getPlayer()->getName();
         $this->getDoctrine()->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 0, 0, 0, 1);
-        $session->set('lastPlayer', $player->getPlayer()->getName());
+        $session->set('lastPlayer', $playerName);
 
-        return $this->redirect($this->generateUrl('championships_show', [
-                'id' => $team,
-                'season' => $season,
-                'country' => $country
-                    ]));
+        $response = json_encode([
+            'name' => $playerName,
+            'goal' => $player->getSbornie()
+        ]);
+        return new Response($response);
     }
 
     public function newChampNation($season, $team, $flag)
