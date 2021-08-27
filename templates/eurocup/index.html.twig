@@ -20,9 +20,9 @@
     {% if team.team.translit != app.request.get('id') %}
       <a href="{{ path('eurocup_show', {'season': app.request.get('season'),
           'id': team.team.translit, 'turnir': app.request.get('turnir')}) }}"
-        class="">
-        {% if team.team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.team.image2 }}"
+        class="spiski">
+        {% if team.team.image %}
+          <img src="{{ asset('images/clubs/') }}{{ team.team.image }}"
             alt="{{ team.team.name }}" title="{{ team.team.name }}" />
         {% else %}
               {{ team.team.name }}

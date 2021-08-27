@@ -38,7 +38,8 @@ class DefaultController extends AbstractController
         ->getBombSum($props->getLastSeason());
       $bombTotal = array_merge($bombTotal5, $bombTotalRus);
       uasort($bombTotal, ['App\Service\Sort', 'sortBySum']);
-
+      $bombTotal = array_slice($bombTotal, 0, 20);
+      
       $currentMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
           ->getCurMatches();
       $curcup = $this->getDoctrine()->getRepository(Cup::class)

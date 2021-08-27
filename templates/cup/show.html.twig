@@ -19,9 +19,9 @@
   {% for team in teams %}
       <a href="{{ path('cup_show', {'season': app.request.get('season'),
         'id': team.translit}) }}"
-        class="">
-        {% if team.image2 %}
-          <img src="{{ asset('images/clubs/') }}{{ team.image2 }}"
+        class="spiski">
+        {% if team.image %}
+          <img src="{{ asset('images/clubs/') }}{{ team.image }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
