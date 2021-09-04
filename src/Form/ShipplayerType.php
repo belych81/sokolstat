@@ -39,6 +39,9 @@ class ShipplayerType extends AbstractType
                 case 'lch':
                     return $repository->queryLChampPlayers($season);
                     break;
+                case 'mund':
+                    return $repository->queryMundialPlayers($season);
+                    break;
                 case 'all':
                    return $repository->queryLchPlayers($season, $team, $club->getCountry()->getName());
                }

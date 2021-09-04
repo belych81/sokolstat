@@ -116,6 +116,7 @@ class ComposerStaticInit199e88c9ed60bbb01935fe72538ec533
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'ProxyManager\\' => 13,
+            'Predis\\' => 7,
             'PhpParser\\' => 10,
             'Pagerfanta\\Twig\\' => 16,
             'Pagerfanta\\Solarium\\' => 20,
@@ -500,6 +501,10 @@ class ComposerStaticInit199e88c9ed60bbb01935fe72538ec533
         'ProxyManager\\' => 
         array (
             0 => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager',
+        ),
+        'Predis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/predis/predis/src',
         ),
         'PhpParser\\' => 
         array (

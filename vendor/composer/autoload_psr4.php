@@ -84,6 +84,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'ProxyManager\\' => array($vendorDir . '/friendsofphp/proxy-manager-lts/src/ProxyManager'),
+    'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Pagerfanta\\Twig\\' => array($vendorDir . '/pagerfanta/pagerfanta/lib/Twig'),
     'Pagerfanta\\Solarium\\' => array($vendorDir . '/pagerfanta/pagerfanta/lib/Adapter/Solarium'),

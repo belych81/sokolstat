@@ -98,6 +98,7 @@ class CupRepository extends ServiceEntityRepository
               ->setParameters(['season' => $season, 'stadia' => '1/16 финала'])
               ->orderBy('t.name')
               ->getQuery()
+              //->setCacheable(true)
               ->getResult()
               ;
     }

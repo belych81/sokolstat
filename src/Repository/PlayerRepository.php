@@ -338,6 +338,21 @@ class PlayerRepository extends ServiceEntityRepository
                 ->orderBy('p.name');
     }
 
+    public function queryMundialPlayers($season)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-42;
+        $end = $year-16;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->join('p.sostavs', 's')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                ->orderBy('p.name');
+    }
+
     public function queryCountryPlayers($season, $team, $country)
     {
         $year = \substr($season, 0, 4);

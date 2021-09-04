@@ -310,6 +310,10 @@
          'country': app.request.get('country'), 'team': app.request.get('id'),
          'flag':'lch'}) }}">
              Добавить игрока ЛЧ</a> |
+       <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
+          'country': app.request.get('country'), 'team': app.request.get('id'),
+          'flag':'mund'}) }}">
+              Добавить игрока сборных</a> |
       <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
       'country': app.request.get('country'), 'team': app.request.get('id'),
       'flag':'all'}) }}">

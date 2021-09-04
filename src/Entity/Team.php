@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
+ * @ORM\Cache
  *
  * @ApiResource(
  *     collectionOperations={"get"={"normalization_context"={"groups"="team:list"}}},

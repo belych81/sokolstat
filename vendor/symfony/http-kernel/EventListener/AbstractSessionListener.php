@@ -56,14 +56,13 @@ abstract class AbstractSessionListener implements EventSubscriberInterface
             return;
         }
 
-        $session = null;
         $request = $event->getRequest();
         if (!$request->hasSession()) {
             $sess = null;
             $request->setSessionFactory(function () use (&$sess) { return $sess ?? $sess = $this->getSession(); });
         }
 
-        $session = $session ?? ($this->container && $this->container->has('initialized_session') ? $this->container->get('initialized_session') : null);
+        $session = $this->container && $this->container->has('initialized_session') ? $this->container->get('initialized_session') : null;
         $this->sessionUsageStack[] = $session instanceof Session ? $session->getUsageIndex() : 0;
     }
 
@@ -147,6 +146,10 @@ abstract class AbstractSessionListener implements EventSubscriberInterface
     {
         if (!$this->debug) {
             return;
+        }
+
+        if ($this->container && $this->container->has('session_collector')) {
+            $this->container->get('session_collector')();
         }
 
         if (!$requestStack = $this->container && $this->container->has('request_stack') ? $this->container->get('request_stack') : null) {
