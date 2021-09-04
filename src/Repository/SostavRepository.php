@@ -39,6 +39,17 @@ class SostavRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getMundialPlayer($id)
+    {
+      return $this->createQueryBuilder('sv')
+              ->select('sv')
+              ->join('sv.player', 'r')
+              ->where("r.translit = :id")
+              ->setParameter('id', $id)
+              ->getQuery()
+              ->getResult();
+    }
+
     public function updateGamer($id, $change)
     {
         switch ($change) {

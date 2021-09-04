@@ -24,90 +24,136 @@
         {% endif %}
     </div>
     <div class="scLink">
-      <table class="playerStatTable">
-          <tr class="shipTableTitle">
-              <th class="player-turnir">Турнир</th>
-              <th class="player-club">Клуб</th>
-              <th class="player-goal">И</th>
-              <th class="player-goal">Г</th>
-          </tr>
-          {% set previous = false %}
-          {% set isLch = false %}
-          {% for item in items %}
-            {% if item.competition == 'Лига Чемпионов' %}
-              {% set isLch = true %}
-            {% endif %}
-            {% if item.competition != 'Лига Чемпионов' %}
-              {% set curSeason = item.season.name %}
-              {% if previous != false %}
-                {% set prevSeason = previous.season.name %}
-              {% endif %}
-              {% if previous == false or curSeason != prevSeason %}
-                <tr>
-                  <td colspan="5" class="player-position">{{ item.season.name }}</td>
-                </tr>
-              {% endif %}
-              {% if item.cup is defined and item.cup > 0 %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                  <td>{{ item.team.country.name }} (кубок)</td>
-                  <td>
-                      {{ item.team.name }}
-                  </td>
-                  <td>-</td>
-                  <td>{{ item.cup }}</td>
-                </tr>
-              {% endif %}
-              {% if item.eurocup is defined and item.eurocup > 0 %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                  <td>Еврокубки</td>
-                  <td>
-                      {{ item.team.name }}
-                  </td>
-                  <td>-</td>
-                  <td>{{ item.eurocup }}</td>
-                </tr>
-              {% endif %}
-              {% if item.supercup is defined and item.supercup > 0 %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                  <td>{{ item.team.country.name }} (суперкубок)</td>
-                  <td>
-                      {{ item.team.name }}
-                  </td>
-                  <td>-</td>
-                  <td>{{ item.supercup }}</td>
-                </tr>
-              {% endif %}
-              {% if item.sbornie is defined and item.sbornie > 0 %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                  <td>-</td>
-                  <td>
-                      Cборная
-                  </td>
-                  <td>-</td>
-                  <td>{{ item.sbornie }}</td>
-                </tr>
-              {% endif %}
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>{{ item.competition }}</td>
-                <td>
-                  {% if item.team.name is defined %}
-                    {{ item.team.name }}
-                  {% else %}
-                    Cборная
-                  {% endif %}
-                </td>
-                <td>
-                  {% if item.game is defined %}
-                    {{ item.game }}
-                  {% else %}
-                    1
-                  {% endif %}
-                </td>
-                <td>{{ item.goal }}</td>
+      {% if items %}
+      <div>
+        <table class="playerStatTable">
+            <tr class="shipTableTitle">
+                <th class="player-turnir">Турнир</th>
+                <th class="player-club">Клуб</th>
+                <th class="player-goal">И</th>
+                <th class="player-goal">Г</th>
             </tr>
-            {% set previous = item %}
-          {% endif %}
-        {% endfor %}
-      </table>
+            {% set previous = false %}
+            {% for item in items %}
+                {% set curSeason = item.season.name %}
+                {% if previous != false %}
+                  {% set prevSeason = previous.season.name %}
+                {% endif %}
+                {% if previous == false or curSeason != prevSeason %}
+                  <tr>
+                    <td colspan="5" class="player-position">{{ item.season.name }}</td>
+                  </tr>
+                {% endif %}
+                {% if item.cup is defined and item.cup > 0 %}
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td>{{ item.team.country.name }} (кубок)</td>
+                    <td>
+                        {{ item.team.name }}
+                    </td>
+                    <td>-</td>
+                    <td>{{ item.cup }}</td>
+                  </tr>
+                {% endif %}
+                {% if item.eurocup is defined and item.eurocup > 0 %}
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td>Еврокубки</td>
+                    <td>
+                        {{ item.team.name }}
+                    </td>
+                    <td>-</td>
+                    <td>{{ item.eurocup }}</td>
+                  </tr>
+                {% endif %}
+                {% if item.supercup is defined and item.supercup > 0 %}
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td>{{ item.team.country.name }} (суперкубок)</td>
+                    <td>
+                        {{ item.team.name }}
+                    </td>
+                    <td>-</td>
+                    <td>{{ item.supercup }}</td>
+                  </tr>
+                {% endif %}
+                {% if item.sbornie is defined and item.sbornie > 0 %}
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                    <td>-</td>
+                    <td>
+                        Cборная
+                    </td>
+                    <td>-</td>
+                    <td>{{ item.sbornie }}</td>
+                  </tr>
+                {% endif %}
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                  <td>{{ item.competition }}</td>
+                  <td>
+                    {% if item.team.name is defined %}
+                      {{ item.team.name }}
+                    {% else %}
+                      Cборная
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if item.game is defined %}
+                      {{ item.game }}
+                    {% else %}
+                      1
+                    {% endif %}
+                  </td>
+                  <td>{{ item.goal }}</td>
+              </tr>
+              {% set previous = item %}
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+
+      {% if lchplayer %}
+        <div>
+          <p class="champ-title">Лига чемпионов</p>
+          <table class="playerStatTable">
+            <tr class="shipTableTitle">
+                <th class="player-turnir">Сезон</th>
+                <th class="player-club">Клуб</th>
+                <th class="player-goal">И</th>
+                <th class="player-goal">Г</th>
+            </tr>
+            {% for item in lchplayer %}
+                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                  <td class="player-position">{{ item.season.name }}</td>
+                  <td>
+                      {{ item.team.name }}
+                  </td>
+                  <td>{{ item.game }}</td>
+                  <td>{{ item.goal }}</td>
+                </tr>
+            {% endfor %}
+          </table>
+        </div>
+      {% endif %}
+
+      {% if mundials %}
+        <div>
+          <p class="champ-title">Чемпионаты мира и Европы</p>
+          <table class="playerStatTable">
+            <tr class="shipTableTitle">
+                <th class="player-turnir">Сезон</th>
+                <th class="player-club">Турнир</th>
+                <th class="player-goal">И</th>
+                <th class="player-goal">Г</th>
+            </tr>
+            {% for item in mundials %}
+                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                  <td class="player-position">{{ item.season.name }}</td>
+                  <td>
+                      {{ item.country.name }}
+                  </td>
+                  <td>{{ item.game }}</td>
+                  <td>{{ item.goal }}</td>
+                </tr>
+            {% endfor %}
+          </table>
+        </div>
+      {% endif %}
     </div>
 {% endblock %}

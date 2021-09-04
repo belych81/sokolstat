@@ -17,6 +17,7 @@ use App\Entity\Fnlplayer;
 use App\Entity\Shipplayer;
 use App\Entity\Cupplayer;
 use App\Entity\Ecplayer;
+use App\Entity\Sostav;
 use App\Entity\Supercupplayer;
 use App\Entity\Sbplayer;
 
@@ -90,6 +91,8 @@ class RusplayerController extends AbstractController
           ->getCupPlayer($id);
         $eurocups = $this->getDoctrine()->getRepository(Ecplayer::class)
           ->getEcPlayer($id);
+        $mundials = $this->getDoctrine()->getRepository(Sostav::class)
+          ->getMundialPlayer($id);
         $supercups = $this->getDoctrine()->getRepository(Supercupplayer::class)
           ->getScPlayer($id);
         $sbplayers = $this->getDoctrine()->getRepository(Sbplayer::class)
@@ -100,13 +103,9 @@ class RusplayerController extends AbstractController
           ->getSbSum($id, 'goal');
 
         $items = array_merge($entities, $cups, $eurocups, $sbplayers, $supercups,
-          $lchplayer, $fnlplayer, $shipplayer);
-        uasort($items, function ($v1, $v2) {
-            if($v1->getSeason()->getName() == $v2->getSeason()->getName()) {
-              return 0;
-            }
-            return ($v1->getSeason()->getName() < $v2->getSeason()->getName()) ? - 1 : 1;
-        });
+          $fnlplayer, $shipplayer);
+        uasort($items, ['App\Service\Sort', 'sortBySeason']);
+        uasort($mundials, ['App\Service\Sort', 'sortBySeason']);
 
         return $this->render('player/show.html.twig', [
             'entities' => $entities,
@@ -121,6 +120,7 @@ class RusplayerController extends AbstractController
             'fnlplayer' => $fnlplayer,
             'gamesSb' => $gamesSb,
             'goalsSb' => $goalsSb,
+            'mundials' => $mundials,
             'items' => $items
         ]);
     }

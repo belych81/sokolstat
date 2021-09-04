@@ -275,8 +275,9 @@ footer {
 }
 .champ-title{
   color: #5c4b4b;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: bold;
+  text-align: center;
 }
 .champ-tours{
   max-width: 360px;
@@ -1043,7 +1044,7 @@ footer {
 .scCity {
     width: 120px;
 }
-.scLink{
+.scLink, .scLink div {
   vertical-align: top;
   display: inline-block;
 }
