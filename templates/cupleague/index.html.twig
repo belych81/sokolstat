@@ -1,0 +1,77 @@
+{% extends 'cup/index.html.twig' %}
+
+{% block title %}
+   Кубок {{ rusCountry }} {{ app.request.get('season') }}
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="кубок {{ rusCountry }} {{ app.request.get('season') }},
+          бомбардиры, матчи">
+{% endblock %}
+
+{% block seasons %}
+    {% for season in seasons %}
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
+        {% else %}
+            <a href="{{ path('cup_league', {'season': season.name}) }}" class="spiski">{{ season.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+
+  <div><h1>Кубок {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
+
+  {% if is_granted("ROLE_ADMIN") %}
+    <p><a href="{{ path('cup_league_newMatch', {'season': app.request.get('season')}) }}">
+    Добавить матч</a></p>
+  {% endif %}
+
+    <table>
+        <tr>
+            <td>
+    <table>
+      {% for stad in stadies %}
+          <tr class="shipTableTitle">
+                <td colspan="4" class="tableGoal">{{ stad.name }}</td>
+          </tr>
+        {% for entity in stad.stadiamatches %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>
+                <div>
+                  {% if is_granted("ROLE_ADMIN") %}
+                      <a href="{{ path('cup_league_new', {'id': entity.id}) }}">
+                        {{ entity.data | date('d.m H:i') }}</a>
+                  {% else %}
+                        {% if entity.status == 1 %}
+                          {{ entity.data | date('d.m H:i') }}
+                        {% else %}
+                            {{ entity.data | date('d.m') }}
+                        {% endif %}
+                  {% endif %}
+                </div>
+            </td>
+            <td class="scMatch">
+                <div class="spiski">{{ entity.team.name }} - {{ entity.team2.name }}</div>
+            </td>
+            <td class="scScore">
+                {% if entity.status %}
+                    -:-
+              {% else %}
+                  {{ entity.score }}
+                  {% endif %}
+            </td>
+            <td class="scBomb">
+                {{ entity.bomb }}
+            </td>
+        </tr>
+
+        {% endfor %}
+      {% endfor %}
+    </table>
+            </td>
+
+        </tr>
+    </table>
+{% endblock %}

@@ -51,6 +51,7 @@ class Stadia
         $this->ectables = new ArrayCollection();
         $this->mundials = new ArrayCollection();
         $this->mundialTables = new ArrayCollection();
+        $this->cupLeagues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -233,6 +234,11 @@ class Stadia
      */
     private $mundialTables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CupLeague::class, mappedBy="stadia")
+     */
+    private $cupLeagues;
+
     public function setStadiaTable($table)
     {
         $this->stadia_table = $table;
@@ -346,6 +352,36 @@ class Stadia
             // set the owning side to null (unless already changed)
             if ($mundialTable->getStadia() === $this) {
                 $mundialTable->setStadia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CupLeague[]
+     */
+    public function getCupLeagues(): Collection
+    {
+        return $this->cupLeagues;
+    }
+
+    public function addCupLeague(CupLeague $cupLeague): self
+    {
+        if (!$this->cupLeagues->contains($cupLeague)) {
+            $this->cupLeagues[] = $cupLeague;
+            $cupLeague->setStadia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCupLeague(CupLeague $cupLeague): self
+    {
+        if ($this->cupLeagues->removeElement($cupLeague)) {
+            // set the owning side to null (unless already changed)
+            if ($cupLeague->getStadia() === $this) {
+                $cupLeague->setStadia(null);
             }
         }
 

@@ -307,6 +307,32 @@ cup_createMatch:
     controller: App\Controller\CupController:createMatch
     requirements: { _method: post }
 
+cup_league:
+    path:     /cup_league/{season}/
+    controller: App\Controller\CupLeagueController:index
+
+cup_league_new:
+    path:  /cup_league/admin/{id}/
+    controller: App\Controller\CupLeagueController:new
+    requirements:
+        id: \d+
+
+cup_league_create:
+    path:  /cup_league/admin/create/{id}/
+    controller: App\Controller\CupLeagueController:create
+    requirements:
+      _method: post
+      id: \d+
+
+cup_league_newMatch:
+    path:  /cup_league/admin/{season}/
+    controller: App\Controller\CupLeagueController:newMatch
+
+cup_league_createMatch:
+    path:  /cup_league/admin/create/{season}/
+    controller: App\Controller\CupLeagueController:createMatch
+    requirements: { _method: post }
+
 nationcup:
     path:     /nationcup/{country}/{season}
     controller: App\Controller\NationcupController:index
@@ -627,11 +653,11 @@ player_createChampNation:
     requirements: { _method: post }
 
 player_newlchplayer:
-    path:  /playeradmin/admin/champnation/{season}/{team}
+    path:  /playeradmin/admin/champnation/{season}/{team}/{flag}/
     controller: App\Controller\PlayerController:newLchPlayer
 
 player_createlchplayer:
-    path:  /playeradmin/admin/createChampnation/{season}/{team}
+    path:  /playeradmin/admin/createChampnation/{season}/{team}/{flag}/
     controller: App\Controller\PlayerController:createLchPlayer
     requirements: { _method: post }
 

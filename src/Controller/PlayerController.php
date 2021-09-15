@@ -1003,20 +1003,24 @@ class PlayerController extends AbstractController
       return new Response($response);
     }
 
-    public function newLchPlayer($season, $team)
+    public function newLchPlayer(Menu $serviceMenu,  $season, $team, $flag)
     {
         $entity = new Lchplayer();
+        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
 
         $form   = $this->createForm(LchplayerType::class, $entity, ['season' => $season,
-            'team' => $team]);
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
+
+        $menu = $serviceMenu->generateEurocup($season);
 
         return $this->render('eurocup/newLchPlayer.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView()
         ));
     }
 
-    public function createLchPlayer(Request $request, $team, $season)
+    public function createLchPlayer(Menu $serviceMenu,  Request $request, $team, $season, $flag)
     {
         $entity  = new Lchplayer();
         $em = $this->getDoctrine()->getManager();
@@ -1026,9 +1030,11 @@ class PlayerController extends AbstractController
         $entity->setSeason($year);
         $entity->setGame(1);
         $form = $this->createForm(LchplayerType::class, $entity, ['season' => $season,
-            'team' => $team]);
+            'team' => $team, 'flag' => $flag, 'club' => $club]);
 
         $form->handleRequest($request);
+
+        $menu = $serviceMenu->generateEurocup($season);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($entity);
@@ -1043,12 +1049,14 @@ class PlayerController extends AbstractController
             return $this->redirect($this->generateUrl('eurocup_show', [
                 'id' => $team,
                 'season' => $season,
+                'menu' => $menu,
                 'turnir' => 'leagueChampions'
                     ]));
         }
 
         return $this->render('eurocup/newLchPlayer.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

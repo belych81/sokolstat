@@ -13,6 +13,7 @@ use App\Entity\RusSupercup;
 use App\Entity\NationSupercup;
 use App\Entity\UefaSupercup;
 use App\Entity\NationCup;
+use App\Entity\CupLeague;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\News;
@@ -39,7 +40,7 @@ class DefaultController extends AbstractController
       $bombTotal = array_merge($bombTotal5, $bombTotalRus);
       uasort($bombTotal, ['App\Service\Sort', 'sortBySum']);
       $bombTotal = array_slice($bombTotal, 0, 20);
-      
+
       $currentMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
           ->getCurMatches();
       $curcup = $this->getDoctrine()->getRepository(Cup::class)

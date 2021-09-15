@@ -84,6 +84,20 @@ class StadiaRepository extends ServiceEntityRepository
               ;
     }
 
+    public function getStadiaCupLeague($season)
+    {
+      return $this->createQueryBuilder('s')
+              ->select('s', 'c', 'sn')
+              ->leftJoin('s.cupLeagues', 'c')
+              ->join('c.season', 'sn')
+              ->where("c.stadia = s.id")
+              ->andWhere("sn.name = :season")
+              ->setParameter('season', $season)
+              ->getQuery()
+              ->getResult()
+              ;
+    }
+
     public function getStadiaMundial($turnir, $season)
     {
       return $this->createQueryBuilder('s')

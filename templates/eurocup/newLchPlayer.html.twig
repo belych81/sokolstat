@@ -16,7 +16,7 @@
 {% block content %}
 
     <form action="{{ path('player_createlchplayer', {'team': app.request.get('team'),
-      'season': app.request.get('season')}) }}" method="post">
+      'season': app.request.get('season'), 'flag': app.request.get('flag')}) }}" method="post">
        <table>
             <tbody>
                 <tr>

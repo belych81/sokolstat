@@ -96,8 +96,23 @@
         </tbody>
     </table>
         {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+        'team': app.request.get('id'), 'flag':'team'}) }}">
+            Добавить игрока {{ club.0.name }}</a> |
+        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+        'team': app.request.get('id'), 'flag':'country'}) }}">
+            Добавить игрока {{ club.0.country.name }}</a> |
+        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+        'team': app.request.get('id'), 'flag':'top5'}) }}">
+            Добавить игрока топ-5</a> |
+       <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+          'team': app.request.get('id'), 'flag':'lch'}) }}">
+              Добавить игрока ЛЧ</a> |
+        <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
+           'team': app.request.get('id'), 'flag':'mund'}) }}">
+               Добавить игрока сборных</a> |
           <a href="{{ path('player_newlchplayer', {'season': app.request.get('season'),
-            'team': app.request.get('id')}) }}">
+            'team': app.request.get('id'), 'flag': 'all' }) }}">
             Добавить игрока</a> |
           <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'eurocup_show',
           'country': 'leagueChampions', 'team': app.request.get('id')}) }}">
@@ -157,9 +172,7 @@
                 <td class="spiski">
                     <a href="{{ path('player_show', {'id': bomb.player.translit}) }}" class="spiski">
                         {{ bomb.player.name }}</a>
-
                  </td>
-
                 <td>{{ bomb.team.name }}</td>
                 <td class="tableGoal">{{ bomb.goal }}</td>
                 </tr>

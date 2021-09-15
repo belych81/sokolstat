@@ -64,6 +64,12 @@ class Menu
         ];
       }
 
+      if ($country == 'england') {
+        $menu[3] = [
+                'name' => 'Кубок Лиги',
+                'url' => $this->router->generate('cup_league', ['season' => $season])
+        ];
+      }
       ksort($menu);
 
       return $menu;

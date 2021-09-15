@@ -1,0 +1,57 @@
+{% extends 'shiptable/index.html.twig' %}
+
+{% block title %}
+    Добавить матч
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ path('cup_league_createMatch', {'season': app.request.get('season')}) }}"
+          method="post" >
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.stadia) }}</th>
+                    <td>
+                        {{ form_errors(form.stadia) }}
+                        {{ form_widget(form.stadia) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.data) }}</th>
+                    <td>
+                        {{ form_errors(form.data) }}
+                        {{ form_widget(form.data) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team) }}</th>
+                    <td>
+                        {{ form_errors(form.team) }}
+                        {{ form_widget(form.team) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.team2) }}</th>
+                    <td>
+                        {{ form_errors(form.team2) }}
+                        {{ form_widget(form.team2) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+
+
+{% endblock %}

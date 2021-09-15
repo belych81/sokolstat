@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210608172904 extends AbstractMigration
+final class Version20210909084445 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20210608172904 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE country ADD image VARCHAR(255) DEFAULT NULL, ADD image2 VARCHAR(255) DEFAULT NULL, CHANGE translit translit VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE cup_league ADD status TINYINT(1) NOT NULL');
         
     }
 
@@ -59,8 +59,9 @@ final class Version20210608172904 extends AbstractMigration
         $this->addSql('DROP TABLE newspaper');
         $this->addSql('DROP TABLE nhl_play_off');
         $this->addSql('DROP TABLE nhl_season');
-        $this->addSql('ALTER TABLE country DROP image, DROP image2, CHANGE translit translit VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`');
+        $this->addSql('ALTER TABLE country CHANGE translit translit VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`');
         $this->addSql('ALTER TABLE cup CHANGE season_id season_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE bomb bomb VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE game game VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE game2 game2 VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE data data DATETIME NOT NULL, CHANGE status status TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE cup_league DROP status');
         $this->addSql('ALTER TABLE cupplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ecplayer CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ecsostav CHANGE eurocup_id eurocup_id INT DEFAULT NULL');
@@ -116,6 +117,7 @@ final class Version20210608172904 extends AbstractMigration
         $this->addSql('ALTER TABLE nhl_team CHANGE winsreg winsreg INT DEFAULT 0 NOT NULL, CHANGE nichreg nichreg INT DEFAULT 0 NOT NULL, CHANGE porazhreg porazhreg INT DEFAULT 0 NOT NULL, CHANGE mzreg mzreg INT DEFAULT 0 NOT NULL, CHANGE mpreg mpreg INT DEFAULT 0 NOT NULL, CHANGE scorereg scorereg INT DEFAULT 0 NOT NULL, CHANGE winspo winspo INT DEFAULT 0 NOT NULL, CHANGE nichpo nichpo INT DEFAULT 0 NOT NULL, CHANGE porazhpo porazhpo INT DEFAULT 0 NOT NULL, CHANGE mzpo mzpo INT DEFAULT 0 NOT NULL, CHANGE mppo mppo INT DEFAULT 0 NOT NULL, CHANGE scorepo scorepo INT DEFAULT 0 NOT NULL, CHANGE wins wins INT DEFAULT 0 NOT NULL, CHANGE nich nich INT DEFAULT 0 NOT NULL, CHANGE porazh porazh INT DEFAULT 0 NOT NULL, CHANGE mz mz INT DEFAULT 0 NOT NULL, CHANGE mp mp INT DEFAULT 0 NOT NULL, CHANGE score score INT DEFAULT 0 NOT NULL, CHANGE gamereg gamereg INT DEFAULT 0 NOT NULL, CHANGE gamepo gamepo INT DEFAULT 0 NOT NULL, CHANGE game game INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE player CHANGE amplua_id amplua_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE image image VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE insertdate insertdate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE sbornie sbornie INT DEFAULT NULL');
         $this->addSql('CREATE INDEX born ON player (born)');
+        $this->addSql('CREATE INDEX name ON player (name)');
         $this->addSql('ALTER TABLE playersteam CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE referee CHANGE country_id country_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE rfplmatch CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL');
@@ -125,6 +127,7 @@ final class Version20210608172904 extends AbstractMigration
         $this->addSql('ALTER TABLE rus_supercup RENAME INDEX idx_c3d1ea6bf59e604a TO IDX_5B1296F0F59E604A');
         $this->addSql('ALTER TABLE rusplayer CHANGE player_id player_id INT DEFAULT NULL, CHANGE ecgame ecgame INT DEFAULT 0 NOT NULL, CHANGE ecgoal ecgoal INT DEFAULT 0 NOT NULL, CHANGE cupgame cupgame INT DEFAULT 0 NOT NULL, CHANGE cupgoal cupgoal INT DEFAULT 0 NOT NULL, CHANGE supercupgame supercupgame INT DEFAULT 0 NOT NULL, CHANGE supercupgoal supercupgoal INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE sbplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
+        $this->addSql('CREATE UNIQUE INDEX name ON seasons (name)');
         $this->addSql('ALTER TABLE shipplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL, CHANGE sbornie sbornie INT DEFAULT NULL');
         $this->addSql('CREATE INDEX team_id ON shipplayer (team_id, season_id)');
         $this->addSql('ALTER TABLE shiptable CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL');
