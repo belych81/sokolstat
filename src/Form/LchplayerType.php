@@ -18,20 +18,21 @@ class LchplayerType extends AbstractType
         $team = $options['team'];
         $flag = $options['flag'];
         $club = $options['club'];
+        $country = $club->getCountry()->getName();
 
         $builder
             ->add('player', EntityType::class, [
             'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) use ($season, $team, $flag, $club) {
+            'query_builder' => function (PlayerRepository $repository) use ($season, $team, $flag, $country) {
               switch($flag){
                 case 'team':
-                 return $repository->queryTeamPlayers($season, $team);
+                 return $repository->queryTeamPlayers($season, $team, $country);
                  break;
                case 'country':
-                  return $repository->queryCountryPlayers($season, $team, $club->getCountry()->getName());
+                  return $repository->queryCountryPlayers($season, $team, $country);
                   break;
                case 'top5':
-                   return $repository->queryTop5Players($season, $club->getCountry()->getName());
+                   return $repository->queryTop5Players($season, $country);
                    break;
                case 'lch':
                    return $repository->queryLChampPlayers($season);

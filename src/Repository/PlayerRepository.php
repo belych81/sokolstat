@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Player;
+use App\Service\Props;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -286,15 +287,27 @@ class PlayerRepository extends ServiceEntityRepository
                 ;
     }
 
-    public function queryTeamPlayers($season, $team)
+    public function queryTeamPlayers($season, $team, $country = [])
     {
         $year = \substr($season, 0, 4);
         $start = $year-42;
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
+
+        $props = new Props();
+        $tops = $props->getTops();
+
+        if(empty($country) || in_array($country, $tops)) {
+          $relation = 'shipplayers';
+        } elseif($country == 'Россия') {
+          $relation = 'gamers';
+        } else {
+          $relation = 'lchplayers';
+        }
+
         return $query = $this->createQueryBuilder('p')
-                ->leftJoin('p.shipplayers', 's')
+                ->leftJoin('p.'.$relation, 's')
                 ->join('s.team', 'st')
                 ->where("p.born BETWEEN :str_start AND :str_end")
                 ->andWhere('st.translit = :team')
@@ -360,8 +373,20 @@ class PlayerRepository extends ServiceEntityRepository
         $end = $year-16;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
+
+        $props = new Props();
+        $tops = $props->getTops();
+
+        if(empty($country) || in_array($country, $tops)) {
+          $relation = 'shipplayers';
+        } elseif($country == 'Россия') {
+          $relation = 'gamers';
+        } else {
+          $relation = 'lchplayers';
+        }
+
         return $query = $this->createQueryBuilder('p')
-                ->leftJoin('p.shipplayers', 's')
+                ->leftJoin('p.'.$relation, 's')
                 ->join('s.team', 'st')
                 ->join('st.country', 'c')
                 ->where("p.born BETWEEN :str_start AND :str_end")
