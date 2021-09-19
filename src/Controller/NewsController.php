@@ -47,7 +47,6 @@ class NewsController extends AbstractController
         $em = $this->getDoctrine();
 
         $entity = $em->getRepository(News::class)->findOneByTranslit($translit);
-                var_dump($entity->getId());
         $period = $em->getRepository(Period::class)->getByNews($entity->getId());
         $transfers = [];
         if($period) {
