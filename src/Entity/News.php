@@ -41,6 +41,16 @@ class News
      */
     private $text;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $active;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Period::class, mappedBy="news", cascade={"persist", "remove"})
+     */
+    private $period;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -112,5 +122,39 @@ class News
     public function __toString()
     {
       return $this->title;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getPeriod(): ?Period
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(?Period $period): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($period === null && $this->period !== null) {
+            $this->period->setNews(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($period !== null && $period->getNews() !== $this) {
+            $period->setNews($this);
+        }
+
+        $this->period = $period;
+
+        return $this;
     }
 }

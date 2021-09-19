@@ -259,6 +259,13 @@ easy_admin:
                 fields:
                     - id
                     - title
+            form:
+                fields:
+                    - title
+                    - translit
+                    - data
+                    - text
+                    - active
           Newsdb:
             class: App\Entity\Newsdb
             list:
@@ -286,6 +293,7 @@ easy_admin:
               fields:
                 - name
                 - translit
+                - news
           Stadia:
             class: App\Entity\Stadia
             list:

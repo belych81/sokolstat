@@ -34,6 +34,11 @@ class Period
      */
     private $translit;
 
+    /**
+     * @ORM\OneToOne(targetEntity=News::class, inversedBy="period", cascade={"persist", "remove"})
+     */
+    private $news;
+
     public function __construct()
     {
         $this->transfers = new ArrayCollection();
@@ -99,6 +104,18 @@ class Period
     public function setTranslit(string $translit): self
     {
         $this->translit = $translit;
+
+        return $this;
+    }
+
+    public function getNews(): ?News
+    {
+        return $this->news;
+    }
+
+    public function setNews(?News $news): self
+    {
+        $this->news = $news;
 
         return $this;
     }

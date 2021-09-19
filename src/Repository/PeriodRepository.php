@@ -19,4 +19,16 @@ class PeriodRepository extends ServiceEntityRepository
         parent::__construct($registry, Period::class);
     }
 
+    public function getByNews($news) {
+
+        $qb = $this->createQueryBuilder('p')
+                ->join('p.news', 'n')
+                ->where('n.id = :news')
+                ->setParameter('news', $news);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
 }

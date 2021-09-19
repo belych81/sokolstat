@@ -23,7 +23,7 @@ class TransferRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->join('t.period', 'p')
-            ->andWhere('p.translit = :period')
+            ->andWhere('p.id = :period')
             ->setParameter('period', $period)
             ->orderBy('t.player', 'asc')
             ->getQuery()

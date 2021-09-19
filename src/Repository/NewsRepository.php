@@ -22,6 +22,7 @@ class NewsRepository extends ServiceEntityRepository
     public function getNews($max, $offset=null) {
 
         $qb = $this->createQueryBuilder('n')
+                ->where('n.active = 1')
                 ->orderBy('n.data', 'DESC')
                 ->setMaxResults($max);
 

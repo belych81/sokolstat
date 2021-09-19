@@ -15,6 +15,24 @@
           <div class="panel-body news">
             {{ entity.data|date('d.m.Y') }}
             <p>{{ entity.text|raw|nl2br }}</p>
+            <table class="table">
+              {% if transfers %}
+                <thead>
+                  <th>Игрок</th>
+                  <th>Откуда</th>
+                  <th>Куда</th>
+                </thead>
+                <tbody>
+                {% for transfer in transfers %}
+                  <tr>
+                    <td>{{ transfer.player }}</td>
+                    <td>{{ transfer.old.name }}</td>
+                    <td>{{ transfer.new.name }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              {% endif %}
+            </table>
           </div>
         </div>
       </div>

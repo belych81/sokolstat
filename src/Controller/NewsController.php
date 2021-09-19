@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\News;
+use App\Entity\Period;
+use App\Entity\Transfer;
 use App\Service\Functions;
 
 class NewsController extends AbstractController
@@ -45,9 +47,16 @@ class NewsController extends AbstractController
         $em = $this->getDoctrine();
 
         $entity = $em->getRepository(News::class)->findOneByTranslit($translit);
-
+                var_dump($entity->getId());
+        $period = $em->getRepository(Period::class)->getByNews($entity->getId());
+        $transfers = [];
+        if($period) {
+          $transfers = $em->getRepository(Transfer::class)->findByPeriod($period[0]->getId());
+        }
+var_dump(count($transfers));
         return $this->render('news/show.html.twig', [
-            'entity' => $entity
+            'entity' => $entity,
+            'transfers' => $transfers
         ]);
     }
 }
