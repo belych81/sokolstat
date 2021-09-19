@@ -53,7 +53,6 @@ class NewsController extends AbstractController
         if($period) {
           $transfers = $em->getRepository(Transfer::class)->findByPeriod($period[0]->getId());
         }
-var_dump(count($transfers));
         return $this->render('news/show.html.twig', [
             'entity' => $entity,
             'transfers' => $transfers
