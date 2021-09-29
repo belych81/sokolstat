@@ -57,8 +57,6 @@ function parseUrlQuery() {
                   console.log(data);
              },
        error: function (xhr, ajaxOptions, thrownError) {
-          alert(xhr.status);
-          alert(thrownError);
         }
       });
       } else {

@@ -100,6 +100,17 @@ class RfplmatchRepository extends ServiceEntityRepository
       ;
     }
 
+    public function getMatchesTomm()
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) >= 0')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
     public function getMaxTour($season)
     {
         $qb = $this->createQueryBuilder('r')

@@ -126,6 +126,15 @@
     "egulias/email-validator": {
         "version": "2.1.24"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v6.8.2"
+    },
+    "ezimuel/guzzlestreams": {
+        "version": "3.0.1"
+    },
+    "ezimuel/ringphp": {
+        "version": "1.1.2"
+    },
     "facebook/webdriver": {
         "version": "1.6.0"
     },
@@ -134,6 +143,18 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.0"
+    },
+    "friendsofsymfony/elastica-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "46c9cd2c1e07f0fcfd97e96f12b03b2e0845c4cd"
+        },
+        "files": [
+            "config/packages/fos_elastica.yaml"
+        ]
     },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
@@ -222,6 +243,12 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "react/promise": {
+        "version": "v2.8.0"
+    },
+    "ruflin/elastica": {
+        "version": "6.1.5"
+    },
     "sabberworm/php-css-parser": {
         "version": "8.3.1"
     },
@@ -233,6 +260,18 @@
             "version": "5.2",
             "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
         }
+    },
+    "snc/redis-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "85bbdb3d2db531e20874de29bab0587f93604fa8"
+        },
+        "files": [
+            "config/packages/snc_redis.yaml"
+        ]
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"

@@ -24,183 +24,185 @@
           <h3>Заголовок</h3>
         </div>
     </div>
+    {% set mnths = ['','января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'] %}
 
     <div>
-      {% if rfplMatch is not empty %}
-        <h3>Российская Премьер-Лига</h3>
+      {% if rfplMatch %}
+        <div class="title-emblem">
+          <img src="https://localhost:8000/images/rfpl.png" class="emblem-turnir" />
+          <div class="top-line">Российская Премьер-Лига</div>
+        </div>
+        <div class="article">
+          <h2 class="article-title">Заголовок</h2>
+          <article class="textcols">
+            <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+  или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+  <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+<p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+<p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+<p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+<img src="https://localhost:8000/images/jikia.png" class="article-img">
+          </article>
+        </div>
         {% for tour in rfplTours %}
         <h4>{{ tour }}-й тур</h4>
           {% for match in rfplMatch %}
             {% if match.tour == tour %}
-              <b>{{ match.team.name }}</b> - <b>{{ match.team2.name }}</b> -
-              {{ match.goal1 }}:{{ match.goal2 }} (<span>{{ match.bomb }}</span>)
+              {{ include('default/rfplMatchesBlock.html.twig', { 'match': match }) }}
             {% endif %}
           {% endfor %}
         {% endfor %}
 
         {% for key, country in tours %}
           {% if key == 'Россия' %}
-          <h3>{{ key }}</h3>
 
             {% for k, arr in country %}
-              {% if k == 'tour' %}
-                <div class="np-champ-matches">
-                  {% for numb, tour in arr %}
-                    <h4>{{ numb }}-й тур</h4>
-                    {% for match in tour %}
-                      <div>
-                        <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-                        <b>{{ match.team2.name }}</b> -
-                        {{ match.goal1 }}:{{ match.goal2 }}</span>
-                        (<span>{{ match.bomb }}</span>).
-                      </div>
-                    {% endfor %}
-                  {% endfor %}
-                </div>
-              {% endif %}
 
               {% if k == 'table' %}
-                <div class="champ-table champs">
-                  <table class="shipTable">
-                      <thead>
-                          <tr class="shipTableTitle">
-                              <th>&nbsp;</th>
-                              <th>&nbsp;</th>
-                              <th class="winsTable">И</th>
-                              <th class="winsTable">В</th>
-                              <th class="winsTable">Н</th>
-                              <th class="winsTable">П</th>
-                              <th class="goalsTable">M</th>
-                              <th class="winsTable">О</th>
-
-                          </tr>
-                      </thead>
-                      <tbody>
-                      {% for entity in arr %}
-                          <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                              <td class="player-position">{{ loop.index }}.</td>
-                              <td class="tableLeft">{{ entity.team.name }}</td>
-                              <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                              <td>{{ entity.wins }}</td>
-                              <td>{{ entity.nich }}</td>
-                              <td>{{ entity.porazh }}</td>
-                              <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                              <td class="table-score">{{ entity.score }}</td>
-                          </tr>
-                      {% endfor %}
-                      </tbody>
-                  </table>
-                  </div>
+                {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
               {% endif %}
             {% endfor %}
           {% endif %}
         {% endfor %}
       {% endif %}
 
+      <div class="champ-table champs">
+          <table class="champ-rus-bomb">
+              <thead>
+                  <tr class="shipTableTitle">
+                      <th colspan="2" class="calendar-title">Бомбардиры</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for key, rusBomb in rusBombs %}
+                  <tr>
+                      <td class="bomb-numb-goals"><strong>{{ key }}:</strong></td>
+                      <td class="">
+                        {{ rusBomb }}.
+                      </td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        <div class='calendar'>
+          <div class="calendar-title">МАТЧИ, МАТЧИ</div>
+          {% for key, matchDate in rfplMatchCalend %}
+            <div><strong>{{ key | replace({'.10': ' октября'}) }}</strong></div>
+            {% for match in matchDate %}
+              <div>{{ match.team }} - {{ match.team2 }}</div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+
       {% for key, country in tours %}
         {% if key == 'ФНЛ' %}
-
-
+          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'logo2020.png', 'title': 'Первенство ФНЛ' }) }}
+          <div class="article">
+            <h2 class="article-title">Заголовок</h2>
+            <article class="textcols">
+              <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+    Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+    Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+    или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+    <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+  или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+  <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+  или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+  <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+  или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+  <p>Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
+  или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
+            </article>
+          </div>
           {% for k, arr in country %}
             {% set isMatches = false %}
             {% if k == 'tour' %}
-              <h3>{{ key }}</h3>
-              <div class="np-champ-matches">
-                {% for numb, tour in arr %}
-                  <h4>{{ numb }}-й тур</h4>
-                  {% for match in tour %}
-                    {% set isMatches = true %}
-                    <div>
-                      <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-                      <b>{{ match.team2.name }}</b> -
-                      {{ match.goal1 }}:{{ match.goal2 }}</span>
-                      (<span>{{ match.bomb }}</span>).
-                    </div>
-                  {% endfor %}
-                {% endfor %}
-              </div>
+              {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
 
             {% if k == 'table' and country.tour is defined %}
-              <div class="champ-table champs">
-                <table class="shipTable">
-                    <thead>
-                        <tr class="shipTableTitle">
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th class="winsTable">И</th>
-                            <th class="winsTable">В</th>
-                            <th class="winsTable">Н</th>
-                            <th class="winsTable">П</th>
-                            <th class="goalsTable">M</th>
-                            <th class="winsTable">О</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for entity in arr %}
-                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                            <td class="player-position">{{ loop.index }}.</td>
-                            <td class="tableLeft">{{ entity.team.name }}</td>
-                            <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                            <td>{{ entity.wins }}</td>
-                            <td>{{ entity.nich }}</td>
-                            <td>{{ entity.porazh }}</td>
-                            <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                            <td class="table-score">{{ entity.score }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                </div>
+              {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
           {% endfor %}
         {% endif %}
       {% endfor %}
+      {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
 
       <div class="np-champ-matches">
         {% if lch is not empty %}
-        <div class="title-emblem">
-          <img src="https://localhost:8000/images/lch.jpg" class="emblem-turnir" />
-          <div class="top-line">ЛИГА ЧЕМПИОНОВ. 1/8 финала. ОТВЕТНЫЕ МАТЧИ</div>
-          <h2>Дальше без Роналду</h2>
-        </div>
+        {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
         <article class="textcols">
           Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
 Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
 Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
         </article>
-        <div>
-          {% for match in lch %}
-            <div class="eurocup-matches-sostav">
-              <div class="eurocup-matches-sostav-title">
-                <img src="{{ asset('images/clubs/') }}{{ match.team.image2 }}" />
-                <span class="np-matches-team"><b>{{ match.team.name | upper}}</b> -
-                <b>{{ match.team2.name | upper }}</b> -
-                {{ match.score | replace({'-': ":"}) }}</span>
-                <img src="{{ asset('images/clubs/') }}{{ match.team2.image2 }}" />
-              </div>
-              {% if match.ecsostav %}
-                   <div>
-                      <p><em><b>{{ match.team.name }}</b></em>:
-                        {{ match.ecsostav.team }}</p>
-                      <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
-                      {% if match.score != '0-0' %}
-                      <p><b>Голы</b>: {{ match.bomb }}.</p>
-                      {% endif %}
+
+          {% if lchGroups %}
+            {% for stadia, group in lchGroups %}
+              <div class="ec-group">
+                <div class="lch-group-name">{{ stadia }}</div>
+                {% for match in group['matches'] %}
+                  <div class="eurocup-matches-sostav lch-match">
+                    <div class="eurocup-matches-sostav-title">
+                      <div class="match-sostav-title">
+                        <span class="match-main-info">
+                          {{ match.team.name | upper}} -
+                          {{ match.team2.name | upper }} -
+                          {{ match.score | replace({'-': ":"}) }}
+                        </span>
+                      </div>
+                      <div class="match-info">
+                        <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
+                          <span class="match-main-info">
+                            {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.
+                          </span>
+                        <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" style="float: right;" />
+                      </div>
+                    </div>
+                    {% if match.ecsostav %}
+                         <div class="match-sostav">
+                            <p><em><b>{{ match.team.name }}</b></em>:
+                              {{ match.ecsostav.team }}</p>
+                            <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
+                            {% if match.score != '0-0' %}
+                            <p><b>Голы</b>: {{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                   </div>
-              {% endif %}
-            </div>
-          {% endfor %}
-        </div>
+                {% endfor %}
+                {{ include('default/tableBlock.html.twig', { 'arr': group['table'] }) }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
         {% endif %}
 
         {% if le is not empty %}
-          <div class="title-emblem">
-            <img src="https://localhost:8000/images/le.png" class="emblem-turnir" />
-            <div class="top-line">ЛИГА ЕВРОПЫ. 1/16 финала. ОТВЕТНЫЕ МАТЧИ</div>
-            <h2>Провал Германии</h2>
-          </div>
+          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. 1/16 финала. ОТВЕТНЫЕ МАТЧИ' }) }}
           <article class="textcols">
             Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
 Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
@@ -212,7 +214,7 @@ Atom — отличный редактор кода с богатым функц
                 <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
                 <b>{{ match.team2.name | upper }}</b> -
                 {{ match.score }}</span>
-                (<span>{{ match.bomb }}</span>).
+                (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
               </div>
             {% endfor %}
           </div>
@@ -220,61 +222,19 @@ Atom — отличный редактор кода с богатым функц
       </div>
 
       {% for key, country in tours %}
-        {% if key != 'Россия' and key != 'ФНЛ' %}
+        {% if key != 'ФНЛ' and key != 'Россия' %}
 
 
           {% for k, arr in country %}
             {% set isMatches = false %}
             {% if k == 'tour' %}
-              <h3>{{ key }}</h3>
-              <div class="np-champ-matches">
-                {% for numb, tour in arr %}
-                  <h4>{{ numb }}-й тур</h4>
-                  {% for match in tour %}
-                    {% set isMatches = true %}
-                    <div>
-                      <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-                      <b>{{ match.team2.name }}</b> -
-                      {{ match.goal1 }}:{{ match.goal2 }}</span>
-                      (<span>{{ match.bomb }}</span>).
-                    </div>
-                  {% endfor %}
-                {% endfor %}
-              </div>
+              {{ include('default/titleEmblemBlock.html.twig', { 'fileName': topEmblem[key], 'title': key }) }}
+              {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
 
             {% if k == 'table' and country.tour is defined %}
-              <div class="champ-table champs">
-                <table class="shipTable">
-                    <thead>
-                        <tr class="shipTableTitle">
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th class="winsTable">И</th>
-                            <th class="winsTable">В</th>
-                            <th class="winsTable">Н</th>
-                            <th class="winsTable">П</th>
-                            <th class="goalsTable">M</th>
-                            <th class="winsTable">О</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for entity in arr %}
-                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                            <td class="player-position">{{ loop.index }}.</td>
-                            <td class="tableLeft">{{ entity.team.name }}</td>
-                            <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                            <td>{{ entity.wins }}</td>
-                            <td>{{ entity.nich }}</td>
-                            <td>{{ entity.porazh }}</td>
-                            <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                            <td class="table-score">{{ entity.score }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                </div>
+              {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
+              {{ include('default/bombBlock.html.twig', { 'fnlBombs': bombs[key], 'tourCalend': tourCalend, 'country': key }) }}
             {% endif %}
           {% endfor %}
         {% endif %}

@@ -6,6 +6,7 @@ use App\Entity\Tour;
 use App\Entity\Rfplmatch;
 use App\Entity\Eurocup;
 use App\Entity\Shipplayer;
+use App\Entity\Fnlplayer;
 use App\Entity\Gamers;
 use App\Entity\Shiptable;
 use App\Entity\Cup;
@@ -18,6 +19,7 @@ use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\News;
 use App\Entity\Mundial;
+use App\Entity\Ectable;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
@@ -164,12 +166,12 @@ class DefaultController extends AbstractController
     return new Response("<h1>Футбол</h1>");
   }
 
-  public function newspaperData(Props $props)
+  public function newspaperData(Props $props, Functions $functions)
   {
     $today = date('j.m.Y');
     $fromDate = new \DateTime('now');
     $fromDate->setTime(0, 0, 0);
-    $fromDate->modify('-35 days');
+    $fromDate->modify('-7 days');
     $lastSeason = $props->getLastSeason();
 
     $em = $this->getDoctrine();
@@ -204,55 +206,79 @@ class DefaultController extends AbstractController
     foreach ($entities as $ent) {
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
+
     $isLchEmblems = false;
+    $lchStadia = false;
+    $lchGroups = false;
     $lch = $this->getDoctrine()->getRepository(Eurocup::class)
             ->getEntityByWeek($fromDate, 'leagueChampions');
     if(!empty($lch)){
-      $lchStadia = $lch[0]->getStadia()->getName();
-      if(strpos($lchStadia, 'инал') !== false){
-        $isLchEmblems = true;
+      $lchStadia = $lch[0]->getStadia()->getAlias();
+      $isLchEmblems = true;
+      if (strpos($lchStadia, 'group') !== false) {
+        foreach ($lch as $match) {
+          $lchGroups[$match->getStadia()->getAlias()]['matches'][] = $match;
+        }
+        foreach($lchGroups as $key => $group) {
+
+          $lchGroups[$key]['table'] = $this->getDoctrine()->getRepository(Ectable::class)
+             ->getEcTable('leagueChampions', $lastSeason, $key);
+
+        }
       }
     }
 
     $le = $this->getDoctrine()->getRepository(Eurocup::class)
             ->getEntityByWeek($fromDate, 'leagueEuropa');
-    $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
-        ->getBomb5All($lastSeason);
+
+    $bombs = [];
+    $top5 = $props->getTops();
+    $topEmblem = $props->getTopEmblem();
+    foreach($top5 as $champ) {
+      $bombsEng = $this->getDoctrine()->getRepository(Shipplayer::class)
+          ->getBomb5($lastSeason, $champ);
+      $arBombEng = $functions->getBombSum($bombsEng, 11);
+      $bombs[$champ] = $functions->getNewspaperBomb($arBombEng);
+    }
+
+    $bombsRus = $this->getDoctrine()->getRepository(Gamers::class)
+          ->getBomb($lastSeason);
+    $arBombSum = $functions->getBombSum($bombsRus, 11);
+    $rusBombs = $functions->getNewspaperBomb($arBombSum);
+
+    $bombsFnl = $this->getDoctrine()->getRepository(Fnlplayer::class)
+          ->getBomb5($lastSeason);
+    $arBombFnl = $functions->getBombSum($bombsFnl, 11);
+    $fnlBombs = $functions->getNewspaperBomb($arBombFnl);
+
+    $rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
+    $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm, true);
+
+    $tourTomm = $em->getRepository(Tour::class)->getMatchesTomm();
+    $tourCalend = $functions->getCalendar($tourTomm);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
       'rfplMatch' => $rfplMatch,
+      'rfplMatchCalend' => $rfplMatchCalend,
+      'tourCalend' => $tourCalend,
       'tours' => $tours,
       'today' => $today,
+      'lchGroups' => $lchGroups,
       'lch' => $lch,
       'le' => $le,
       'isLchEmblems' => $isLchEmblems,
-      'lchStadia' => $lchStadia
+      'lchStadia' => $lchStadia,
+      'rusBombs' => $rusBombs,
+      'fnlBombs' => $fnlBombs,
+      'bombs' => $bombs,
+      'topEmblem' => $topEmblem
     ]);
   }
 
   public function soglasie()
   {
       return $this->render('default/soglasie.html.twig', []);
-  }
-
-  public function search(Request $request)
-  {
-      $query = htmlspecialchars($request->request->get('query'));
-      $arQuery = explode(" ", $query);
-      $em = $this->getDoctrine()->getManager();
-
-      $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
-      $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
-      $player = [];
-      foreach($responsePlayer as $val){
-          $player['player/'.$val->getTranslit().'/'] = $val->getName();
-      }
-      $team = [];
-      foreach($responseTeam as $val){
-          $team['team/'.$val->getTranslit()] = $val->getName();
-      }
-      return new JsonResponse(array_merge($player, $team));
   }
 
   public function rating(Rating $rating)

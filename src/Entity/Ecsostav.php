@@ -32,6 +32,21 @@ class Ecsostav
      */
     private $team2;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="ecsostavs")
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $zriteli;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Referee::class, inversedBy="ecsostavs")
+     */
+    private $referee;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,5 +91,41 @@ class Ecsostav
     public function __toString()
     {
       return $this->team."\n".$this->team2;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZriteli(): ?int
+    {
+        return $this->zriteli;
+    }
+
+    public function setZriteli(?int $zriteli): self
+    {
+        $this->zriteli = $zriteli;
+
+        return $this;
+    }
+
+    public function getReferee(): ?Referee
+    {
+        return $this->referee;
+    }
+
+    public function setReferee(?Referee $referee): self
+    {
+        $this->referee = $referee;
+
+        return $this;
     }
 }

@@ -1,0 +1,38 @@
+<div class="eurocup-matches-sostav">
+  <div class="eurocup-matches-sostav-title">
+    <div class="match-sostav-title">
+      <span class="match-main-info">
+        {{ match.team.name | upper}} -
+        {{ match.team2.name | upper }} -
+        {{ match.goal1 }}:{{ match.goal2 }}
+      </span>
+    </div>
+    <div class="match-info">
+      <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
+      {% if match.city %}
+      <span class="match-main-info">
+        {{ match.city.name }}.
+        {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.
+        {{ match.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
+        Судья {{ match.referee.name }}.
+      </span>
+      {% endif %}
+      <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" style="float: right;" />
+    </div>
+  </div>
+  {% if match.game %}
+       <div class="match-sostav">
+          <p><em><b>{{ match.team.name }}</b></em>:
+            {{ match.game }}</p>
+          <p><em><b>{{ match.team2.name }}</b></em>: {{ match.game2 }}</p>
+          {% if match.goal1 != 0 and match.goal2 != 0 %}
+          <p><b>Голы</b>: {{ match.bomb }}.</p>
+          {% endif %}
+      </div>
+  {% endif %}
+  {% if match.penalty %}
+    <div class="match-sostav">
+      <strong>Наказания</strong>: {{ match.penalty }}.
+    </div>
+  {% endif %}
+</div>

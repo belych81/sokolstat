@@ -74,6 +74,24 @@ easy_admin:
                     - player
                     - player2
                 filters: ['team', 'team2', 'tour', 'season']
+            form:
+              fields:
+                - tour
+                - season
+                - data
+                - team
+                - team2
+                - goal1
+                - goal2
+                - bomb
+                - player
+                - player2
+                - city
+                - referee
+                - zriteli
+                - game
+                - game2
+                - penalty
           Player:
             class: App\Entity\Player
             list:
@@ -434,3 +452,11 @@ easy_admin:
                     - team
                     - team2
                 filters: ['eurocup']
+            form:
+                fields:
+                    - eurocup
+                    - team
+                    - team2
+                    - city
+                    - zriteli
+                    - referee

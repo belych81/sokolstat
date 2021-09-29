@@ -124,6 +124,8 @@ footer {
 }
 #rfplmatch_bomb,
 #rfplmatch2_bomb,
+#rfplmatch2_game,
+#rfplmatch2_game2,
 #tour_bomb,
 #tour_match_bomb,
 #tour_edit_bomb,
@@ -135,8 +137,11 @@ footer {
 #cup2_game,
 #cup2_game2,
 #task_description,
+#rfplmatch_edit_bomb,
+#rfplmatch_edit_game,
+#rfplmatch_edit_game2,
 #mundial_penalty {
-  width: 600px;
+  width: 800px;
 }
 .arrow {
     width: 25px;

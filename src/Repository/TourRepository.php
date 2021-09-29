@@ -25,15 +25,26 @@ class TourRepository extends ServiceEntityRepository
             ->join('t.team', 'tm')
             ->join('tm.country', 'c')
             ->where('t.data >= :data')
-            ->andWhere('c.name IN (:fnl)')
+            //->andWhere('c.name IN (:fnl)')
             ->andWhere('t.status = 0')
             ->setParameter('data', $data)
-            ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
-              'Франция'])
+          //  ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
+            //  'Франция', 'ФНЛ'])
             ->orderBy('t.data', 'ASC')
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function getMatchesTomm()
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) >= 0')
+          ->setParameter('data', date('Y-m-d', time()))
+          ->orderBy('c.data', 'ASC')
+          ->getQuery()
+          ->getResult()
+      ;
     }
 
     public function getYesterdayMatches5()

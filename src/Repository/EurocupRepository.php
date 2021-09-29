@@ -139,7 +139,7 @@ class EurocupRepository extends ServiceEntityRepository
                 ->andWhere("t.alias = :turnir")
                 ->setParameter('turnir', $turnir)
                 ->andWhere("e.status = 0")
-                ->orderBy('e.data, e.id');
+                ->orderBy('st.rank, e.data, e.id');
 
         $query = $qb->getQuery();
 

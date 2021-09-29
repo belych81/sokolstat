@@ -20,6 +20,11 @@ class RfplmatchEditType extends AbstractType
             ->add('data')
             ->add('team')
             ->add('team2')
+            ->add('city')
+            ->add('zriteli')
+            ->add('referee')
+            ->add('game')
+            ->add('game2')
             ->add('bomb');
     }
 

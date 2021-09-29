@@ -77,6 +77,36 @@ class Rfplmatch
 
     private $country = 'russia';
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $zriteli;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $penalty;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $game;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $game2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="rfplmatches")
+     */
+    private $city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Referee::class, inversedBy="rfplmatches")
+     */
+    private $referee;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -241,5 +271,77 @@ class Rfplmatch
     public function __toString()
     {
         return (string)$this->id;
+    }
+
+    public function getZriteli(): ?int
+    {
+        return $this->zriteli;
+    }
+
+    public function setZriteli(?int $zriteli): self
+    {
+        $this->zriteli = $zriteli;
+
+        return $this;
+    }
+
+    public function getPenalty(): ?string
+    {
+        return $this->penalty;
+    }
+
+    public function setPenalty(?string $penalty): self
+    {
+        $this->penalty = $penalty;
+
+        return $this;
+    }
+
+    public function getGame(): ?string
+    {
+        return $this->game;
+    }
+
+    public function setGame(?string $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    public function getGame2(): ?string
+    {
+        return $this->game2;
+    }
+
+    public function setGame2(?string $game2): self
+    {
+        $this->game2 = $game2;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getReferee(): ?Referee
+    {
+        return $this->referee;
+    }
+
+    public function setReferee(?Referee $referee): self
+    {
+        $this->referee = $referee;
+
+        return $this;
     }
 }

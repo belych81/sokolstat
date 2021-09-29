@@ -1,0 +1,32 @@
+<div class="champ-table champs">
+    <table class="champ-rus-bomb">
+        <thead>
+            <tr class="shipTableTitle">
+                <th colspan="2" class="calendar-title">Бомбардиры</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key, fnlBomb in fnlBombs %}
+            <tr>
+                <td class="bomb-numb-goals"><strong>{{ key }}:</strong></td>
+                <td class="">
+                  {{ fnlBomb }}.
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+  <div class='calendar'>
+    <div class="calendar-title">МАТЧИ, МАТЧИ</div>
+    {% for champ, matchCountry in tourCalend %}
+      {% if champ == country %}
+        {% for k, matchDate in matchCountry %}
+          <div><strong>{{ k | replace({'.9': ' сентября', '.10': ' октября'}) }}</strong></div>
+          {% for match in matchDate %}
+            <div>{{ match.team }} - {{ match.team2 }}</div>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,24 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+fos_elastica:
+    default_manager: orm
+    clients:
+      #  default: { url: '%env(ELASTICSEARCH_URL)%' }
+        default: { host: localhost, port: 9200 }
+    indexes:
+        website:
+              client: default
+              settings:
+                index:
+                  analysis:
+                    analyzer:
+                      name_analyzer:
+                        type: custom
+                        tokenizer: standard
+                        filter: [lowercase, asciifolding, elision]
+              types:
+                player:
+                  persistence:
+                        driver: orm
+                        model: App\Entity\Player
+                        provider: ~
+                        finder: ~

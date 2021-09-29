@@ -17,6 +17,13 @@ class Sort
     	return ($v1['sum'] < $v2['sum']) ? 1 : -1;
     }
 
+    public function sortByGoal($v1, $v2) {
+    	if($v1['goal'] == $v2['goal']) {
+    		return 0;
+    	}
+    	return ($v1['goal'] < $v2['goal']) ? 1 : -1;
+    }
+
     public static function sortByDate($v1, $v2) {
         if($v1->getData() < $v2->getData()){
             return -1;

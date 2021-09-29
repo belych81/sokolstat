@@ -34,3 +34,27 @@ services:
         tags:
             - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\News'}
             - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\News'}
+
+  #  redis_cache_service:
+  #      class: Doctrine\Common\Cache\RedisCache
+  #      calls:
+  #          - method: setRedis
+  #            arguments:
+  #              - '@redis'
+
+  #  redis:
+  #      class: Redis
+  #      public: false
+  #      calls:
+  #          - method: connect
+  #            arguments:
+  #              - '/var/run/redis/redis.sock' # or host/ip with port
+  #          - method: select
+  #            arguments:
+  #              - 13 # change database by index
+
+  #  App\Controller\PlayerController:
+  #          tags: ['controller.service_arguments']
+  #          public: true
+  #          arguments:
+  #              - '@fos_elastica.finder.website.player'

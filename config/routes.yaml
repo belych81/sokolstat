@@ -571,7 +571,7 @@ player:
 
 news_search:
     path:  /search
-    controller: App\Controller\DefaultController:search
+    controller: App\Controller\PlayerController:search
     options:
         expose: true
 

@@ -32,6 +32,7 @@ use App\Form\SostavType;
 use App\Form\ShipplayerUpdateType;
 use App\Form\FnlplayerUpdateType;
 use App\Service\Menu;
+//use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlayerController extends AbstractController
 {
+/*
+    private $finder;
+
+    public function __construct(PaginatedFinderInterface $finder)
+    {
+        $this->finder = $finder;
+    }
+*/
+    public function search(Request $request)
+    {
+        $query = htmlspecialchars($request->request->get('query'));
+        $arQuery = explode(" ", $query);
+/*
+        $results = $this->finder->findHybrid($query);
+
+        var_dump($results);*/
+        $em = $this->getDoctrine()->getManager();
+
+        $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
+        $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
+        $player = [];
+        foreach($responsePlayer as $val){
+            $player['player/'.$val->getTranslit().'/'] = $val->getName();
+        }
+        $team = [];
+        foreach($responseTeam as $val){
+            $team['team/'.$val->getTranslit()] = $val->getName();
+        }
+        return new JsonResponse(array_merge($player, $team));
+    }
+
     public function edit($id)
     {
         $entity = $this->getDoctrine()->getRepository(Player::class)->find($id);
