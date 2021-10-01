@@ -575,10 +575,6 @@ news_search:
     options:
         expose: true
 
-player_show:
-    path:  /player/{id}
-    controller: App\Controller\RusplayerController:show
-
 player_edit:
     path: /player/edit/{id}
     controller: App\Controller\PlayerController:edit
@@ -592,6 +588,10 @@ player_search:
     path: /player/search
     controller: App\Controller\RusplayerController:search
 
+player_show:
+    path:  /player/{id}
+    controller: App\Controller\RusplayerController:show
+    
 player_newSb:
     path:  /playeradmin/admin/sb/{season}
     controller: App\Controller\PlayerController:newSb

@@ -163,7 +163,7 @@ Atom — отличный редактор кода с богатым функц
           {% if lchGroups %}
             {% for stadia, group in lchGroups %}
               <div class="ec-group">
-                <div class="lch-group-name">{{ stadia }}</div>
+                <div class="lch-group-name">{{ group['matches'].0.stadia.name }}</div>
                 {% for match in group['matches'] %}
                   <div class="eurocup-matches-sostav lch-match">
                     <div class="eurocup-matches-sostav-title">
@@ -194,7 +194,7 @@ Atom — отличный редактор кода с богатым функц
                     {% endif %}
                   </div>
                 {% endfor %}
-                {{ include('default/tableBlock.html.twig', { 'arr': group['table'] }) }}
+                {{ include('default/lchTable.html.twig', { 'arr': group['table'] }) }}
               </div>
             {% endfor %}
           {% endif %}

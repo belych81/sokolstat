@@ -19,21 +19,23 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
-    public function findByLastWeek($data)
+    public function findByLastWeek($data, $noFnl = false)
     {
-        return $this->createQueryBuilder('t')
+       $qb = $this->createQueryBuilder('t')
             ->join('t.team', 'tm')
             ->join('tm.country', 'c')
             ->where('t.data >= :data')
-            //->andWhere('c.name IN (:fnl)')
             ->andWhere('t.status = 0')
-            ->setParameter('data', $data)
-          //  ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
-            //  'Франция', 'ФНЛ'])
-            ->orderBy('t.data', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->setParameter('data', $data);
+
+        if($noFnl) {
+          $qb->andWhere('c.name IN (:fnl)')
+             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
+              'Франция']);
+        }
+        $qb->orderBy('t.data', 'ASC');
+
+        return  $qb->getQuery()->getResult();
     }
 
     public function getMatchesTomm()

@@ -125,9 +125,13 @@ class Rating
           case 'СК' :
             $coef = 9;
             break;
-            case 'ЛЕ' :
-              $coef = 7;
-              break;
+          case 'ЛЕ' :
+          case 'КЧМ' :
+            $coef = 7;
+            break;
+          case 'ЛК' :
+            $coef = 6;
+            break;
         }
       } else {
         switch ($turnir) {
@@ -135,9 +139,13 @@ class Rating
           case 'СК' :
             $coef = 1;
             break;
-            case 'ЛЕ' :
-              $coef = 3;
-              break;
+          case 'ЛЕ' :
+          case 'КЧМ' :
+            $coef = 3;
+            break;
+          case 'ЛК' :
+            $coef = 4;
+            break;
         }
       }
       return $coef;
@@ -151,16 +159,16 @@ class Rating
           case 'Испания' :
             $coef = 5;
             break;
-            case 'Италия' :
-            case 'Германия' :
-              $coef = 5;
-              break;
-              case 'Франция' :
-                $coef = 5;
-                break;
-                case 'Россия' :
-                  $coef = 3;
-                  break;
+          case 'Италия' :
+          case 'Германия' :
+            $coef = 5;
+            break;
+          case 'Франция' :
+            $coef = 5;
+            break;
+          case 'Россия' :
+            $coef = 3;
+            break;
         }
       } else {
         switch ($country) {
@@ -168,16 +176,16 @@ class Rating
           case 'Испания' :
             $coef = 5;
             break;
-            case 'Италия' :
-            case 'Германия' :
-              $coef = 5;
-              break;
-              case 'Франция' :
-                $coef = 5;
-                break;
-                case 'Россия' :
-                  $coef = 7;
-                  break;
+          case 'Италия' :
+          case 'Германия' :
+            $coef = 5;
+            break;
+          case 'Франция' :
+            $coef = 5;
+            break;
+          case 'Россия' :
+            $coef = 7;
+            break;
         }
       }
       return $coef;

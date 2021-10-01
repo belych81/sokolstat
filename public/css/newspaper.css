@@ -39,10 +39,10 @@ p {
   line-height: 1.5;
 }
 .eurocup-matches-sostav {
-  font-size: 8px;
+  font-size: 9px;
   border: 2px solid #000;
   width: 47%;
-  height: 160px;
+  height: 180px;
   margin: 3px;
   display: inline-block;
 }
@@ -204,15 +204,25 @@ p {
   display: inline-block;
   width: 49%;
   vertical-align: middle;
+  border: 1px solid #002;
+  margin-top: 5px;
 }
 .lch-match {
   display: block;
   width: 95%;
   border-bottom: none;
-  margin: 0;
+  margin: 0 auto;
+  border: none;
 }
 .lch-group-name {
-  color: #856b6b;
+  color: #5c4a4a;
   font-weight: bold;
   margin: 5px 0;
+  text-align: center;
+}
+.lch-table {
+  width: 98%
+}
+.lch-table .shipTable {
+  border: none;
 }
