@@ -1,17 +1,18 @@
+{% set host = 'localhost:8000' %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Еженедельник "СоколСтат"</title>
-    <link type="text/css" rel="stylesheet" href="https://localhost:8000/css/newspaper.css" />
+    <link type="text/css" rel="stylesheet" href="https://{{ host }}/css/newspaper.css" />
 </head>
 <body>
   <div class="container">
     <div class="np-title">
-      <img src="https://localhost:8000/images/logo-newspaper.png" />
+      <img src="https://{{ host }}/images/logo-newspaper.png" />
     </div>
     <div><strong>№ 1</strong>&nbsp;&nbsp;&nbsp;&nbsp;12 МАРТА</div>
-    <div class="prime-image"><img src="https://localhost:8000/images/2021-03-09_12-50.png" /></div>
+    <div class="prime-image"><img src="https://{{ host }}/images/2021-03-09_12-50.png" /></div>
     <div class="prime-image-title">Квинси Промес - автор победного мяча в ворота "Краснодара"</div>
     <div class="prime-bottom-blocks">
         <div>
@@ -29,7 +30,7 @@
     <div>
       {% if rfplMatch %}
         <div class="title-emblem">
-          <img src="https://localhost:8000/images/rfpl.png" class="emblem-turnir" />
+          <img src="https://{{ host }}/images/rfpl.png" class="emblem-turnir" />
           <div class="top-line">Российская Премьер-Лига</div>
         </div>
         <div class="article">
@@ -55,7 +56,7 @@ Atom — отличный редактор кода с богатым функц
 Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
 Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab,
 или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.</p>
-<img src="https://localhost:8000/images/jikia.png" class="article-img">
+<img src="https://{{ host }}/images/jikia.png" class="article-img">
           </article>
         </div>
         {% for tour in rfplTours %}
@@ -111,7 +112,7 @@ Atom — отличный редактор кода с богатым функц
 
       {% for key, country in tours %}
         {% if key == 'ФНЛ' %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'logo2020.png', 'title': 'Первенство ФНЛ' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'logo2020.png', 'title': 'Первенство ФНЛ' }) }}
           <div class="article">
             <h2 class="article-title">Заголовок</h2>
             <article class="textcols">
@@ -154,7 +155,7 @@ Atom — отличный редактор кода с богатым функц
 {# Lch #}
       <div class="np-champ-matches">
         {% if lch['lch'] is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols">
             Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
@@ -171,7 +172,7 @@ Atom — отличный редактор кода с богатым функц
 {# Le #}
       <div class="np-champ-matches">
         {% if le['lch'] is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. ГРУППОВОЙ ЭТАП' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. ГРУППОВОЙ ЭТАП' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols">
             Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
@@ -193,7 +194,7 @@ Atom — отличный редактор кода с богатым функц
 
       <div class="np-champ-matches">
         {% if mund['lch'] is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'mund2022.jpg', 'title': 'ЧЕМПИОНАТ МИРА-2022. ЕВРОПЕЙСКАЯ КВАЛИФИКАЦИЯ' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'mund2022.jpg', 'title': 'ЧЕМПИОНАТ МИРА-2022. ЕВРОПЕЙСКАЯ КВАЛИФИКАЦИЯ' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols">
             Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
