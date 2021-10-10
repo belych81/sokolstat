@@ -85,16 +85,24 @@ class Functions
       return $f5;
   }
 
-  public function getCalendar(array $obMatches, bool $isRussia = false): array
+  public function getCalendar(array $obMatches, string $entity = 'rfpl'): array
   {
     $calend = [];
     foreach($obMatches as $match) {
       $date = $match->getData()->format('j.n');
-      if($isRussia){
-        $calend[$date][] = $match;
-      } else {
-        $country = $match->getCountry()->getName();
-        $calend[$country][$date][] = $match;
+      switch($entity) {
+        case 'rfpl':
+          $calend[$date][] = $match;
+          break;
+        case 'tour':
+          $country = $match->getCountry()->getName();
+          $calend[$country][$date][] = $match;
+            break;
+        case 'ec':
+          $turnir = $match->getTurnir()->getName();
+          $stadia = $match->getStadia()->getAlias();
+          $calend[$turnir][$stadia][$date][] = $match;
+            break;
       }
     }
     return $calend;

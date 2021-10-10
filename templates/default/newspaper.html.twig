@@ -151,65 +151,35 @@ Atom — отличный редактор кода с богатым функц
       {% endfor %}
       {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
 
+{# Lch #}
       <div class="np-champ-matches">
-        {% if lch is not empty %}
-        {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
-        <article class="textcols">
-          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
-Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
-Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
-        </article>
-
-          {% if lchGroups %}
-            {% for stadia, group in lchGroups %}
-              <div class="ec-group">
-                <div class="lch-group-name">{{ group['matches'].0.stadia.name }}</div>
-                {% for match in group['matches'] %}
-                  <div class="eurocup-matches-sostav lch-match">
-                    <div class="eurocup-matches-sostav-title">
-                      <div class="match-sostav-title">
-                        <span class="match-main-info">
-                          {{ match.team.name | upper}} -
-                          {{ match.team2.name | upper }} -
-                          {{ match.score | replace({'-': ":"}) }}
-                        </span>
-                      </div>
-                      <div class="match-info">
-                        <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
-                          <span class="match-main-info">
-                            {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.
-                          </span>
-                        <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" style="float: right;" />
-                      </div>
-                    </div>
-                    {% if match.ecsostav %}
-                         <div class="match-sostav">
-                            <p><em><b>{{ match.team.name }}</b></em>:
-                              {{ match.ecsostav.team }}</p>
-                            <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
-                            {% if match.score != '0-0' %}
-                            <p><b>Голы</b>: {{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                  </div>
-                {% endfor %}
-                {{ include('default/lchTable.html.twig', { 'arr': group['table'] }) }}
-              </div>
+        {% if lch['lch'] is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
+          <h2 class="article-title">Заголовок</h2>
+          <article class="textcols">
+            Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+  Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+  Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
+          </article>
+          {% if lch['lchGroups'] %}
+            {% for stadia, group in lch['lchGroups'] %}
+              {{ include('default/ecGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
             {% endfor %}
           {% endif %}
-
         {% endif %}
-
-        {% if le is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. 1/16 финала. ОТВЕТНЫЕ МАТЧИ' }) }}
+      </div>
+{# Le #}
+      <div class="np-champ-matches">
+        {% if le['lch'] is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. ГРУППОВОЙ ЭТАП' }) }}
+          <h2 class="article-title">Заголовок</h2>
           <article class="textcols">
             Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
 Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
 Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
           </article>
           <div class="eurocup-matches">
-            {% for match in le %}
+            {% for match in le['lch'] %}
               <div>
                 <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
                 <b>{{ match.team2.name | upper }}</b> -
@@ -218,6 +188,23 @@ Atom — отличный редактор кода с богатым функц
               </div>
             {% endfor %}
           </div>
+        {% endif %}
+      </div>
+
+      <div class="np-champ-matches">
+        {% if mund['lch'] is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'fileName': 'mund2022.jpg', 'title': 'ЧЕМПИОНАТ МИРА-2022. ЕВРОПЕЙСКАЯ КВАЛИФИКАЦИЯ' }) }}
+          <h2 class="article-title">Заголовок</h2>
+          <article class="textcols">
+            Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
+Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
+Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
+          </article>
+          {% if mund['lchGroups'] %}
+            {% for stadia, group in mund['lchGroups'] %}
+              {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+            {% endfor %}
+          {% endif %}
         {% endif %}
       </div>
 

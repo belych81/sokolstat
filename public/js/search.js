@@ -117,6 +117,7 @@ function parseUrlQuery() {
         url: Routing.generate(route, params),
         dataType: 'json',
         success: function(data){
+					console.log(data);
             $(".spiski.selected").removeClass('selected');
             $(".spiski[data-id="+id+"]").addClass('selected');
 						if(route == 'playeradmin_editChampTotal'){

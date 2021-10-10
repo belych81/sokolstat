@@ -1,0 +1,49 @@
+<div class="ec-group">
+  <div class="lch-group-name">{{ group['matches'].0.stadia.name }}</div>
+  {% for match in group['matches'] %}
+    <div class="eurocup-matches-sostav lch-match">
+      <div class="eurocup-matches-sostav-title">
+        <div class="match-sostav-title">
+          <span class="match-main-info">
+            {{ match.team.name | upper}} -
+            {{ match.team2.name | upper }} -
+            {{ match.score | replace({'-': ":"}) }}
+          </span>
+        </div>
+        <div class="match-info">
+          <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
+          {% if match.ecsostav.city %}
+            <div class="match-main-info">
+              {{ match.ecsostav.city.name }}.
+              {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
+              {% if match.ecsostav.zriteli > 0 %}
+                {{ match.ecsostav.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
+              {% endif %}
+              Судья {{ match.ecsostav.referee.name }} ({{ match.ecsostav.referee.country.name }}).
+            </div>
+          {% endif %}
+          <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
+        </div>
+      </div>
+      {% if match.ecsostav %}
+           <div class="match-sostav">
+              <p><em><b>{{ match.team.name }}</b></em>:
+                {{ match.ecsostav.team }}</p>
+              <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
+              {% if match.score != '0-0' %}
+              <p><b>Голы</b>: {{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
+              {% endif %}
+          </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <div class="ec-matches-tomm">
+    {% for date, dates in group['tomm'] %}
+      <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября'})}}</strong></div>
+      {% for match in dates %}
+        <div>{{ match.team }} - {{ match.team2 }}</div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+  {{ include('default/lchTable.html.twig', { 'arr': group['table'] }) }}
+</div>

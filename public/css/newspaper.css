@@ -42,7 +42,7 @@ p {
   font-size: 9px;
   border: 2px solid #000;
   width: 47%;
-  height: 180px;
+  height: 200px;
   margin: 3px;
   display: inline-block;
 }
@@ -52,15 +52,13 @@ p {
 .eurocup-matches-sostav-title {
   text-align: center;
   position: relative;
-  height: 55px;
+  margin-bottom: 5px;
 }
 .eurocup-matches-sostav-title img {
   height: 30px;
 }
 .match-team-img {
-  position: absolute;
-  top: 25px;
-  left: 5px;
+  float: left;
 }
 .match-team2-img {
   position: absolute;
@@ -69,6 +67,7 @@ p {
 }
 .match-info {
   margin-top: 5px;
+  font-weight: bold;
 }
 .match-sostav {
   margin: 5px;
@@ -153,6 +152,9 @@ p {
 }
 .match-main-info {
     font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+    width: 200px;
 }
 .shipTable {
   border: 1px solid #000;
@@ -225,4 +227,7 @@ p {
 }
 .lch-table .shipTable {
   border: none;
+}
+.ec-matches-tomm {
+  text-align: center;
 }

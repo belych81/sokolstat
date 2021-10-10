@@ -23,6 +23,7 @@ use App\Entity\Ectable;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
+use App\Service\Newspaper;
 use App\Service\Pdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -166,12 +167,10 @@ class DefaultController extends AbstractController
     return new Response("<h1>Футбол</h1>");
   }
 
-  public function newspaperData(Props $props, Functions $functions)
+  public function newspaperData(Props $props, Functions $functions, Newspaper $newspaper)
   {
     $today = date('j.m.Y');
-    $fromDate = new \DateTime('now');
-    $fromDate->setTime(0, 0, 0);
-    $fromDate->modify('-7 days');
+    $fromDate = $newspaper->getNewspaperDate();
     $lastSeason = $props->getLastSeason();
 
     $em = $this->getDoctrine();
@@ -207,29 +206,10 @@ class DefaultController extends AbstractController
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
 
-    $isLchEmblems = false;
-    $lchStadia = false;
-    $lchGroups = false;
-    $lch = $this->getDoctrine()->getRepository(Eurocup::class)
-            ->getEntityByWeek($fromDate, 'leagueChampions');
-    if(!empty($lch)){
-      $lchStadia = $lch[0]->getStadia()->getAlias();
-      $isLchEmblems = true;
-      if (strpos($lchStadia, 'group') !== false) {
-        foreach ($lch as $match) {
-          $lchGroups[$match->getStadia()->getAlias()]['matches'][] = $match;
-        }
-        foreach($lchGroups as $key => $group) {
-
-          $lchGroups[$key]['table'] = $this->getDoctrine()->getRepository(Ectable::class)
-             ->getEcTable('leagueChampions', $lastSeason, $key);
-
-        }
-      }
-    }
-
-    $le = $this->getDoctrine()->getRepository(Eurocup::class)
-            ->getEntityByWeek($fromDate, 'leagueEuropa');
+    $mund = $newspaper->getMundial('otbor-worldcup');
+    $lch = $newspaper->getEurocup('leagueChampions');
+    $le = $newspaper->getEurocup('leagueEuropa');
+    $lk = $newspaper->getEurocup('conference-league');
 
     $bombs = [];
     $top5 = $props->getTops();
@@ -255,7 +235,7 @@ class DefaultController extends AbstractController
     $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm, true);
 
     $tourTomm = $em->getRepository(Tour::class)->getMatchesTomm();
-    $tourCalend = $functions->getCalendar($tourTomm);
+    $tourCalend = $functions->getCalendar($tourTomm, 'tour');
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
@@ -264,11 +244,10 @@ class DefaultController extends AbstractController
       'tourCalend' => $tourCalend,
       'tours' => $tours,
       'today' => $today,
-      'lchGroups' => $lchGroups,
+      'lk' => $lk,
       'lch' => $lch,
       'le' => $le,
-      'isLchEmblems' => $isLchEmblems,
-      'lchStadia' => $lchStadia,
+      'mund' => $mund,
       'rusBombs' => $rusBombs,
       'fnlBombs' => $fnlBombs,
       'bombs' => $bombs,

@@ -4,6 +4,7 @@ namespace App\Service;
 class Props
 {
     private $lastSeason = '2021-22';
+    private $lastMundSeason = 2022;
     private $sbornieRusYear = 2021;
     private $tops = ['Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
     private $topEmblem = [
@@ -17,6 +18,11 @@ class Props
     public function getLastSeason(): ?string
     {
       return $this->lastSeason;
+    }
+
+    public function getLastMundSeason(): ?string
+    {
+      return $this->lastMundSeason;
     }
 
     public function getTops(): array

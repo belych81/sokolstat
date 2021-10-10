@@ -1,0 +1,39 @@
+<div class="ec-group">
+  <div class="lch-group-name">{{ group['matches'].0.stadia.name }}</div>
+  {% for match in group['matches'] %}
+    <div class="eurocup-matches-sostav lch-match">
+      <div class="eurocup-matches-sostav-title">
+        <div class="match-sostav-title">
+          <span class="match-main-info">
+            {{ match.country.name | upper}} -
+            {{ match.country2.name | upper }} -
+            {{ match.score | replace({'-': ":"}) }}
+          </span>
+        </div>
+        <div class="match-info">
+          {% if match.city %}
+            <div class="match-main-info">
+              {{ match.city.name }}.
+              {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
+              {% if match.zriteli > 0 %}
+                {{ match.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
+              {% endif %}
+              Судья {{ match.referee.name }} ({{ match.referee.country.name }}).
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if match.game %}
+           <div class="match-sostav">
+              <p><em><b>{{ match.country.name }}</b></em>:
+                {{ match.game }}</p>
+              <p><em><b>{{ match.country2.name }}</b></em>: {{ match.game2 }}</p>
+              {% if match.score != '0-0' %}
+              <p><b>Голы</b>: {{ match.goal | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
+              {% endif %}
+          </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  {{ include('default/mundTable.html.twig', { 'arr': group['table'] }) }}
+</div>

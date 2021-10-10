@@ -108,4 +108,24 @@ class MundialRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function getEntityByWeek($date, $turnir)
+    {
+        $qb = $this->createQueryBuilder('m')
+                ->select('m', 's', 'st', 't')
+                ->join('m.turnir', 't')
+                ->join('m.season', 's')
+                ->join('m.stadia', 'st')
+                ->join('m.country', 'c')
+                ->where("m.data >= :data")
+                ->setParameter('data', $date)
+                ->andWhere("t.alias = :turnir")
+                ->setParameter('turnir', $turnir)
+                ->andWhere("m.status = 0")
+                ->orderBy('st.rank, m.data, m.id');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }
