@@ -1,20 +1,36 @@
 function parseUrlQuery() {
-	    var data = {};
-	    if(location.search) {
-	        var pair = (location.search.substr(1)).split('&');
-	        for(var i = 0; i < pair.length; i ++) {
-	            var param = pair[i].split('=');
-	            data[param[0]] = param[1];
-	        }
-	    }
-	    return data;
-	}
+    var data = {};
+    if(location.search) {
+        var pair = (location.search.substr(1)).split('&');
+        for(var i = 0; i < pair.length; i ++) {
+            var param = pair[i].split('=');
+            data[param[0]] = param[1];
+        }
+    }
+    return data;
+}
+
+function scrollToBlock(to, speed, offset) {
+  if (typeof to === 'string') to = $(to);
+  if (!to[0]) return;
+  offset = offset || 72;
+  speed = speed || 1000;
+  $('html, body').stop().animate({
+    scrollTop: to.offset().top - offset
+  }, speed);
+}
 
   $(function(){
 		$("select").chosen({
 			no_results_text: "Не нашлось",
 			search_contains: true,
 			width: '180px'
+		});
+
+		$('.scroll-to-btn').on('click', function () {
+		  var to = $(this).attr('href') || $(this).data('href');
+		  scrollToBlock(to);
+		  return false;
 		});
 
 		$("select[name=teams]").change(function(){

@@ -52,9 +52,14 @@
         <p><a href="{{ path('eurocup_newMatch', {'season': app.request.get('season')}) }}">
                 Добавить матч</a></p>
          {% endif %}
+         <ul class="stadia-scroll-list">
+            {% for stad in stadies %}
+              <li><a class="scroll-to-btn stadia-scroll" href="#{{ stad.alias }}">{{ stad.name }}</a></li>
+            {% endfor %}
+        </ul>
          <table>
          {% for stad in stadies %}
-             <tr class="shipTableTitle">
+             <tr class="shipTableTitle" id="{{ stad.alias }}">
                    <td colspan="4" class="tableGoal">{{ stad.name }}</td>
              </tr>
              {% if stad.stadiamatches2 is not empty %}
