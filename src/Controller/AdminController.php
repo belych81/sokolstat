@@ -42,7 +42,7 @@ class AdminController extends AbstractController
       $entityClass = 'App\Entity\\'.$entity;
       $page = intval($request->query->get('page') ?? 1);
       $sortField = $request->query->get('sortField') ?? 'id';
-      $sortOrder = $request->query->get('sortOrder') ?? 'desc';
+      $sortOrder = $request->query->get('sortOrder') ?? 'ASC';
       $prepareSort = $sort->prepareSort($cols, $sortField, $sortOrder);
       $arFilter = [];
       foreach ($filter as $value) {

@@ -15,6 +15,14 @@ class Admin
           'fields' => ['id', 'player', 'country', 'team', 'season', 'game', 'goal', 'born'],
           'filter' => ['season', 'team', 'country']
         ],
+        'Cupplayer' => [
+          'fields' => ['id', 'player', 'country', 'team', 'season', 'game', 'goal', 'born'],
+          'filter' => ['season', 'team', 'country']
+        ],
+        'Ecplayer' => [
+          'fields' => ['id', 'player', 'country', 'team', 'season', 'game', 'goal', 'born'],
+          'filter' => ['season', 'team', 'country']
+        ],
         'Shipplayer' => [
           'fields' => ['id', 'player', 'country', 'team', 'season', 'game', 'goal', 'born'],
           'filter' => ['season', 'team', 'country']

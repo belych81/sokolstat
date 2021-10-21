@@ -44,10 +44,10 @@ class Sort
       }
       $fieldsSortOrder = [];
       foreach ($fields as $field) {
-        if($currentField == $field && $currentOrder == 'ASC'){
-          $fieldsSortOrder[$field] = 'DESC';
-        } else {
+        if($currentField == $field && $currentOrder == 'DESC'){
           $fieldsSortOrder[$field] = 'ASC';
+        } else {
+          $fieldsSortOrder[$field] = 'DESC';
         }
       }
       return ['arSort' => $arSort, 'fieldsSortOrder' => $fieldsSortOrder];
