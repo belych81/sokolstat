@@ -236,6 +236,7 @@ class DefaultController extends AbstractController
 
     $tourTomm = $em->getRepository(Tour::class)->getMatchesTomm();
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
+    $host = $_SERVER['SERVER_NAME']);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
@@ -251,7 +252,8 @@ class DefaultController extends AbstractController
       'rusBombs' => $rusBombs,
       'fnlBombs' => $fnlBombs,
       'bombs' => $bombs,
-      'topEmblem' => $topEmblem
+      'topEmblem' => $topEmblem,
+      'host' => $host
     ]);
   }
 
