@@ -37,13 +37,15 @@
       {% endif %}
     </div>
   {% endfor %}
-  <div class="ec-matches-tomm">
-    {% for date, dates in group['tomm'] %}
-      <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября'})}}</strong></div>
-      {% for match in dates %}
-        <div>{{ match.team }} - {{ match.team2 }}</div>
+  {% if group['tomm'] is defined %}
+    <div class="ec-matches-tomm">
+      {% for date, dates in group['tomm'] %}
+        <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября'})}}</strong></div>
+        {% for match in dates %}
+          <div>{{ match.team | upper }} - {{ match.team2 | upper }}</div>
+        {% endfor %}
       {% endfor %}
-    {% endfor %}
-  </div>
+    </div>
+  {% endif %}
   {{ include('default/lchTable.html.twig', { 'arr': group['table'] }) }}
 </div>

@@ -17,7 +17,7 @@
       {% for entity in arr %}
           <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
               <td class="player-position">{{ loop.index }}.</td>
-              <td class="tableLeft">{{ entity.team.name }}</td>
+              <td class="tableLeft">{{ entity.team.name | upper }}</td>
               <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
               <td>{{ entity.wins }}</td>
               <td>{{ entity.nich }}</td>

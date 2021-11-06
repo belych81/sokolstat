@@ -92,14 +92,14 @@ class Functions
       $date = $match->getData()->format('j.n');
       switch($entity) {
         case 'rfpl':
-          $calend[$date][] = $match;
+          $calend['rfpl'][$date][] = $match;
           break;
         case 'tour':
           $country = $match->getCountry()->getName();
           $calend[$country][$date][] = $match;
             break;
         case 'ec':
-          $turnir = $match->getTurnir()->getName();
+          $turnir = $match->getTurnir()->getAlias();
           $stadia = $match->getStadia()->getAlias();
           $calend[$turnir][$stadia][$date][] = $match;
             break;

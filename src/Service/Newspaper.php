@@ -16,7 +16,7 @@ class Newspaper
   private $em;
   private $props;
   private $functions;
-  private $newspaperDate = '-7 days';
+  private $newspaperDate = '-37 days';
 
   public function __construct(EntityManagerInterface $em, Props $props, Functions $functions)
   {
@@ -54,7 +54,9 @@ class Newspaper
         foreach($lchGroups as $key => $group) {
           $lchGroups[$key]['table'] = $this->em->getRepository(Ectable::class)
              ->getEcTable($turnir, $this->props->getLastSeason(), $key);
-          $lchGroups[$key]['tomm'] = $ecCalend['ЛЧ'][$key];
+           if(key_exists($turnir, $ecCalend)){
+             $lchGroups[$key]['tomm'] = $ecCalend[$turnir][$key];
+          }
         }
       }
     }

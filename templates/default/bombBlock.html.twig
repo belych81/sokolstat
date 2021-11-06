@@ -1,4 +1,5 @@
 <div class="champ-table champs">
+  <div class='calendar'>
     <table class="champ-rus-bomb">
         <thead>
             <tr class="shipTableTitle">
@@ -14,15 +15,16 @@
                 </td>
             </tr>
         {% endfor %}
-      </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
   {% if tourCalend %}
   <div class='calendar'>
     <div class="calendar-title">МАТЧИ, МАТЧИ</div>
     {% for champ, matchCountry in tourCalend %}
       {% if champ == country %}
         {% for k, matchDate in matchCountry %}
-          <div><strong>{{ k | replace({'.9': ' сентября', '.10': ' октября'}) }}</strong></div>
+          <div><strong>{{ k | replace({'.9': ' сентября', '.10': ' октября', '.11': 'ноября'}) }}</strong></div>
           {% for match in matchDate %}
             <div>{{ match.team }} - {{ match.team2 }}</div>
           {% endfor %}

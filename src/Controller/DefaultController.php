@@ -232,7 +232,7 @@ class DefaultController extends AbstractController
     $fnlBombs = $functions->getNewspaperBomb($arBombFnl);
 
     $rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
-    $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm, true);
+    $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
 
     $tourTomm = $em->getRepository(Tour::class)->getMatchesTomm();
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');

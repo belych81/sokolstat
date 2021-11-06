@@ -9,9 +9,6 @@ table {
 thead {
   border-bottom: 1px solid #002;
 }
-p {
-  margin: 0;
-}
 .textcols {
   text-indent: 10px;
   /*column-width: 48%;
@@ -20,6 +17,8 @@ p {
   text-align: justify;
   margin-bottom: 15px;
   display: block;
+  font-size: 12px;
+  line-height: 1.5;
 }
 .article-title {
   text-align: center;
@@ -42,7 +41,6 @@ p {
   font-size: 9px;
   border: 2px solid #000;
   width: 47%;
-  height: 170px;
   margin: 3px;
   display: inline-block;
 }
@@ -73,7 +71,8 @@ p {
   margin: 5px;
   text-align: justify;
 }
-.np-champ-matches{
+.np-champ-matches div {
+    line-height: 1.5;
 }
 .np-matches-team{
   font-weight: bold;
@@ -112,9 +111,11 @@ p {
   color: #936;
   font-weight: bold;
   height: 100px;
+  margin: 80px 0 190px;
 }
 .title-emblem {
   text-align: center;
+  margin: 50px 0 20px;
 }
 .title-emblem img {
   float: left;
@@ -180,7 +181,7 @@ p {
   margin-top: 5px;
 }
 .champ-rus-bomb {
-  border: 1px solid #002;
+  width: 100%;
 }
 .calendar {
   border: 1px solid #002;
@@ -208,7 +209,7 @@ p {
   width: 49%;
   vertical-align: top;
   border: 1px solid #002;
-  margin-top: 5px;
+  margin: 5px 0 20px;
 }
 .lch-match {
   display: block;
@@ -237,6 +238,7 @@ p {
 }
 .np-number {
   font-size: 16px;
+  margin: 20px 0;
 }
 .mund-group {
   display: inline-block;
@@ -251,16 +253,31 @@ p {
 }
 footer {
   background-color: #cfbaba;
-  margin-top: 10px;
-  height: 20px;
+  margin-top: 930px;
+  height: 30px;
   text-align: center;
 }
 footer div {
-  line-height: 20px;
+  line-height: 30px;
 }
 footer div span {
   margin: 0 20px;
 }
 .np-number span {
-  float: right;
+  margin-left: 400px;
+}
+.np-download {
+  z-index: 100;
+  position:fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #936;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+}
+.np-download a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
 }

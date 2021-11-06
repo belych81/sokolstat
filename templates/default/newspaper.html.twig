@@ -6,6 +6,7 @@
     <link type="text/css" rel="stylesheet" href="https://{{ host }}/css/newspaper.css" />
 </head>
 <body>
+  <button class="np-download"><a href="/newspapers/pdf/{{ newspaper_number }}.pdf" download="">Скачать газету</a></button>
   <div class="container">
     <div class="np-title">
       <img src="https://{{ host }}/images/logo-newspaper.png" />
@@ -81,37 +82,7 @@ Atom — отличный редактор кода с богатым функц
             {% endfor %}
           {% endif %}
         {% endfor %}
-
-      <div class="champ-table champs">
-          <table class="champ-rus-bomb">
-              <thead>
-                  <tr class="shipTableTitle">
-                      <th colspan="2" class="calendar-title">Бомбардиры</th>
-                  </tr>
-              </thead>
-              <tbody>
-              {% for key, rusBomb in rusBombs %}
-                  <tr>
-                      <td class="bomb-numb-goals"><strong>{{ key }}:</strong></td>
-                      <td class="">
-                        {{ rusBomb }}.
-                      </td>
-                  </tr>
-              {% endfor %}
-            </tbody>
-        </table>
-        {% if rfplMatchCalend %}
-        <div class='calendar'>
-          <div class="calendar-title">МАТЧИ, МАТЧИ</div>
-          {% for key, matchDate in rfplMatchCalend %}
-            <div><strong>{{ key | replace({'.10': ' октября'}) }}</strong></div>
-            {% for match in matchDate %}
-              <div>{{ match.team }} - {{ match.team2 }}</div>
-            {% endfor %}
-          {% endfor %}
-        </div>
-        {% endif %}
-      </div>
+        {{ include('default/bombBlock.html.twig', { 'fnlBombs': rusBombs, 'tourCalend': rfplMatchCalend, 'country': 'rfpl' }) }}
     {% endif %}
 
       {% for key, country in tours %}
