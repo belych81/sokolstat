@@ -363,7 +363,11 @@ class ShiptableController extends AbstractController
     public function newRus($id)
     {
         $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
-        $form   = $this->createForm(Rfplmatch2Type::class, $entity);
+        $season = $entity->getSeason()->getName();
+
+        $form   = $this->createForm(Rfplmatch2Type::class, $entity, [
+              'season' => $season
+            ]);
 
         return $this->render('shiptable/newRus.html.twig', array(
             'entity' => $entity,
@@ -374,7 +378,11 @@ class ShiptableController extends AbstractController
     public function createRus(Request $request, $id)
     {
         $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
-        $form = $this->createForm(Rfplmatch2Type::class, $entity);
+        $season = $entity->getSeason()->getName();
+        
+        $form = $this->createForm(Rfplmatch2Type::class, $entity, [
+              'season' => $season
+            ]);
         $entity->setStatus(0);
         $form->handleRequest($request);
 

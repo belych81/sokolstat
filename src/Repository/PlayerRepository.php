@@ -287,6 +287,21 @@ class PlayerRepository extends ServiceEntityRepository
                 ;
     }
 
+    public function queryRfplTrainers($season)
+    {
+        $year = \substr($season, 0, 4);
+        $start = $year-80;
+        $end = $year-35;
+        $str_start = $start.'-01-01';
+        $str_end = $end.'-12-31';
+        return $query = $this->createQueryBuilder('p')
+                ->where("p.born BETWEEN :str_start AND :str_end")
+                ->setParameter('str_start', $str_start)
+                ->setParameter('str_end', $str_end)
+                //->orderBy('p.name')
+                ;
+    }
+
     public function queryTeamPlayers($season, $team, $country = [])
     {
         $year = \substr($season, 0, 4);
