@@ -40,8 +40,14 @@ class ShiptableController extends AbstractController
     {
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
+
         $entities = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
+
+        if(!$entities){
+          throw $this->createNotFoundException('The season does not exist');
+        }
+
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getSeasons($strana);
         $lastSeason = $this->getDoctrine()->getRepository(Tour::class)
@@ -77,6 +83,10 @@ class ShiptableController extends AbstractController
            }
             $numberTour = $this->getDoctrine()->getRepository(Tour::class)
                              ->getTours($strana, $season);
+        }
+
+        if(!$matches){
+          throw $this->createNotFoundException('The tour does not exist');
         }
 
         $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
@@ -158,6 +168,11 @@ class ShiptableController extends AbstractController
     {
         $club = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($id);
+
+        if(!$club){
+          throw $this->createNotFoundException('The club does not exist');
+        }
+
         $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->findByTeamAndSeason($club->getId(), $season);
         if(empty($isTeam)){
@@ -379,7 +394,7 @@ class ShiptableController extends AbstractController
     {
         $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
         $season = $entity->getSeason()->getName();
-        
+
         $form = $this->createForm(Rfplmatch2Type::class, $entity, [
               'season' => $season
             ]);

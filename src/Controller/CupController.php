@@ -26,6 +26,11 @@ class CupController extends AbstractController
       $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
       $stadies = $this->getDoctrine()->getRepository(Stadia::class)
         ->getStadiaCup($season);
+
+      if(!$stadies){
+        throw $this->createNotFoundException('The season does not exist');
+      }
+
       foreach ($stadies as $stadia)
       {
         $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Cup::class)
@@ -44,8 +49,18 @@ class CupController extends AbstractController
   {
       $club = $this->getDoctrine()->getRepository(Team::class)
         ->findOneByTranslit($id);
+
+      if(!$club){
+        throw $this->createNotFoundException('The club does not exist');
+      }
+
       $isTeam = $this->getDoctrine()->getRepository(Cup::class)
               ->findByTeamAndSeason($club->getId(), $season);
+
+      if(!$isTeam){
+        throw $this->createNotFoundException('The season does not exist');
+      }
+
       if(empty($isTeam)){
         return $this->redirect($this->generateUrl('cup', [
             'season' => $season]));
