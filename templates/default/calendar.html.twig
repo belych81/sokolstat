@@ -21,7 +21,7 @@
       {% set route = path('nationcup', {'season': ymatch.season.name,
       'country': ymatch.country.translit}) %}
     {% elseif ymatch.route == 'eurocup' %}
-         {% set route = path('eurocup', {'season': ymatch.season.name }) %}
+         {% set route = path('eurocup', {'season': ymatch.season.name, 'turnir': ymatch.turnir.alias }) %}
     {% elseif ymatch.route == 'nationsupercup' %}
       {% set route = path('supercup', {'country':ymatch.country.translit }) %}
     {% elseif ymatch.route == 'sbornie' %}

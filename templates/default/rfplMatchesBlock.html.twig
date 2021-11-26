@@ -13,7 +13,7 @@
       <span class="match-main-info">
         {{ match.city.name }}.
         {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.
-        {{ if match.zriteli > 0 }}
+        {% if match.zriteli > 0 %}
           {{ match.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
         {% endif %}
         Судья {{ match.referee.name }}.
