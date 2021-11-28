@@ -22,6 +22,14 @@
             <link href="{{ asset('css/chosen.css') }}" rel="stylesheet" />
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('images/i4.jpg') }}" />
+        {% if app.request.get('_route') == 'player' %}
+          <link rel="canonical" href="https://sokolstat.ru{{ path('player') }}" />
+        {% elseif app.request.get('_route') == 'championships' %}
+          <link rel="canonical" href="https://sokolstat.ru{{ path('championships', {
+            'country': app.request.get('country'),
+            'season': app.request.get('season')
+          }) }}" />
+        {% endif %}
     </head>
 
     <body>
