@@ -4,7 +4,7 @@
       <tr>
         <td>{{ loop.index }}</td>
         <td>{{ team }}</td>
-        <td>{{ score }}</td>
+        <td>{{ score.sum }} ({{ score.matches }} +{{ score.wins }}={{ score.nich }}-{{ score.porazh }} {{ score.mz }}-{{ score.mp }})</td>
       </tr>
     {% endfor %}
   </table>

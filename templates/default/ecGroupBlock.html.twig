@@ -11,18 +11,18 @@
           </span>
         </div>
         <div class="match-info">
-          <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
-          {% if match.ecsostav.city %}
-            <div class="match-main-info">
-              {{ match.ecsostav.city.name }}.
-              {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
-              {% if match.ecsostav.zriteli > 0 %}
-                {{ match.ecsostav.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
-              {% endif %}
-              Судья {{ match.ecsostav.referee.name }} ({{ match.ecsostav.referee.country.name }}).
-            </div>
+          {% if match.ecsostav and match.ecsostav.city %}
+            <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
+              <div class="match-main-info">
+                {{ match.ecsostav.city.name }}.
+                {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
+                {% if match.ecsostav.zriteli > 0 %}
+                  {{ match.ecsostav.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
+                {% endif %}
+                Судья {{ match.ecsostav.referee.name }} ({{ match.ecsostav.referee.country.name }}).
+              </div>
+            <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
           {% endif %}
-          <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
         </div>
       </div>
       {% if match.ecsostav %}
@@ -30,17 +30,17 @@
               <p><em><b>{{ match.team.name }}</b></em>:
                 {{ match.ecsostav.team }}</p>
               <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
-              {% if match.score != '0-0' %}
-              <p><b>Голы</b>: {{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
-              {% endif %}
           </div>
+      {% endif %}
+      {% if match.score != '0-0' %}
+        <p><b>Голы</b>: {{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
       {% endif %}
     </div>
   {% endfor %}
   {% if group['tomm'] is defined %}
     <div class="ec-matches-tomm">
       {% for date, dates in group['tomm'] %}
-        <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября'})}}</strong></div>
+        <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября', '.12': ' декабря'})}}</strong></div>
         {% for match in dates %}
           <div>{{ match.team | upper }} - {{ match.team2 | upper }}</div>
         {% endfor %}

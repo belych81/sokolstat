@@ -124,6 +124,30 @@
           {% endif %}
         {% endif %}
       </div>
+      {# Lk #}
+            <div class="np-champ-matches">
+              {% if lk['lch'] is not empty %}
+                {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lk.png', 'title': 'ЛИГА КОНФЕРЕНЦИЙ. ГРУППОВОЙ ЭТАП' }) }}
+                <h2 class="article-title">Заголовок</h2>
+                <article class="textcols"></article>
+                {% if lk['lchGroups'] %}
+                  {% for stadia, group in lk['lchGroups'] %}
+                    {{ include('default/ecGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+                  {% endfor %}
+                {% else %}
+                  <div class="eurocup-matches">
+                    {% for match in lk['lch'] %}
+                      <div>
+                        <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
+                        <b>{{ match.team2.name | upper }}</b> -
+                        {{ match.score }}</span>
+                        (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% endif %}
+            </div>
 
       <div class="np-champ-matches">
         {% if mund['lch'] is not empty %}

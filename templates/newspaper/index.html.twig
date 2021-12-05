@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Еженедельник "СоколСтат"
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="">
+{% endblock %}
+
+{% block sidebar %}
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-3 sidebar">
+      <div class="panel panel-success">
+        <div class="panel-body calendar">
+
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-xs-12 col-md-8 col-lg-9">
+      {{ htmlFile }}
+    </div>
+  </div>
+{% endblock %}

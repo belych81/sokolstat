@@ -135,36 +135,10 @@ class DefaultController extends AbstractController
 
   public function newspaper(Props $props)
   {
-    $options = new Options();
-    $options->setIsRemoteEnabled(true);
-    $dompdf = new Dompdf($options);
-    $html = file_get_contents(__DIR__."/test.html");
-    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-    $dompdf->loadHtml($html);
-    // (Optional) Setup the paper size and orientation
-    $dompdf->setPaper('A4', 'portrait');
-
-    // Render the HTML as PDF
-    $dompdf->render();
-    $x          = 505;
-    $y          = 790;
-    $text       = "{PAGE_NUM}";
-    $font       = $dompdf->getFontMetrics()->get_font('Helvetica', 'normal');
-    $size       = 10;
-    $color      = array(0,0,0);
-    $word_space = 0.0;
-    $char_space = 0.0;
-    $angle      = 0.0;
-
-    $dompdf->getCanvas()->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
-    /*$canvas = $dompdf->getCanvas();
-    $canvas->page_script(
-        'Pdf:outputPageNumbers($pdf, $fontMetrics, $PAGE_NUM, $PAGE_COUNT);'
-    );*/
-
-    // Output the generated PDF to Browser
-    $dompdf->stream('football_'.date("Y_m_d").'.pdf', ["Attachment" => true]);
-    return new Response("<h1>Футбол</h1>");
+    $htmlFile = file_get_contents('newspapers/5.html');
+    return $this->render('newspaper/index.html.twig', [
+      'htmlFile' => $htmlFile
+    ]);
   }
 
   public function newspaperData(Props $props, Functions $functions, Newspaper $newspaper)
@@ -299,16 +273,68 @@ class DefaultController extends AbstractController
       $coef2 = $rating->getCoefEc($score2, $turnir);
       if($rating->checkCountry($match->getTeam()->getCountry()->getName())){
         if(array_key_exists($team, $teamsRating)){
-          $teamsRating[$team] += $score1 * $addMonth * $coef;
+          $teamsRating[$team]['sum'] += $score1 * $addMonth * $coef;
+          $teamsRating[$team]['matches'] += 1;
+          $teamsRating[$team]['mz'] += $goal1;
+          $teamsRating[$team]['mp'] += $goal2;
+          if($differ > 0){
+            $teamsRating[$team]['wins'] += 1;
+          } elseif($differ < 0){
+            $teamsRating[$team]['porazh'] += 1;
+          } else {
+            $teamsRating[$team]['nich'] += 1;
+          }
         } else {
-          $teamsRating[$team] = $score1 * $addMonth * $coef;
+          $teamsRating[$team]['sum'] = $score1 * $addMonth * $coef;
+          $teamsRating[$team]['matches'] = 1;
+          $teamsRating[$team]['mz'] = $goal1;
+          $teamsRating[$team]['mp'] = $goal2;
+          if($differ > 0){
+            $teamsRating[$team]['wins'] = 1;
+            $teamsRating[$team]['porazh'] = 0;
+            $teamsRating[$team]['nich'] = 0;
+          } elseif($differ < 0){
+            $teamsRating[$team]['wins'] = 0;
+            $teamsRating[$team]['porazh'] = 1;
+            $teamsRating[$team]['nich'] = 0;
+          } else {
+            $teamsRating[$team]['wins'] = 0;
+            $teamsRating[$team]['porazh'] = 0;
+            $teamsRating[$team]['nich'] = 1;
+          }
         }
       }
       if($rating->checkCountry($match->getTeam2()->getCountry()->getName())){
         if(array_key_exists($team2, $teamsRating)){
-          $teamsRating[$team2] += $score2 * $addMonth * $coef2;
+          $teamsRating[$team2]['sum'] += $score2 * $addMonth * $coef2;
+          $teamsRating[$team2]['matches'] += 1;
+          $teamsRating[$team2]['mz'] += $goal2;
+          $teamsRating[$team2]['mp'] += $goal1;
+          if($differ < 0){
+            $teamsRating[$team2]['wins'] += 1;
+          } elseif($differ > 0){
+            $teamsRating[$team2]['porazh'] += 1;
+          } else {
+            $teamsRating[$team2]['nich'] += 1;
+          }
         } else {
-          $teamsRating[$team2] = $score2 * $addMonth * $coef2;
+          $teamsRating[$team2]['sum'] = $score2 * $addMonth * $coef2;
+          $teamsRating[$team2]['matches'] = 1;
+          $teamsRating[$team2]['mz'] = $goal2;
+          $teamsRating[$team2]['mp'] = $goal1;
+          if($differ < 0){
+            $teamsRating[$team2]['wins'] = 1;
+            $teamsRating[$team2]['porazh'] = 0;
+            $teamsRating[$team2]['nich'] = 0;
+          } elseif($differ > 0){
+            $teamsRating[$team2]['wins'] = 0;
+            $teamsRating[$team2]['porazh'] = 1;
+            $teamsRating[$team2]['nich'] = 0;
+          } else {
+            $teamsRating[$team2]['wins'] = 0;
+            $teamsRating[$team2]['porazh'] = 0;
+            $teamsRating[$team2]['nich'] = 1;
+          }
         }
       }
     }
@@ -332,18 +358,70 @@ class DefaultController extends AbstractController
       $coef2 = $rating->getCoef($score2, $country);
 
       if(array_key_exists($team, $teamsRating)){
-        $teamsRating[$team] += $score1 * $addMonth * $coef;
+        $teamsRating[$team]['sum'] += $score1 * $addMonth * $coef;
+        $teamsRating[$team]['matches'] += 1;
+        $teamsRating[$team]['mz'] += $goal1;
+        $teamsRating[$team]['mp'] += $goal2;
+        if($differ > 0){
+          $teamsRating[$team]['wins'] += 1;
+        } elseif($differ < 0){
+          $teamsRating[$team]['porazh'] += 1;
+        } else {
+          $teamsRating[$team]['nich'] += 1;
+        }
       } else {
-        $teamsRating[$team] = $score1 * $addMonth * $coef;
+        $teamsRating[$team]['sum'] = $score1 * $addMonth * $coef;
+        $teamsRating[$team]['matches'] = 1;
+        $teamsRating[$team]['mz'] = $goal1;
+        $teamsRating[$team]['mp'] = $goal2;
+        if($differ > 0){
+          $teamsRating[$team]['wins'] = 1;
+          $teamsRating[$team]['porazh'] = 0;
+          $teamsRating[$team]['nich'] = 0;
+        } elseif($differ < 0){
+          $teamsRating[$team]['wins'] = 0;
+          $teamsRating[$team]['porazh'] = 1;
+          $teamsRating[$team]['nich'] = 0;
+        } else {
+          $teamsRating[$team]['wins'] = 0;
+          $teamsRating[$team]['porazh'] = 0;
+          $teamsRating[$team]['nich'] = 1;
+        }
       }
       if(array_key_exists($team2, $teamsRating)){
-        $teamsRating[$team2] += $score2 * $addMonth * $coef2;
+        $teamsRating[$team2]['sum'] += $score2 * $addMonth * $coef2;
+        $teamsRating[$team2]['matches'] += 1;
+        $teamsRating[$team2]['mz'] += $goal2;
+        $teamsRating[$team2]['mp'] += $goal1;
+        if($differ < 0){
+          $teamsRating[$team2]['wins'] += 1;
+        } elseif($differ > 0){
+          $teamsRating[$team2]['porazh'] += 1;
+        } else {
+          $teamsRating[$team2]['nich'] += 1;
+        }
       } else {
-        $teamsRating[$team2] = $score2 * $addMonth * $coef2;
+        $teamsRating[$team2]['sum'] = $score2 * $addMonth * $coef2;
+        $teamsRating[$team2]['matches'] = 1;
+        $teamsRating[$team2]['mz'] = $goal2;
+        $teamsRating[$team2]['mp'] = $goal1;
+        if($differ < 0){
+          $teamsRating[$team2]['wins'] = 1;
+          $teamsRating[$team2]['porazh'] = 0;
+          $teamsRating[$team2]['nich'] = 0;
+        } elseif($differ > 0){
+          $teamsRating[$team2]['wins'] = 0;
+          $teamsRating[$team2]['porazh'] = 1;
+          $teamsRating[$team2]['nich'] = 0;
+        } else {
+          $teamsRating[$team2]['wins'] = 0;
+          $teamsRating[$team2]['porazh'] = 0;
+          $teamsRating[$team2]['nich'] = 1;
+        }
       }
     }
 
-    \arsort($teamsRating);
+    uasort($teamsRating, ['App\Service\Sort', 'sortBySum']);
 
     return $this->render('default/rating.html.twig', [
             'matches' => $matches,

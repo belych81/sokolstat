@@ -10,6 +10,7 @@
 /public/file.pdf
 /public/newspaper.php
 /public/nfl.php
+/public/newspapers/
 /var/
 /bin/
 ###< symfony/framework-bundle ###
