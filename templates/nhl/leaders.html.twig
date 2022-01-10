@@ -42,7 +42,7 @@
             <tr class="odd">
                 <td class="player-position">{{ loop.index }}</td>
                 <td class="spiski">
-                    <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                    <a href="{{ path('nhl_player_show', {'id': player.player.player.translit}) }}" class="spiski">
                         {{ name }}</a>
                 </td>
                 <td class="bombTeam">{{ player.team }}</td>

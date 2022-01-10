@@ -113,7 +113,7 @@ class NhlController extends AbstractController
              }
           };
         uasort($bombSum, $sortGoal);
-        $bombSum = array_slice($bombSum, 0, 20);
+        $bombSum = array_slice($bombSum, 0, 30);
 
       return $this->render('nhl/leaders.html.twig', [
           'seasons' => $seasons,
