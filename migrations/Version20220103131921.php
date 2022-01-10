@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210929172956 extends AbstractMigration
+final class Version20220103131921 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,12 +22,16 @@ final class Version20210929172956 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE ecsostav ADD city_id INT DEFAULT NULL, ADD referee_id INT DEFAULT NULL, ADD zriteli INT DEFAULT NULL, CHANGE eurocup_id eurocup_id INT NOT NULL');
-        $this->addSql('ALTER TABLE ecsostav ADD CONSTRAINT FK_3E51F92C8BAC62AF FOREIGN KEY (city_id) REFERENCES city (id)');
-        $this->addSql('ALTER TABLE ecsostav ADD CONSTRAINT FK_3E51F92C4A087CA2 FOREIGN KEY (referee_id) REFERENCES referee (id)');
-        $this->addSql('CREATE INDEX IDX_3E51F92C8BAC62AF ON ecsostav (city_id)');
-        $this->addSql('CREATE INDEX IDX_3E51F92C4A087CA2 ON ecsostav (referee_id)');
-        
+        $this->addSql('CREATE TABLE game (id INT AUTO_INCREMENT NOT NULL, season_id INT DEFAULT NULL, team_id INT DEFAULT NULL, team2_id INT DEFAULT NULL, player_id INT DEFAULT NULL, player2_id INT DEFAULT NULL, city_id INT DEFAULT NULL, referee_id INT DEFAULT NULL, turnir_id INT DEFAULT NULL, stadia_id INT DEFAULT NULL, tour INT DEFAULT NULL, data DATETIME DEFAULT NULL, goal1 INT DEFAULT NULL, goal2 INT DEFAULT NULL, bomb VARCHAR(255) DEFAULT NULL, status INT DEFAULT NULL, zriteli INT DEFAULT NULL, penalty VARCHAR(255) DEFAULT NULL, game VARCHAR(255) DEFAULT NULL, game2 VARCHAR(255) DEFAULT NULL, score VARCHAR(255) DEFAULT NULL, INDEX IDX_232B318C4EC001D1 (season_id), INDEX IDX_232B318C296CD8AE (team_id), INDEX IDX_232B318CF59E604A (team2_id), INDEX IDX_232B318C99E6F5DF (player_id), INDEX IDX_232B318CD22CABCD (player2_id), INDEX IDX_232B318C8BAC62AF (city_id), INDEX IDX_232B318C4A087CA2 (referee_id), INDEX IDX_232B318C2AEBD7A2 (turnir_id), INDEX IDX_232B318C3721E7B1 (stadia_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+          $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C4EC001D1 FOREIGN KEY (season_id) REFERENCES seasons (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C296CD8AE FOREIGN KEY (team_id) REFERENCES team (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318CF59E604A FOREIGN KEY (team2_id) REFERENCES team (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C99E6F5DF FOREIGN KEY (player_id) REFERENCES player (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318CD22CABCD FOREIGN KEY (player2_id) REFERENCES player (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C8BAC62AF FOREIGN KEY (city_id) REFERENCES city (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C4A087CA2 FOREIGN KEY (referee_id) REFERENCES referee (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C2AEBD7A2 FOREIGN KEY (turnir_id) REFERENCES turnir (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C3721E7B1 FOREIGN KEY (stadia_id) REFERENCES stadia (id)');
     }
 
     public function down(Schema $schema) : void
@@ -59,6 +63,7 @@ final class Version20210929172956 extends AbstractMigration
         $this->addSql('ALTER TABLE voteemail ADD CONSTRAINT FK_DD5FD5E72DCDAFC FOREIGN KEY (vote_id) REFERENCES vote (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('ALTER TABLE voteplayer ADD CONSTRAINT FK_4348F43272DCDAFC FOREIGN KEY (vote_id) REFERENCES vote (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('ALTER TABLE voteplayer ADD CONSTRAINT FK_4348F43299E6F5DF FOREIGN KEY (player_id) REFERENCES player (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('DROP TABLE game');
         $this->addSql('DROP TABLE newsdb');
         $this->addSql('DROP TABLE newspaper');
         $this->addSql('DROP TABLE nhl_play_off');
@@ -67,11 +72,10 @@ final class Version20210929172956 extends AbstractMigration
         $this->addSql('ALTER TABLE cup CHANGE season_id season_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE bomb bomb VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE game game VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE game2 game2 VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, CHANGE data data DATETIME NOT NULL, CHANGE status status TINYINT(1) NOT NULL');
         $this->addSql('ALTER TABLE cupplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ecplayer CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE ecsostav DROP FOREIGN KEY FK_3E51F92CB09625CC');
         $this->addSql('ALTER TABLE ecsostav DROP FOREIGN KEY FK_3E51F92C8BAC62AF');
         $this->addSql('ALTER TABLE ecsostav DROP FOREIGN KEY FK_3E51F92C4A087CA2');
-        $this->addSql('DROP INDEX IDX_3E51F92C8BAC62AF ON ecsostav');
-        $this->addSql('DROP INDEX IDX_3E51F92C4A087CA2 ON ecsostav');
-        $this->addSql('ALTER TABLE ecsostav DROP city_id, DROP referee_id, DROP zriteli, CHANGE eurocup_id eurocup_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE ecsostav CHANGE eurocup_id eurocup_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE ectable CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE eurocup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE fnlplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
@@ -80,6 +84,7 @@ final class Version20210929172956 extends AbstractMigration
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b4ec001d1 TO IDX_88241BA74EC001D1');
         $this->addSql('ALTER TABLE gamers RENAME INDEX idx_5334dd5b99e6f5df TO IDX_88241BA799E6F5DF');
         $this->addSql('ALTER TABLE lchplayer CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE mundial DROP FOREIGN KEY FK_C140406B9425DC7F');
         $this->addSql('ALTER TABLE mundial CHANGE season_id season_id INT DEFAULT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE country2_id country2_id INT DEFAULT NULL, CHANGE turnir_id turnir_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE city_id city_id INT DEFAULT NULL, CHANGE referee_id referee_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE mundial_table DROP FOREIGN KEY FK_4DA860402AEBD7A2');
         $this->addSql('ALTER TABLE mundial_table DROP FOREIGN KEY FK_4DA86040F92F3E70');
@@ -126,6 +131,7 @@ final class Version20210929172956 extends AbstractMigration
         $this->addSql('CREATE INDEX born ON player (born)');
         $this->addSql('CREATE INDEX name ON player (name)');
         $this->addSql('ALTER TABLE playersteam CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE referee DROP FOREIGN KEY FK_D60FB342F92F3E70');
         $this->addSql('ALTER TABLE referee CHANGE country_id country_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE rfplmatch CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE rus_supercup CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE team2_id team2_id INT DEFAULT NULL, CHANGE data data DATETIME DEFAULT CURRENT_TIMESTAMP, CHANGE status status TINYINT(1) DEFAULT \'0\' NOT NULL');

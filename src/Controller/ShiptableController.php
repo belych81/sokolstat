@@ -17,6 +17,8 @@ use App\Entity\Shipplayer;
 use App\Entity\RusSupercup;
 use App\Entity\Seasons;
 use App\Entity\Country;
+use App\Entity\Game;
+use App\Entity\Turnir;
 use App\Form\RfplmatchType;
 use App\Form\ShiptableType;
 use App\Form\Rfplmatch2Type;
@@ -50,40 +52,19 @@ class ShiptableController extends AbstractController
 
         $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getSeasons($strana);
-        $lastSeason = $this->getDoctrine()->getRepository(Tour::class)
-                ->getLastSeason($strana);
-        if ($country == 'russia') {
 
-            $arMaxTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
-                ->getMaxTour($season);
-            if(empty($arMaxTour)){
-                $maxTour = 1;
-            } else {
-                $maxTour = $arMaxTour[0]['tour'];
-            }
-            if(!$tour) {
-                $matches = $this->getDoctrine()->getRepository(Rfplmatch::class)
-                              ->getRusMatches($season, $maxTour);
-            } else {
-                $matches = $this->getDoctrine()->getRepository(Rfplmatch::class)
-                              ->getRusMatches($season, $tour);
-            }
-           $numberTour = $this->getDoctrine()->getRepository(Rfplmatch::class)
-                ->getTours($season);
+        $maxTour = $this->getDoctrine()->getRepository(Game::class)
+                         ->getMaxTour($country, $season);
+        if(!$tour) {
+           $matches = $this->getDoctrine()->getRepository(Game::class)
+                      ->getMatches($country, $season, $maxTour);
+         } else {
+             $matches = $this->getDoctrine()->getRepository(Game::class)
+                            ->getMatches($country, $season, $tour);
+         }
+        $numberTour = $this->getDoctrine()->getRepository(Game::class)
+                         ->getTours($country, $season);
 
-        } else {
-            $maxTour = $this->getDoctrine()->getRepository(Tour::class)
-                             ->getMaxTour($strana, $season);
-            if(!$tour) {
-               $matches = $this->getDoctrine()->getRepository(Tour::class)
-                          ->getMatches($strana, $season, $maxTour);
-           } else {
-               $matches = $this->getDoctrine()->getRepository(Tour::class)
-                              ->getMatches($strana, $season, $tour);
-           }
-            $numberTour = $this->getDoctrine()->getRepository(Tour::class)
-                             ->getTours($strana, $season);
-        }
 
         if(!$matches){
           throw $this->createNotFoundException('The tour does not exist');
@@ -121,7 +102,6 @@ class ShiptableController extends AbstractController
             'matches' => $matches,
             'tours' => $numberTour,
             'rusCountry' => $rusCountry,
-            'lastSeason' => $lastSeason,
             'maxTour' => $maxTour,
             'menu' => $menu,
             'strana' => $strana
@@ -186,8 +166,6 @@ class ShiptableController extends AbstractController
         $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
         if ($country == 'russia') {
-            $lastMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
-                        ->getLastMatchesByTeam($season, $id);
             $players = $this->getDoctrine()->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
 
@@ -207,8 +185,6 @@ class ShiptableController extends AbstractController
                 }
             }
         } else {
-          $lastMatches = $this->getDoctrine()->getRepository(Tour::class)
-                        ->getLastMatchesByTeam($season, $id);
           if ($country == 'fnl') {
             $players = $this->getDoctrine()->getRepository(Fnlplayer::class)
                           ->getTeamStat($season, $id);
@@ -217,6 +193,8 @@ class ShiptableController extends AbstractController
                           ->getTeamStat($season, $id);
           }
         }
+        $lastMatches = $this->getDoctrine()->getRepository(Game::class)
+                      ->getLastMatchesByTeam($season, $id);
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
@@ -248,21 +226,12 @@ class ShiptableController extends AbstractController
 
     public function newMatch(Menu $serviceMenu, $country, $season)
     {
-        if($country == 'russia') {
-          $entity = new Rfplmatch();
+        $entity = new Game();
 
-          $form   = $this->createForm(RfplmatchType::class, $entity, [
-              'country' => $country,
-              'season' => $season
-              ]);
-        } else {
-          $entity = new Tour();
-
-          $form   = $this->createForm(TourMatchType::class, $entity, [
-              'country' => $country,
-              'season' => $season
-              ]);
-        }
+        $form   = $this->createForm(TourMatchType::class, $entity, [
+            'country' => $country,
+            'season' => $season
+            ]);
         $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
@@ -274,41 +243,30 @@ class ShiptableController extends AbstractController
 
     public function createMatch(Request $request, Menu $serviceMenu, $country, $season)
     {
-        switch ($country) {
-            case 'russia' : $country2 = 'Россия'; break;
-            case 'england' : $country2 = 'Англия';  break;
-            case 'spain' : $country2 = 'Испания'; break;
-            case 'italy' : $country2 = 'Италия'; break;
-            case 'germany' : $country2 = 'Германия'; break;
-            case 'france' : $country2 = 'Франция'; break;
-            case 'fnl' : $country2 = 'ФНЛ'; break;
-        }
-        if($country == 'russia') {
-            $ent = RfplmatchType::class;
-            $entity  = new Rfplmatch();
+        if($country == 'fnl'){
+          $turnir = 'fnl';
         } else {
-            $ent = TourMatchType::class;
-            $entity  = new Tour();
-            $strana = $this->getDoctrine()->getRepository(Country::class)
-              ->findOneByName($country2);
-            $entity->setCountry($strana);
+          $turnir = $country."-champ";
         }
+        $ent = TourMatchType::class;
+        $entity  = new Game();
+
         $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)->findOneByAlias($turnir);
 
         $entity->setSeason($year);
+        $entity->setTurnir($obTurnir);
         $entity->setStatus(1);
 
         $form = $this->createForm($ent, $entity, [
             'country' => $country,
             'season' => $season
-            ]);
+        ]);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $_SESSION['tour'] = $entity->getTour();
-            $_SESSION['date'] = $entity->getData();
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -377,7 +335,7 @@ class ShiptableController extends AbstractController
 
     public function newRus($id)
     {
-        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $season = $entity->getSeason()->getName();
 
         $form   = $this->createForm(Rfplmatch2Type::class, $entity, [
@@ -392,7 +350,7 @@ class ShiptableController extends AbstractController
 
     public function createRus(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $season = $entity->getSeason()->getName();
 
         $form = $this->createForm(Rfplmatch2Type::class, $entity, [
@@ -427,7 +385,7 @@ class ShiptableController extends AbstractController
 
     public function new($id)
     {
-        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form   = $this->createForm(TourType::class, $entity);
 
         return $this->render('shiptable/new.html.twig', array(
@@ -438,7 +396,7 @@ class ShiptableController extends AbstractController
 
     public function create(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form = $this->createForm(TourType::class, $entity);
         $entity->setStatus(0);
         $form->handleRequest($request);
@@ -447,18 +405,15 @@ class ShiptableController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $team=$entity->getTeam()->getId();
-            $team2=$entity->getTeam2()->getId();
-            $seas=$entity->getSeason()->getId();
-            $country=$entity->getCountry()->getName();
-            switch ($country) {
-              case 'Россия' : $country2 = 'russia'; break;
-              case 'Англия' : $country2 = 'england';  break;
-              case 'Испания' : $country2 = 'spain'; break;
-              case 'Италия' : $country2 = 'italy'; break;
-              case 'Германия' : $country2 = 'germany'; break;
-              case 'Франция' : $country2 = 'france'; break;
-              case 'ФНЛ' : $country2 = 'fnl'; break;
+            $team = $entity->getTeam()->getId();
+            $team2 = $entity->getTeam2()->getId();
+            $seas = $entity->getSeason()->getId();
+            $turnir = $entity->getTurnir()->getAlias();
+            if($turnir == 'fnl') {
+              $country = 'fnl';
+            } else {
+              $arTurnir = explode('-', $turnir);
+              $country = $arTurnir[0];
             }
             $goal1=$entity->getGoal1();
             $goal2=$entity->getGoal2();
@@ -468,7 +423,7 @@ class ShiptableController extends AbstractController
             $season=$entity->getSeason()->getName();
 
             return $this->redirect($this->generateUrl('championships', [
-                'season' => $season, 'country' => $country2]));
+                'season' => $season, 'country' => $country]));
         }
 
         return $this->render('shiptable/new.html.twig', array(
@@ -479,13 +434,8 @@ class ShiptableController extends AbstractController
 
     public function edit($id, $country)
     {
-      if($country == 'russia') {
-        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form   = $this->createForm(RfplmatchEditType::class, $entity);
-      } else {
-        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
-        $form   = $this->createForm(TourEditType::class, $entity);
-      }
 
         return $this->render('shiptable/edit.html.twig', array(
             'entity' => $entity,
@@ -496,13 +446,8 @@ class ShiptableController extends AbstractController
 
     public function update(Request $request, $id, $country)
     {
-      if($country == 'russia') {
-        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form   = $this->createForm(RfplmatchEditType::class, $entity);
-      } else {
-        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
-        $form   = $this->createForm(TourEditType::class, $entity);
-      }
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -523,11 +468,7 @@ class ShiptableController extends AbstractController
 
     public function confirm($id, $country)
     {
-      if($country == 'russia') {
-        $entity = $this->getDoctrine()->getRepository(Rfplmatch::class)->find($id);
-      } else {
-        $entity = $this->getDoctrine()->getRepository(Tour::class)->find($id);
-      }
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
 
         return $this->render('shiptable/delete.html.twig', array(
             'entity' => $entity
@@ -537,11 +478,8 @@ class ShiptableController extends AbstractController
     public function delete($id, $country)
     {
         $em = $this->getDoctrine()->getManager();
-        if($country == 'russia') {
-          $entity = $em->getRepository(Rfplmatch::class)->find($id);
-        } else {
-          $entity = $em->getRepository(Tour::class)->find($id);
-        }
+        $entity = $em->getRepository(Game::class)->find($id);
+
         $season = $entity->getSeason()->getName();
         $em->remove($entity);
         $em->flush();

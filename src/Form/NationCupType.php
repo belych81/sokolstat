@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\NationCup;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,7 +37,7 @@ class NationCupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => NationCup::class
+            'data_class' => Game::class
         ]);
         $resolver->setDefined(['season', 'country']);
     }

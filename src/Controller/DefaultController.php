@@ -20,6 +20,7 @@ use App\Entity\Team;
 use App\Entity\News;
 use App\Entity\Mundial;
 use App\Entity\Ectable;
+use App\Entity\Game;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
@@ -44,73 +45,12 @@ class DefaultController extends AbstractController
       uasort($bombTotal, ['App\Service\Sort', 'sortBySum']);
       $bombTotal = array_slice($bombTotal, 0, 20);
 
-      $currentMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
+      $curmatch = $this->getDoctrine()->getRepository(Game::class)
           ->getCurMatches();
-      $curcup = $this->getDoctrine()->getRepository(Cup::class)
-          ->getCurMatches();
-      $curRscMatches = $this->getDoctrine()->getRepository(RusSupercup::class)
-          ->getCurMatches();
-      $cursupercup = $this->getDoctrine()->getRepository(NationSupercup::class)
-          ->getCurMatches();
-      $curUsupercup = $this->getDoctrine()->getRepository(UefaSupercup::class)
-          ->getCurMatches();
-      $curNcup = $this->getDoctrine()->getRepository(NationCup::class)
-          ->getCurMatches();
-      $curEcMatches = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getCurMatches();
-      $curMatches5 = $this->getDoctrine()->getRepository(Tour::class)
-          ->getCurMatches();
-      $curMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
-          ->getCurMatches();
-      $curmatch = array_merge($currentMatches, $curEcMatches,
-        $curMatches5, $curRscMatches, $curcup,
-        $cursupercup, $curNcup, $curUsupercup, $curMatchesMund);
-      $tomMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
+      $tommatch = $this->getDoctrine()->getRepository(Game::class)
           ->getTomMatches();
-      $tomcup = $this->getDoctrine()->getRepository(Cup::class)
-          ->getTomMatches();
-      $tomRscMatches = $this->getDoctrine()->getRepository(RusSupercup::class)
-          ->getTomMatches();
-      $tomsupercup = $this->getDoctrine()->getRepository(NationSupercup::class)
-          ->getTomMatches();
-      $tomUsupercup = $this->getDoctrine()->getRepository(UefaSupercup::class)
-          ->getTomMatches();
-      $tomNcup = $this->getDoctrine()->getRepository(NationCup::class)
-          ->getTomMatches();
-      $tomEcMatches = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getTomMatches();
-      $tomMatches5 = $this->getDoctrine()->getRepository(Tour::class)
-          ->getTomMatches();
-      $tomMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
-          ->getTomMatches();
-      $tommatch = array_merge($tomMatches, $tomEcMatches,
-        $tomMatches5, $tomRscMatches, $tomcup,
-        $tomsupercup, $tomNcup, $tomUsupercup, $tomMatchesMund);
-      $yescup = $this->getDoctrine()->getRepository(Cup::class)
+      $yestmatch = $this->getDoctrine()->getRepository(Game::class)
           ->getYesterdayMatches();
-      $yesterdayMatches = $this->getDoctrine()->getRepository(Rfplmatch::class)
-              ->getYesterdayMatches();
-      $yesterdayRscMatches = $this->getDoctrine()->getRepository(RusSupercup::class)
-              ->getYesterdayMatches();
-      $yessupercup = $this->getDoctrine()->getRepository(NationSupercup::class)
-          ->getYesterdayMatches();
-      $yesUsupercup = $this->getDoctrine()->getRepository(UefaSupercup::class)
-          ->getYesterdayMatches();
-      $yesNcup = $this->getDoctrine()->getRepository(NationCup::class)
-          ->getYesterdayMatches();
-      $yesterdayEcMatches = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getYesterdayMatches();
-      $yesterdayMatches5 = $this->getDoctrine()->getRepository(Tour::class)
-          ->getYesterdayMatches5();
-      $yesterdayMatchesMund = $this->getDoctrine()->getRepository(Mundial::class)
-          ->getYesterdayMatches();
-      $yestmatch = array_merge($yesterdayMatches, $yesterdayEcMatches,
-        $yesterdayMatches5, $yesterdayRscMatches, $yescup,
-        $yessupercup, $yesNcup, $yesUsupercup, $yesterdayMatchesMund);
-
-      uasort($tommatch, ['App\Service\Sort', 'sortByDate']);
-      uasort($curmatch, ['App\Service\Sort', 'sortByDate']);
-      uasort($yestmatch, ['App\Service\Sort', 'sortByDate']);
 
       $birthdays = $this->getDoctrine()->getRepository(Player::class)
         ->getBirthdayPlayer(date('m-d'));

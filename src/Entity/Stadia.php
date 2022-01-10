@@ -52,6 +52,7 @@ class Stadia
         $this->mundials = new ArrayCollection();
         $this->mundialTables = new ArrayCollection();
         $this->cupLeagues = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -239,6 +240,11 @@ class Stadia
      */
     private $cupLeagues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="stadia")
+     */
+    private $games;
+
     public function setStadiaTable($table)
     {
         $this->stadia_table = $table;
@@ -382,6 +388,36 @@ class Stadia
             // set the owning side to null (unless already changed)
             if ($cupLeague->getStadia() === $this) {
                 $cupLeague->setStadia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setStadia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getStadia() === $this) {
+                $game->setStadia(null);
             }
         }
 

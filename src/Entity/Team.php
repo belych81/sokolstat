@@ -202,6 +202,11 @@ class Team
      */
     private $cupLeagues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="team")
+     */
+    private $games;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -225,6 +230,7 @@ class Team
         $this->sostavs = new ArrayCollection();
         $this->transfers = new ArrayCollection();
         $this->cupLeagues = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1024,6 +1030,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($cupLeague->getTeam() === $this) {
                 $cupLeague->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getTeam() === $this) {
+                $game->setTeam(null);
             }
         }
 

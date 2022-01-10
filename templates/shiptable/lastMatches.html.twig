@@ -10,12 +10,23 @@
   {% set team2 = matches.team2.name %}
   {% set currentTeam = club.name  %}
 
-  {% if currentTeam == team %}
-    {% set goalCurrent = goal1 %}
-    {% set goalOpponent = goal2 %}
+  {% if matches.score %}
+    {% set arScore = matches.score | split('-') %}
+    {% if currentTeam == team %}
+      {% set goalCurrent = arScore[0] %}
+      {% set goalOpponent = arScore[1] %}
+    {% else %}
+      {% set goalCurrent = arScore[1] %}
+      {% set goalOpponent = arScore[0] %}
+    {% endif %}
   {% else %}
-    {% set goalCurrent = goal2 %}
-    {% set goalOpponent = goal1 %}
+    {% if currentTeam == team %}
+      {% set goalCurrent = goal1 %}
+      {% set goalOpponent = goal2 %}
+    {% else %}
+      {% set goalCurrent = goal2 %}
+      {% set goalOpponent = goal1 %}
+    {% endif %}
   {% endif %}
 
   {% if goalCurrent > goalOpponent %}
@@ -29,7 +40,13 @@
   <li class="{{ cycle(['odd', 'even'], loop.index) }}">
     <span class="team-matches-date">{{ matches.data | date('d.m') }}</span>
     <span class="spiski">{{ matches.team.name }} - {{ matches.team2.name }}</span> -
-    <span class="scScore">{{ matches.goal1 }}:{{ matches.goal2 }}</span>
+    <span class="scScore">
+      {% if matches.score %}
+        {{ arScore[0] }}:{{ arScore[1] }}
+      {% else %}
+        {{ matches.goal1 }}:{{ matches.goal2 }}
+      {% endif %}
+    </span>
     <span class="team-matches-square square-{{ res }}"></span>
   </li>
 {% endfor %}

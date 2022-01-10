@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Tour;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,7 +31,7 @@ class TourMatchType extends AbstractType
 
         $builder
             ->add('tour')
-            ->add('data', null, ['data' => new \DateTime(), 'years' => range(1991, 2023)])
+            ->add('data', null, ['data' => new \DateTime(), 'years' => range(1991, date('Y')+1)])
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($country, $season) {
@@ -52,7 +52,7 @@ class TourMatchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Tour::class
+            'data_class' => Game::class
         ]);
         $resolver->setDefined(['country', 'season']);
     }

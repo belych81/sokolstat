@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Rfplmatch;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,15 +17,9 @@ class RfplmatchType extends AbstractType
     {
 
         $season = $options['season'];
-        if (!in_array('tour', $_SESSION)) {
-            $_SESSION['tour']=1;
-        }
-        if (!in_array('date', $_SESSION)) {
-            $_SESSION['date']=new \DateTime();
-        }
         $builder
-            ->add('tour', null, ['data' => $_SESSION['tour']])
-            ->add('data', null, ['data' => $_SESSION['date']])
+            ->add('tour')
+            ->add('data')
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
@@ -46,7 +40,7 @@ class RfplmatchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Rfplmatch::class
+            'data_class' => Game::class
         ]);
         $resolver->setDefined(['country', 'season']);
     }

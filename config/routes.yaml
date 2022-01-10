@@ -2,6 +2,9 @@ steam_fbstat_homepage:
     path:     /
     controller: App\Controller\DefaultController::index
 
+test1:
+  path: /newspapers/rfplMatches.php
+
 profile:
     path: /profile/
     controller: App\Controller\DefaultController::profile
@@ -591,7 +594,7 @@ player_search:
 player_show:
     path:  /player/{id}
     controller: App\Controller\RusplayerController:show
-    
+
 player_newSb:
     path:  /playeradmin/admin/sb/{season}
     controller: App\Controller\PlayerController:newSb

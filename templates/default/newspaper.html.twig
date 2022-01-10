@@ -82,9 +82,10 @@
               {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
           {% endfor %}
+          {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
         {% endif %}
       {% endfor %}
-      {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
+
 
 {# Lch #}
       <div class="np-champ-matches">

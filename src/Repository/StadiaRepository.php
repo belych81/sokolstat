@@ -71,14 +71,14 @@ class StadiaRepository extends ServiceEntityRepository
     {
       return $this->createQueryBuilder('s')
               ->select('s', 'c', 'sn')
-              ->leftJoin('s.nationCups', 'c')
+              ->leftJoin('s.games', 'c')
               ->join('c.season', 'sn')
-              ->join('c.country', 'cn')
+              ->join('c.turnir', 'cn')
               ->where("c.stadia = s.id")
               ->andWhere("sn.name = :season")
-              ->andWhere("cn.name = :country")
+              ->andWhere("cn.alias = :country")
               ->setParameter('season', $season)
-              ->setParameter('country', $country)
+              ->setParameter('country', $country."-cup")
               ->getQuery()
               ->getResult()
               ;

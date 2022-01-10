@@ -7,6 +7,8 @@ use App\Entity\NationCup;
 use App\Entity\Stadia;
 use App\Entity\Country;
 use App\Entity\Seasons;
+use App\Entity\Game;
+use App\Entity\Turnir;
 use App\Form\NationCupType;
 use App\Form\NationCup2Type;
 use App\Service\Menu;
@@ -20,16 +22,14 @@ class NationcupController extends AbstractController
     {
         $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
                         ->translateCountry($country)['rusCountry'];
-        $strana = $this->getDoctrine()->getRepository(Shiptable::class)
-                        ->translateCountry($country)['country'];
-        $seasons = $this->getDoctrine()->getRepository(NationCup::class)
-          ->getSeasons();
+        $seasons = $this->getDoctrine()->getRepository(Game::class)
+          ->getSeasons($country."-cup");
         $stadies = $this->getDoctrine()->getRepository(Stadia::class)
-          ->getStadiaNationCup($season, $strana);
+          ->getStadiaNationCup($season, $country);
         foreach ($stadies as $stadia)
         {
-          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(NationCup::class)
-                    ->findAllBySeasonAndStadiaAndCountry($season, $stadia, $strana));
+          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
+                    ->findAllBySeasonAndStadiaAndCountry($season, $stadia, $country));
         }
         $menu = $serviceMenu->generate($country, $season);
 
@@ -43,7 +43,7 @@ class NationcupController extends AbstractController
 
     public function newMatch(Menu $serviceMenu, $season, $country)
     {
-        $entity = new NationCup();
+        $entity = new Game();
 
         $form   = $this->createForm(NationCupType::class, $entity, [
               'season' => $season,
@@ -59,18 +59,17 @@ class NationcupController extends AbstractController
         ));
     }
 
-    public function createMatch(Request $request, $season, $country)
+    public function createMatch(Menu $serviceMenu, Request $request, $season, $country)
     {
         $ent = NationCupType::class;
-        $entity  = new NationCup();
+        $entity  = new Game();
         $year = $this->getDoctrine()->getRepository(Seasons::class)
           ->findOneByName($season);
-
+        $turnir = $country."-cup";
+        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)->findOneByAlias($turnir);
         $entity->setSeason($year);
+        $entity->setTurnir($obTurnir);
         $entity->setStatus(1);
-        $stranaOb = $this->getDoctrine()->getRepository(Country::class)
-          ->findOneByTranslit($country);
-        $entity->setCountry($stranaOb);
 
         $form = $this->createForm($ent, $entity, [
             'season' => $season,
@@ -81,33 +80,35 @@ class NationcupController extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $_SESSION['stadia'] = $entity->getStadia();
-            $_SESSION['date'] = $entity->getData();
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('nationcup/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function new($id, $country)
+    public function new(Menu $serviceMenu, $id, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(NationCup::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form   = $this->createForm(NationCup2Type::class, $entity);
+        $menu = $serviceMenu->generate($country);
 
         return $this->render('nationcup/new.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function create(Request $request, $id, $country)
+    public function create(Menu $serviceMenu, Request $request, $id, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(NationCup::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form = $this->createForm(NationCup2Type::class, $entity);
         $entity->setStatus(0);
         $form->handleRequest($request);
@@ -121,8 +122,11 @@ class NationcupController extends AbstractController
                 'season' => $season, 'country' => $country]));
         }
 
+        $menu = $serviceMenu->generate($country);
+
         return $this->render('nationcup/new.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

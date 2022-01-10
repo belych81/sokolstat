@@ -3,6 +3,21 @@ easy_admin:
         max_results: 30
   site_name: SokolStat
   entities:
+          Game:
+            class: App\Entity\Game
+            list:
+                fields:
+                    - id
+                    - turnir
+                    - season
+                    - data
+                    - team
+                    - team2
+                    - goal1
+                    - goal2
+                    - score
+                    - bomb
+                filters: ['team', 'team2', 'turnir', 'season']
           Tour:
             class: App\Entity\Tour
             list:

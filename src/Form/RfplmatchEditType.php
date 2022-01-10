@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Rfplmatch;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,7 +31,7 @@ class RfplmatchEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Rfplmatch::class
+            'data_class' => Game::class
         ]);
     }
 }

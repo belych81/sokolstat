@@ -3,27 +3,22 @@
      {{ day }}
    </div>
   {% for ymatch in daymatch %}
-    {% if ymatch.route == 'championships' %}
-      {% if ymatch.country == 'russia' %}
-        {% set route = path('championships', {'country':'russia',
+    {% set arTurnir = ymatch.turnir.alias | split('-') %}
+    {% if arTurnir[1] == 'champ' %}
+      {% set route = path('championships', {'country':arTurnir[0],
+      'season': ymatch.season.name}) %}
+    {% elseif ymatch.turnir.alias == 'fnl' %}
+        {% set route = path('championships', {'country':'fnl',
         'season': ymatch.season.name}) %}
-      {% elseif ymatch.country.translit == "" %}
-          {% set route = path('championships', {'country':'fnl',
-          'season': ymatch.season.name}) %}
-      {% else %}
-        {% set route = path('championships', {
-          'country':ymatch.country.translit,
-          'season': ymatch.season.name}) %}
-      {% endif %}
-    {% elseif ymatch.route == 'cup' %}
+    {% elseif ymatch.turnir.alias == 'russia-cup' %}
       {% set route = path('cup', {'season': ymatch.season.name}) %}
-    {% elseif ymatch.route == 'nationcup' %}
+    {% elseif arTurnir[1] == 'cup' %}
       {% set route = path('nationcup', {'season': ymatch.season.name,
-      'country': ymatch.country.translit}) %}
-    {% elseif ymatch.route == 'eurocup' %}
+      'country': arTurnir[0]}) %}
+    {% elseif ymatch.turnir.alias == 'leagueChampions' or ymatch.turnir.alias == 'leagueEuropa' or ymatch.turnir.alias == 'conference-league' %}
          {% set route = path('eurocup', {'season': ymatch.season.name, 'turnir': ymatch.turnir.alias }) %}
-    {% elseif ymatch.route == 'nationsupercup' %}
-      {% set route = path('supercup', {'country':ymatch.country.translit }) %}
+    {% elseif arTurnir[1] == 'supercup' %}
+      {% set route = path('supercup', {'country':arTurnir[0] }) %}
     {% elseif ymatch.route == 'sbornie' %}
       {% set route = path('sbornie', {'turnir':ymatch.turnir.alias, 'year':  ymatch.season.name}) %}
     {% endif %}
@@ -45,7 +40,7 @@
       <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a href="{{ route }}" class="spiski">
           {% if (ymatch.status == 0) %}
-                {% if ymatch.score is defined %}
+                {% if ymatch.score %}
                     {{ ymatch.score }}
                 {% else %}
                     {{ ymatch.goal1 }}-{{ ymatch.goal2 }}

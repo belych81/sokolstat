@@ -10,7 +10,7 @@
     <div class="match-info">
       <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
       {% if match.city %}
-      <span class="match-main-info">
+      <span class="match-main-info info">
         {{ match.city.name }}.
         {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.
         {% if match.zriteli > 0 %}

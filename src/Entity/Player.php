@@ -160,6 +160,11 @@ class Player
      */
     private $sbornie = 0;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="player")
+     */
+    private $games;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -174,6 +179,7 @@ class Player
         $this->supercupplayers = new ArrayCollection();
         $this->sbplayers = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -746,6 +752,36 @@ class Player
     public function setSbornie(int $sbornie): self
     {
         $this->sbornie = $sbornie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getPlayer() === $this) {
+                $game->setPlayer(null);
+            }
+        }
 
         return $this;
     }
