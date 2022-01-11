@@ -12,6 +12,8 @@
         'season': ymatch.season.name}) %}
     {% elseif ymatch.turnir.alias == 'russia-cup' %}
       {% set route = path('cup', {'season': ymatch.season.name}) %}
+    {% elseif ymatch.turnir.alias == 'league-cup' %}
+      {% set route = path('cup_league', {'season': ymatch.season.name}) %}
     {% elseif arTurnir[1] == 'cup' %}
       {% set route = path('nationcup', {'season': ymatch.season.name,
       'country': arTurnir[0]}) %}

@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Shiptable;
-use App\Entity\CupLeague;
+use App\Entity\Game;
+use App\Entity\Turnir;
 use App\Entity\Stadia;
 use App\Entity\Seasons;
 use App\Form\CupLeagueType;
@@ -17,14 +18,14 @@ class CupLeagueController extends AbstractController
 {
     public function index(Menu $serviceMenu, $season)
     {
-        $seasons = $this->getDoctrine()->getRepository(CupLeague::class)
-          ->getSeasons();
+        $seasons = $this->getDoctrine()->getRepository(Game::class)
+          ->getSeasons('league-cup');
         $stadies = $this->getDoctrine()->getRepository(Stadia::class)
           ->getStadiaCupLeague($season);
         foreach ($stadies as $stadia)
         {
-          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(CupLeague::class)
-                    ->findAllBySeasonAndStadia($season, $stadia));
+          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
+                    ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'league'));
         }
         $menu = $serviceMenu->generate('england', $season);
 
@@ -38,7 +39,7 @@ class CupLeagueController extends AbstractController
 
     public function newMatch(Menu $serviceMenu, $season)
     {
-        $entity = new CupLeague();
+        $entity = new Game();
 
         $form   = $this->createForm(CupLeagueType::class, $entity, [
               'season' => $season
@@ -56,11 +57,14 @@ class CupLeagueController extends AbstractController
     public function createMatch(Menu $serviceMenu, Request $request, $season)
     {
         $ent = CupLeagueType::class;
-        $entity  = new CupLeague();
+        $entity  = new Game();
         $year = $this->getDoctrine()->getRepository(Seasons::class)
           ->findOneByName($season);
+        $turnir = $this->getDoctrine()->getRepository(Turnir::class)
+          ->findOneByAlias('league-cup');
 
         $entity->setSeason($year);
+        $entity->setTurnir($turnir);
         $entity->setStatus(1);
 
         $form = $this->createForm($ent, $entity, [
@@ -87,7 +91,7 @@ class CupLeagueController extends AbstractController
 
     public function new(Menu $serviceMenu, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(CupLeague::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form   = $this->createForm(NationCup2Type::class, $entity);
 
         $menu = $serviceMenu->generate('england');
@@ -101,7 +105,7 @@ class CupLeagueController extends AbstractController
 
     public function create(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(CupLeague::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
         $form = $this->createForm(NationCup2Type::class, $entity);
         $entity->setStatus(0);
         $form->handleRequest($request);
