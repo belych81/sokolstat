@@ -19,12 +19,25 @@ class NhlMatchRepository extends ServiceEntityRepository
         parent::__construct($registry, NhlMatch::class);
     }
 
-    public function getMatches ($season)
+    public function getMatches($season, $curDate)
     {
       return $this->createQueryBuilder('t')
               ->select('t')
               ->join('t.season', 's')
               ->join('t.team', 'tm')
+              ->where("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("t.data LIKE '%$curDate%'")
+              ->orderBy('t.data', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
+
+    public function getDates($season)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('DISTINCT t.data')
+              ->join('t.season', 's')
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->orderBy('t.data', 'ASC')

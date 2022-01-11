@@ -32,12 +32,18 @@ class NhlController extends AbstractController
       $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
           ->getSeasons();
 
-      $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
-          ->getMatches($season);
       $dates = [];
+      $obDates = $this->getDoctrine()->getRepository(NhlMatch::class)
+          ->getDates($season);
+          //var_dump($obDates[array_key_last($obDates)]);
+      $curDate = $obDates[array_key_last($obDates)]['data']->format('Y-m-d');
+      $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
+          ->getMatches($season, $curDate);
       foreach ($matches as $key => $match) {
-        $dates[$match->getData()->format("d.m")][] = $match;
+        $obData = $match->getData();
+        $dates[$obData->format("d.m")][] = $match;
       }
+      //var_dump($curDate);
 
       return $this->render('nhl/index.html.twig', [
           'seasons' => $seasons,
