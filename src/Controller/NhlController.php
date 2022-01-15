@@ -35,20 +35,43 @@ class NhlController extends AbstractController
       $dates = [];
       $obDates = $this->getDoctrine()->getRepository(NhlMatch::class)
           ->getDates($season);
-          //var_dump($obDates[array_key_last($obDates)]);
-      $curDate = $obDates[array_key_last($obDates)]['data']->format('Y-m-d');
+
+      $keyLast = array_key_last($obDates);
+      $prevKey = $keyLast - 1;
+      $curDate = $obDates[$keyLast][1];
+      $obCurDate = new \DateTime($curDate);
+      $obPrevDate = new \DateTime($obDates[$prevKey][1]);
       $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
-          ->getMatches($season, $curDate);
+          ->getMatches($curDate);
       foreach ($matches as $key => $match) {
         $obData = $match->getData();
         $dates[$obData->format("d.m")][] = $match;
       }
-      //var_dump($curDate);
+
 
       return $this->render('nhl/index.html.twig', [
           'seasons' => $seasons,
-          'dates' => $dates
+          'dates' => $dates,
+          'prevDate' => $obPrevDate,
+          'curDate' => $obCurDate
       ]);
+  }
+
+  public function dateAjax($data)
+  {
+      $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
+          ->getMatches($data);
+
+          foreach ($matches as $key => $match) {
+            $obData = $match->getData();
+            var_dump($obData);
+          }
+
+      $response = json_encode([
+          'matches' => $matches
+      ]);
+      var_dump($response);
+      return new Response($response);
   }
 
   public function standing($season)

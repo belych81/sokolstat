@@ -34,6 +34,7 @@ doctrine:
                 TimestampDiff: App\DQL\TimestampDiff
                 Day: App\DQL\Day
                 Month: App\DQL\Month
+                Date: App\DQL\Date
       #  metadata_cache_driver:
       #      type: service
       #      id: redis_cache_service

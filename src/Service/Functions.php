@@ -95,8 +95,8 @@ class Functions
           $calend['rfpl'][$date][] = $match;
           break;
         case 'tour':
-          $country = $match->getCountry()->getName();
-          $calend[$country][$date][] = $match;
+          $turnir = $match->getTurnir()->getAlias();
+          $calend[$turnir][$date][] = $match;
             break;
         case 'ec':
           $turnir = $match->getTurnir()->getAlias();

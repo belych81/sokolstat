@@ -173,7 +173,6 @@ function scrollToBlock(to, speed, offset) {
         dataType: 'json',
         success: function(data){
             var newHtml = "";
-            console.log(data.teams);
             for(var i=0, cnt=data.teams.length; i < cnt; i++){
               var detailUrl = Routing.generate('team_show', {
                 'code': data.teams[i][1]});
@@ -199,10 +198,27 @@ function scrollToBlock(to, speed, offset) {
       for (key in params){
         newArr.push(key + '=' + params[key]);
       }
-      console.log(newArr);
       window.location.search = newArr.join('&');
   });
 
+  $(".nhl-dates span[data-date]").click(function(){
+    var data = $(this).data('date');
+    $.ajax({
+        type: 'post',
+        url: Routing.generate('nhl_date_ajax', {'data':data}),
+        dataType: 'json',
+        success: function(response){
+          console.log(response);
+          for(var i=0, cnt=response.matches.length; i < cnt; i++){
+            console.log(response.matches[i]);
+          }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        }
+      });
+  });
 
 });
 

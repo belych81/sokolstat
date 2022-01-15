@@ -716,7 +716,7 @@ footer {
   background-color: #db7fb0;
 }
 .nhl-matches{
-  display: flex;
+  /*display: flex;*/
 }
 .nhl-matches-table{
   margin: auto;
@@ -1713,4 +1713,17 @@ th.sorted[data-order="1"]::after {
     overflow: hidden;
     will-change: transform;
     letter-spacing: normal;
+}
+
+.nhl-dates {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 15px 0;
+}
+.nhl-dates span {
+  margin-right: 15px;
+  cursor: pointer;
+}
+.nhl-dates span.active {
+  color: #936;
 }

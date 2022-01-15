@@ -22,9 +22,10 @@
   <div class='calendar'>
     <div class="calendar-title">МАТЧИ, МАТЧИ</div>
     {% for champ, matchCountry in tourCalend %}
-      {% if champ == country %}
+      {% if champ == country ~ '-champ' %}
         {% for k, matchDate in matchCountry %}
-          <div><strong>{{ k | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября', '.12': ' декабря', '.1': ' января'}) }}</strong></div>
+          <div><strong>{{ k | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября', '.12': ' декабря',
+            '.1': ' января', '.2': ' февраля'}) }}</strong></div>
           {% for match in matchDate %}
             <div>{{ match.team }} - {{ match.team2 }}</div>
           {% endfor %}

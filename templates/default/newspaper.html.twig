@@ -9,14 +9,14 @@
   <button class="np-download"><a href="/newspapers/pdf/{{ newspaper_number }}.pdf" download="">Скачать газету</a></button>
   <div class="container">
     <div class="np-title">
-      <img src="https://{{ host }}/images/logo-newspaper.png" />
+      <img src="https://{{ host }}/images/logo-newspaper22.png" />
     </div>
     <div class="np-number">
-      <strong>№ 1</strong>&nbsp;&nbsp;&nbsp;&nbsp;15 ОКТЯБРЯ
+      <strong>№ {{ newspaper_number }}</strong> ({{ newspaper_number + 8 }})&nbsp;&nbsp;&nbsp;&nbsp;15 ЯНВАРЯ
       <span>Основан в 2021 году</span>
     </div>
-    <div class="prime-image"><img src="https://{{ host }}/images/2021-03-09_12-50.png" /></div>
-    <div class="prime-image-title">Квинси Промес - автор победного мяча в ворота "Краснодара"</div>
+    <div class="prime-image"><img src="https://{{ host }}/images/агаларов.png" /></div>
+    <div class="prime-image-title">Гамид Агаларов - лучший бомбардир осенней части чемпионата России</div>
     <div class="prime-bottom-blocks">
         <div>
             <h3>Заголовок</h3>
@@ -182,6 +182,7 @@
 
           {% for k, arr in country %}
             {% set isMatches = false %}
+
             {% if k == 'tour' %}
               {{ include('default/titleEmblemBlock.html.twig', { 'fileName': topEmblem[key], 'title': key }) }}
               {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
@@ -189,7 +190,7 @@
 
             {% if k == 'table' and country.tour is defined %}
               {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
-              {{ include('default/bombBlock.html.twig', { 'fnlBombs': bombs[key], 'tourCalend': tourCalend, 'country': key }) }}
+              {{ include('default/bombBlock.html.twig', { 'fnlBombs': bombs[key], 'tourCalend': tourCalend, 'country': arr[0].country.translit }) }}
             {% endif %}
           {% endfor %}
         {% endif %}

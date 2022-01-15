@@ -93,6 +93,12 @@ rating:
   path: /rating/
   controller: App\Controller\DefaultController::rating
 
+nhl_date_ajax:
+    path:  /nhl/date-ajax/{data}/
+    controller: App\Controller\NhlController:dateAjax
+    options:
+        expose: true
+        
 nhl_add:
   path: /nhl/add/
   controller: App\Controller\NhlController::add
@@ -849,6 +855,7 @@ team_get_by_letter:
     controller: App\Controller\TeamController:getByLetter
     options:
         expose: true
+
 
 shipplayers_update:
     path:  /shipplayers/admin/update/

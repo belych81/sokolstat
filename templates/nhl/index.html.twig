@@ -72,13 +72,13 @@
   <img src="{{ asset('images/calend.jpg') }}" class="datepicker-icon">
   <div id="datepicker" class="datepicker-calend dropdown-menu"></div>
   <div class="nhl-matches champs">
-
+    <div class="nhl-dates">
+      <span data-date="{{ prevDate | date('Y-m-d') }}">{{ prevDate | date('j F') }}</span>
+      <span class="active">{{ curDate | date('j F') }}</span>
+    </div>
     <table class="nhl-matches-table">
         <tbody>
         {% for key, data in dates %}
-        <tr class="champ-match-title match-date">
-          <td colspan="6">{{ key }}</td>
-        </tr>
           {% for match in data %}
             <tr class="champ-match-title">
                 {% if is_granted("ROLE_ADMIN") %}

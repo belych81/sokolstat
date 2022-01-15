@@ -148,7 +148,7 @@ class DefaultController extends AbstractController
     $rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
     $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
 
-    $tourTomm = $em->getRepository(Tour::class)->getMatchesTomm();
+    $tourTomm = $em->getRepository(Game::class)->getMatchesTomm();
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 
