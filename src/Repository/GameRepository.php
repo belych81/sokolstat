@@ -176,4 +176,23 @@ class GameRepository extends ServiceEntityRepository
       ;
     }
 
+    public function findByLastWeek($data, $noFnl = false)
+    {
+       $qb = $this->createQueryBuilder('t')
+            ->join('t.team', 'tm')
+            ->join('tm.country', 'c')
+            ->where('t.data >= :data')
+            ->andWhere('t.status = 0')
+            ->setParameter('data', $data);
+
+        if($noFnl) {
+          $qb->andWhere('c.name IN (:fnl)')
+             ->setParameter('fnl', ['Англия', 'Испания', 'Италия', 'Германия',
+              'Франция']);
+        }
+        $qb->orderBy('t.data', 'ASC');
+
+        return  $qb->getQuery()->getResult();
+    }
+
 }

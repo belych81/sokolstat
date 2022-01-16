@@ -64,7 +64,7 @@
         {{ include('default/bombBlock.html.twig', { 'fnlBombs': rusBombs, 'tourCalend': rfplMatchCalend, 'country': 'rfpl' }) }}
     {% endif %}
 
-      {% for key, country in tours %}
+      {# % for key, country in tours %}
         {% if key == 'ФНЛ' %}
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'logo2020.png', 'title': 'Первенство ФНЛ' }) }}
           <div class="article">
@@ -84,7 +84,7 @@
           {% endfor %}
           {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
         {% endif %}
-      {% endfor %}
+      {% endfor % #}
 
 
 {# Lch #}
@@ -177,10 +177,14 @@
       </div>
 
       {% for key, country in tours %}
+
         {% if key != 'ФНЛ' and key != 'Россия' %}
 
-
           {% for k, arr in country %}
+            {% if k == 'turnir' %}
+              {% set turnirAlias =  arr %}
+            {% endif %}
+
             {% set isMatches = false %}
 
             {% if k == 'tour' %}
