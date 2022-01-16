@@ -75,7 +75,7 @@
                    <li><a href="{{ path('sbornieRus', {'season': '2021'}) }}">СБОРНАЯ РОССИИ</a></li>
                   </ul></li>
                   <li><a href="{{ path('player') }}">ФУТБОЛИСТЫ</a></li>
-                  <li><a href="/newspapers/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
+                  <li><a href="/newspapers/2022/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
                   <li class="header-login">
                       {% if is_granted("ROLE_USER") %}
                           <a href="" class="registerLink">{{ app.user.username }}</a> |
@@ -139,7 +139,7 @@
                   <li class="dropdown nav-item">
                     <a href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
                   </li>
-                  <li class="dropdown nav-item"><a href="/newspapers/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
+                  <li class="dropdown nav-item"><a href="/newspapers/2022/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
                 </ul>
               </nav>
             </div>
