@@ -10,7 +10,7 @@
   {% set team2 = matches.team2.name %}
   {% set currentTeam = club.name  %}
 
-  {% if matches.score %}
+  {% if matches.score and goal1 == 0 and goal2 == 0 %}
     {% set arScore = matches.score | split('-') %}
     {% if currentTeam == team %}
       {% set goalCurrent = arScore[0] %}
@@ -41,7 +41,7 @@
     <span class="team-matches-date">{{ matches.data | date('d.m') }}</span>
     <span class="spiski">{{ matches.team.name }} - {{ matches.team2.name }}</span> -
     <span class="scScore">
-      {% if matches.score %}
+      {% if matches.score and goal1 == 0 and goal2 == 0 %}
         {{ arScore[0] }}:{{ arScore[1] }}
       {% else %}
         {{ matches.goal1 }}:{{ matches.goal2 }}
