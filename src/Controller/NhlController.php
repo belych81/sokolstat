@@ -27,16 +27,32 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class NhlController extends AbstractController
 {
-  public function index($season)
+  public function index(Request $request, $season)
   {
-      $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
-          ->getSeasons();
+    $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+        ->getSeasons();
+    $routeName = $request->attributes->get('_route');
 
       $dates = [];
+      if($routeName != 'nhl_season'){
+        $seasonName = '1992-93';
+      } else {
+        $seasonName = $season;
+      }
       $obDates = $this->getDoctrine()->getRepository(NhlMatch::class)
-          ->getDates($season);
+          ->getDates($seasonName);
 
-      $keyLast = array_key_last($obDates);
+      if($routeName == 'nhl_season'){
+        $keyLast = array_key_last($obDates);
+      } else {
+        foreach ($obDates as $key => $arr) {
+          if($arr[1] == $season){
+            $keyLast = $key;
+            break;
+          }
+        }
+      }
+
       $prevKey = $keyLast - 1;
       $curDate = $obDates[$keyLast][1];
       $obCurDate = new \DateTime($curDate);
@@ -57,22 +73,6 @@ class NhlController extends AbstractController
       ]);
   }
 
-  public function dateAjax($data)
-  {
-      $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
-          ->getMatches($data);
-
-          foreach ($matches as $key => $match) {
-            $obData = $match->getData();
-            var_dump($obData);
-          }
-
-      $response = json_encode([
-          'matches' => $matches
-      ]);
-      var_dump($response);
-      return new Response($response);
-  }
 
   public function standing($season)
   {

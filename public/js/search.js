@@ -201,23 +201,9 @@ function scrollToBlock(to, speed, offset) {
       window.location.search = newArr.join('&');
   });
 
-  $(".nhl-dates span[data-date]").click(function(){
+  $("body").on("click", ".nhl-dates span[data-date]", function(){
     var data = $(this).data('date');
-    $.ajax({
-        type: 'post',
-        url: Routing.generate('nhl_date_ajax', {'data':data}),
-        dataType: 'json',
-        success: function(response){
-          console.log(response);
-          for(var i=0, cnt=response.matches.length; i < cnt; i++){
-            console.log(response.matches[i]);
-          }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          console.log(xhr.status);
-          console.log(thrownError);
-        }
-      });
+    $(".nhl-matches.champs").load("/nhl/date/" + data + " .nhl-matches.champs");
   });
 
 });

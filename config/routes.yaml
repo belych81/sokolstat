@@ -93,19 +93,9 @@ rating:
   path: /rating/
   controller: App\Controller\DefaultController::rating
 
-nhl_date_ajax:
-    path:  /nhl/date-ajax/{data}/
-    controller: App\Controller\NhlController:dateAjax
-    options:
-        expose: true
-        
 nhl_add:
   path: /nhl/add/
   controller: App\Controller\NhlController::add
-
-nhl_season:
-    path:  /nhl/{season}/
-    controller: App\Controller\NhlController:index
 
 nhl_standing:
     path:  /nhl/standing/{season}/
@@ -119,13 +109,23 @@ nhl_player_show:
     path:  /nhl/player/{id}/
     controller: App\Controller\NhlController:showPlayer
 
-nhl_show:
-    path:  /nhl/{season}/{id}/
-    controller: App\Controller\NhlController:show
-
 nhl_newSeason:
     path:  /nhl/admin/season/
     controller: App\Controller\NhlController:newSeason
+
+nhl_season:
+    path:  /nhl/{season}/
+    controller: App\Controller\NhlController:index
+
+nhl_date:
+    path:  /nhl/date/{season}/
+    controller: App\Controller\NhlController:index
+    options:
+        expose: true
+
+nhl_show:
+    path:  /nhl/{season}/{id}/
+    controller: App\Controller\NhlController:show
 
 nhl_createSeason:
     path:  /nhl/admin/season/create/

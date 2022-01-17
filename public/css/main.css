@@ -1727,3 +1727,7 @@ th.sorted[data-order="1"]::after {
 .nhl-dates span.active {
   color: #936;
 }
+
+.nhl-matches-table {
+  width: 440px;
+}
