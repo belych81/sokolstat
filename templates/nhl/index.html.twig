@@ -70,11 +70,16 @@
       }}">Добавить матч</a></p>
   {% endif %}
   <img src="{{ asset('images/calend.jpg') }}" class="datepicker-icon">
-  <div id="datepicker" class="datepicker-calend dropdown-menu"></div>
+  <!--input type="text" id="datepicker"-->
   <div class="nhl-matches champs">
     <div class="nhl-dates">
-      <span data-date="{{ prevDate | date('Y-m-d') }}">{{ prevDate | date('j F') }}</span>
+      {% if prevDate %}
+        <span data-date="{{ prevDate | date('Y-m-d') }}">{{ prevDate | date('j F') }}</span>
+      {% endif %}
       <span class="active">{{ curDate | date('j F') }}</span>
+      {% if nextDate %}
+        <span data-date="{{ nextDate | date('Y-m-d') }}">{{ nextDate | date('j F') }}</span>
+      {% endif %}
     </div>
     <table class="nhl-matches-table">
         <tbody>
