@@ -12,12 +12,22 @@
 
   {% if matches.score and goal1 == 0 and goal2 == 0 %}
     {% set arScore = matches.score | split('-') %}
+    {% set arScore0 = arScore[0] %}
+    {% set arScore1 = arScore[1] %}
+
+    {% if '(' in matches.score %}
+      {% set arScorePen = matches.score | split('(') %}
+      {% set arScorePen2 = arScorePen[1] | split('-') %}
+      {% set arScore0 = arScorePen2[0] %}
+      {% set arScore1 = arScorePen2[1] | slice(0, -1) %}
+    {% endif %}
+
     {% if currentTeam == team %}
-      {% set goalCurrent = arScore[0] %}
-      {% set goalOpponent = arScore[1] %}
+      {% set goalCurrent = arScore0 %}
+      {% set goalOpponent = arScore1 %}
     {% else %}
-      {% set goalCurrent = arScore[1] %}
-      {% set goalOpponent = arScore[0] %}
+      {% set goalCurrent = arScore1 %}
+      {% set goalOpponent = arScore0 %}
     {% endif %}
   {% else %}
     {% if currentTeam == team %}
@@ -42,7 +52,7 @@
     <span class="spiski">{{ matches.team.name }} - {{ matches.team2.name }}</span> -
     <span class="scScore">
       {% if matches.score and goal1 == 0 and goal2 == 0 %}
-        {{ arScore[0] }}:{{ arScore[1] }}
+        {{ matches.score | replace({'-': ':'}) }}
       {% else %}
         {{ matches.goal1 }}:{{ matches.goal2 }}
       {% endif %}
