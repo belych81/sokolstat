@@ -256,7 +256,7 @@ footer {
 }
 .champTourImage {
     background-color: #fff;
-    width: 51px;
+    max-width: 51px;
     text-align: center;
 }
 .champTourImage img {

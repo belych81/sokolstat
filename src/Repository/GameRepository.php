@@ -53,14 +53,18 @@ class GameRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function getMaxTour($country, $season) {
+    public function getMaxTour($country, $season)
+    {
+        if($country != 'fnl'){
+          $country .= '-champ';
+        }
 
         $qb = $this->createQueryBuilder('t')
                 ->select('t.tour')
                 ->join('t.turnir', 'c')
                 ->join('t.season', 's')
                 ->where("c.alias = :country")
-                ->setParameter('country', $country.'-champ')
+                ->setParameter('country', $country)
                 ->andWhere("s.name = :season")
                 ->setParameter('season', $season)
                 ->orderBy('t.id', 'DESC')
@@ -77,13 +81,17 @@ class GameRepository extends ServiceEntityRepository
 
     public function getMatches($country, $season, $tour)
     {
+      if($country != 'fnl'){
+        $country .= '-champ';
+      }
+      
       return $this->createQueryBuilder('t')
               ->select('t')
               ->join('t.turnir', 'c')
               ->join('t.season', 's')
               ->join('t.team', 'tm')
               ->where("c.alias = :country")
-              ->setParameter('country', $country."-champ")
+              ->setParameter('country', $country)
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->andWhere("t.tour = :tour")

@@ -179,7 +179,7 @@
       {% for key, country in tours %}
 
         {% if key != 'ФНЛ' and key != 'Россия' %}
-
+          {% set flag = true %}
           {% for k, arr in country %}
             {% if k == 'turnir' %}
               {% set turnirAlias =  arr %}
@@ -187,9 +187,17 @@
 
             {% set isMatches = false %}
 
-            {% if k == 'tour' %}
+            {% if flag %}
               {{ include('default/titleEmblemBlock.html.twig', { 'fileName': topEmblem[key], 'title': key }) }}
+              {% set flag = false %}
+            {% endif %}
+
+            {% if k == 'tour' %}
               {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
+            {% endif %}
+
+            {% if k == 'stadia' %}
+              {{ include('default/cupBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
 
             {% if k == 'table' and country.tour is defined %}

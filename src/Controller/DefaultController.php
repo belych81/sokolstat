@@ -91,21 +91,19 @@ class DefaultController extends AbstractController
     $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
     $matches = $this->getDoctrine()->getRepository(Game::class)
       ->findByLastWeek($fromDate);
-    foreach ($matches as &$match) {
-      $match->getTeam()->setName(
-        mb_convert_case($match->getTeam()->getName(), MB_CASE_TITLE, "UTF-8")
-      );
-      $match->getTeam2()->setName(
-        mb_convert_case($match->getTeam2()->getName(), MB_CASE_TITLE, "UTF-8")
-      );
-    }
     $tours = [];
     foreach ($matches as $match) {
       $turnirAlias = $match->getTurnir()->getAlias();
       $country = $match->getTeam()->getCountry()->getName();
       //var_dump($turnirAlias);
       $tour = $match->getTour();
-      $tours[$country]['tour'][$tour][] = $match;
+      if($tour){
+        $tours[$country]['tour'][$tour][] = $match;
+      }
+      $stadia = $match->getStadia();
+      if($stadia){
+        $tours[$country]['stadia'][$stadia->getName()][] = $match;
+      }
       $tours[$country]['turnir'] = $turnirAlias;
     }
     $rfplTours = [];
