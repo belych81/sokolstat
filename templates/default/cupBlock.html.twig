@@ -1,18 +1,23 @@
-<div class="np-champ-matches top5">
-  {% for numb, tour in arr %}
-    {% if numb > 0 %}
-      <h4>{{ numb }}</h4>
-      {% for match in tour %}
-        {% set isMatches = true %}
-        <div>
-          <span class="np-matches-team"><b>{{ match.team.name }}</b> -
-          <b>{{ match.team2.name }}</b> -
-          {{ match.score }}</span>
-          {% if match.bomb != '-' %}
-          (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% endif %}
+<div class="np-champ-matches top5 cups">
+  {% for stadia, arRaram in arr %}
+    {% for param, val in arRaram %}
+      {% if param == 'turnir' %}
+        <hr/>
+        <h3>{{ val }}</h3>
+      {% else %}
+        <h4>{{ stadia }}</h4>
+        {% for match in val %}
+          {% set isMatches = true %}
+          <div>
+            <span class="np-matches-team"><b>{{ match.team.name }}</b> -
+            <b>{{ match.team2.name }}</b> -
+            {{ match.score }}</span>
+            {% if match.bomb != '-' %}
+            (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 </div>

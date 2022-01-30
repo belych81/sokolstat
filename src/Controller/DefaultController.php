@@ -93,7 +93,7 @@ class DefaultController extends AbstractController
       ->findByLastWeek($fromDate);
     $tours = [];
     foreach ($matches as $match) {
-      $turnirAlias = $match->getTurnir()->getAlias();
+      $turnirAlias = $match->getTurnir()->getRussianalias();
       $country = $match->getTeam()->getCountry()->getName();
       //var_dump($turnirAlias);
       $tour = $match->getTour();
@@ -102,7 +102,9 @@ class DefaultController extends AbstractController
       }
       $stadia = $match->getStadia();
       if($stadia){
-        $tours[$country]['stadia'][$stadia->getName()][] = $match;
+        $stadiaName = $stadia->getName();
+        $tours[$country]['stadia'][$stadiaName]['turnir'] = $turnirAlias;
+        $tours[$country]['stadia'][$stadiaName]['matches'][] = $match;
       }
       $tours[$country]['turnir'] = $turnirAlias;
     }

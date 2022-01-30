@@ -293,3 +293,8 @@ footer div span {
   text-align: justify;
   font-size: 14px;
 }
+
+.np-champ-matches.cups {
+  background: #eef;
+  padding: 5px;
+}
