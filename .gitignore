@@ -26,6 +26,7 @@
 ###< symfony/web-server-bundle ###
 
 /.idea/
+/nfl/
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 npm-debug.log

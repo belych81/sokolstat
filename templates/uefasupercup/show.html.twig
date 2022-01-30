@@ -28,8 +28,8 @@
     <p>{{ entity.team2.name }}: {{ entity.game2 }}</p>
 
 
-    {% if entity.goal %}
-        <p>Голы: {{ entity.goal }}.</p>
+    {% if entity.bomb %}
+        <p>Голы: {{ entity.bomb }}.</p>
         {% endif %}
     </div>
         {% if app.request.get('country') == 'russia' and is_granted("ROLE_ADMIN") %}

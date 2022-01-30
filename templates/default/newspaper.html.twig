@@ -176,6 +176,48 @@
         {% endif %}
       </div>
 
+      <div class="calendar">
+                            <table class="champ-rus-bomb">
+              <thead>
+                  <tr class="shipTableTitle">
+                      <th colspan="2" class="calendar-title">ЮБИЛЕИ</th>
+                  </tr>
+              </thead>
+              <tbody>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>55</strong></td>
+                      <td class="">
+                         Сергей Шматоваленко
+                      </td>
+                  </tr>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>50</strong></td>
+                      <td class="">
+                        Юрий Дроздов
+                      </td>
+                  </tr>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>45</strong></td>
+                      <td class="">
+                        Дмитрий Кириченко, Фил Нэвилл
+                      </td>
+                  </tr>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>40</strong></td>
+                      <td class="">
+                        Сергей Ковальчук
+                      </td>
+                  </tr>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>35</strong></td>
+                      <td class="">
+                        Владислав Игнатьев
+                      </td>
+                  </tr>
+                      </tbody>
+            </table>
+            </div>
+            
       {% for key, country in tours %}
 
         {% if key != 'ФНЛ' and key != 'Россия' %}
@@ -191,7 +233,8 @@
               {{ include('default/titleEmblemBlock.html.twig', { 'fileName': topEmblem[key], 'title': key }) }}
               {% set flag = false %}
             {% endif %}
-
+            <h2 class="article-title"></h2>
+            <article class="textcols"></article>
             {% if k == 'tour' %}
               {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
             {% endif %}

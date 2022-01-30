@@ -84,7 +84,7 @@ class GameRepository extends ServiceEntityRepository
       if($country != 'fnl'){
         $country .= '-champ';
       }
-      
+
       return $this->createQueryBuilder('t')
               ->select('t')
               ->join('t.turnir', 'c')
@@ -201,6 +201,25 @@ class GameRepository extends ServiceEntityRepository
         $qb->orderBy('t.data', 'ASC');
 
         return  $qb->getQuery()->getResult();
+    }
+
+    public function getNationSupercup($country)
+    {
+      if($country == 'uefa'){
+        $alias = 'supercup';
+      } else {
+        $alias = $country."-supercup";
+      }
+        return $this->createQueryBuilder('n')
+                ->select('n', 's', 'tm')
+                ->join('n.season', 's')
+                ->join('n.team', 'tm')
+                ->join('n.turnir', 'cn')
+                ->where('cn.alias = :country')
+                ->setParameter('country', $alias)
+                ->orderBy('s.name', 'DESC')
+                ->getQuery()
+                ->getResult();
     }
 
 }

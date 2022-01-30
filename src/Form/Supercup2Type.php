@@ -15,7 +15,7 @@ class Supercup2Type extends AbstractType
         $builder
           ->add('data')
           ->add('score')
-          ->add('goal');
+          ->add('bomb');
 
         if($country == 'uefa' || $country == 'russia')
         {
