@@ -176,6 +176,28 @@
         {% endif %}
       </div>
 
+      {% if transfers %}
+        <table class="table transfers champ-rus-bomb">
+            <thead>
+              <tr class="shipTableTitle">
+                  <th colspan="3" class="calendar-title">ПЕРЕХОДЫ</th>
+              </tr>
+              <th>Игрок</th>
+              <th>Откуда</th>
+              <th>Куда</th>
+            </thead>
+            <tbody>
+            {% for transfer in transfers %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td>{{ transfer.player }}</td>
+                <td>{{ transfer.old.name }}</td>
+                <td>{{ transfer.new.name }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      {% endif %}
+
       <div class="calendar">
                             <table class="champ-rus-bomb">
               <thead>
@@ -217,7 +239,7 @@
                       </tbody>
             </table>
             </div>
-            
+
       {% for key, country in tours %}
 
         {% if key != 'ФНЛ' and key != 'Россия' %}

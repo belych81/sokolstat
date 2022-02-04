@@ -109,7 +109,7 @@ thead {
   color: #936;
   font-weight: bold;
   height: 100px;
-  margin: 80px 0 190px;
+  margin: 80px 0 90px;
 }
 .title-emblem {
   text-align: center;
@@ -300,4 +300,13 @@ footer div span {
 }
 .textcols li {
   margin-bottom: 10px;
+}
+
+.transfers {
+  margin: 30px auto;
+  width: 80%;
+  border: 1px solid #000;
+}
+.transfers td {
+  padding: 5px;
 }

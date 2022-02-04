@@ -21,6 +21,7 @@ use App\Entity\News;
 use App\Entity\Mundial;
 use App\Entity\Ectable;
 use App\Entity\Game;
+use App\Entity\Transfer;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
@@ -155,6 +156,8 @@ class DefaultController extends AbstractController
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 
+    $transfers = $em->getRepository(Transfer::class)->findByPeriod(2);
+
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
       'rfplMatch' => $rfplMatch,
@@ -170,7 +173,8 @@ class DefaultController extends AbstractController
       'fnlBombs' => $fnlBombs,
       'bombs' => $bombs,
       'topEmblem' => $topEmblem,
-      'host' => $host
+      'host' => $host,
+      'transfers' => $transfers
     ]);
   }
 

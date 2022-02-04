@@ -6,4 +6,4 @@ twig:
     globals:
         season: 2021-22
         stadia: groupA
-        newspaper_number: 2
+        newspaper_number: 3
