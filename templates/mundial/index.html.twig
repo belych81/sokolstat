@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block seasons %}
+  <div class="seasons">
     {% for season in seasons %}
         {% if app.request.get('year') == season.name %}
             <strong>{{ season.name }}</strong>
@@ -19,6 +20,7 @@
               {{ season.name }}</a>
         {% endif %}
     {% endfor %}
+  </div>
 {% endblock %}
 
 {% block content %}

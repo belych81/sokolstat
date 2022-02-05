@@ -5,6 +5,23 @@
 {% endblock %}
 
 {% block content %}
+<div class="teams-list mund">
+    {% for country in countries %}
+      {% if country.image %}
+        <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                  'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                  class="">
+          <img src="{{ asset('images/') }}{{ country.image }}"
+            alt="{{ country.name }}" title="{{ country.name }}" />
+        </a>
+      {% else %}
+        <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
+                    'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
+                    class="spiski teamlch">{{ country.name }}</a>
+      {% endif %}
+    {% endfor %}
+</div>
+
   <h1>{{ sborn.name }}</h1>
   <div class="team-show-image">
     {% if sborn.image %}
@@ -12,7 +29,7 @@
         alt="{{ sborn.name }}" title="{{ sborn.name }}" />
     {% endif %}
   </div>
-    <table>
+    <table class="table">
         <thead>
             <tr class="shipTableTitle">
                 <th class="teamStatGoal">№</th>
@@ -98,20 +115,5 @@
             Добавить игрока</a>
             {% endif %}
 
-        <div class="teams-list mund">
-            {% for country in countries %}
-              {% if country.image %}
-                <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
-                          'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
-                          class="">
-                  <img src="{{ asset('images/') }}{{ country.image }}"
-                    alt="{{ country.name }}" title="{{ country.name }}" />
-                </a>
-              {% else %}
-                <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
-                            'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
-                            class="spiski teamlch">{{ country.name }}</a>
-              {% endif %}
-            {% endfor %}
-        </div>
+
  {% endblock %}
