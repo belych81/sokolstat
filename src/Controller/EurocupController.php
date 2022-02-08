@@ -7,6 +7,7 @@ use App\Entity\Turnir;
 use App\Entity\Stadia;
 use App\Entity\Ectable;
 use App\Entity\Team;
+use App\Entity\Game;
 use App\Entity\Lchplayer;
 use App\Entity\Ecsostav;
 use App\Entity\Ecplayer;
@@ -28,8 +29,8 @@ class EurocupController extends AbstractController
 {
     public function index(Menu $serviceMenu, $turnir, $season)
     {
-        $seasons = $this->getDoctrine()->getRepository(Eurocup::class)
-          ->getSeasonsByTurnir($turnir);
+        $seasons = $this->getDoctrine()->getRepository(Game::class)
+          ->getSeasons($turnir);
         $rus_turnir = $this->getDoctrine()->getRepository(Turnir::class)
             ->findOneByAlias($turnir);
         $stadies = $this->getDoctrine()->getRepository(Stadia::class)
@@ -38,12 +39,12 @@ class EurocupController extends AbstractController
         //  ->getStadiaByTurnir($turnir, $season);
         foreach ($stadies as $stadia)
         {
-          $matchesStadia = $this->getDoctrine()->getRepository(Eurocup::class)
+          $matchesStadia = $this->getDoctrine()->getRepository(Game::class)
             ->getEntityByTurnirStadia($turnir, $season, $stadia);
           $matches1 = [];
           $matches2 = [];
           foreach($matchesStadia as $match){
-            $numb = $match->getNumber();
+            $numb = $match->getTour();
             if($numb == 1){
               $matches1[$match->getTeam()->getId()] = $match;
             } elseif($numb == 2){
@@ -205,14 +206,11 @@ class EurocupController extends AbstractController
 
     public function newMatch(SessionInterface $session, $season)
     {
-        $entity = new Eurocup();
+        $entity = new Game();
         //if(!($session->get('data'))){
-          $session->set('data', new \DateTime());
       //  }
-        $data = $session->get('data');
         $form   = $this->createForm(EurocupNewType::class, $entity, [
-            'season' => $season,
-            'date' => $data
+            'season' => $season
             ]);
 
         return $this->render('eurocup/newMatch.html.twig', array(
@@ -225,10 +223,10 @@ class EurocupController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity  = new Eurocup();
+        $entity  = new Game();
 
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
-
+var_dump($season);
         $entity->setSeason($year);
         $entity->setStatus(1);
         $form = $this->createForm(EurocupNewType::class, $entity, [
@@ -237,8 +235,7 @@ class EurocupController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $_SESSION['stadia'] = $entity->getStadia();
-            $_SESSION['data'] = $entity->getData();
+          echo 333;
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -303,7 +300,7 @@ class EurocupController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository(Eurocup::class)->find($id);
+        $entity = $em->getRepository(Game::class)->find($id);
 
         $editForm = $this->createForm(EurocupTableType::class, $entity);
 
@@ -317,7 +314,7 @@ class EurocupController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository(Eurocup::class)->find($id);
+        $entity = $em->getRepository(Game::class)->find($id);
 
         $editForm = $this->createForm(EurocupTableType::class, $entity);
         $entity->setStatus(0);
@@ -351,7 +348,7 @@ class EurocupController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository(Eurocup::class)->find($id);
+        $entity = $em->getRepository(Game::class)->find($id);
 
         $editForm = $this->createForm(Eurocup2Type::class, $entity);
 
@@ -365,7 +362,7 @@ class EurocupController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository(Eurocup::class)->find($id);
+        $entity = $em->getRepository(Game::class)->find($id);
 
         $editForm = $this->createForm(Eurocup2Type::class, $entity);
         $editForm->handleRequest($request);

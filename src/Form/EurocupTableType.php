@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Eurocup;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +23,7 @@ class EurocupTableType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Eurocup::class
+            'data_class' => Game::class
         ]);
     }
 

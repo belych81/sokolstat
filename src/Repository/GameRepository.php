@@ -222,4 +222,26 @@ class GameRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function getEntityByTurnirStadia($turnir, $season, $stadia)
+    {
+        return $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->where("t.alias = :turnir")
+                ->andWhere("s.name = :season")
+                ->andWhere('st.id = :stadia')
+                ->setParameters([
+                    'season' => $season,
+                    'turnir' => $turnir,
+                    'stadia' => $stadia
+                    ])
+                ->orderBy('e.data, e.id')
+                ->getQuery()
+                ->getResult();
+    }
+
 }

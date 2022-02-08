@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Eurocup;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,7 @@ class Eurocup2Type extends AbstractType
       $builder
           ->add('data', null, ['years' => \range(1991, \date('Y')+1)])
           ->add('stadia')
-          ->add('number')
+          ->add('tour')
           ->add('team')
           ->add('team2')
           ->add('score')
@@ -28,7 +28,7 @@ class Eurocup2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Eurocup::class
+            'data_class' => Game::class
         ]);
     }
 
