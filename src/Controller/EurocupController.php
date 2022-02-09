@@ -226,7 +226,7 @@ class EurocupController extends AbstractController
         $entity  = new Game();
 
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
-var_dump($season);
+
         $entity->setSeason($year);
         $entity->setStatus(1);
         $form = $this->createForm(EurocupNewType::class, $entity, [
@@ -335,7 +335,6 @@ var_dump($season);
             }
             return $this->redirect($this->generateUrl('eurocup', ['turnir' => $turnir, 'season' => $season,
                 'stadia' => $stadia]));
-
         }
 
         return $this->render('eurocup/newEurocup.html.twig', array(
@@ -371,6 +370,13 @@ var_dump($season);
             $em->persist($entity);
             $em->flush();
             $season=$entity->getSeason()->getName();
+
+            if(strpos($turnir, '-cup') !== false){
+              return $this->redirect($this->generateUrl('nationcup', [
+                'country' => $entity->getTeam()->getCountry()->getTranslit(),
+                'season' => $season
+              ]));
+            }
 
             return $this->redirect($this->generateUrl('eurocup', [
               'turnir' => $turnir,

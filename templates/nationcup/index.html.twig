@@ -42,7 +42,9 @@
             <td>
                 <div>
                   {% if is_granted("ROLE_ADMIN") %}
-                      <a href="{{ path('nationcup_new', {'id': entity.id, 'country': app.request.get('country')}) }}">
+                  {% set turnir = app.request.get('country') ~ '-cup' %}
+                  <a href="{{ path('eurocup_editMatch', {'id': entity.id,
+                    'turnir': turnir })}}">
                         {{ entity.data | date('d.m H:i') }}</a>
                   {% else %}
                         {% if entity.status == 1 %}
@@ -57,11 +59,16 @@
                 <div class="spiski">{{ entity.team.name }} - {{ entity.team2.name }}</div>
             </td>
             <td class="scScore">
-                {% if entity.status %}
-                    -:-
+              {% if entity.status %}
+                {% if is_granted("ROLE_ADMIN") %}
+                  <a href="{{ path('nationcup_new', {'id': entity.id, 'country': app.request.get('country')}) }}">
+                    -:-</a>
+                {% else %}
+                  -:-
+                {%  endif %}
               {% else %}
-                  {{ entity.score }}
-                  {% endif %}
+                {{ entity.score }}
+              {% endif %}
             </td>
             <td class="scBomb">
                 {{ entity.bomb }}
