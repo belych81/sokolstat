@@ -150,6 +150,9 @@
                                         'id': player.player.translit}) }}" data-id="{{ player.id }}"
                                         class="spiski {% if player.player.name == lastPlayer %}selected{% endif %}">
                                         {{ player.player.name }}</a>
+                                        <a href="{{ path('shipplayer_confirm_delete',
+                                          {'id': player.id, 'type': 'Gamers', 'country': app.request.get('country')}) }}">
+                                           x</a>
                                         <span class="loading" data-id="{{ player.id }}">
                                           <img src="{{ asset('/images/loading.gif') }}">
                                         </span>

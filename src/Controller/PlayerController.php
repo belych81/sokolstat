@@ -105,13 +105,16 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function editShipplayer($id, $season, $country, $team)
+    public function editShipplayer(Menu $serviceMenu,  $id, $season, $country, $team)
     {
         $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
         $form   = $this->createForm(ShipplayerEditType::class, $entity);
 
+        $menu = $serviceMenu->generateEurocup($season);
+
         return $this->render('player/editShipplayer.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
@@ -714,12 +717,17 @@ class PlayerController extends AbstractController
     {
         switch($type){
           case 'Shipplayer' :
-            $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+            $className = Shipplayer::class;
             break;
           case 'Cupplayer' :
-            $entity = $this->getDoctrine()->getRepository(Cupplayer::class)->find($id);
+            $className = Cupplayer::class;
+            break;
+          case 'Gamers' :
+            $className = Gamers::class;
             break;
         }
+        $entity = $this->getDoctrine()->getRepository($className)->find($id);
+
         return $this->render('shiptable/deleteShipplayer.html.twig', array(
             'entity' => $entity,
             'country' => $country
@@ -732,15 +740,22 @@ class PlayerController extends AbstractController
         $routeParams = [];
         switch($type){
           case 'Shipplayer' :
-            $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+            $className = Shipplayer::class;
             $route = 'championships_show';
             $routeParams['country'] = $country;
             break;
           case 'Cupplayer' :
-            $entity = $this->getDoctrine()->getRepository(Cupplayer::class)->find($id);
+            $className = Cupplayer::class;
             $route = 'cup_show';
             break;
+          case 'Gamers' :
+            $className = Gamers::class;
+            $route = 'championships_show';
+            $routeParams['country'] = 'russia';
+            break;
         }
+
+        $entity = $this->getDoctrine()->getRepository($className)->find($id);
 
         $routeParams['season'] = $entity->getSeason()->getName();
         $routeParams['id'] = $entity->getTeam()->getTranslit();
