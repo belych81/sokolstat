@@ -25,7 +25,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "node-sass": "4.14.1",
+        "node-sass": "7.0.0",
         "vue-router": "^3.4.9"
     }
 }
