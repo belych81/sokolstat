@@ -19,7 +19,7 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
-    public function getLastMatchesByTeam($season, $team)
+    public function getLastMatchesByTeam($season, $team, $cntLastMatches)
     {
       return $this->createQueryBuilder('t')
               ->select('t')
@@ -32,7 +32,7 @@ class GameRepository extends ServiceEntityRepository
               ->setParameter('team', $team)
               ->andWhere('t.status = 0')
               ->orderBy('t.data', 'DESC')
-              ->setMaxResults(10)
+              ->setMaxResults($cntLastMatches)
               ->getQuery()
               ->getResult();
     }

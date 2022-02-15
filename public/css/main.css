@@ -1736,3 +1736,7 @@ th.sorted[data-order="1"]::after {
 .nhl-matches-table {
   width: 440px;
 }
+
+.last_matches_turnir {
+  margin: 0 10px;
+}

@@ -34,6 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ShiptableController extends AbstractController
 {
@@ -193,8 +194,14 @@ class ShiptableController extends AbstractController
                           ->getTeamStat($season, $id);
           }
         }
+
+        $cntLastMatches = 10;
+        if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+           $cntLastMatches = 20;
+        }
+
         $lastMatches = $this->getDoctrine()->getRepository(Game::class)
-                      ->getLastMatchesByTeam($season, $id);
+                      ->getLastMatchesByTeam($season, $id, $cntLastMatches);
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
