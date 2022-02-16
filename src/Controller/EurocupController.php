@@ -302,7 +302,9 @@ class EurocupController extends AbstractController
 
         $entity = $em->getRepository(Game::class)->find($id);
 
-        $editForm = $this->createForm(EurocupTableType::class, $entity);
+        $editForm = $this->createForm(EurocupTableType::class, $entity, [
+          'season' => $entity->getSeason()->getName()
+        ]);
 
         return $this->render('eurocup/newEurocup.html.twig', array(
             'entity'      => $entity,
@@ -316,7 +318,9 @@ class EurocupController extends AbstractController
 
         $entity = $em->getRepository(Game::class)->find($id);
 
-        $editForm = $this->createForm(EurocupTableType::class, $entity);
+        $editForm = $this->createForm(EurocupTableType::class, $entity, [
+          'season' => $entity->getSeason()->getName()
+        ]);
         $entity->setStatus(0);
         $editForm->handleRequest($request);
 

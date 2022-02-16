@@ -144,6 +144,10 @@ footer {
 #rfplmatch_edit_game,
 #rfplmatch_edit_game2,
 #nhl_match2_bomb,
+#eurocup_table_game,
+#eurocup_table_game2,
+#eurocup_table_bomb,
+#eurocup_table_penalty,
 #mundial_penalty {
   width: 800px;
 }
@@ -979,6 +983,9 @@ footer {
     display: inline-block;
     width: 372px;
     text-align: center;
+}
+header > .row {
+  margin-right: 0;
 }
 .row.footer{
   margin-left: 0;
