@@ -46,7 +46,13 @@
              -:-
            {%  endif %}
          {% else %}
-           {{ entity.score }}
+           {% if is_granted("ROLE_ADMIN") %}
+             <a href="{{ path('eurocup_edit', {'id': entity.id,
+               'turnir': app.request.get('turnir') })}}">
+               {{ entity.score }}</a>
+           {% else %}
+             {{ entity.score }}
+           {%  endif %}
          {% endif %}
       </td>
       <td class="scBomb">

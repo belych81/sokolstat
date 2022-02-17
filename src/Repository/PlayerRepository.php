@@ -290,8 +290,8 @@ class PlayerRepository extends ServiceEntityRepository
     public function queryRfplTrainers($season)
     {
         $year = \substr($season, 0, 4);
-        $start = $year-80;
-        $end = $year-35;
+        $start = $year-75;
+        $end = $year-32;
         $str_start = $start.'-01-01';
         $str_end = $end.'-12-31';
         return $query = $this->createQueryBuilder('p')
