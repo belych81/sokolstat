@@ -203,6 +203,27 @@ class GameRepository extends ServiceEntityRepository
         return  $qb->getQuery()->getResult();
     }
 
+    public function getEntityByWeek($date, $turnir)
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->select('e', 's', 'st', 'tm', 'tm2', 't')
+                ->join('e.turnir', 't')
+                ->join('e.season', 's')
+                ->join('e.stadia', 'st')
+                ->join('e.team', 'tm')
+                ->join('e.team2', 'tm2')
+                ->where("e.data >= :data")
+                ->setParameter('data', $date)
+                ->andWhere("t.alias = :turnir")
+                ->setParameter('turnir', $turnir)
+                ->andWhere("e.status = 0")
+                ->orderBy('st.rank, e.data, e.id');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
     public function getNationSupercup($country)
     {
       if($country == 'uefa'){

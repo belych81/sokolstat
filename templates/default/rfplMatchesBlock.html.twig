@@ -4,7 +4,11 @@
       <span class="match-main-info">
         {{ match.team.name | upper}} -
         {{ match.team2.name | upper }} -
-        {{ match.goal1 }}:{{ match.goal2 }}
+        {% if match.score and match.score != '0-0' %}
+          {{ match.score }}
+        {% else %}
+          {{ match.goal1 }}:{{ match.goal2 }}
+        {% endif %}
       </span>
     </div>
     <div class="match-info">

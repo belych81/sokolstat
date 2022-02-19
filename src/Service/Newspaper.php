@@ -1,7 +1,7 @@
 <?php
 namespace App\Service;
 
-use App\Entity\Eurocup;
+use App\Entity\Game;
 use App\Entity\Ectable;
 use App\Entity\Mundial;
 use App\Entity\MundialTable;
@@ -41,9 +41,9 @@ class Newspaper
     $isLchEmblems = false;
 
     $fromDate = $this->getNewspaperDate();
-    $ecTomm = $this->em->getRepository(Eurocup::class)->getMatchesTomm();
+    $ecTomm = $this->em->getRepository(Game::class)->getMatchesTomm();
     $ecCalend = $this->functions->getCalendar($ecTomm, 'ec');
-    $lch = $this->em->getRepository(Eurocup::class)->getEntityByWeek($fromDate, $turnir);
+    $lch = $this->em->getRepository(Game::class)->getEntityByWeek($fromDate, $turnir);
     if(!empty($lch)){
       $lchStadia = $lch[0]->getStadia()->getAlias();
       $isLchEmblems = true;

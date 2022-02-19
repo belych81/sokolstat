@@ -90,7 +90,7 @@
 {# Lch #}
       <div class="np-champ-matches">
         {% if lch['lch'] is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. ГРУППОВОЙ ЭТАП' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. 1/8 ФИНАЛА ' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols">
           </article>
@@ -98,13 +98,19 @@
             {% for stadia, group in lch['lchGroups'] %}
               {{ include('default/ecGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
             {% endfor %}
+          {% else %}
+            <div class="eurocup-matches">
+              {% for match in lch['lch'] %}
+                {{ include('default/rfplMatchesBlock.html.twig', { 'match': match }) }}
+              {% endfor %}
+            </div>
           {% endif %}
         {% endif %}
       </div>
 {# Le #}
       <div class="np-champ-matches">
         {% if le['lch'] is not empty %}
-          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. ГРУППОВОЙ ЭТАП' }) }}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. 1/16 ФИНАЛА' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols"></article>
           {% if le['lchGroups'] %}
@@ -128,7 +134,7 @@
       {# Lk #}
             <div class="np-champ-matches">
               {% if lk['lch'] is not empty %}
-                {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lk.png', 'title': 'ЛИГА КОНФЕРЕНЦИЙ. ГРУППОВОЙ ЭТАП' }) }}
+                {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lk.png', 'title': 'ЛИГА КОНФЕРЕНЦИЙ. 1/16 ФИНАЛА' }) }}
                 <h2 class="article-title">Заголовок</h2>
                 <article class="textcols"></article>
                 {% if lk['lchGroups'] %}
@@ -207,33 +213,33 @@
               </thead>
               <tbody>
                           <tr>
-                      <td class="bomb-numb-goals"><strong>55</strong></td>
-                      <td class="">
-                         Сергей Шматоваленко
-                      </td>
-                  </tr>
-                          <tr>
                       <td class="bomb-numb-goals"><strong>50</strong></td>
                       <td class="">
-                        Юрий Дроздов
+                         Владимир Кулик
                       </td>
                   </tr>
                           <tr>
                       <td class="bomb-numb-goals"><strong>45</strong></td>
                       <td class="">
-                        Дмитрий Кириченко, Фил Нэвилл
+                        Михайло Пьянович
                       </td>
                   </tr>
                           <tr>
                       <td class="bomb-numb-goals"><strong>40</strong></td>
                       <td class="">
-                        Сергей Ковальчук
+                        Младен Кашчелан
                       </td>
                   </tr>
                           <tr>
                       <td class="bomb-numb-goals"><strong>35</strong></td>
                       <td class="">
-                        Владислав Игнатьев
+                        Эдисон Кавани
+                      </td>
+                  </tr>
+                          <tr>
+                      <td class="bomb-numb-goals"><strong>30</strong></td>
+                      <td class="">
+                        Торнике Окриашвили
                       </td>
                   </tr>
                       </tbody>
@@ -242,7 +248,7 @@
 
       {% for key, country in tours %}
 
-        {% if key != 'ФНЛ' and key != 'Россия' %}
+        {% if key in top5 %}
           {% set flag = true %}
           {% for k, arr in country %}
             {% if k == 'turnir' %}

@@ -99,9 +99,11 @@ class Functions
           $calend[$turnir][$date][] = $match;
             break;
         case 'ec':
-          $turnir = $match->getTurnir()->getAlias();
-          $stadia = $match->getStadia()->getAlias();
-          $calend[$turnir][$stadia][$date][] = $match;
+          if($match->getStadia()){
+            $turnir = $match->getTurnir()->getAlias();
+            $stadia = $match->getStadia()->getAlias();
+            $calend[$turnir][$stadia][$date][] = $match;
+          }
             break;
       }
     }

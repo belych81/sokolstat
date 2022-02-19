@@ -89,7 +89,8 @@ class DefaultController extends AbstractController
     $lastSeason = $props->getLastSeason();
 
     $em = $this->getDoctrine();
-    $rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
+    $rfplMatch = [];
+    //$rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
     $matches = $this->getDoctrine()->getRepository(Game::class)
       ->findByLastWeek($fromDate);
     $tours = [];
@@ -149,14 +150,16 @@ class DefaultController extends AbstractController
     $arBombFnl = $functions->getBombSum($bombsFnl, 11);
     $fnlBombs = $functions->getNewspaperBomb($arBombFnl);
 
-    $rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
-    $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
+    $rfplMatchTomm = [];
+    $rfplMatchCalend = [];
+    //$rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
+    //$rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
 
     $tourTomm = $em->getRepository(Game::class)->getMatchesTomm();
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 
-    $transfers = $em->getRepository(Transfer::class)->findByPeriod(2);
+    $transfers = false;//$em->getRepository(Transfer::class)->findByPeriod(2);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
@@ -174,6 +177,7 @@ class DefaultController extends AbstractController
       'bombs' => $bombs,
       'topEmblem' => $topEmblem,
       'host' => $host,
+      'top5' => $top5,
       'transfers' => $transfers
     ]);
   }
