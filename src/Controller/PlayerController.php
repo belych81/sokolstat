@@ -141,21 +141,31 @@ class PlayerController extends AbstractController
 
     public function editChamp(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Gamers::class)->updateGamer($id, $change);
-        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
-        $playerId = $entity->getPlayer()->getId();
-        $player = $entity->getPlayer();
-        $teamOb = $entity->getTeam();
-        $this->getDoctrine()->getRepository(Rusplayer::class)
-          ->updateRusplayer($playerId, $change);
-        $this->getDoctrine()->getRepository(Playersteam::class)
-                ->updatePlayersteam($player, $teamOb, $change);
+        $arAssist = ['minusAssist', 'plusAssist', 'minusScore', 'plusScore'];
+
+        $em = $this->getDoctrine()->getManager();
+        $cache = $em->getCache();
+        $cache->evictEntity(Gamers::class, $id);
+        $em->getRepository(Gamers::class)->updateGamer($id, $change);
+
+        $entity = $em->getRepository(Gamers::class)->find($id);
+        if(!in_array($change, $arAssist)){
+          $playerId = $entity->getPlayer()->getId();
+          $player = $entity->getPlayer();
+          $teamOb = $entity->getTeam();
+          $em->getRepository(Rusplayer::class)
+            ->updateRusplayer($playerId, $change);
+          $em->getRepository(Playersteam::class)
+                  ->updatePlayersteam($player, $teamOb, $change);
+        }
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
         $response = json_encode([
             'name' => $entity->getPlayer()->getName(),
             'game' => $entity->getGame(),
-            'goal' => $entity->getGoal()
+            'goal' => $entity->getGoal(),
+            'assist' => $entity->getAssist(),
+            'score' => $entity->getScore()
         ]);
         return new Response($response);
     }

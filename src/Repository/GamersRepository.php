@@ -131,6 +131,30 @@ class GamersRepository extends ServiceEntityRepository
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal-1';
                 break;
+            case 'plusAssist' :
+                $changeParam = 'g.assist';
+                $changeParam2 = 'g.assist+1';
+                $changeParam3 = 'g.score';
+                $changeParam4 = 'g.score+1';
+                break;
+            case 'minusAssist' :
+                $changeParam = 'g.assist';
+                $changeParam2 = 'g.assist-1';
+                $changeParam3 = 'g.score';
+                $changeParam4 = 'g.score-1';
+                break;
+            case 'plusScore' :
+                $changeParam = 'g.score';
+                $changeParam2 = 'g.score+1';
+                $changeParam3 = 'g.totalgoal';
+                $changeParam4 = 'g.totalgoal';
+                break;
+            case 'minusScore' :
+                $changeParam = 'g.score';
+                $changeParam2 = 'g.score-1';
+                $changeParam3 = 'g.totalgoal';
+                $changeParam4 = 'g.totalgoal';
+                break;
         }
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Gamers', 'g')

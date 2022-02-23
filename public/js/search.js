@@ -148,6 +148,8 @@ function scrollToBlock(to, speed, offset) {
 		if(route != 'player_editSb'){
 			params['team'] = team;
 		}
+		console.log(route);
+		console.log(params)
     $.ajax({
         type: 'post',
         url: Routing.generate(route, params),

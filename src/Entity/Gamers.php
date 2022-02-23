@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GamersRepository")
- * @ORM\Cache
+ * @ORM\Cache(usage="READ_ONLY")
  */
 class Gamers
 {
@@ -58,6 +58,16 @@ class Gamers
      * @ORM\Column(type="integer", nullable=true)
      */
     private $totalgoal = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $assist = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $score = 0;
 
     public function getId(): ?int
     {
@@ -183,6 +193,30 @@ class Gamers
     public function setTotalgoal(?int $totalgoal): self
     {
         $this->totalgoal = $totalgoal;
+
+        return $this;
+    }
+
+    public function getAssist(): ?int
+    {
+        return $this->assist;
+    }
+
+    public function setAssist(?int $assist): self
+    {
+        $this->assist = $assist;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }

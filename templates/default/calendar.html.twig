@@ -5,7 +5,7 @@
    {% set route = '' %}
   {% for ymatch in daymatch %}
     {% set arTurnir = ymatch.turnir.alias | split('-') %}
-    {% if arTurnir.1 is defined and [1] == 'champ' %}
+    {% if arTurnir.1 is defined and arTurnir.1 == 'champ' %}
       {% set route = path('championships', {'country':arTurnir[0],
       'season': ymatch.season.name}) %}
     {% elseif ymatch.turnir.alias == 'fnl' %}

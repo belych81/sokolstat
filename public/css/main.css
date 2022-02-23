@@ -1276,7 +1276,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
 }
 .showTeam{
   display: inline-table;
-  margin-left: 45px;
+  margin-bottom: 10px;
 }
 .stadia-name {
     font-weight: bold;

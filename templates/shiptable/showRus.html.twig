@@ -2,6 +2,12 @@
 
 {% block content %}
 
+  {% set isAssist =  app.request.get('season') > '2021' %}
+  {% set cntCols = 2 %}
+  {% if isAssist %}
+    {% set cntCols = 4 %}
+  {% endif %}
+
   <div class="teams-list">{{ app.request.get('team') }}
     {% for team in teams %}
         <a href="{{ path('championships_show', {'season': app.request.get('season'),
@@ -98,12 +104,6 @@
 
   <div class="row">
     <div class="champ-teams-list col-lg-8">
-                  <div class="champ-back">
-                    <div class="champ-back-arrow"></div>
-                    <a href="{{ path('championships', {'country': app.request.get('country'),
-                      'season': app.request.get('season')}) }}">
-                      Чемпионат</a>
-                  </div>
                     {% block playersTeam %}
                     <div class="champ-teams-list">
                         <table class="table_sort">
@@ -112,7 +112,7 @@
                                 <tr class="shipTableTitle">
                                     <th>&nbsp;</th>
                                     <th class="teamStatPlayer">&nbsp;</th>
-                                    <th colspan="2">Чемпионат {{ app.request.get('season') }}</th>
+                                    <th colspan="{{ cntCols }}">Чемпионат {{ app.request.get('season') }}</th>
                                     <th colspan="2">Всего в сезоне {{ app.request.get('season') }}</th>
                                     <th colspan="2">Всего в чемпионатах</th>
                                     <th colspan="2" class="champ-total-club">Всего за клуб</th>
@@ -124,6 +124,10 @@
                                     <th>&nbsp;</th>
                                     <th class="teamStatGoal">И</th>
                                     <th class="teamStatGoal">Г</th>
+                                    {% if isAssist %}
+                                      <th class="teamStatGoal">П</th>
+                                      <th class="teamStatGoal">О</th>
+                                    {% endif %}
                                     <th class="teamStatGoal">И</th>
                                     <th class="teamStatGoal">Г</th>
                                     <th class="teamStatGoal">И</th>
@@ -200,6 +204,56 @@
                                           data-team="{{ app.request.get('id') }}">+</span>
                                         {% endif %}
                                     </td>
+
+                                    {% if isAssist %}
+
+                                      <td class="tableGoal">
+                                          {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="minusAssist"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">-</span>
+                                          {% endif %}
+                                          <span data-id="{{ player.id }}" data-param="assist">
+                                            {{ player.assist }}
+                                          </span>
+
+                                          {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="plusAssist"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">+</span>
+                                          {% endif %}
+                                      </td>
+                                      <td class="tableGoal">
+                                          {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="minusScore"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">-</span>
+                                          {% endif %}
+                                          <span data-id="{{ player.id }}" data-param="score">
+                                            {{ player.score }}
+                                          </span>
+
+                                          {% if is_granted("ROLE_ADMIN") %}
+                                          <span class="changeGameGoalPlayer"
+                                            data-change="plusScore"
+                                            data-path="playeradmin_editChamp"
+                                            data-id="{{ player.id }}"
+                                            data-season="{{ app.request.get('season') }}"
+                                            data-team="{{ app.request.get('id') }}">+</span>
+                                          {% endif %}
+                                      </td>
+
+                                    {% endif %}
+
                                     <td class="tableGoal">
                                       {% if is_granted("ROLE_ADMIN") %}
                                         <span class="changeGameGoalPlayer"
