@@ -1747,3 +1747,12 @@ th.sorted[data-order="1"]::after {
 .last_matches_turnir {
   margin: 0 10px;
 }
+.shiptable_block {
+  margin: 5px 0;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+}
+.shiptable_root {
+  background: #a3e3c8;
+}

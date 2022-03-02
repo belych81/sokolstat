@@ -53,8 +53,8 @@
 
 {% block content %}
 <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    <div class="row shiptable_root">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-tours">Туры:
                 {% for tour in tours %}
                     {% if app.request.get('tour') != tour.tour %}
@@ -155,7 +155,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-table">
                 <p class="champ-title">Турнирная таблица</p>
                 <table class="shipTable">
@@ -194,7 +194,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-bombs">
                 <p class="champ-title">Бомбардиры</p>
                 <table>
@@ -222,6 +222,68 @@
                 </table>
             </div>
         </div>
+
+        {% if assistSum %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
+              <div class="champ-bombs">
+                  <p class="champ-title">Ассистенты</p>
+                  <table>
+                      <thead>
+                      <tr class="shipTableTitle">
+                          <th>&nbsp;</th>
+                          <th class="bombName">&nbsp;</th>
+                          <th>Клуб</th>
+                          <th>П</th>
+                      </tr>
+                      </thead>
+                      <tbody class="shipTable">
+                      {% for name, player in assistSum %}
+                          <tr class="odd">
+                              <td class="player-position">{{ loop.index }}</td>
+                              <td class="spiski">
+                                  <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                                      {{ name }}</a>
+                              </td>
+                              <td class="bombTeam">{{ player.team }}</td>
+                              <td class="tableGoal">{{ player.goal }}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        {% endif %}
+
+        {% if scoreSum %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
+              <div class="champ-bombs">
+                  <p class="champ-title">Очки</p>
+                  <table>
+                      <thead>
+                      <tr class="shipTableTitle">
+                          <th>&nbsp;</th>
+                          <th class="bombName">&nbsp;</th>
+                          <th>Клуб</th>
+                          <th>O</th>
+                      </tr>
+                      </thead>
+                      <tbody class="shipTable">
+                      {% for name, player in scoreSum %}
+                          <tr class="odd">
+                              <td class="player-position">{{ loop.index }}</td>
+                              <td class="spiski">
+                                  <a href="{{ path('player_show', {'id': player.player.player.translit}) }}" class="spiski">
+                                      {{ name }}</a>
+                              </td>
+                              <td class="bombTeam">{{ player.team }}</td>
+                              <td class="tableGoal">{{ player.goal }}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        {% endif %}
     </div>
 
 

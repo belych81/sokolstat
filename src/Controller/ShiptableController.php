@@ -93,6 +93,13 @@ class ShiptableController extends AbstractController
         }
 
         $bombSum = $functions->getBombSum($bombs, 20);
+        $assistSum = false;
+        $scoreSum = false;
+
+        if($country == 'russia' && $season > '2021'){
+          $assistSum = $functions->getBombSum($bombs, 20, 'assist');
+          $scoreSum = $functions->getBombSum($bombs, 20, 'score');
+        }
 
         $menu = $serviceMenu->generate($country, $season);
 
@@ -105,7 +112,9 @@ class ShiptableController extends AbstractController
             'rusCountry' => $rusCountry,
             'maxTour' => $maxTour,
             'menu' => $menu,
-            'strana' => $strana
+            'strana' => $strana,
+            'assistSum' => $assistSum,
+            'scoreSum' => $scoreSum,
         ]);
     }
 

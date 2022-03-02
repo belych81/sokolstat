@@ -122,6 +122,8 @@ class GamersRepository extends ServiceEntityRepository
                 }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal+1';
+                $changeParam5 = 'g.score';
+                $changeParam6 = 'g.score+1';
                 break;
             case 'minusGoal' :
                 if(!$onlyTotal){
@@ -130,6 +132,8 @@ class GamersRepository extends ServiceEntityRepository
                 }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal-1';
+                $changeParam5 = 'g.score';
+                $changeParam6 = 'g.score-1';
                 break;
             case 'plusAssist' :
                 $changeParam = 'g.assist';
@@ -159,12 +163,17 @@ class GamersRepository extends ServiceEntityRepository
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Gamers', 'g')
                 ->set($changeParam, $changeParam2)
-                ->set($changeParam3, $changeParam4)
-                ->where('g.id = ?1')
-                ->setParameter(1, $id)
-                ->getQuery();
+                ->set($changeParam3, $changeParam4);
 
-            $qb->execute();
+                if(isset($changeParam5)){
+                  $qb->set($changeParam5, $changeParam6);
+                }
+
+                $qb->where('g.id = ?1')
+                ->setParameter(1, $id)
+                ->getQuery()->execute();
+
+            //$qb->execute();
     }
 
     public function countEntity(array $arFilter)

@@ -35,12 +35,22 @@ class Functions
     return $str;
   }
 
-  public function getBombSum(array $bombs, int $limit = 0) :array
+  public function getBombSum(array $bombs, int $limit = 0, string $param = 'goal') :array
   {
     $bombSum = [];
     foreach ($bombs as $val) {
       $name = $val->getPlayer()->getName();
-      $goal = $val->getGoal();
+      switch ($param) {
+        case 'assist':
+          $goal = $val->getAssist();
+          break;
+        case 'score':
+          $goal = $val->getScore();
+          break;
+        default:
+          $goal = $val->getGoal();
+          break;
+      }
       $team = $val->getTeam()->getName();
       if(key_exists($name, $bombSum)){
         $bombSum[$name]['goal'] += $goal;
