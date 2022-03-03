@@ -10,124 +10,13 @@
 {% block content %}
 
  <div class="main-content">
-        <table class="leader-table">
-            <caption>Лидеры по числу матчей в чемпионатах России</caption>
-           <tbody>
-           {% for topMatch in topMatchesRus %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatch.translit}) }}" class="spiski">
-                           {{ topMatch.name }}</a></td>
-                   <td class="playerListGame">{{ topMatch.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Лидеры по числу матчей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topMatchCurr in topMatchesRusCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topMatchCurr.translit}) }}" class="spiski">
-                           {{ topMatchCurr.name }}</a></td>
-                   <td class="playerListGame">{{ topMatchCurr.game }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-        </table>
-
-        <table class="leader-table">
-            <caption>Лидеры по числу забитых мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topGoals in topGoalsRus %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoals.translit}) }}" class="spiski">
-                           {{ topGoals.name }}</a></td>
-                   <td class="playerListGame">{{ topGoals.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Лидеры по числу мячей в чемпионатах России (действующие игроки)</caption>
-           <tbody>
-           {% for topGoalsCurr in topGoalsRusCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topGoalsCurr.translit}) }}" class="spiski">
-                           {{ topGoalsCurr.name }}</a></td>
-                   <td class="playerListGame">{{ topGoalsCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-           <table class="leader-table">
-            <caption>Наибольшее число пропущенных мячей в чемпионатах России</caption>
-           <tbody>
-           {% for topKeeper in topGoalkeepers %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeper.translit}) }}" class="spiski">
-                           {{ topKeeper.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeper.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Наибольшее число пропущенных мячей в чемпионатах России (действующие вратари)</caption>
-           <tbody>
-           {% for topKeeperCurr in topGoalkeepersCurr %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': topKeeperCurr.translit}) }}" class="spiski">
-                           {{ topKeeperCurr.name }}</a></td>
-                   <td class="playerListGame">{{ topKeeperCurr.goal }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Самые возрастные (действующие игроки)</caption>
-           <tbody>
-           {% for maxAgePlayer in maxAgePlayers %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': maxAgePlayer.translit}) }}" class="spiski">
-                           {{ maxAgePlayer.name }}</a></td>
-                   <td class="playerListGame">{{ maxAgePlayer.born | date('d.m.Y') }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
-
-       <table class="leader-table">
-           <caption>Самые молодые (действующие игроки)</caption>
-           <tbody>
-           {% for minAgePlayer in minAgePlayers %}
-
-               <tr class="{{ cycle(['odd', 'even'], loop.index) }} table-row">
-                   <td class="player-position">{{ loop.index }}</td>
-                   <td><a href="{{ path ('player_show', {'id': minAgePlayer.translit}) }}" class="spiski">
-                           {{ minAgePlayer.name }}</a></td>
-                   <td class="playerListGame">{{ minAgePlayer.born | date('d.m.Y') }}</td>
-               </tr>
-           {% endfor %}
-           </tbody>
-       </table>
+        {{ include('stat/data.html.twig', { 'topMatchesRus': topMatchesRus,
+        'topMatchesRusCurr': topMatchesRusCurr,
+        'topGoalsRus': topGoalsRus,
+        'topGoalsRusCurr': topGoalsRusCurr,
+        'topGoalkeepers': topGoalkeepers,
+        'topGoalkeepersCurr': topGoalkeepersCurr,
+        'maxAgePlayers': maxAgePlayers,
+        'minAgePlayers': minAgePlayers }) }}
  </div>
 {% endblock %}

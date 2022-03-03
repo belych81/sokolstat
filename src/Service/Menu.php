@@ -132,6 +132,11 @@ class Menu
           'route' => 'sbornie'
         ],
         [
+          'name' => 'Кубок Африки',
+          'url' => $this->router->generate('sbornie', ['turnir' => 'african', 'year' => '2022']),
+          'route' => 'sbornie'
+        ],
+        [
           'name' => 'Сборная России',
           'url' => $this->router->generate('sbornieRus', ['season' => $this->props->getSbornieRusYear()]),
           'route' => 'sbornieRus'

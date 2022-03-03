@@ -7,6 +7,7 @@ use App\Entity\Rfplmatch;
 use App\Entity\Eurocup;
 use App\Entity\Shipplayer;
 use App\Entity\Fnlplayer;
+use App\Entity\Rusplayer;
 use App\Entity\Gamers;
 use App\Entity\Shiptable;
 use App\Entity\Cup;
@@ -62,6 +63,23 @@ class DefaultController extends AbstractController
       foreach ($entities as $v) {
         $v->setText($functions->truncateText($v->getText(), 500));
       }
+      $limitRusplayers = 10;
+      $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers($limitRusplayers, 'game');
+      $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr($limitRusplayers, 'game', $props->getLastSeason());
+      $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayers($limitRusplayers, 'goal');
+      $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopPlayersCurr($limitRusplayers, 'goal', $props->getLastSeason());
+      $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepers($limitRusplayers);
+      $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+        ->getTopGoalkeepersCurr($limitRusplayers, $props->getLastSeason());
+      $maxAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+              ->getAgeListPlayers($props->getLastSeason(), 'ASC');
+      $minAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+              ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
       return $this->render('default/index.html.twig', [
           'entities' => $entities,
@@ -70,7 +88,15 @@ class DefaultController extends AbstractController
           'tommatch' => $tommatch,
           'bombTotal' => $bombTotal,
           'birthdays' => $birthdays,
-          'lastPlayers' => $lastPlayers
+          'lastPlayers' => $lastPlayers,
+          'topMatchesRus' => $topMatchesRus,
+          'topMatchesRusCurr' => $topMatchesRusCurr,
+          'topGoalsRus' => $topGoalsRus,
+          'topGoalsRusCurr' => $topGoalsRusCurr,
+          'topGoalkeepers' => $topGoalkeepers,
+          'topGoalkeepersCurr' => $topGoalkeepersCurr,
+          'maxAgePlayers' => $maxAgePlayers,
+          'minAgePlayers' => $minAgePlayers
       ]);
   }
 
