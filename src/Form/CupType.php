@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Cup;
+use App\Entity\Game;
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,15 +17,10 @@ class CupType extends AbstractType
     {
 
         $season = $options['season'];
-        if (!in_array('stadia', $_SESSION)) {
-            $_SESSION['stadia']='1/16 финала';
-        }
-        if (!in_array('date', $_SESSION)) {
-            $_SESSION['date']=new \DateTime();
-        }
-        $builder
+
+        $builder          
             ->add('stadia')
-            ->add('data', null, ['data' => $_SESSION['date']])
+            ->add('data')
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
@@ -43,7 +38,7 @@ class CupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Cup::class
+            'data_class' => Game::class
         ]);
         $resolver->setDefined(['season']);
     }

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Cup;
+use App\Entity\Game;
 use App\Entity\Team;
 use App\Entity\Player;
+use App\Entity\Turnir;
 use App\Entity\Shiptable;
 use App\Entity\Playersteam;
 use App\Entity\Stadia;
@@ -23,9 +25,9 @@ class CupController extends AbstractController
 {
   public function index(Menu $serviceMenu, $season)
   {
-      $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
+      $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
       $stadies = $this->getDoctrine()->getRepository(Stadia::class)
-        ->getStadiaCup($season);
+        ->getStadiaEurocup($season, 'russia-cup');
 
       if(!$stadies){
         throw $this->createNotFoundException('The season does not exist');
@@ -33,8 +35,8 @@ class CupController extends AbstractController
 
       foreach ($stadies as $stadia)
       {
-        $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Cup::class)
-          ->findAllBySeasonAndStadia($season, $stadia));
+        $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
+          ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'russia'));
       }
       $menu = $serviceMenu->generate('russia', $season);
 
@@ -95,28 +97,33 @@ class CupController extends AbstractController
         ]);
   }
 
-  public function newMatch($season)
+  public function newMatch(Menu $serviceMenu, $season)
   {
-        $entity = new Cup();
+        $entity = new Game();
 
         $form   = $this->createForm(CupType::class, $entity, [
             'season' => $season
             ]);
 
+      $menu = $serviceMenu->generate('russia', $season);
+
       return $this->render('cup/newMatch.html.twig', array(
           'entity' => $entity,
+          'menu' => $menu,
           'form'   => $form->createView(),
       ));
   }
 
-  public function createMatch(Request $request, $season)
+  public function createMatch(Menu $serviceMenu, Request $request, $season)
   {
       $ent = CupType::class;
-      $entity  = new Cup();
+      $entity  = new Game();
       $year = $this->getDoctrine()->getRepository(Seasons::class)
         ->findOneByName($season);
 
+      $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)->findOneByAlias('russia-cup');
       $entity->setSeason($year);
+      $entity->setTurnir($obTurnir);
       $entity->setStatus(1);
 
       $form = $this->createForm($ent, $entity, [
@@ -127,33 +134,45 @@ class CupController extends AbstractController
 
       if ($form->isValid()) {
           $em = $this->getDoctrine()->getManager();
-          $_SESSION['stadia'] = $entity->getStadia();
-          $_SESSION['date'] = $entity->getData();
           $em->persist($entity);
           $em->flush();
       }
 
+      $menu = $serviceMenu->generate('russia', $season);
+
       return $this->render('cup/newMatch.html.twig', array(
           'entity' => $entity,
+          'menu' => $menu,
           'form'   => $form->createView(),
       ));
     }
 
-    public function new($id)
+    public function new(Menu $serviceMenu, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Cup::class)->find($id);
-        $form   = $this->createForm(Cup2Type::class, $entity);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $season = $entity->getSeason()->getName();
+
+        $form   = $this->createForm(Cup2Type::class, $entity, [
+            'season' => $season
+            ]);
+
+        $menu = $serviceMenu->generate('russia', $season);
 
         return $this->render('cup/new.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }
 
-    public function create(Request $request, $id)
+    public function create(Menu $serviceMenu, Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Cup::class)->find($id);
-        $form = $this->createForm(Cup2Type::class, $entity);
+        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+
+        $season = $entity->getSeason()->getName();
+        $form = $this->createForm(Cup2Type::class, $entity, [
+            'season' => $season
+            ]);
         $entity->setStatus(0);
         $form->handleRequest($request);
 
@@ -166,8 +185,11 @@ class CupController extends AbstractController
                 'season' => $season]));
         }
 
+        $menu = $serviceMenu->generate('russia', $season);
+
         return $this->render('cup/new.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

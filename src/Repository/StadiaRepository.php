@@ -23,7 +23,7 @@ class StadiaRepository extends ServiceEntityRepository
     {
       return $this->createQueryBuilder('s')
               ->select('s', 'c', 'sn')
-              ->leftJoin('s.cups', 'c')
+              ->leftJoin('s.games', 'c')
               ->join('c.season', 'sn')
               ->where("c.stadia = s.id")
               ->andWhere("sn.name = :season")
