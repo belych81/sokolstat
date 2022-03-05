@@ -4,55 +4,57 @@
    </div>
    {% set route = '' %}
   {% for ymatch in daymatch %}
-    {% set arTurnir = ymatch.turnir.alias | split('-') %}
-    {% if arTurnir.1 is defined and arTurnir.1 == 'champ' %}
-      {% set route = path('championships', {'country':arTurnir[0],
-      'season': ymatch.season.name}) %}
-    {% elseif ymatch.turnir.alias == 'fnl' %}
-        {% set route = path('championships', {'country':'fnl',
+    {% if ymatch.turnir %}
+      {% set arTurnir = ymatch.turnir.alias | split('-') %}
+      {% if arTurnir.1 is defined and arTurnir.1 == 'champ' %}
+        {% set route = path('championships', {'country':arTurnir[0],
         'season': ymatch.season.name}) %}
-    {% elseif ymatch.turnir.alias == 'russia-cup' %}
-      {% set route = path('cup', {'season': ymatch.season.name}) %}
-    {% elseif ymatch.turnir.alias == 'league-cup' %}
-      {% set route = path('cup_league', {'season': ymatch.season.name}) %}
-    {% elseif arTurnir.1 is defined and arTurnir[1] == 'cup' %}
-      {% set route = path('nationcup', {'season': ymatch.season.name,
-      'country': arTurnir[0]}) %}
-    {% elseif ymatch.turnir.alias == 'leagueChampions' or ymatch.turnir.alias == 'leagueEuropa' or ymatch.turnir.alias == 'conference-league' %}
-         {% set route = path('eurocup', {'season': ymatch.season.name, 'turnir': ymatch.turnir.alias }) %}
-    {% elseif arTurnir.1 is defined and arTurnir[1] == 'supercup' %}
-      {% set route = path('supercup', {'country':arTurnir[0] }) %}
-    {% elseif ymatch.route is defined and ymatch.route == 'sbornie' %}
-      {% set route = path('sbornie', {'turnir':ymatch.turnir.alias, 'year':  ymatch.season.name}) %}
-    {% endif %}
-    <div class="row list-item">
-      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        {% if ymatch.team is defined %}
-            {{ ymatch.team }}
-        {% else %}
-            {{ ymatch.country.name }}
-        {% endif %}
-      </div>
-      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        {% if ymatch.team2 is defined %}
-            {{ ymatch.team2 }}
-        {% else %}
-            {{ ymatch.country2.name }}
-        {% endif %}
-      </div>
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <a href="{{ route }}" class="spiski">
-          {% if (ymatch.status == 0) %}
-                {% if (not arTurnir.1 is defined) or (ymatch.score and arTurnir[1] != 'champ') %}
-                    {{ ymatch.score }}
-                {% else %}
-                    {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
-                {% endif%}
+      {% elseif ymatch.turnir.alias == 'fnl' %}
+          {% set route = path('championships', {'country':'fnl',
+          'season': ymatch.season.name}) %}
+      {% elseif ymatch.turnir.alias == 'russia-cup' %}
+        {% set route = path('cup', {'season': ymatch.season.name}) %}
+      {% elseif ymatch.turnir.alias == 'league-cup' %}
+        {% set route = path('cup_league', {'season': ymatch.season.name}) %}
+      {% elseif arTurnir.1 is defined and arTurnir[1] == 'cup' %}
+        {% set route = path('nationcup', {'season': ymatch.season.name,
+        'country': arTurnir[0]}) %}
+      {% elseif ymatch.turnir.alias == 'leagueChampions' or ymatch.turnir.alias == 'leagueEuropa' or ymatch.turnir.alias == 'conference-league' %}
+           {% set route = path('eurocup', {'season': ymatch.season.name, 'turnir': ymatch.turnir.alias }) %}
+      {% elseif arTurnir.1 is defined and arTurnir[1] == 'supercup' %}
+        {% set route = path('supercup', {'country':arTurnir[0] }) %}
+      {% elseif ymatch.route is defined and ymatch.route == 'sbornie' %}
+        {% set route = path('sbornie', {'turnir':ymatch.turnir.alias, 'year':  ymatch.season.name}) %}
+      {% endif %}
+      <div class="row list-item">
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+          {% if ymatch.team is defined %}
+              {{ ymatch.team }}
           {% else %}
-              {{ ymatch.data | date('H:i') }}
+              {{ ymatch.country.name }}
           {% endif %}
-        </a>
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+          {% if ymatch.team2 is defined %}
+              {{ ymatch.team2 }}
+          {% else %}
+              {{ ymatch.country2.name }}
+          {% endif %}
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <a href="{{ route }}" class="spiski">
+            {% if (ymatch.status == 0) %}
+                  {% if (not arTurnir.1 is defined) or (ymatch.score and arTurnir[1] != 'champ') %}
+                      {{ ymatch.score }}
+                  {% else %}
+                      {{ ymatch.goal1 }}-{{ ymatch.goal2 }}
+                  {% endif%}
+            {% else %}
+                {{ ymatch.data | date('H:i') }}
+            {% endif %}
+          </a>
+        </div>
       </div>
-    </div>
+    {% endif %}
   {% endfor %}
 {% endif %}

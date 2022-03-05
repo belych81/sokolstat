@@ -82,14 +82,7 @@
 
 <div class="row">
   <div class="champ-teams-list col-lg-8">
-    {% block champBack %}
-      <div class="champ-back">
-        <div class="champ-back-arrow"></div>
-        <a href="{{ path('championships', {'country': app.request.get('country'),
-          'season': app.request.get('season')}) }}">
-          Чемпионат</a>
-      </div>
-    {% endblock %}
+
 
     {% block playersTeam %}
 
