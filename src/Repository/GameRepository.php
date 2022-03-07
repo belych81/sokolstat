@@ -265,4 +265,49 @@ class GameRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function findByTeamAndSeason($team, $season, $turnir)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 't', 't2', 's')
+            ->join('c.season', 's')
+            ->join('c.turnir', 'tr')
+            ->join('c.team', 't')
+            ->join('c.team2', 't2')
+            ->where('c.team = :team OR c.team2 = :team')
+            ->andWhere('s.name = :season')
+            ->andWhere("tr.alias = :turnir")
+            ->setParameters([
+                'season' => $season,
+                'turnir' => $turnir,
+                'team' => $team
+                ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTeams($season, $turnir, $league = null)
+    {
+      $strJoin = 'c.team2';
+      if($league == 2)
+      {
+        $strJoin = 'c.team';
+      }
+
+      return $this->createQueryBuilder('c')
+              ->select('DISTINCT t.id', 't.name', 't.translit', 't.image')
+              ->join($strJoin, 't')
+              ->join('c.season', 's')
+              ->join('c.turnir', 'tr')
+              ->join('c.stadia', 'st')
+              ->where("s.name = :season")
+              ->andWhere("st.name = :stadia")
+              ->andWhere("tr.alias = :turnir")
+              ->setParameters(['season' => $season, 'turnir' => $turnir, 'stadia' => '1/16 финала'])
+              ->orderBy('t.name')
+              ->getQuery()
+              //->setCacheable(true)
+              ->getResult()
+              ;
+    }
+
 }

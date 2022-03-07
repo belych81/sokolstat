@@ -56,8 +56,8 @@ class CupController extends AbstractController
         throw $this->createNotFoundException('The club does not exist');
       }
 
-      $isTeam = $this->getDoctrine()->getRepository(Cup::class)
-              ->findByTeamAndSeason($club->getId(), $season);
+      $isTeam = $this->getDoctrine()->getRepository(Game::class)
+              ->findByTeamAndSeason($club->getId(), $season, 'russia-cup');
 
       if(!$isTeam){
         throw $this->createNotFoundException('The season does not exist');
@@ -67,13 +67,13 @@ class CupController extends AbstractController
         return $this->redirect($this->generateUrl('cup', [
             'season' => $season]));
       }
-      $seasons = $this->getDoctrine()->getRepository(Cup::class)->getSeasons();
+      $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
       $players = $this->getDoctrine()->getRepository(Cupplayer::class)
         ->getCupTeamStat($season, $id);
-      $teams = $this->getDoctrine()->getRepository(Cup::class)
-        ->getTeams($season);
-      $teams2 = $this->getDoctrine()->getRepository(Cup::class)
-          ->getTeams($season, 2);
+      $teams = $this->getDoctrine()->getRepository(Game::class)
+        ->getTeams($season, 'russia-cup');
+      $teams2 = $this->getDoctrine()->getRepository(Game::class)
+          ->getTeams($season, 'russia-cup', 2);
       for ($i=0, $cnt=count($players); $i < $cnt; $i++)
       {
           $name[$i] = $players[$i]->getPlayer()->getName();
