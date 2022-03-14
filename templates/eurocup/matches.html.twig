@@ -63,7 +63,7 @@
           {% endif %}
       </td>
   </tr>
-  {% if entity.game %}
+  {% if entity.game and entity.game != '-' %}
        <tr>
            <td colspan="4" class="even">
                <p><em><b>{{ entity.team.name }}</b></em>: {{ entity.game }}</p>
