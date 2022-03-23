@@ -74,7 +74,7 @@
                     <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
                             'season': app.request.get('season')}) }}">Добавить матч</a></p>
                 {% endif %}
-                <table>
+                <table class="table champship-table">
                     <tbody>
                     {% for match in matches %}
                         <tr class="champ-match-title">
