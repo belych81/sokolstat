@@ -102,7 +102,9 @@ class Functions
       $date = $match->getData()->format('j.n');
       switch($entity) {
         case 'rfpl':
-          $calend['rfpl'][$date][] = $match;
+          if($match->getTurnir()->getAlias() == 'russia-champ'){
+            $calend['rfpl'][$date][] = $match;
+          }
           break;
         case 'tour':
           $turnir = $match->getTurnir()->getAlias();

@@ -116,9 +116,9 @@ class DefaultController extends AbstractController
 
     $em = $this->getDoctrine();
     $rfplMatch = [];
-    //$rfplMatch = $em->getRepository(Rfplmatch::class)->findByLastYear($fromDate);
+    $rfplMatch = $em->getRepository(Game::class)->findByLastWeek($fromDate, false, 'russia-champ');
     $matches = $this->getDoctrine()->getRepository(Game::class)
-      ->findByLastWeek($fromDate);
+      ->findByLastWeek($fromDate, true);
     $tours = [];
     foreach ($matches as $match) {
       $turnirAlias = $match->getTurnir()->getRussianalias();
@@ -178,10 +178,10 @@ class DefaultController extends AbstractController
 
     $rfplMatchTomm = [];
     $rfplMatchCalend = [];
-    //$rfplMatchTomm = $em->getRepository(Rfplmatch::class)->getMatchesTomm();
-    //$rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
+    $rfplMatchCalend = $functions->getCalendar($rfplMatchTomm);
 
     $tourTomm = $em->getRepository(Game::class)->getMatchesTomm();
+    $rfplMatchCalend = $functions->getCalendar($tourTomm);
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 

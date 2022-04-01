@@ -285,6 +285,7 @@ footer div span {
 
 .match-main-info.info {
   margin-left: -25px;
+  display: inline-block;
 }
 .article {
   text-indent: 20px;
@@ -308,4 +309,7 @@ footer div span {
 }
 .transfers td {
   padding: 5px;
+}
+.match-info img {
+  margin: 5px;
 }

@@ -1,9 +1,10 @@
 <div class="np-champ-matches top5">
   {% for numb, tour in arr %}
-    {% if numb > 0 %}
+    {% if numb > 0 and not tour.0.stadia %}
       <h4>{{ numb }}-й тур</h4>
       {% for match in tour %}
         {% set isMatches = true %}
+        {% if not match.stadia %}
         <div>
           <span class="np-matches-team"><b>{{ match.team.name }}</b> -
           <b>{{ match.team2.name }}</b> -
@@ -12,6 +13,7 @@
           (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
           {% endif %}
         </div>
+        {% endif %}
       {% endfor %}
     {% endif %}
   {% endfor %}

@@ -15,7 +15,7 @@
       <strong>№ {{ newspaper_number }}</strong> ({{ newspaper_number + 8 }})&nbsp;&nbsp;&nbsp;&nbsp;15 ЯНВАРЯ
       <span>Основан в 2021 году</span>
     </div>
-    <div class="prime-image"><img src="https://{{ host }}/images/агаларов.png" /></div>
+    {# <div class="prime-image"><img src="https://{{ host }}/images/агаларов.png" /></div>
     <div class="prime-image-title">Гамид Агаларов - лучший бомбардир осенней части чемпионата России</div>
     <div class="prime-bottom-blocks">
         <div>
@@ -27,7 +27,7 @@
         <div>
           <h3>Заголовок</h3>
         </div>
-    </div>
+    </div>#}
     {% set mnths = ['','января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'] %}
 
     <div>
@@ -37,7 +37,7 @@
           <div class="top-line">Российская Премьер-Лига</div>
         </div>
         <div class="article">
-          <h2 class="article-title">Заголовок</h2>
+          <h2 class="article-title"></h2>
           <article class="textcols">
         </article>
         </div>
@@ -64,11 +64,12 @@
         {{ include('default/bombBlock.html.twig', { 'fnlBombs': rusBombs, 'tourCalend': rfplMatchCalend, 'country': 'rfpl' }) }}
     {% endif %}
 
-      {# % for key, country in tours %}
-        {% if key == 'ФНЛ' %}
+{# FNL #}
+      {% for key, country in tours %}
+        {% if key == 'Россия' %}
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'logo2020.png', 'title': 'Первенство ФНЛ' }) }}
           <div class="article">
-            <h2 class="article-title">Заголовок</h2>
+            <h2 class="article-title"></h2>
             <article class="textcols">
             </article>
           </div>
@@ -77,21 +78,27 @@
             {% if k == 'tour' %}
               {{ include('default/top5MatchesBlock.html.twig', { 'arr': arr }) }}
             {% endif %}
+          {% endfor %}
 
-            {% if k == 'table' and country.tour is defined %}
-              {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
+          {% for key, country in tours %}
+            {% if key == 'ФНЛ' %}
+              {% for k, arr in country %}
+                {% if k == 'table' %}
+                  {{ include('default/tableBlock.html.twig', { 'arr': arr }) }}
+                {% endif %}
+              {% endfor %}
             {% endif %}
           {% endfor %}
           {{ include('default/bombBlock.html.twig', { 'fnlBombs': fnlBombs, 'tourCalend': tourCalend, 'country': 'ФНЛ' }) }}
         {% endif %}
-      {% endfor % #}
+      {% endfor %}
 
 
 {# Lch #}
       <div class="np-champ-matches">
         {% if lch['lch'] is not empty %}
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lch.jpg', 'title': 'ЛИГА ЧЕМПИОНОВ. 1/8 ФИНАЛА ' }) }}
-          <h2 class="article-title">Заголовок</h2>
+          <h2 class="article-title"></h2>
           <article class="textcols">
           </article>
           {% if lch['lchGroups'] %}
@@ -111,7 +118,7 @@
       <div class="np-champ-matches">
         {% if le['lch'] is not empty %}
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'le.png', 'title': 'ЛИГА ЕВРОПЫ. 1/16 ФИНАЛА' }) }}
-          <h2 class="article-title">Заголовок</h2>
+          <h2 class="article-title"></h2>
           <article class="textcols"></article>
           {% if le['lchGroups'] %}
             {% for stadia, group in le['lchGroups'] %}
@@ -135,7 +142,7 @@
             <div class="np-champ-matches">
               {% if lk['lch'] is not empty %}
                 {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lk.png', 'title': 'ЛИГА КОНФЕРЕНЦИЙ. 1/16 ФИНАЛА' }) }}
-                <h2 class="article-title">Заголовок</h2>
+                <h2 class="article-title"></h2>
                 <article class="textcols"></article>
                 {% if lk['lchGroups'] %}
                   {% for stadia, group in lk['lchGroups'] %}
@@ -161,22 +168,14 @@
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'mund2022.jpg', 'title': 'ЧЕМПИОНАТ МИРА-2022. ЕВРОПЕЙСКАЯ КВАЛИФИКАЦИЯ' }) }}
           <h2 class="article-title">Заголовок</h2>
           <article class="textcols mund-article">
-          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
-          Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
-          Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
-          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
-          Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
-          Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
-          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
-          Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
-          Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
-          Если вы новичок и еще не работали с консолью, но уже хотите работать с Git и GitHub, то вместо поиска подходящего GUI, советую вам присмотреться к редактору Atom.
-          Atom — отличный редактор кода с богатым функционалом и очень гибкой настройкой. Так как он разрабатывался командой GitHub, то вполне логичным и долгожданным стало появление в стартовой сборке версий 1.18+ одноименного пакета “GitHub”, позволяющего работать с репозиториями и системой контроля версий напрямую из редактора без установки дополнительных программ, в том числе даже GitHub Desktop.
-          Работа с пакетом ведется через панели Git и GitHub. Их можно открыть через меню редактора: Packages -> GitHub -> Toggle Git Tab, или сочетанием клавиш Ctrl + Shift + 9 для Git и Ctrl + Shift + 8 для GitHub.
           </article>
           {% if mund['lchGroups'] %}
             {% for stadia, group in mund['lchGroups'] %}
               {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+            {% endfor %}
+          {% else %}
+            {% for match in mund['lch'] %}
+              {{ include('default/mundMatchesBlock.html.twig', { 'match': match }) }}
             {% endfor %}
           {% endif %}
         {% endif %}

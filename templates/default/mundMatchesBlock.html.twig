@@ -2,8 +2,8 @@
   <div class="eurocup-matches-sostav-title">
     <div class="match-sostav-title">
       <span class="match-main-info">
-        {{ match.team.name | upper}} -
-        {{ match.team2.name | upper }} -
+        {{ match.country.name | upper}} -
+        {{ match.country2.name | upper }} -
         {% if not match.stadia %}
           {{ match.goal1 }}:{{ match.goal2 }}
         {% else %}
@@ -12,7 +12,10 @@
       </span>
     </div>
     <div class="match-info">
-      <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
+      {% if match.country.image %}
+        <img class="match-team-img" src="{{ asset('images/') }}{{ match.country.image }}" style="float: left;" />
+      {% endif %}
+
       {% if match.city %}
       <span class="match-main-info info">
         {{ match.city.name }}.
@@ -21,20 +24,27 @@
           {{ match.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
         {% endif %}
         {% if match.referee %}
-          Судья {{ match.referee.name }}.
+          <br/>Судья {{ match.referee.name }} ({{ match.referee.country.name }}).
         {% endif %}
       </span>
       {% endif %}
-      <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" style="float: right;" />
+      {% if match.country.image %}
+        <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: left;" />
+      {% endif %}
     </div>
   </div>
   {% if match.game %}
        <div class="match-sostav">
-          <p><em><b>{{ match.team.name }}</b></em>:
+        {% if match.game and match.game != '-' %}
+          <p><em><b>{{ match.country.name }}</b></em>:
             {{ match.game }}</p>
-          <p><em><b>{{ match.team2.name }}</b></em>: {{ match.game2 }}</p>
-          {% if match.bomb != '-' %}
-          <p><b>Голы</b>: {{ match.bomb }}.</p>
+        {% endif %}
+        {% if match.game2 and match.game2 != '-' %}
+          <p><em><b>{{ match.country2.name }}</b></em>:
+            {{ match.game2 }}</p>
+        {% endif %}
+          {% if match.goal != '-' %}
+          <p><b>Голы</b>: {{ match.goal }}.</p>
           {% endif %}
       </div>
   {% endif %}
