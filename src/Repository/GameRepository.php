@@ -39,13 +39,17 @@ class GameRepository extends ServiceEntityRepository
 
     public function getTours($country, $season)
     {
+      if($country != 'fnl'){
+        $country .= '-champ';
+      }
+
       return $this->createQueryBuilder('t')
               ->select('DISTINCT t.tour')
               ->join('t.turnir', 'c')
               ->join('t.season', 's')
               ->join('t.team', 'tm')
               ->where("c.alias = :country")
-              ->setParameter('country', $country."-champ")
+              ->setParameter('country', $country)
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
               ->orderBy('t.tour', 'ASC')
