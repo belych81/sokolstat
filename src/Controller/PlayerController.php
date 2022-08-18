@@ -53,6 +53,8 @@ class PlayerController extends AbstractController
     public function search(Request $request)
     {
         $query = htmlspecialchars($request->request->get('query'));
+        $isFormPlayer = htmlspecialchars($request->request->get('form_player'));
+
         $arQuery = explode(" ", $query);
 /*
         $results = $this->finder->findHybrid($query);
@@ -61,16 +63,25 @@ class PlayerController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
-        $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
+
+        if($isFormPlayer != 'y'){
+            $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
+            $player = [];
+            foreach($responsePlayer as $val){
+                $player['player/'.$val->getTranslit().'/'] = $val->getName();
+            }
+            $team = [];
+            foreach($responseTeam as $val){
+                $team['team/'.$val->getTranslit()] = $val->getName();
+            }
+            return new JsonResponse(array_merge($player, $team));
+        }
+
         $player = [];
         foreach($responsePlayer as $val){
-            $player['player/'.$val->getTranslit().'/'] = $val->getName();
+            $player[$val->getId()] = $val->getName();
         }
-        $team = [];
-        foreach($responseTeam as $val){
-            $team['team/'.$val->getTranslit()] = $val->getName();
-        }
-        return new JsonResponse(array_merge($player, $team));
+        return new JsonResponse($player);
     }
 
     public function edit($id)
@@ -874,20 +885,23 @@ class PlayerController extends AbstractController
         return new Response($response);
     }
 
-    public function newFnl($season, $team)
+    public function newFnl(Menu $serviceMenu, $season, $team)
     {
         $entity = new Fnlplayer();
 
         $form   = $this->createForm(FnlType::class, $entity, ['season' => $season,
             'team' => $team]);
 
+        $menu = $serviceMenu->generate('fnl', $season);
+
         return $this->render('rusplayer/newFnl.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView()
         ));
     }
 
-    public function createFnl(Request $request, $team, $season)
+    public function createFnl(Menu $serviceMenu, Request $request, $team, $season)
     {
         $entity  = new Fnlplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
@@ -914,8 +928,11 @@ class PlayerController extends AbstractController
                     ]));
         }
 
+        $menu = $serviceMenu->generate('fnl', $season);
+
         return $this->render('rusplayer/newFnl.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

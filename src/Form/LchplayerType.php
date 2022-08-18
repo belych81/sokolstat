@@ -21,30 +21,7 @@ class LchplayerType extends AbstractType
         $country = $club->getCountry()->getName();
 
         $builder
-            ->add('player', EntityType::class, [
-            'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) use ($season, $team, $flag, $country) {
-              switch($flag){
-                case 'team':
-                 return $repository->queryTeamPlayers($season, $team, $country);
-                 break;
-               case 'country':
-                  return $repository->queryCountryPlayers($season, $team, $country);
-                  break;
-               case 'top5':
-                   return $repository->queryTop5Players($season, $country);
-                   break;
-               case 'lch':
-                   return $repository->queryLChampPlayers($season);
-                   break;
-               case 'mund':
-                   return $repository->queryMundialPlayers($season);
-                   break;
-               case 'all':
-                  return $repository->queryLchPlayers($season, $team);
-              }
-            }
-            ])
+            ->add('player')
             ->add('game')
             ->add('goal', null, ['data' => 0]);
     }

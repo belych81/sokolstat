@@ -4,6 +4,6 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     globals:
-        season: 2021-22
+        season: 2022-23
         stadia: groupA
-        newspaper_number: 7
+        newspaper_number: 21

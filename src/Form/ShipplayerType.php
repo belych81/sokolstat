@@ -22,31 +22,7 @@ class ShipplayerType extends AbstractType
         $country = $options['country'];
 
         $builder
-            ->add('player', EntityType::class, [
-            'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) use ($season,
-             $team, $flag, $club, $country) {
-               switch($flag){
-                 case 'team':
-                  return $repository->queryTeamPlayers($season, $team);
-                  break;
-                case 'country':
-                   return $repository->queryCountryPlayers($season, $team, $club->getCountry()->getName());
-                   break;
-                case 'top5':
-                    return $repository->queryTop5Players($season, $country);
-                    break;
-                case 'lch':
-                    return $repository->queryLChampPlayers($season);
-                    break;
-                case 'mund':
-                    return $repository->queryMundialPlayers($season);
-                    break;
-                case 'all':
-                   return $repository->queryLchPlayers($season, $team, $club->getCountry()->getName());
-               }
-            }
-            ])
+            ->add('player')
             ->add('game', null, ['data' => 0])
             ->add('goal', null, ['data' => 0])
             ->add('cup', null, ['data' => 0])

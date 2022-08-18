@@ -100,6 +100,42 @@ function scrollToBlock(to, speed, offset) {
       }
   });
 
+  $(document).on("keyup", '#rus_player', function() {
+    if(this.value.length >= 1){
+        $.ajax({
+            type: 'post',
+            url: Routing.generate('news_search'),
+            data: {query: this.value, form_player: 'y'},
+            dataType: 'json',
+            success: function(data){
+                $(".player_search_result_items").empty().hide();
+                if(data){
+                    $(".player_search_result, .player_search_result_items").show();
+                    $.each(data, function(id, name){
+                        $(".player_search_result_items")
+                        .append("<div class=\"player_form_search\" data-id='"+id+"'>"+name+"</div>");
+
+                    });
+                    $("body").not(".search-top").click(function(){
+                      $(".player_search_result, .player_search_result_items").hide();
+                    });
+                    $(document).on('click', '.player_form_search', function(){
+                      $("#rus_player").val($(this).text());
+                      $("#rus_player_hidden").val($(this).data('id'));
+                    });
+                } else {
+                    $(".player_search_result, .player_search_result_items").hide();
+                }
+                console.log(data);
+           },
+     error: function (xhr, ajaxOptions, thrownError) {
+      }
+    });
+    } else {
+      $(".player_search_result, .player_search_result_items").hide();
+    }
+});
+
   $("#shipplayersUpdate").click(function(){
     var arGames = [];
 		var champ = $(this).data('champ');

@@ -18,12 +18,7 @@ class FnlType extends AbstractType
         $season = $options['season'];
 
         $builder
-            ->add('player', EntityType::class, [
-            'class' => Player::class,
-            'query_builder' => function (PlayerRepository $repository) use ($season) {
-            return $repository->queryFnlPlayers($season);
-            }
-            ])
+            ->add('player')
             ->add('game')
             ->add('goal');
     }

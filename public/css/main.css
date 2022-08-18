@@ -1073,7 +1073,8 @@ header > .row {
     width: 35px;
     text-align: center;
 }
-.search_result{
+.search_result,
+.player_search_result {
     position: absolute;
     overflow: hidden;
     border: 0;
@@ -1087,7 +1088,8 @@ header > .row {
     left: auto;
     display: none;
 }
-.search_result_items{
+.search_result_items,
+.player_search_result_items {
     background-color: #fff;
     cursor: pointer;
     border: 1px solid #a2a9b1;
