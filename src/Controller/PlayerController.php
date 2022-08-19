@@ -328,6 +328,8 @@ class PlayerController extends AbstractController
 
     public function newChamp($season, $team)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Gamers();
 
         $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
@@ -676,6 +678,8 @@ class PlayerController extends AbstractController
 
     public function newChampNation($season, $team, $flag)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Shipplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($team);
@@ -887,6 +891,8 @@ class PlayerController extends AbstractController
 
     public function newFnl(Menu $serviceMenu, $season, $team)
     {
+        ini_set('memory_limit','16M');
+        
         $entity = new Fnlplayer();
 
         $form   = $this->createForm(FnlType::class, $entity, ['season' => $season,
@@ -939,6 +945,8 @@ class PlayerController extends AbstractController
 
     public function newSc($season, $team, $id)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Supercupplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)->findOneById($team);
         $translit = $club->getTranslit();
@@ -987,6 +995,8 @@ class PlayerController extends AbstractController
 
     public function newCup($season, $team)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Cupplayer();
 
         $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
@@ -1082,6 +1092,8 @@ class PlayerController extends AbstractController
 
     public function newLchPlayer(Menu $serviceMenu,  $season, $team, $flag)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Lchplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
 
@@ -1179,6 +1191,8 @@ class PlayerController extends AbstractController
 
     public function newEc($season, $team)
     {
+        ini_set('memory_limit','16M');
+
         $entity = new Ecplayer();
 
         $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
