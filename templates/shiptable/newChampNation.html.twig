@@ -17,13 +17,18 @@
        <table>
             <tbody>
                 <tr>
-                    <th>{{ form_label(form.player) }}</th>
+                    <th>Player</th>
                     <td>
-                        <input type="text" id="rus_player" autocomplete="off" />
-                        <input type="hidden" id="rus_player_hidden" name="shipplayer[player]" />
-                        <div class="player_search_result">
-                            <div class="player_search_result_items"></div>
-                        </div>
+                        {% if app.request.get('flag') == 'all' %}
+                            <input type="text" id="rus_player" autocomplete="off" />
+                            <input type="hidden" id="rus_player_hidden" name="shipplayer[player]" />
+                            <div class="player_search_result">
+                                <div class="player_search_result_items"></div>
+                            </div>
+                        {% else %}
+                            {{ form_errors(form.player) }}
+                            {{ form_widget(form.player) }}
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>

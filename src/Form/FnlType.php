@@ -18,13 +18,21 @@ class FnlType extends AbstractType
         $season = $options['season'];
 
         $builder
-            ->add('player')
+            ->add('player', EntityType::class, [
+                'class' => Player::class,
+                'query_builder' => function (PlayerRepository $repository) use ($season) {
+                    return $repository->queryFnlPlayers($season);
+                }
+            ])
             ->add('game')
             ->add('goal');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefined(['team', 'season']);
+        $resolver->setDefined(['team', 'season'])
+            ->setDefaults([
+                'allow_extra_fields' => true 
+            ]);
     }
 }

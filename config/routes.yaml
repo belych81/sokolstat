@@ -21,6 +21,12 @@ news_show:
     path:  /news/{translit}/
     controller: App\Controller\NewsController::show
 
+session_player_add:
+    path: /session_player_add/{id}/
+    controller: App\Controller\PlayerController::sessionPlayerAdd
+    options:
+        expose: true
+        
 newspaper:
       path:     /newspaper/
       controller: App\Controller\DefaultController::newspaper

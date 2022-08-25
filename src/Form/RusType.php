@@ -19,7 +19,12 @@ class RusType extends AbstractType
         $team = $options['team'];
 
         $builder
-            ->add('player')
+            ->add('player', EntityType::class, [
+                'class' => Player::class,
+                'query_builder' => function (PlayerRepository $repository) use ($season, $team) {
+                    return $repository->queryRusTeamPlayers($season, $team);
+                }
+            ])
             ->add('goal');
     }
 

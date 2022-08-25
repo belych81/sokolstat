@@ -328,7 +328,6 @@ class PlayerController extends AbstractController
 
     public function newChamp($season, $team)
     {
-        ini_set('memory_limit','16M');
 
         $entity = new Gamers();
 
@@ -676,9 +675,16 @@ class PlayerController extends AbstractController
         return new Response($response);
     }
 
+    public function sessionPlayerAdd(SessionInterface $session, $id)
+    {
+        $session->set('lastPlayerAdd', $id);
+
+        return new Response($id);
+    }
+
     public function newChampNation($season, $team, $flag)
     {
-        ini_set('memory_limit','16M');
+        ini_set('memory_limit','32M');
 
         $entity = new Shipplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)
@@ -694,7 +700,7 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function createChampNation(Request $request, $team, $season, $country, $flag)
+    public function createChampNation(SessionInterface $session, Request $request, $team, $season, $country, $flag)
     {
         $entity  = new Shipplayer();
 
@@ -708,7 +714,12 @@ class PlayerController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        $selectedPlayer = $session->get('lastPlayerAdd');
+        var_dump($selectedPlayer);
+        $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+        $entity->setPlayer($obPlayer);
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -891,7 +902,7 @@ class PlayerController extends AbstractController
 
     public function newFnl(Menu $serviceMenu, $season, $team)
     {
-        ini_set('memory_limit','16M');
+        ini_set('memory_limit','64M');
         
         $entity = new Fnlplayer();
 
@@ -918,7 +929,7 @@ class PlayerController extends AbstractController
             'team' => $team]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

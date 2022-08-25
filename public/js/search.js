@@ -122,6 +122,13 @@ function scrollToBlock(to, speed, offset) {
                     $(document).on('click', '.player_form_search', function(){
                       $("#rus_player").val($(this).text());
                       $("#rus_player_hidden").val($(this).data('id'));
+                      $.ajax({
+                        type: 'post',
+                        url: Routing.generate('session_player_add', {'id': $(this).data('id')}),
+                        success: function(response){
+                            console.log(response);
+                        }
+                    });
                     });
                 } else {
                     $(".player_search_result, .player_search_result_items").hide();
