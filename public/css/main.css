@@ -295,7 +295,13 @@ footer {
   text-align: center;
 }
 .champ-tours{
-  max-width: 360px;
+  width: 100%;
+  margin: 0 20px;
+}
+@media  (max-width: 476px) {
+  .champ-tours{
+    margin: 0;
+  }
 }
 .champ-tours table{
   border-collapse: collapse;
