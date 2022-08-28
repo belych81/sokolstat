@@ -714,10 +714,11 @@ class PlayerController extends AbstractController
 
         $form->handleRequest($request);
 
-        $selectedPlayer = $session->get('lastPlayerAdd');
-        var_dump($selectedPlayer);
-        $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
-        $entity->setPlayer($obPlayer);
+        if(!$entity->getPlayer()) {
+            $selectedPlayer = $session->get('lastPlayerAdd');
+            $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+            $entity->setPlayer($obPlayer);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

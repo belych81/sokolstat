@@ -16,7 +16,7 @@ class Newspaper
   private $em;
   private $props;
   private $functions;
-  private $newspaperDate = '-30 days';
+  private $newspaperDate = '-8 days';
 
   public function __construct(EntityManagerInterface $em, Props $props, Functions $functions)
   {

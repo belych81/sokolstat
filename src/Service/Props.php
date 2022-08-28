@@ -3,7 +3,7 @@ namespace App\Service;
 
 class Props
 {
-    private $lastSeason = '2021-22';
+    private $lastSeason = '2022-23';
     private $lastMundSeason = 2022;
     private $sbornieRusYear = 2021;
     private $tops = ['Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
