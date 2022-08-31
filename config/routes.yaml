@@ -228,6 +228,15 @@ championships:
         country: russia|england|spain|italy|germany|france|fnl
         tour: \d+
 
+championships_tour:
+    path:  /championships/tour/{country}/{season}/{tour}/
+    controller: App\Controller\ShiptableController:tour
+    requirements:
+        country: russia|england|spain|italy|germany|france|fnl
+        tour: \d+
+    options:
+        expose: true
+
 championships_show:
     path:  /championships/{country}/{season}/{id}
     controller: App\Controller\ShiptableController:show
@@ -402,7 +411,7 @@ eurocup:
     defaults:
       turnir: leagueChampions
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league|russia-cup
 
 eurocup_show:
     path:  /eurocup/{turnir}/{season}/{id}/show
@@ -484,7 +493,7 @@ eurocup_newSeason:
     path:  /eurocup/admin/season/{turnir}/{season}/
     controller: App\Controller\EurocupController:newSeason
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league|russia-cup
 
 eurocup_createSeason:
     path:  /eurocup/admin/season/create/{turnir}/{season}/

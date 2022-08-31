@@ -392,18 +392,21 @@ class EurocupController extends AbstractController
         ));
     }
 
-    public function editEctable($id, $season, $turnir, $stadia=false)
+    public function editEctable(Menu $serviceMenu, $id, $season, $turnir, $stadia=false)
     {
         $entity = $this->getDoctrine()->getRepository(Ectable::class)->find($id);
         $form   = $this->createForm(EctableEditType::class, $entity);
 
+        $menu = $serviceMenu->generateEurocup($season);
+
         return $this->render('eurocup/editEctable.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'edit_form'   => $form->createView(),
         ));
     }
 
-    public function updateEctable(Request $request, $id, $season, $turnir,
+    public function updateEctable(Menu $serviceMenu, Request $request, $id, $season, $turnir,
       $stadia=false)
     {
         $em = $this->getDoctrine()->getManager();
@@ -421,8 +424,11 @@ class EurocupController extends AbstractController
                 'stadia' => $stadia]));
         }
 
+        $menu = $serviceMenu->generateEurocup($season);
+
         return $this->render('eurocup/editEctable.html.twig', array(
             'entity'      => $entity,
+            'menu' => $menu,
             'form'   => $editForm->createView()
         ));
     }

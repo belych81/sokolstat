@@ -14,6 +14,7 @@ use App\Entity\Rfplmatch;
 use App\Entity\Gamers;
 use App\Entity\Cupplayer;
 use App\Entity\Seasons;
+use App\Entity\Ectable;
 use App\Form\CupType;
 use App\Form\Cup2Type;
 use App\Service\Menu;
@@ -37,6 +38,13 @@ class CupController extends AbstractController
       {
         $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
           ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'russia'));
+
+          $stadiaAlias = $stadia->getAlias();
+          
+          if (strpos($stadiaAlias, 'group') !== false) {
+             $stadia->setStadiaTable($this->getDoctrine()->getRepository(Ectable::class)
+                ->getEcTable('russia-cup', $season, $stadiaAlias));
+          }
       }
       $menu = $serviceMenu->generate('russia', $season);
 
@@ -181,6 +189,15 @@ class CupController extends AbstractController
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();
+            $team=$entity->getTeam()->getId();
+            $team2=$entity->getTeam2()->getId();
+            $seas=$entity->getSeason()->getId();
+            $score=$entity->getScore();
+            $stadia=$entity->getStadia()->getAlias();
+            if(strpos($stadia, 'group') !== false)
+            {
+              $em->getRepository(Ectable::class)->updateEctable($team, $team2, $score, $seas);
+            }
             return $this->redirect($this->generateUrl('cup', [
                 'season' => $season]));
         }
