@@ -211,43 +211,53 @@ class RusplayerRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function updateRusplayer($player, $change)
+    public function updateRusplayer($player, $change, $onlyTotal = false)
     {
         switch ($change) {
             case 'plusGame' :
-                $changeParam = 'r.game';
-                $changeParam2 = 'r.game+1';
+                if(!$onlyTotal){
+                    $changeParam = 'r.game';
+                    $changeParam2 = 'r.game+1';
+                }
                 $changeParam3 = 'r.totalgame';
                 $changeParam4 = 'r.totalgame+1';
                 break;
             case 'minusGame' :
-                $changeParam = 'r.game';
-                $changeParam2 = 'r.game-1';
+                if(!$onlyTotal){
+                    $changeParam = 'r.game';
+                    $changeParam2 = 'r.game-1';
+                }
                 $changeParam3 = 'r.totalgame';
                 $changeParam4 = 'r.totalgame-1';
                 break;
             case 'plusGoal' :
-                $changeParam = 'r.goal';
-                $changeParam2 = 'r.goal+1';
+                if(!$onlyTotal){
+                    $changeParam = 'r.goal';
+                    $changeParam2 = 'r.goal+1';
+                }
                 $changeParam3 = 'r.totalgoal';
                 $changeParam4 = 'r.totalgoal+1';
                 break;
             case 'minusGoal' :
-                $changeParam = 'r.goal';
-                $changeParam2 = 'r.goal-1';
+                if(!$onlyTotal){
+                    $changeParam = 'r.goal';
+                    $changeParam2 = 'r.goal-1';
+                }
                 $changeParam3 = 'r.totalgoal';
                 $changeParam4 = 'r.totalgoal-1';
                 break;
         }
             $qb = $this->_em->createQueryBuilder()
                 ->update('App\Entity\Rusplayer', 'r')
-                ->set($changeParam, $changeParam2)
-                ->set($changeParam3, $changeParam4)
-                ->where('r.player = ?2')
-                ->setParameter(2, $player)
-                ->getQuery();
+                ->set($changeParam3, $changeParam4);
 
-            $qb->execute();
+            if(isset($changeParam)){
+                $qb->set($changeParam, $changeParam2);
+            }
+
+            $qb->where('r.player = ?1')
+            ->setParameter(1, $player)
+            ->getQuery()->execute();
     }
 
     public function updateSbplayer($player, $change)
