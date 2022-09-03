@@ -279,21 +279,22 @@ class PlayerController extends AbstractController
               $entity->setTotalgame(0);
             }
             if(!$isTeam){
-              $rusplayer = new Rusplayer();
-              $rusplayer->setPlayer($player);
-              $em->persist($rusplayer);
-              $em->flush();
-            }
-            $entity2 = new Playersteam();
-            $entity2->setGame(0);
-            $entity2->setGoal(0);
-            $entity2->setPlayer($player);
-            $team2 = $this->getDoctrine()->getRepository(Team::class)
-                        ->findOneByTranslit($team);
-            $entity2->setTeam($team2);
+                $rusplayer = new Rusplayer();
+                $rusplayer->setPlayer($player);
+                $em->persist($rusplayer);
+                $em->flush();
+            
+                $entity2 = new Playersteam();
+                $entity2->setGame(0);
+                $entity2->setGoal(0);
+                $entity2->setPlayer($player);
+                $team2 = $this->getDoctrine()->getRepository(Team::class)
+                            ->findOneByTranslit($team);
+                $entity2->setTeam($team2);
 
-            $em->persist($entity2);
-            $em->flush();
+                $em->persist($entity2);
+                $em->flush();
+            }
             break;
           default:
             $entity = new Shipplayer();
