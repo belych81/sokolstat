@@ -685,7 +685,7 @@ class PlayerController extends AbstractController
 
     public function newChampNation($season, $team, $flag)
     {
-        ini_set('memory_limit','32M');
+        ini_set('memory_limit','64M');
 
         $entity = new Shipplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)
