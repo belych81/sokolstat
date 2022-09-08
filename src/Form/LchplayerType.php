@@ -53,7 +53,8 @@ class LchplayerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
       $resolver->setDefaults([
-          'data_class' => Lchplayer::class
+          'data_class' => Lchplayer::class,
+          'allow_extra_fields' => true
       ]);
       $resolver->setDefined(['season', 'team', 'flag', 'club']);
     }
