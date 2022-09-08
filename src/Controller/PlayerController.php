@@ -1105,7 +1105,7 @@ class PlayerController extends AbstractController
 
     public function newLchPlayer(Menu $serviceMenu,  $season, $team, $flag)
     {
-        ini_set('memory_limit','16M');
+        ini_set('memory_limit','64M');
 
         $entity = new Lchplayer();
         $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
@@ -1136,6 +1136,12 @@ class PlayerController extends AbstractController
 
         $form->handleRequest($request);
 
+        if(!$entity->getPlayer()) {
+            $selectedPlayer = $session->get('lastPlayerAdd');
+            $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+            $entity->setPlayer($obPlayer);
+        }
+        
         $menu = $serviceMenu->generateEurocup($season);
 
         if ($form->isSubmitted() && $form->isValid()) {
