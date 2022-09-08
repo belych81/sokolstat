@@ -1122,7 +1122,7 @@ class PlayerController extends AbstractController
         ));
     }
 
-    public function createLchPlayer(Menu $serviceMenu,  Request $request, $team, $season, $flag)
+    public function createLchPlayer(SessionInterface $session, Menu $serviceMenu,  Request $request, $team, $season, $flag)
     {
         $entity  = new Lchplayer();
         $em = $this->getDoctrine()->getManager();
@@ -1141,7 +1141,7 @@ class PlayerController extends AbstractController
             $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
             $entity->setPlayer($obPlayer);
         }
-        
+
         $menu = $serviceMenu->generateEurocup($season);
 
         if ($form->isSubmitted() && $form->isValid()) {
