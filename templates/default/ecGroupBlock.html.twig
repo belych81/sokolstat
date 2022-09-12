@@ -11,7 +11,7 @@
           </span>
         </div>
         <div class="match-info">
-          {% if match.game %}
+          {% if match.game and match.game != '-' %}
             {% if match.team.image %}
               <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
             {% endif %}
@@ -29,7 +29,7 @@
           {% endif %}
         </div>
       </div>
-      {% if match.game %}
+      {% if match.game and match.game != '-' %}
            <div class="match-sostav">
               <p><em><b>{{ match.team.name }}</b></em>:
                 {{ match.game }}</p>
