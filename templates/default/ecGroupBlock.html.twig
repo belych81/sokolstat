@@ -11,25 +11,29 @@
           </span>
         </div>
         <div class="match-info">
-          {% if match.ecsostav and match.ecsostav.city %}
-            <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
-              <div class="match-main-info">
-                {{ match.ecsostav.city.name }}.
-                {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
-                {% if match.ecsostav.zriteli > 0 %}
-                  {{ match.ecsostav.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
-                {% endif %}
-                Судья {{ match.ecsostav.referee.name }} ({{ match.ecsostav.referee.country.name }}).
-              </div>
-            <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
+          {% if match.game %}
+            {% if match.team.image %}
+              <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
+            {% endif %}
+            <div class="match-main-info">
+              {{ match.city.name }}.
+              {{ match.data | date('d') }} {{ mnths[match.data | date('n')] }}.<br/>
+              {% if match.zriteli > 0 %}
+                {{ match.zriteli | number_format(0, '.', ' ') }} зрителей.<br/>
+              {% endif %}
+              Судья {{ match.referee.name }} ({{ match.referee.country.name }}).
+            </div>
+            {% if match.team2.image %}
+              <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
+            {% endif %}
           {% endif %}
         </div>
       </div>
-      {% if match.ecsostav %}
+      {% if match.game %}
            <div class="match-sostav">
               <p><em><b>{{ match.team.name }}</b></em>:
-                {{ match.ecsostav.team }}</p>
-              <p><em><b>{{ match.team2.name }}</b></em>: {{ match.ecsostav.team2 }}</p>
+                {{ match.game }}</p>
+              <p><em><b>{{ match.team2.name }}</b></em>: {{ match.game2 }}</p>
           </div>
       {% endif %}
       {% if match.score != '0-0' %}
