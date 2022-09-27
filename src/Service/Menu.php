@@ -122,6 +122,11 @@ class Menu
           'route' => 'sbornie'
         ],
         [
+          'name' => 'Лига Наций',
+          'url' => $this->router->generate('sbornie', ['turnir' => 'nationsleague', 'year' => '2022']),
+          'route' => 'sbornie'
+        ],
+        [
           'name' => 'Кубок Конфедераций',
           'url' => $this->router->generate('sbornie', ['turnir' => 'confederationscup', 'year' => '2017']),
           'route' => 'sbornie'
