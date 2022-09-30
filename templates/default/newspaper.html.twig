@@ -209,11 +209,11 @@
           <article class="textcols mund-article">
           </article>
           {% if nationsleague['lchGroups'] %}
-            {% for stadia, group in mund['lchGroups'] %}
+            {% for stadia, group in nationsleague['lchGroups'] %}
               {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
             {% endfor %}
           {% else %}
-            {% for match in mund['lch'] %}
+            {% for match in nationsleague['lch'] %}
               {{ include('default/mundMatchesBlock.html.twig', { 'match': match }) }}
             {% endfor %}
           {% endif %}
