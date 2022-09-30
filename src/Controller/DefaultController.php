@@ -117,6 +117,7 @@ class DefaultController extends AbstractController
     $em = $this->getDoctrine();
     $rfplMatch = [];
     $rfplMatch = $em->getRepository(Game::class)->findByLastWeek($fromDate, false, 'russia-champ');
+    $rfplCupMatch = $newspaper->getEurocup('russia-cup');
     $matches = $this->getDoctrine()->getRepository(Game::class)
       ->findByLastWeek($fromDate, true);
     $tours = [];
@@ -152,6 +153,7 @@ class DefaultController extends AbstractController
     }
 
     $mund = $newspaper->getMundial('otbor-worldcup');
+    $nationsleague = $newspaper->getMundial('nationsleague');
     $lch = $newspaper->getEurocup('leagueChampions');
     $le = $newspaper->getEurocup('leagueEuropa');
     $lk = $newspaper->getEurocup('conference-league');
@@ -185,11 +187,12 @@ class DefaultController extends AbstractController
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 
-    $transfers = false;//$em->getRepository(Transfer::class)->findByPeriod(2);
+    $transfers = $em->getRepository(Transfer::class)->findByPeriod(5);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
       'rfplMatch' => $rfplMatch,
+      'rfplCupMatch' => $rfplCupMatch,
       'rfplMatchCalend' => $rfplMatchCalend,
       'tourCalend' => $tourCalend,
       'tours' => $tours,
@@ -198,6 +201,7 @@ class DefaultController extends AbstractController
       'lch' => $lch,
       'le' => $le,
       'mund' => $mund,
+      'nationsleague' => $nationsleague,
       'rusBombs' => $rusBombs,
       'fnlBombs' => $fnlBombs,
       'bombs' => $bombs,

@@ -64,6 +64,27 @@
         {{ include('default/bombBlock.html.twig', { 'fnlBombs': rusBombs, 'tourCalend': rfplMatchCalend, 'country': 'rfpl' }) }}
     {% endif %}
 
+    {# Cup #}
+      <div class="np-champ-matches">
+        {% if rfplCupMatch is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'lch.jpg', 'title': 'КУБОК РОССИИ' }) }}
+          <h2 class="article-title"></h2>
+          <article class="textcols">
+          </article>
+          {% if rfplCupMatch['lchGroups'] %}
+            {% for stadia, group in rfplCupMatch['lchGroups'] %}
+              {{ include('default/ecGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+            {% endfor %}
+          {% else %}
+            <div class="eurocup-matches">
+              {% for match in rfplCupMatch['lch'] %}
+                {{ include('default/rfplMatchesBlock.html.twig', { 'match': match }) }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+
 {# FNL #}
       {% for key, country in tours %}
         {% if key == 'Россия' %}
@@ -170,6 +191,24 @@
           <article class="textcols mund-article">
           </article>
           {% if mund['lchGroups'] %}
+            {% for stadia, group in mund['lchGroups'] %}
+              {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+            {% endfor %}
+          {% else %}
+            {% for match in mund['lch'] %}
+              {{ include('default/mundMatchesBlock.html.twig', { 'match': match }) }}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div class="np-champ-matches">
+        {% if nationsleague['lch'] is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'mund2022.jpg', 'title': 'ЛИГА НАЦИЙ' }) }}
+          <h2 class="article-title">Заголовок</h2>
+          <article class="textcols mund-article">
+          </article>
+          {% if nationsleague['lchGroups'] %}
             {% for stadia, group in mund['lchGroups'] %}
               {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
             {% endfor %}
