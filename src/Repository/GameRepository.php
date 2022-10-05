@@ -188,7 +188,7 @@ class GameRepository extends ServiceEntityRepository
       ;
     }
 
-    public function findByLastWeek($data, $noFnl = false, $turnir = false)
+    public function findByLastWeek($data, $noFnl = false, $turnir = false, $noTurnir = false)
     {
        $qb = $this->createQueryBuilder('t')
             ->join('t.team', 'tm')
@@ -206,6 +206,10 @@ class GameRepository extends ServiceEntityRepository
         if($turnir) {
           $qb->andWhere('tr.alias = :turnir')
              ->setParameter('turnir', $turnir);
+        }
+        if($noTurnir) {
+          $qb->andWhere('tr.alias != :turnir')
+             ->setParameter('turnir', $noTurnir);
         }
         $qb->orderBy('t.data', 'ASC');
 

@@ -223,24 +223,28 @@ class DefaultController extends AbstractController
     $fromDate->setTime(0, 0, 0);
     $fromDate->modify('-1 year');
     $notStadia = [18, 19, 20, 21, 25];
-    $matches = $this->getDoctrine()->getRepository(Tour::class)
-      ->findByLastWeek($fromDate, true);
-    $matchesRus = $this->getDoctrine()->getRepository(Rfplmatch::class)
-        ->findByLastYear($fromDate);
-    $matchesEc = $this->getDoctrine()->getRepository(Eurocup::class)
-        ->findByLastYear($fromDate);
-    $matches = array_merge($matches, $matchesRus);
+    $matches = $this->getDoctrine()->getRepository(Game::class)
+      ->findByLastWeek($fromDate, false, false, 'fnl');
 
     $teamsRating = [];
-    foreach ($matchesEc as $key => $match) {
+    foreach ($matches as $key => $match) {
       $arScore = explode("-", $match->getScore());
-      $goal1 = $arScore[0];
-      $goal2 = intval($arScore[1]);
+      
+      if(count($arScore) == 2 && $match->getScore() != '0-0'){
+        $goal1 = $arScore[0];
+        $goal2 = intval($arScore[1]);
+      } else {
+        $goal1 = $match->getGoal1();
+        $goal2 = $match->getGoal2();
+      }
       $team = $match->getTeam()->getName();
       $team2 = $match->getTeam2()->getName();
       $turnir = $match->getTurnir()->getName();
-      $stadia = $match->getStadia()->getId();
-      if(in_array($stadia, $notStadia)) continue;
+      if($match->getStadia()){
+        $stadia = $match->getStadia()->getId();
+        if(in_array($stadia, $notStadia)) continue;
+      }
+      
       $data = strtotime($match->getData()->format('d.m.Y'));
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
@@ -250,8 +254,14 @@ class DefaultController extends AbstractController
       $score1 = $arScores[0];
       $score2 = $arScores[1];
 
-      $coef = $rating->getCoefEc($score1, $turnir);
-      $coef2 = $rating->getCoefEc($score2, $turnir);
+      if(in_array($turnir, ['ЛЧ', 'ЛЕ', 'ЛК', 'КЧМ', 'СК'])){
+        $coef = $rating->getCoefEc($score1, $turnir);
+        $coef2 = $rating->getCoefEc($score2, $turnir);
+      } else {
+        $country = $match->getTeam()->getCountry()->getName();
+        $coef = $rating->getCoef($score1, $country);
+        $coef2 = $rating->getCoef($score2, $country);
+      }
       if($rating->checkCountry($match->getTeam()->getCountry()->getName())){
         if(array_key_exists($team, $teamsRating)){
           $teamsRating[$team]['sum'] += $score1 * $addMonth * $coef;
@@ -320,88 +330,11 @@ class DefaultController extends AbstractController
       }
     }
 
-    foreach ($matches as $key => $match) {
-      $goal1 = $match->getGoal1();
-      $goal2 = $match->getGoal2();
-      $team = $match->getTeam()->getName();
-      $team2 = $match->getTeam2()->getName();
-      $country = $match->getTeam()->getCountry()->getName();
-      $data = strtotime($match->getData()->format('d.m.Y'));
-      $diffDate = strtotime('now') - $data;
-      $monthSec = 30*24*60*60;
-      $addMonth = $rating->getAddMonth($diffDate, $monthSec);
-      $differ = $goal1 - $goal2;
-      $arScores = $rating->getScore($differ);
-      $score1 = $arScores[0];
-      $score2 = $arScores[1];
-
-      $coef = $rating->getCoef($score1, $country);
-      $coef2 = $rating->getCoef($score2, $country);
-
-      if(array_key_exists($team, $teamsRating)){
-        $teamsRating[$team]['sum'] += $score1 * $addMonth * $coef;
-        $teamsRating[$team]['matches'] += 1;
-        $teamsRating[$team]['mz'] += $goal1;
-        $teamsRating[$team]['mp'] += $goal2;
-        if($differ > 0){
-          $teamsRating[$team]['wins'] += 1;
-        } elseif($differ < 0){
-          $teamsRating[$team]['porazh'] += 1;
-        } else {
-          $teamsRating[$team]['nich'] += 1;
-        }
-      } else {
-        $teamsRating[$team]['sum'] = $score1 * $addMonth * $coef;
-        $teamsRating[$team]['matches'] = 1;
-        $teamsRating[$team]['mz'] = $goal1;
-        $teamsRating[$team]['mp'] = $goal2;
-        if($differ > 0){
-          $teamsRating[$team]['wins'] = 1;
-          $teamsRating[$team]['porazh'] = 0;
-          $teamsRating[$team]['nich'] = 0;
-        } elseif($differ < 0){
-          $teamsRating[$team]['wins'] = 0;
-          $teamsRating[$team]['porazh'] = 1;
-          $teamsRating[$team]['nich'] = 0;
-        } else {
-          $teamsRating[$team]['wins'] = 0;
-          $teamsRating[$team]['porazh'] = 0;
-          $teamsRating[$team]['nich'] = 1;
-        }
-      }
-      if(array_key_exists($team2, $teamsRating)){
-        $teamsRating[$team2]['sum'] += $score2 * $addMonth * $coef2;
-        $teamsRating[$team2]['matches'] += 1;
-        $teamsRating[$team2]['mz'] += $goal2;
-        $teamsRating[$team2]['mp'] += $goal1;
-        if($differ < 0){
-          $teamsRating[$team2]['wins'] += 1;
-        } elseif($differ > 0){
-          $teamsRating[$team2]['porazh'] += 1;
-        } else {
-          $teamsRating[$team2]['nich'] += 1;
-        }
-      } else {
-        $teamsRating[$team2]['sum'] = $score2 * $addMonth * $coef2;
-        $teamsRating[$team2]['matches'] = 1;
-        $teamsRating[$team2]['mz'] = $goal2;
-        $teamsRating[$team2]['mp'] = $goal1;
-        if($differ < 0){
-          $teamsRating[$team2]['wins'] = 1;
-          $teamsRating[$team2]['porazh'] = 0;
-          $teamsRating[$team2]['nich'] = 0;
-        } elseif($differ > 0){
-          $teamsRating[$team2]['wins'] = 0;
-          $teamsRating[$team2]['porazh'] = 1;
-          $teamsRating[$team2]['nich'] = 0;
-        } else {
-          $teamsRating[$team2]['wins'] = 0;
-          $teamsRating[$team2]['porazh'] = 0;
-          $teamsRating[$team2]['nich'] = 1;
-        }
+    foreach($teamsRating as $team => $arr){
+      if($arr['matches'] < 10){
+        unset($teamsRating[$team]);
       }
     }
-
     uasort($teamsRating, ['App\Service\Sort', 'sortBySum']);
 
     return $this->render('default/rating.html.twig', [

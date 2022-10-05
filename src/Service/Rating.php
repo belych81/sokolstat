@@ -76,6 +76,10 @@ class Rating
           $score1 = 10;
           $score2 = -9;
             break;
+        case 10:
+          $score1 = 11;
+          $score2 = -10;
+            break;
         case -1:
           $score2 = 2;
           $score1 = -1;
@@ -109,8 +113,12 @@ class Rating
           $score1 = -8;
             break;
         case -9:
-          $score1 = 10;
-          $score2 = -9;
+          $score2 = 10;
+          $score1 = -9;
+            break;
+        case -10:
+          $score2 = 11;
+          $score1 = -10;
             break;
       }
 
