@@ -180,7 +180,7 @@ class GameRepository extends ServiceEntityRepository
     public function getMatchesTomm()
     {
       return $this->createQueryBuilder('c')
-          ->where('DATE_DIFF(c.data, :data) >= -1')
+          ->where('DATE_DIFF(c.data, :data) >= 0')
           ->setParameter('data', date('Y-m-d', time()))
           ->orderBy('c.data', 'ASC')
           ->getQuery()
