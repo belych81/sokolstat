@@ -187,7 +187,7 @@ class DefaultController extends AbstractController
     $tourCalend = $functions->getCalendar($tourTomm, 'tour');
     $host = $_SERVER['SERVER_NAME'];
 
-    $transfers = $em->getRepository(Transfer::class)->findByPeriod(5);
+    $transfers = false;//$em->getRepository(Transfer::class)->findByPeriod(5);
 
     return $this->render('default/newspaper.html.twig', [
       'rfplTours' => $rfplTours,
