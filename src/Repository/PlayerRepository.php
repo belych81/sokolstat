@@ -399,7 +399,7 @@ class PlayerRepository extends ServiceEntityRepository
         } else {
           $relation = 'lchplayers';
         }
-
+var_dump($country);
         return $query = $this->createQueryBuilder('p')
                 ->leftJoin('p.'.$relation, 's')
                 ->join('s.team', 'st')

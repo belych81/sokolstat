@@ -143,6 +143,27 @@ function scrollToBlock(to, speed, offset) {
     }
 });
 
+$(document).on('click', '.tour_js', function(){
+  let tour = $(this).data('tour');
+  let country = $(this).data('country');
+  let season = $(this).data('season');
+  console.log(country)
+  $.ajax({
+    type: 'post',
+    url: Routing.generate('championships_tour', {'tour':tour, 'season': season, 'country': country}),
+    dataType: 'json',
+    success: function(response){
+      $(".champship-table tbody").html(response.response);
+      $(".tour_text span").text(tour);
+      history.pushState(null, '', Routing.generate('championships', {'tour':tour, 'season': season, 'country': country}))
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      console.log(xhr.status);
+      console.log(thrownError);
+    }
+});
+});
+
   $("#shipplayersUpdate").click(function(){
     var arGames = [];
 		var champ = $(this).data('champ');
@@ -163,7 +184,6 @@ function scrollToBlock(to, speed, offset) {
         dataType: 'json',
         success: function(response){
           var arr = JSON.parse(response);
-          console.log(arr);
           arr.forEach(function(item, i, arr) {
             $("[data-id="+item[0]+"][data-param='game']").text(item[1]);
           });
@@ -191,8 +211,6 @@ function scrollToBlock(to, speed, offset) {
 		if(route != 'player_editSb'){
 			params['team'] = team;
 		}
-		console.log(route);
-		console.log(params)
     $.ajax({
         type: 'post',
         url: Routing.generate(route, params),

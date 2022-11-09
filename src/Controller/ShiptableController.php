@@ -66,7 +66,6 @@ class ShiptableController extends AbstractController
         $numberTour = $this->getDoctrine()->getRepository(Game::class)
                          ->getTours($country, $season);
 
-
         if(!$matches){
           throw $this->createNotFoundException('The tour does not exist');
         }
@@ -551,4 +550,16 @@ class ShiptableController extends AbstractController
       return new JsonResponse($response);
     }
 
+    public function tour($country, $season, $tour)
+    {
+      $matches = $this->getDoctrine()->getRepository(Game::class)
+                            ->getMatches($country, $season, $tour);
+
+      $response = [
+        "code" => 200,
+        "response" => $this->render('shiptable/tour.html.twig', ['matches' => $matches])->getContent()
+      ];
+
+      return new JsonResponse($response);
+    }
 }

@@ -227,6 +227,8 @@ championships:
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
         tour: \d+
+    options:
+        expose: true
 
 championships_tour:
     path:  /championships/tour/{country}/{season}/{tour}/

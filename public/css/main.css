@@ -1770,3 +1770,11 @@ th.sorted[data-order="1"]::after {
 .row {
   margin-right: 0;
 }
+.tour_js {
+  cursor: pointer;
+}
+.tour_text
+{
+  font-weight: 700;
+  font-size: 16px;
+}
