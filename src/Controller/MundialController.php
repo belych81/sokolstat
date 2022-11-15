@@ -79,7 +79,7 @@ class MundialController extends AbstractController
         $champ = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(MundialTable::class)
-          ->getCountriesBySeason($year);
+          ->getCountriesBySeason($year, $turnir);
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
         $menu = $serviceMenu->generateMundial();

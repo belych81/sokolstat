@@ -38,13 +38,18 @@ class MundialTableRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function getCountriesBySeason($year)
+    public function getCountriesBySeason($year, $turnir)
     {
         $qb = $this->createQueryBuilder('m')
                 ->select('c.name', 'c.translit', 'c.image')
                 ->join('m.country', 'c')
+                ->join('m.turnir', 't')
                 ->where("m.year = :year")
-                ->setParameter('year', $year)
+                ->andWhere("t.alias = :turnir")
+                ->setParameters([
+                    'turnir' => $turnir,
+                    'season' => $season
+                        ])
                 ->groupBy('c')
                 ->orderBy('c.name');
 
