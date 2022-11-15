@@ -48,7 +48,7 @@ class MundialTableRepository extends ServiceEntityRepository
                 ->andWhere("t.alias = :turnir")
                 ->setParameters([
                     'turnir' => $turnir,
-                    'season' => $season
+                    'year' => $year,
                         ])
                 ->groupBy('c')
                 ->orderBy('c.name');
