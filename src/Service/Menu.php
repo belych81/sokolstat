@@ -113,7 +113,7 @@ class Menu
       $menu = [
         [
           'name' => 'Чемпионаты Мира',
-          'url' => $this->router->generate('sbornie', ['turnir' => 'worldcup', 'year' => '2018']),
+          'url' => $this->router->generate('sbornie', ['turnir' => 'worldcup', 'year' => '2022']),
           'route' => 'sbornie'
         ],
         [
