@@ -683,6 +683,13 @@ class PlayerController extends AbstractController
         return new Response($id);
     }
 
+    public function viewedPlayerAdd($id)
+    {
+        $this->getDoctrine()->getRepository(Player::class)->viewedPlayer($id);
+
+        return new Response($id);
+    }
+
     public function newChampNation($season, $team, $flag)
     {
         ini_set('memory_limit','64M');

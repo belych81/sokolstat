@@ -22,6 +22,19 @@
           <a href="{{ path('player_edit', {'id': player.0.id}) }}">
              изменить</a>
         {% endif %}
+
+        <div class="panel panel-success">
+          <div class="panel-heading">Популярные</div>
+          <div class="panel-body">
+            <ul>
+              {% for gamer in popular %}
+                <li>
+                  <a href="{{ path('player_show', {'id': gamer.translit}) }}" class="list-item">{{ gamer.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
     </div>
     <div class="scLink">
       {% if items %}
@@ -156,4 +169,11 @@
         </div>
       {% endif %}
     </div>
+    <input type="hidden" id="playerId" value="{{ player.0.id }}" />
+{% endblock %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('js/player.js') }}"></script>
 {% endblock %}

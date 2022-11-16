@@ -165,6 +165,11 @@ class Player
      */
     private $games;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $viewed = 0;
+
     public function __construct()
     {
         $this->rfplmatches = new ArrayCollection();
@@ -782,6 +787,18 @@ class Player
                 $game->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getViewed(): ?int
+    {
+        return $this->viewed;
+    }
+
+    public function setViewed(?int $viewed): self
+    {
+        $this->viewed = $viewed;
 
         return $this;
     }

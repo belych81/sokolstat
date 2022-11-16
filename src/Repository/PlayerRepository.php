@@ -38,6 +38,19 @@ class PlayerRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getPopular($id)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.name, p.translit, p.born')
+            ->where("p.id != :id")
+            ->setParameter('id', $id)
+            ->orderBy('p.viewed', 'DESC')
+            ->setMaxResults(6);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function getBirthdayPlayer($data)
     {
         $qb = $this->createQueryBuilder('p')
@@ -399,7 +412,7 @@ class PlayerRepository extends ServiceEntityRepository
         } else {
           $relation = 'lchplayers';
         }
-var_dump($country);
+
         return $query = $this->createQueryBuilder('p')
                 ->leftJoin('p.'.$relation, 's')
                 ->join('s.team', 'st')
@@ -517,6 +530,18 @@ var_dump($country);
             ->setParameter(1, $game)
             ->setParameter(2, $goal)
             ->setParameter(3, $player)
+            ->getQuery();
+
+        $qb->execute();
+    }
+
+    public function viewedPlayer($player)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\Player', 'r')
+            ->set('r.viewed', 'r.viewed+1')
+            ->where('r.id = ?1')
+            ->setParameter(1, $player)
             ->getQuery();
 
         $qb->execute();

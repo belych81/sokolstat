@@ -183,6 +183,7 @@ footer {
     text-align: center;
     background-color: #366;
     color: #fff;
+    width: 100%;
 }
 .sidebar .panel-success > .panel-heading{
   background-color: #603;

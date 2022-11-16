@@ -77,6 +77,8 @@ class RusplayerController extends AbstractController
         $items = [];
         $player = $this->getDoctrine()->getRepository(Player::class)
           ->findByTranslit($id);
+        $popular = $this->getDoctrine()->getRepository(Player::class)
+          ->getPopular($id);
         $rusplayer = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->findByTranslit($id);
         $lchplayer = $this->getDoctrine()->getRepository(Lchplayer::class)
@@ -121,7 +123,8 @@ class RusplayerController extends AbstractController
             'gamesSb' => $gamesSb,
             'goalsSb' => $goalsSb,
             'mundials' => $mundials,
-            'items' => $items
+            'items' => $items,
+            'popular' => $popular
         ]);
     }
 

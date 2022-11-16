@@ -26,6 +26,14 @@ session_player_add:
     controller: App\Controller\PlayerController::sessionPlayerAdd
     options:
         expose: true
+
+viewed_player_add:
+    path: /viewed_player_add/{id}/
+    controller: App\Controller\PlayerController::viewedPlayerAdd
+    requirements:
+        id: \d+
+    options:
+        expose: true
         
 newspaper:
       path:     /newspaper/
