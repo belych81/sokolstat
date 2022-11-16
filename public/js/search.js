@@ -147,7 +147,6 @@ $(document).on('click', '.tour_js', function(){
   let tour = $(this).data('tour');
   let country = $(this).data('country');
   let season = $(this).data('season');
-  console.log(country)
   $.ajax({
     type: 'post',
     url: Routing.generate('championships_tour', {'tour':tour, 'season': season, 'country': country}),
