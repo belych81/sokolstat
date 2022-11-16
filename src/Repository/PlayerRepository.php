@@ -42,7 +42,7 @@ class PlayerRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p.name, p.translit, p.born')
-            ->where("p.id != :id")
+            ->where("p.translit != :id")
             ->setParameter('id', $id)
             ->orderBy('p.viewed', 'DESC')
             ->setMaxResults(6);
