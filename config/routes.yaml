@@ -34,6 +34,13 @@ viewed_player_add:
         id: \d+
     options:
         expose: true
+
+file_upload:
+    path: /file_upload/
+    controller: App\Controller\DefaultController::fileUpload
+    requirements: { _method: post }
+    options:
+        expose: true
         
 newspaper:
       path:     /newspaper/

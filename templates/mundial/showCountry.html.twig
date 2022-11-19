@@ -109,11 +109,12 @@
         {% endfor %}
         </tbody>
     </table>
-        {% if is_granted("ROLE_ADMIN") %}
+    {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('player_newMund', {'year': app.request.get('year'),
             'country': app.request.get('country'), 'turnir': app.request.get('turnir')}) }}">
             Добавить игрока</a>
-            {% endif %}
+
+    {% endif %}
 
 
  {% endblock %}

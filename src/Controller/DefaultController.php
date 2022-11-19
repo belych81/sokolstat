@@ -54,6 +54,21 @@ class DefaultController extends AbstractController
       $yestmatch = $this->getDoctrine()->getRepository(Game::class)
           ->getYesterdayMatches();
 
+      $curMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getCurMatches();
+      $tomMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getTomMatches();
+      $yestMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+          ->getYesterdayMatches();
+
+      $curmatch = array_merge($curmatch, $curMundmatch);
+      $tommatch = array_merge($tommatch, $tomMundmatch);
+      $yestmatch = array_merge($yestmatch, $yestMundmatch);
+
+      uasort($curmatch, ['App\Service\Sort', 'sortByDate']);
+      uasort($tommatch, ['App\Service\Sort', 'sortByDate']);
+      uasort($yestmatch, ['App\Service\Sort', 'sortByDate']);
+
       $birthdays = $this->getDoctrine()->getRepository(Player::class)
         ->getBirthdayPlayer(date('m-d'));
       $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
@@ -152,7 +167,7 @@ class DefaultController extends AbstractController
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
     }
 
-    $mund = $newspaper->getMundial('otbor-worldcup');
+    $mund = $newspaper->getMundial('worldcup');
     $nationsleague = $newspaper->getMundial('nationsleague');
     $lch = $newspaper->getEurocup('leagueChampions');
     $le = $newspaper->getEurocup('leagueEuropa');
@@ -342,4 +357,47 @@ class DefaultController extends AbstractController
             'rating' => $teamsRating
         ]);
   }
+
+    public function upload(Request $request, SluggerInterface $slugger)
+    {
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $brochureFile */
+            $brochureFile = $form->get('brochure')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $product->setBrochureFilename($newFilename);
+            }
+
+            // ... persist the $product variable or any other work
+
+            return $this->redirectToRoute('app_product_list');
+        }
+
+        return $this->renderForm('product/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
 }

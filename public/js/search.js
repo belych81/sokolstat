@@ -290,6 +290,7 @@ $(document).on('click', '.tour_js', function(){
 
   $("#datepicker").datepicker();
 
+
 });
 
 function sliceMainMenu(resize){

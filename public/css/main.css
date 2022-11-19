@@ -1779,3 +1779,7 @@ th.sorted[data-order="1"]::after {
   font-weight: 700;
   font-size: 16px;
 }
+.teams-list a
+{
+  text-decoration: none;
+}
