@@ -9,11 +9,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
-class ProductType extends AbstractType
+class CountryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
+            ->add('translit')
             ->add('image', FileType::class, [
 
                 // unmapped means that this field is not associated to any entity property
@@ -21,15 +23,16 @@ class ProductType extends AbstractType
 
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
-                'required' => true,
+                'required' => false,
 
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '16000k',
                         'mimeTypes' => [
                             'image/jpg',
+                            'image/jpeg',
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image',

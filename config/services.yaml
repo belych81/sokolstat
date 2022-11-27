@@ -4,6 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    file_directory: '%kernel.project_dir%/public/images/'
+    file_resize_directory: '%kernel.project_dir%/public/images/resize/'
+    file_output_directory: '/images/'
+    file_output_resize_directory: '/images/resize/'
 
 services:
     # default configuration for services in *this* file
@@ -34,6 +38,10 @@ services:
         tags:
             - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\News'}
             - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\News'}
+
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%file_directory%'
 
   #  redis_cache_service:
   #      class: Doctrine\Common\Cache\RedisCache

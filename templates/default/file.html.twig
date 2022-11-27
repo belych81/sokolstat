@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <form action="{{ path('file_upload', {'turnir': app.request.get('turnir'),
+    'year': app.request.get('year'), 'country': app.request.get('country')}) }}"
+        method="post" enctype="multipart/form-data">
+       <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.name) }}</th>
+                    <td>
+                        {{ form_errors(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.translit) }}</th>
+                    <td>
+                        {{ form_errors(form.translit) }}
+                        {{ form_widget(form.translit) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.image) }}</th>
+                    <td>
+                        {{ form_errors(form.image) }}
+                        {{ form_widget(form.image) }}
+                    </td>
+                </tr>
+            </tbody>
+       </table>
+        <p>
+            {{ form_row(form._token) }}
+            <button type="submit" class="spiski">Добавить</button>
+
+        </p>
+    </form>
+    <a href="{{ path('sbornieCountry', {'turnir': app.request.get('turnir'),
+        'year': app.request.get('year'), 'country': app.request.get('country')}) }}">Назад</a>
+{% endblock %}

@@ -23,11 +23,14 @@ use App\Entity\Mundial;
 use App\Entity\Ectable;
 use App\Entity\Game;
 use App\Entity\Transfer;
+use App\Entity\Country;
 use App\Service\Rating;
 use App\Service\Props;
 use App\Service\Functions;
 use App\Service\Newspaper;
 use App\Service\Pdf;
+use App\Service\FileUploader;
+use App\Form\CountryType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -358,46 +361,46 @@ class DefaultController extends AbstractController
         ]);
   }
 
-    public function upload(Request $request, SluggerInterface $slugger)
+    public function fileForm($turnir, $year, $country)
     {
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
+        $entity = $this->getDoctrine()->getRepository(Country::class)->findOneByTranslit($country);
+
+        $form = $this->createForm(CountryType::class, $entity);
+
+        return $this->render('default/file.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    public function fileUpload(Request $request, FileUploader $fileUploader, $turnir, $year, $country)
+    {
+        $entity = $this->getDoctrine()->getRepository(Country::class)->findOneByTranslit($country);
+
+        $form = $this->createForm(CountryType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $brochureFile */
-            $brochureFile = $form->get('brochure')->getData();
+          /** @var UploadedFile $countryFile */
+          $countryFile = $form->get('image')->getData();
+          if ($countryFile) {
+              $countryFileName = $fileUploader->upload($countryFile);
+              $entity->setImage($countryFileName);
+          }
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($entity);
+          $em->flush();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $product->setBrochureFilename($newFilename);
-            }
-
-            // ... persist the $product variable or any other work
-
-            return $this->redirectToRoute('app_product_list');
+          return $this->redirectToRoute('sbornieCountry', [
+            'turnir' => $turnir,
+            'year' => $year,
+            'country' => $country,
+          ]);
         }
 
-        return $this->renderForm('product/new.html.twig', [
-            'form' => $form,
+        return $this->render('default/file.html.twig', [
+            'form' => $form->createView(),
+            'entity' => $entity,
         ]);
     }
 }

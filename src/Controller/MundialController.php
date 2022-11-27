@@ -19,6 +19,7 @@ use App\Form\MundialUpdateType;
 use App\Form\MundialtableType;
 use App\Service\Menu;
 use App\Service\Props;
+use App\Service\ResizeImage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -58,7 +59,7 @@ class MundialController extends AbstractController
         $champ = $this->getDoctrine()->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(MundialTable::class)
-          ->getCountriesBySeason($year);
+          ->getCountriesBySeason($year, $turnir);
         $menu = $serviceMenu->generateMundial();
 
         return $this->render('mundial/show.html.twig', [
@@ -70,7 +71,7 @@ class MundialController extends AbstractController
             ]);
     }
 
-    public function showCountry(Menu $serviceMenu, $turnir, $year, $country)
+    public function showCountry(Menu $serviceMenu, ResizeImage $resize, $turnir, $year, $country)
     {
         $entity = $this->getDoctrine()->getRepository(Sostav::class)
           ->getSbPlayersByCountry($year, $country);
@@ -84,14 +85,19 @@ class MundialController extends AbstractController
           ->getSeasonsByTurnir($turnir);
         $menu = $serviceMenu->generateMundial();
 
+        $sbornImage = false;
+        if($sbornBaseImage = $sborn->getImage()){
+          $sbornImage = $resize->ResizeImageGet($sbornBaseImage, ['width' => 270, 'height' => 270]);
+        }
         return $this->render('mundial/showCountry.html.twig', [
             'entity'      => $entity,
             'seasons' => $seasons,
             'champ' => $champ,
             'sborn' => $sborn,
             'menu' => $menu,
-            'countries' => $countries
-            ]);
+            'countries' => $countries,
+            'sbornImage' => $sbornImage
+          ]);
     }
 
     public function showRus(Props $lastYear, Menu $serviceMenu, $season)
