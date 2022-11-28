@@ -27,7 +27,7 @@ class ResizeImage
 		list($width, $height, $type, $attr) = getimagesize($fileName);
 
 		if($width <= $arSize['width'] || $height <= $arSize['height'])
-			return $file;
+			return $this->pathOutput . $file;
 
 		if($cacheFile = $this->checkCache($file, $arSize)){
 			return $cacheFile;
