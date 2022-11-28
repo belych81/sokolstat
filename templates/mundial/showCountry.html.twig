@@ -11,7 +11,7 @@
         <a href="{{ path('sbornieCountry', {'year': app.request.get('year'),
                   'country': country.translit, 'turnir': app.request.get('turnir')}) }}"
                   class="">
-          <img src="{{ asset('images/') }}{{ country.image }}"
+          <img src="{{ country.image }}"
             alt="{{ country.name }}" title="{{ country.name }}" />
         </a>
       {% else %}

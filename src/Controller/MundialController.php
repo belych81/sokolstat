@@ -81,6 +81,11 @@ class MundialController extends AbstractController
           ->findOneByAlias($turnir);
         $countries = $this->getDoctrine()->getRepository(MundialTable::class)
           ->getCountriesBySeason($year, $turnir);
+        foreach($countries as &$country){
+          if($country['image']){
+            $country['image'] = $resize->ResizeImageGet($country['image'], ['width' => 60, 'height' => 60]);
+          }
+        }
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
         $menu = $serviceMenu->generateMundial();
