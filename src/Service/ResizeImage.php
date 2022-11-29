@@ -31,7 +31,6 @@ class ResizeImage
 		$width = $imgInfo[0];
 		$height = $imgInfo[1];
 
-var_dump($imgInfo['mime']);
 		if($width <= $arSize['width'] || $height <= $arSize['height'])
 			return $this->pathOutput . $file;
 
