@@ -103,7 +103,7 @@ class MundialController extends AbstractController
           ->getCountriesBySeason($year, $turnir);
         foreach($countries as &$country){
           if($country['image']){
-            $country['image'] = $resize->ResizeImageGet($country['image'], ['width' => 70, 'height' => 70]);
+            $country['image'] = $resize->ResizeImageGet($country['image'], ['width' => 80, 'height' => 80]);
           }
         }
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
