@@ -24,6 +24,7 @@ class ResizeImage
     public function resizeImageGet(string $file, array $arSize) :string
 	{
 		$fileName = $this->path. $file;
+
 		if(!is_file($fileName))
 			return $this->pathOutput . $file;
 			

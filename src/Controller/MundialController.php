@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MundialController extends AbstractController
 {
-    public function index(Menu $serviceMenu, $turnir, $year)
+    public function index(Menu $serviceMenu, ResizeImage $resize, $turnir, $year)
     {
         $seasons = $this->getDoctrine()->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
@@ -35,9 +35,29 @@ class MundialController extends AbstractController
         $raunds = $this->getDoctrine()->getRepository(Stadia::class)
           ->getStadiaMundial($turnir, $year);
 
+        $arSborn = [];
         foreach ($raunds as $raund) {
-            $raund->setStadiaMatches($this->getDoctrine()->getRepository(Mundial::class)
-              ->getEntityByTurnir($turnir, $year, $raund->getId()));
+            $matches = $this->getDoctrine()->getRepository(Mundial::class)
+            ->getEntityByTurnir($turnir, $year, $raund->getId());
+            foreach($matches as &$match){
+              $sbornId = $match->getCountry()->getId();
+              if(!in_array($sbornId, $arSborn)){
+                $img = $match->getCountry()->getImage();
+                if($img){
+                  $match->getCountry()->setImage($resize->ResizeImageGet($img, ['width' => 60, 'height' => 60]));
+                }
+                $arSborn[] = $sbornId;
+              }
+              $sborn2Id = $match->getCountry2()->getId();
+              if(!in_array($sborn2Id, $arSborn)){
+                $img2 = $match->getCountry2()->getImage();
+                if($img2){
+                  $match->getCountry2()->setImage($resize->ResizeImageGet($img2, ['width' => 60, 'height' => 60]));
+                }
+                $arSborn[] = $sborn2Id;
+              }
+            }
+            $raund->setStadiaMatches($matches);
             $raund->setStadiaTable($this->getDoctrine()->getRepository(MundialTable::class)
               ->getTable($turnir, $year, $raund->getAlias()));
         }
