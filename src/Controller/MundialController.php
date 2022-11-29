@@ -44,7 +44,7 @@ class MundialController extends AbstractController
               if(!in_array($sbornId, $arSborn)){
                 $img = $match->getCountry()->getImage();
                 if($img){
-                  $match->getCountry()->setImage($resize->ResizeImageGet($img, ['width' => 60, 'height' => 60]));
+                  $match->getCountry()->setImage($resize->ResizeImageGet($img, ['width' => 70, 'height' => 70]));
                 }
                 $arSborn[] = $sbornId;
               }
@@ -52,7 +52,7 @@ class MundialController extends AbstractController
               if(!in_array($sborn2Id, $arSborn)){
                 $img2 = $match->getCountry2()->getImage();
                 if($img2){
-                  $match->getCountry2()->setImage($resize->ResizeImageGet($img2, ['width' => 60, 'height' => 60]));
+                  $match->getCountry2()->setImage($resize->ResizeImageGet($img2, ['width' => 70, 'height' => 70]));
                 }
                 $arSborn[] = $sborn2Id;
               }
