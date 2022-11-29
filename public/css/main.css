@@ -1273,7 +1273,8 @@ display: inline-block; /* Выстраиваем по горизонтали */
   margin-bottom: 5px;
 }
 .teams-list img {
-  height: 35px;
+  max-height: 50px;
+  max-width: 50px;
 }
 .teams-list.mund img {
   border-radius: 100%;
