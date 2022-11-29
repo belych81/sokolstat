@@ -34,6 +34,7 @@ class CountryType extends AbstractType
                             'image/jpg',
                             'image/jpeg',
                             'image/png',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])

@@ -27,8 +27,11 @@ class ResizeImage
 		if(!is_file($fileName))
 			return $this->pathOutput . $file;
 			
-		list($width, $height, $type, $attr) = getimagesize($fileName);
+		$imgInfo = getimagesize($fileName);
+		$width = $imgInfo[0];
+		$height = $imgInfo[1];
 
+var_dump($imgInfo['mime']);
 		if($width <= $arSize['width'] || $height <= $arSize['height'])
 			return $this->pathOutput . $file;
 
@@ -36,12 +39,12 @@ class ResizeImage
 			return $cacheFile;
 		}
 
-		$resizeFile = $this->resizeImage($fileName, $file, $arSize['width'], $arSize['height'], $width, $height);
+		$resizeFile = $this->resizeImage($fileName, $file, $arSize['width'], $arSize['height'], $width, $height, $imgInfo['mime']);
 
 		return $resizeFile;
 	}
 
-	private function resizeImage(string $fileName, string $file, int $width, int $height, int $width_orig, int $height_orig)
+	private function resizeImage(string $fileName, string $file, int $width, int $height, int $width_orig, int $height_orig, string $mime)
 	{
 		$ratio_orig = $width_orig/$height_orig;
 		$widthNew = $width;
@@ -51,10 +54,31 @@ class ResizeImage
 		} else {
 			$heightNew = $width/$ratio_orig;
 		}
-		$src = \imagecreatefromjpeg($fileName);
+		switch($mime){
+			case 'image/jpeg':
+				$src = \imagecreatefromjpeg($fileName);
+				break;
+			case 'image/png':
+				$src = \imagecreatefrompng($fileName);
+				break;
+			case 'image/webp':
+				$src = \imagecreatefromwebp($fileName);
+				break;
+		}
 		$dst = \imagecreatetruecolor($widthNew, $heightNew);
 		\imagecopyresampled($dst, $src, 0, 0, 0, 0, $widthNew, $heightNew, $width_orig, $height_orig);
-		\imageJPEG($dst, $this->pathResize . $width . '_' . $height.  '/' .$file);
+
+		switch($mime){
+			case 'image/jpeg':
+				\imageJPEG($dst, $this->pathResize . $width . '_' . $height.  '/' .$file);
+				break;
+			case 'image/png':
+				\imagepng($dst, $this->pathResize . $width . '_' . $height.  '/' .$file);
+				break;
+			case 'image/webp':
+				\imagewebp($dst, $this->pathResize . $width . '_' . $height.  '/' .$file);
+				break;
+		}
 		
 		return $this->pathOutputResize . $width . '_' . $height.  '/' .$file;
 	}
