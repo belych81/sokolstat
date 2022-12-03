@@ -10,14 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
- * @ORM\Cache
- *
- * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="team:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="team:item"}}},
- *     order={"name"="DESC", "id"="ASC"},
- *     paginationEnabled=false
- * )
  */
 class Team
 {

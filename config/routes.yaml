@@ -41,9 +41,18 @@ file_form:
     requirements:
         id: \d+
 
+file_form_club:
+    path: /file_form_club/{code}/
+    controller: App\Controller\DefaultController::fileFormClub
+
 file_upload:
     path: /file_upload/{turnir}/{year}/{country}
     controller: App\Controller\DefaultController::fileUpload
+    requirements: { _method: post }
+
+file_upload_club:
+    path: /file_upload_club/{code}/
+    controller: App\Controller\DefaultController::fileUploadClub
     requirements: { _method: post }
         
 newspaper:

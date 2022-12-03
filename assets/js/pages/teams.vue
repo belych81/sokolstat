@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     selectTab: function(tab){
-      console.log(444)
       this.selectedTab = tab
     }
   },

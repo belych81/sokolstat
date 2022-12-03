@@ -1784,3 +1784,7 @@ th.sorted[data-order="1"]::after {
 {
   text-decoration: none;
 }
+.champ-teams-list img
+{
+  max-width: 30px;
+}

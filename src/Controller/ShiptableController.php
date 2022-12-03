@@ -29,6 +29,7 @@ use App\Form\RfplmatchEditType;
 use App\Service\Menu;
 use App\Service\Props;
 use App\Service\Functions;
+use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -153,7 +154,7 @@ class ShiptableController extends AbstractController
       ]);
     }
 
-    public function show(SessionInterface $session, Menu $serviceMenu, $id, $season, $country)
+    public function show(SessionInterface $session, Menu $serviceMenu, ResizeImage $resize, $id, $season, $country)
     {
         $club = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($id);
@@ -162,6 +163,9 @@ class ShiptableController extends AbstractController
           throw $this->createNotFoundException('The club does not exist');
         }
 
+        if($logo= $club->getImage()){
+          $club->setImage($resize->ResizeImageGet($logo, ['width' => 270, 'height' => 270]));
+        }
         $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->findByTeamAndSeason($club->getId(), $season);
         if(empty($isTeam)){
@@ -174,6 +178,8 @@ class ShiptableController extends AbstractController
                 ->getSeasons($strana, $id);
         $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
+
+        $arSborn = [];
         if ($country == 'russia') {
             $players = $this->getDoctrine()->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
@@ -203,6 +209,16 @@ class ShiptableController extends AbstractController
           }
         }
 
+        foreach($players as &$player){
+          if($img = $player->getPlayer()->getCountry()->getImage()){
+            $sbornId = $player->getPlayer()->getCountry()->getId();
+            if(!in_array($sbornId, $arSborn)){
+              $player->getPlayer()->getCountry()->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+              $arSborn[] = $sbornId;
+            }
+          }
+        }
+
         $cntLastMatches = 10;
         if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
            $cntLastMatches = 20;
@@ -215,6 +231,11 @@ class ShiptableController extends AbstractController
         $teams = $this->getDoctrine()->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
 
+        foreach($teams as &$team){
+          if($team['image']){
+            $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+          }
+        }
         $menu = $serviceMenu->generate($country, $season);
 
         $lastPlayer = $session->get('lastPlayer');

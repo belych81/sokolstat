@@ -14,7 +14,7 @@
           'id': team.translit, 'country': app.request.get('country')}) }}"
           class="spiski">
           {% if team.image %}
-            <img src="{{ asset('images/clubs/') }}{{ team.image }}"
+            <img src="{{ team.image }}"
               alt="{{ team.name }}" title="{{ team.name }}" />
           {% else %}
                 {{ team.name }}
@@ -27,7 +27,7 @@
     <div>
 
       {% if club.image %}
-      <img src="{{ asset('images/clubs/') }}{{ club.image }}"
+      <img src="{{ club.image }}"
         alt="{{ club.name }}" title="{{ club.name }}" />
       {% endif %}
       <table class="shipTable showTeam">
@@ -382,7 +382,11 @@
 
                                     </td>
                                     <td class="champ-team-column champ-country">
-                                        {{ player.player.country.name }}
+                                        {% if player.player.country.image %}
+                                          <img src="{{ player.player.country.image }}" alt="{{ player.player.country.name }}" title="{{ player.player.country.name }}" />
+                                        {% else %}
+                                          {{ player.player.country.name }}
+                                        {% endif %}
                                     </td>
                                     </tr>
                             {% endfor %}

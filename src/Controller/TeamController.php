@@ -8,6 +8,7 @@ use App\Entity\Shiptable;
 use App\Entity\Cup;
 use App\Entity\Eurocup;
 use App\Entity\Seasons;
+use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,11 +35,14 @@ class TeamController extends AbstractController
         ]);
     }
 
-    public function show($code)
+    public function show(ResizeImage $resize, $code)
     {
         $team = $this->getDoctrine()->getRepository(Team::class)
           ->findOneByTranslit($code);
 
+        if($img = $team->getImage()){
+          $team->setImage($resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]));
+        }
         return $this->render('team/show.html.twig', [
             'team' => $team
         ]);

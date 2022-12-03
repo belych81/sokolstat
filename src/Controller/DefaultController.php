@@ -31,6 +31,7 @@ use App\Service\Newspaper;
 use App\Service\Pdf;
 use App\Service\FileUploader;
 use App\Form\CountryType;
+use App\Form\TeamType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -373,6 +374,18 @@ class DefaultController extends AbstractController
         ));
     }
 
+    public function fileFormClub($code)
+    {
+        $entity = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($code);
+
+        $form = $this->createForm(TeamType::class, $entity);
+
+        return $this->render('default/fileClub.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
     public function fileUpload(Request $request, FileUploader $fileUploader, $turnir, $year, $country)
     {
         $entity = $this->getDoctrine()->getRepository(Country::class)->findOneByTranslit($country);
@@ -399,6 +412,35 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('default/file.html.twig', [
+            'form' => $form->createView(),
+            'entity' => $entity,
+        ]);
+    }
+
+    public function fileUploadClub(Request $request, FileUploader $fileUploader, $code)
+    {
+        $entity = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($code);
+
+        $form = $this->createForm(TeamType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+          /** @var UploadedFile $countryFile */
+          $countryFile = $form->get('image')->getData();
+          if ($countryFile) {
+              $countryFileName = $fileUploader->upload($countryFile);
+              $entity->setImage($countryFileName);
+          }
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($entity);
+          $em->flush();
+
+          return $this->redirectToRoute('team_show', [
+            'code' => $code
+          ]);
+        }
+
+        return $this->render('default/fileClub.html.twig', [
             'form' => $form->createView(),
             'entity' => $entity,
         ]);

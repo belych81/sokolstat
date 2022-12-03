@@ -19,12 +19,17 @@
   <div>
     <h1>{{ team.name }}</h1>
     {% if team.image %}
-      <img src="{{ asset('images/clubs/') }}{{ team.image }}"
+      <img src="{{ team.image }}"
         alt="{{ team.name }}" title="{{ team.name }}" />
     {% endif %}
     </div>
 </div>
 <div class="team-country">Страна: {{ team.country.name }}</div>
+
+{% if is_granted("ROLE_ADMIN") %}
+    <a href="{{ path('file_form_club', {'code': app.request.get('code')}) }}"
+                    class="spiski teamlch">Изменить</a>
+{% endif %}
 
 <div id="tabs"></div>
 
