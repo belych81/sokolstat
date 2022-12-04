@@ -42,7 +42,6 @@ class GamersRepository extends ServiceEntityRepository
               ->join('g.season', 's')
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
-              ->andWhere('g.score > 0')
               ->getQuery()
               ->getResult();
     }
