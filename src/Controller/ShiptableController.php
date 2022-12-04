@@ -40,7 +40,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ShiptableController extends AbstractController
 {
 
-    public function index(Menu $serviceMenu, Functions $functions, $country, $season, $tour)
+    public function index(Menu $serviceMenu, Functions $functions, ResizeImage $resize, $country, $season, $tour)
     {
         $strana = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
@@ -71,6 +71,16 @@ class ShiptableController extends AbstractController
           throw $this->createNotFoundException('The tour does not exist');
         }
 
+        foreach($matches as &$match){
+          $img = $match->getTeam()->getImage();
+          if($img){
+            $match->getTeam()->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+          }
+          $img2 = $match->getTeam2()->getImage();
+          if($img2){
+            $match->getTeam2()->setImage($resize->ResizeImageGet($img2, ['width' => 80, 'height' => 80]));
+          }
+        }
         $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
                 ->translateCountry($country)['rusCountry'];
         switch ($country) {

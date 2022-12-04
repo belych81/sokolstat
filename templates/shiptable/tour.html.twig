@@ -43,7 +43,7 @@
         </td>
         <td class="champTourImage">
             {% if match.team.image %}
-                <img {% if match.team.translit == 'union' %}class="long"{% endif %} src="{{ asset('images/clubs/') }}{{ match.team.image }}"
+                <img {% if match.team.translit == 'union' %}class="long"{% endif %} src="{{ match.team.image }}"
                         alt="{{ match.team.name }}" title="{{ match.team.name }}" />
             {% endif %}
         </td>
@@ -56,7 +56,7 @@
         </td>
         <td class="champTourImage">
             {% if match.team2.image %}
-                <img {% if match.team2.translit == 'union' %}class="long"{% endif %} src="{{ asset('images/clubs/') }}{{ match.team2.image }}"
+                <img {% if match.team2.translit == 'union' %}class="long"{% endif %} src="{{ match.team2.image }}"
                         alt="{{ match.team2.name }}" title="{{ match.team2.name }}" />
             {% endif %}
         </td>
