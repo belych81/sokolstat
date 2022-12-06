@@ -73,10 +73,10 @@
                         {% else %}
                             {{ app.request.get('tour') }}
                         {% endif %}</span>-й тур</div>
-                {% if is_granted("ROLE_ADMIN") %}
-                    <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
-                            'season': app.request.get('season')}) }}">Добавить матч</a></p>
-                {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
+                                'season': app.request.get('season')}) }}">Добавить матч</a></p>
+                    {% endif %}
                 <table class="table champship-table">
                     <tbody>
                         {{ include('shiptable/tour.html.twig', { 'matches': matches }) }}

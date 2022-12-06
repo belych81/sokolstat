@@ -79,6 +79,8 @@ class RusplayerController extends AbstractController
           ->findByTranslit($id);
         $popular = $this->getDoctrine()->getRepository(Player::class)
           ->getPopular($id);
+        shuffle($popular);
+        $popular = array_slice($popular, 0, 6);
         $rusplayer = $this->getDoctrine()->getRepository(Rusplayer::class)
           ->findByTranslit($id);
         $lchplayer = $this->getDoctrine()->getRepository(Lchplayer::class)
