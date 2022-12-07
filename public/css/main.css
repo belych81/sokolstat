@@ -1061,6 +1061,7 @@ header > .row {
     text-align: center;
     font-size: 14px;
     color: #128746;
+    padding: 0 10px;
 }
 .scScore {
     width: 100px;
@@ -1191,8 +1192,38 @@ header > .row {
     color: #006600;
     font-size: 14px;
 }
+.spiski:hover
+{
+  text-decoration: none;
+}
 .spiski.selected{
   color: red;
+}
+._flex
+{
+  display: flex;
+}
+.match_preview
+{
+  align-items: center;
+}
+.match_preview img
+{
+  margin: 0 10px;
+}
+.match_preview.pos_1 img
+{
+  order: 2;
+}
+@media (max-width: 991px){
+  .match_preview.pos_1 img
+  {
+    order: 1;
+  }
+  .match_preview.pos_1 .spiski
+  {
+    order: 2;
+  }
 }
 .tabs {
 position: relative; /* Относительное позиционирование */
