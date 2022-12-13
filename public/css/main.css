@@ -1304,8 +1304,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
   margin-bottom: 5px;
 }
 .teams-list img {
-  max-height: 50px;
-  max-width: 50px;
+  max-height: 40px;
 }
 .teams-list.mund img {
   border-radius: 100%;
