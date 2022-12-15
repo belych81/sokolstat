@@ -541,8 +541,6 @@ supercup_show:
 sbornie_newSeason:
     path:  /sbornie/admin/season/{turnir}/{season}/
     controller: App\Controller\MundialController:newSeason
-    requirements:
-        turnir: otbor-worldcup|worldcup|euro|african
 
 sbornie_createSeason:
     path:  /sbornie/admin/season/create/{turnir}/{season}/
