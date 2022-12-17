@@ -144,9 +144,10 @@ function scrollToBlock(to, speed, offset) {
 });
 
 $(document).on('click', '.tour_js', function(){
-  let tour = $(this).data('tour');
-  let country = $(this).data('country');
-  let season = $(this).data('season');
+  let $this = $(this);
+  let tour = $this.data('tour');
+  let country = $this.data('country');
+  let season = $this.data('season');
   $.ajax({
     type: 'post',
     url: Routing.generate('championships_tour', {'tour':tour, 'season': season, 'country': country}),
@@ -154,6 +155,8 @@ $(document).on('click', '.tour_js', function(){
     success: function(response){
       $(".champship-table tbody").html(response.response);
       $(".tour_text span").text(tour);
+      $(".tour_js").removeClass('active');
+      $this.addClass('active');
       history.pushState(null, '', Routing.generate('championships', {'tour':tour, 'season': season, 'country': country}))
     },
     error: function (xhr, ajaxOptions, thrownError) {

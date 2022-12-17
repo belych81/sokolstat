@@ -581,10 +581,20 @@ class ShiptableController extends AbstractController
       return new JsonResponse($response);
     }
 
-    public function tour($country, $season, $tour)
+    public function tour(ResizeImage $resize, $country, $season, $tour)
     {
       $matches = $this->getDoctrine()->getRepository(Game::class)
                             ->getMatches($country, $season, $tour);
+      foreach($matches as &$match){
+        $img = $match->getTeam()->getImage();
+        if($img){
+          $match->getTeam()->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+        }
+        $img2 = $match->getTeam2()->getImage();
+        if($img2){
+          $match->getTeam2()->setImage($resize->ResizeImageGet($img2, ['width' => 80, 'height' => 80]));
+        }
+      }
 
       $response = [
         "code" => 200,

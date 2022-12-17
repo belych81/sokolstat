@@ -1818,3 +1818,7 @@ th.sorted[data-order="1"]::after {
 {
   max-width: 30px;
 }
+.spiski.tour_js.active
+{
+  color: #0b110d;
+}

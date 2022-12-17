@@ -20,6 +20,7 @@ use App\Form\EurocupTableType;
 use App\Form\EctableType;
 use App\Form\EctableEditType;
 use App\Service\Menu;
+use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EurocupController extends AbstractController
 {
-    public function index(Menu $serviceMenu, $turnir, $season)
+    public function index(Menu $serviceMenu, ResizeImage $resize, $turnir, $season)
     {
         $seasons = $this->getDoctrine()->getRepository(Game::class)
           ->getSeasons($turnir);
@@ -69,6 +70,13 @@ class EurocupController extends AbstractController
 
         $teams = $this->getDoctrine()->getRepository(Ectable::class)
           ->getLchTeams($season);
+
+        foreach($teams as &$ectable){
+          $team = $ectable->getTeam();
+          if($img = $team->getImage()){
+            $team->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+          }
+        }
         $menu = $serviceMenu->generateEurocup($season);
 
         return $this->render('eurocup/index.html.twig', [
