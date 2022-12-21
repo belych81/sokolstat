@@ -66,6 +66,12 @@ function scrollToBlock(to, speed, offset) {
 			});
 			window.location.href = url;
 		});
+    $("select[name=country][placeholder=Гражданство]").change(function(){
+			var url = Routing.generate('player_all', {
+				'country': $(this).val(), 'team': $(this).data('team')
+			});
+			window.location.href = url;
+		});
 
     //Живой поиск
   	$('.search_keywords').bind("keyup", function() {

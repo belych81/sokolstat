@@ -72,6 +72,32 @@ class RusplayerController extends AbstractController
             ]);
     }
 
+    public function index_all(Request $request, SessionInterface $session, $page, $sort,
+      $order, $team, $country)
+    {
+        $totalPlayers = $this->getDoctrine()->getRepository(Player::class)
+                            ->countPlayers($country, $team);
+        $lastPage = ceil($totalPlayers / 20);
+        $previousPage = $page > 1 ? $page-1 : 1;
+        $nextPage = $page < $lastPage ? $page+1 : $lastPage;
+
+        $entities = $this->getDoctrine()->getRepository(Player::class)
+                        ->getPlayers(20, $sort, $order, ($page-1)*20, $country, $team);
+        $countries = $this->getDoctrine()->getRepository(Country::class)
+          ->getCountryAll();
+
+        return $this->render('player/index_all.html.twig', [
+            'entities' => $entities,
+            'lastPage' => $lastPage,
+            'previousPage' => $previousPage,
+            'currentPage' => $page,
+            'nextPage' => $nextPage,
+            'totalPlayers' => $totalPlayers,
+            'country' => $countries,
+            'strana' => $country
+            ]);
+    }
+
     public function show($id)
     {
         $items = [];

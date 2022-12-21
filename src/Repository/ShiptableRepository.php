@@ -146,17 +146,21 @@ class ShiptableRepository extends ServiceEntityRepository
               ;
     }
 
-    public function getTeamsRfpl()
+    public function getTeamsRfpl($all = false)
     {
-        return $this->createQueryBuilder('st')
+        $qb = $this->createQueryBuilder('st')
                 ->select('distinct t.name, t.translit')
                 ->join('st.team', 't')
-                ->join('st.country', 'c')
-                ->where("c.name = :country")
+                ->join('st.country', 'c');
+
+        if(!$all){
+            $qb->where("c.name = :country")
                 ->setParameters([
                 'country' => 'Россия',
-                    ])
-                ->orderBy('t.name')
+                ]);
+        }
+                
+        return $qb->orderBy('t.name')
                 ->getQuery()
                 ->getResult();
     }

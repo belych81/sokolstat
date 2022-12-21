@@ -621,6 +621,20 @@ player:
     options:
         expose: true
 
+player_all:
+    path:  /player/all/{page}/{sort}/{order}/{team}/{country}
+    controller: App\Controller\RusplayerController:index_all
+    defaults:
+      page: 1
+      sort: game
+      order: desc
+      team: all
+      country: false
+    requirements:
+        page: \d+
+    options:
+        expose: true
+
 news_search:
     path:  /search
     controller: App\Controller\PlayerController:search

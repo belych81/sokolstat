@@ -562,4 +562,53 @@ class PlayerRepository extends ServiceEntityRepository
 
         return $qb->getResult();
     }
+
+    public function countPlayers($country=null)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->join('r.country', 'c');
+
+        if($country && $country != 'all') {
+            $qb->where('c.translit = ?1')
+                ->setParameter(1, $country);
+        }
+        $query = $qb->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function getPlayers($max, $sort, $order='desc', $offset=null, $country=null)
+    {
+        if ($sort == 'born')
+        {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.country', 'c')
+            ->orderBy('p.born', $order)
+            ->setMaxResults($max);
+        }
+        else
+        {
+            $qb = $this->createQueryBuilder('p')
+                ->join('p.country', 'c')
+                ->orderBy('p.'.$sort, $order)
+                ->setMaxResults($max)
+                ;
+        }
+
+        if($country && $country != 'all')
+        {
+            $qb->where('c.translit = ?1')
+                ->setParameter(1, $country);
+        }
+
+        if ($offset)
+        {
+            $qb->setFirstResult($offset);
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
 }

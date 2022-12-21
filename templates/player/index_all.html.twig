@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Список футболистов
+{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Футболисты - участники Лиги Чемпионов, чемпионатов России и чемпионатов топ-5, статистика игроков,
+          поиск футболистов">
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>Футболисты</h1>
+    <div>
+        <span>Параметры:</span>
+        <form method="post" action="{{ path ('player_all') }}">
+            <select name="country" placeholder="Гражданство"
+              data-team="{{ app.request.get('team') }}">
+                <option value="all" {% if strana == false %}selected="selected"{% endif %}>
+                  Страна
+                </option>
+                {% for stran in country %}
+                  <option {% if strana and strana == stran.translit %}selected="selected"{% endif %}
+                    value="{{ stran.translit }}">
+                    {{ stran.name }}
+                  </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <p>Всего футболистов: <strong>{{ totalPlayers }}.</strong></p>
+    {% if app.request.get('order') == 'desc' %}
+      {% set order = 'asc' %}
+    {% else %}
+      {% set order = 'desc' %}
+    {% endif %}
+    {% if lastPage > 1 %}
+        {% if app.request.get('page') > 1 %}
+            <a href="{{ path('player_all', {'page': 1, 'sort': app.request.get('sort'),
+             'order': app.request.get('order'), 'team': app.request.get('team'),
+             'country': app.request.get('country')})}}">
+              <img src="{{ asset('images/double_arrows2.png') }}"
+                 alt="Первая" title="Первая" class="arrow" /></a>
+
+            <a href="{{ path('player_all', {'page': previousPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
+              <img src="{{ asset('images/strelkaLeft.png') }}"
+                 alt="Предудыщая" title="Предудыщая" class="arrow" /></a>
+        {% endif %}
+        Страница <strong>{{ currentPage}}/{{ lastPage }}</strong>
+        {% if lastPage != app.request.get('page') %}
+            <a href="{{ path('player_all', {'page': nextPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
+              <img src="{{ asset('images/strelka.png') }}"
+                 alt="Следующая" title="Следующая" class="arrow"/></a>
+
+            <a href="{{ path('player_all', {'page': lastPage, 'sort': app.request.get('sort'),
+            'order': app.request.get('order'), 'team': app.request.get('team'),
+            'country': app.request.get('country')})}}">
+              <img src="{{ asset('images/double_arrows1.png') }}"
+                 alt="Последняя" title="Последняя" class="arrow" /></a>
+         {% endif %}
+    {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr class="shipTableTitle">
+                <th rowspan="2">&nbsp;</th>
+                <th rowspan="2" class="playerListName">&nbsp;</th>
+                <th rowspan="2"><a href="{{ path ('player_all', {'sort': 'born', 'order': order}) }}">Дата Рождения</a></th>
+                <th colspan="2" class="teamPlayers">
+                       В чемпионатах
+                    </th>
+                <th class="playerListTotal">Кубки</th>
+                <th class="playerListTotal">Суперкубки</th>
+                <th class="playerListTotal">Еврокубки</th>
+                <th class="playerListTotal">Всего</th>
+                <th colspan="2" class="playerListTotal">Лига Чемпионов</th>
+            </tr>
+            <tr class="shipTableTitle">
+            <td class="playerListGame">
+                      <a href="{{ path ('player_all', {'sort': 'game', 'order': order}) }}">
+                        И</a>
+                </td>
+                <td class="playerListGame">
+                        <a href="{{ path ('player_all', {'sort': 'goal', 'order': order}) }}">
+                    Г</a>
+                </td>
+                <td class="playerListGame">
+                      <a href="{{ path ('player_all', {'sort': 'cup', 'order': order}) }}">
+                        Г</a>
+                </td>
+                <td class="playerListGame">
+                        <a href="{{ path ('player_all', {'sort': 'supercup', 'order': order}) }}">
+                    Г</a>
+                </td>
+                <td class="playerListGame">
+                    <a href="{{ path ('player_all', {'sort': 'eurocup', 'order': order}) }}">Г</a>
+                </td>
+                <td class="playerListGame">
+                    <a href="{{ path ('player_all', {'sort': 'sum', 'order': order}) }}">Г</a>
+                </td>
+                <td class="playerListGame">
+                    <a href="{{ path ('player_all', {'sort': 'lchgame', 'order': order}) }}">И</a>
+                </td>
+                <td class="playerListGame">
+                    <a href="{{ path ('player_all', {'sort': 'lchgoal', 'order': order}) }}">Г</a>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="players-list">
+        {% for entity in entities %}
+
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">{{ loop.index+(app.request.get('page')-1)*20 }}</td>
+                <td><a href="{{ path ('player_show', {'id': entity.translit}) }}" class="spiski">
+                        {{ entity.name }}</a></td>
+                <td class="playerListBorn">{{ entity.born | date('d.m.Y') }}</td>
+                <td class="playerListGame">{{ entity.game }}</td>
+                <td class="playerListGame">{{ entity.goal }}</td>
+                <td class="playerListGame">{{ entity.cup }}</td>
+                <td class="playerListGame">{{ entity.supercup }}</td>
+                <td class="playerListGame">{{ entity.eurocup }}</td>
+                <td class="playerListGame">{{ entity.sum }}</td>
+                <td class="playerListGame">{{ entity.lchgame }}</td>
+                <td class="playerListGame">{{ entity.lchgoal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
