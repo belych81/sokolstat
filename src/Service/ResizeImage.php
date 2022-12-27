@@ -66,6 +66,9 @@ class ResizeImage
 				break;
 		}
 		$dst = \imagecreatetruecolor($widthNew, $heightNew);
+		$black = ImageColorAllocate($dst, 0, 0, 0); // черный цвет
+		$trans = imagecolortransparent($dst, $black); // теперь черный прозрачен
+		ImageFill($dst, 0, 0, $black); //заливка прозрачным цветом
 		\imagecopyresampled($dst, $src, 0, 0, 0, 0, $widthNew, $heightNew, $width_orig, $height_orig);
 
 		switch($mime){
