@@ -88,7 +88,7 @@ class EurocupController extends AbstractController
           ]);
     }
 
-    public function show(SessionInterface $session, Menu $serviceMenu,  $id, $season)
+    public function show(SessionInterface $session, ResizeImage $resize, Menu $serviceMenu,  $id, $season)
     {
         $seasons = $this->getDoctrine()->getRepository(Game::class)
           ->getSeasons('leagueChampions');
@@ -96,8 +96,18 @@ class EurocupController extends AbstractController
           ->getBomb($season);
         $teams = $this->getDoctrine()->getRepository(Ectable::class)
           ->getLchTeams($season);
+        foreach($teams as &$ectable){
+          $team = $ectable->getTeam();
+          if($img = $team->getImage()){
+            $team->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+          }
+        }
+        unset($img);
         $club = $this->getDoctrine()->getRepository(Team::class)
           ->findByTranslit($id);
+        if($club[0] && $img = $club[0]->getImage()){
+          $club[0]->setImage($resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]));
+        }
         $players = $this->getDoctrine()->getRepository(Lchplayer::class)
           ->getLchTeamStat($season, $id);
         $stadia = $this->getDoctrine()->getRepository(Ectable::class)
