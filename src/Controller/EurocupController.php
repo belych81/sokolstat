@@ -94,6 +94,11 @@ class EurocupController extends AbstractController
           ->getSeasons('leagueChampions');
         $bombs = $this->getDoctrine()->getRepository(Lchplayer::class)
           ->getBomb($season);
+        $club = $this->getDoctrine()->getRepository(Team::class)
+          ->findByTranslit($id);
+        if($club[0] && $img = $club[0]->getImage()){
+          $logo = $resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]);
+        }
         $teams = $this->getDoctrine()->getRepository(Ectable::class)
           ->getLchTeams($season);
         foreach($teams as &$ectable){
@@ -102,12 +107,7 @@ class EurocupController extends AbstractController
             $team->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
           }
         }
-        unset($img);
-        $club = $this->getDoctrine()->getRepository(Team::class)
-          ->findByTranslit($id);
-        if($club[0] && $img = $club[0]->getImage()){
-          $club[0]->setImage($resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]));
-        }
+        
         $players = $this->getDoctrine()->getRepository(Lchplayer::class)
           ->getLchTeamStat($season, $id);
         $stadia = $this->getDoctrine()->getRepository(Ectable::class)
@@ -125,7 +125,8 @@ class EurocupController extends AbstractController
             'ectables' => $ectables,
             'lastPlayer' => $lastPlayer,
             'menu' => $menu,
-            'stadia' => $stadia
+            'stadia' => $stadia,
+            'logo' => $logo
           ]);
     }
 

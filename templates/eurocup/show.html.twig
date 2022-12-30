@@ -16,8 +16,8 @@
   <div class="team-show-image">
     <div>
       <h1>Лига Чемпионов {{ app.request.get('season') }}. {{ club.0.name }}</h1>
-      {% if club.0.image %}
-      <img src="{{ club.0.image }}"
+      {% if logo %}
+      <img src="{{ logo }}"
         alt="{{ club.0.name }}" title="{{ club.0.name }}" />
       {% endif %}
     </div>
