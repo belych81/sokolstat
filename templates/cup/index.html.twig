@@ -52,8 +52,8 @@
             </td>
             <td class="scMatch">
                 <div>
-                  {% if entity.team.image2 %}
-                  <img src="{{ asset('images/clubs/') }}{{ entity.team.image2 }}"
+                  {% if entity.team.image %}
+                  <img src="{{ entity.team.image }}"
                     alt="{{ entity.team.name }}" title="{{ entity.team.name }}" />
                   {% endif %}
                   <a href="{{ path('cup_show', {'season': app.request.get('season'),
@@ -61,8 +61,8 @@
                    -
                    <a href="{{ path('cup_show', {'season': app.request.get('season'),
                    'id': entity.team2.translit}) }}" class="spiski">{{ entity.team2.name }}</a>
-                   {% if entity.team2.image2 %}
-                   <img src="{{ asset('images/clubs/') }}{{ entity.team2.image2 }}"
+                   {% if entity.team2.image %}
+                   <img src="{{ entity.team2.image }}"
                      alt="{{ entity.team2.name }}" title="{{ entity.team2.name }}" />
                    {% endif %}
                 </div>

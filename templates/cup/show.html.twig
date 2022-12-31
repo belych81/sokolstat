@@ -21,7 +21,7 @@
         'id': team.translit}) }}"
         class="spiski">
         {% if team.image %}
-          <img src="{{ asset('images/clubs/') }}{{ team.image }}"
+          <img src="{{ team.image }}"
             alt="{{ team.name }}" title="{{ team.name }}" />
         {% else %}
               {{ team.name }}
@@ -29,19 +29,20 @@
       </a>
   {% endfor %}
 </div>
-              <div class="team-show-image">
-                <div>
-                  <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
-                  {% if club.image %}
-                  <img src="{{ asset('images/clubs/') }}{{ club.image }}"
-                    alt="{{ club.name }}" title="{{ club.name }}" />
-                  {% endif %}
-                </div>
-              </div>
 
-                {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
-                  <div>{{ lastPlayer }}</div>
-                {% endif %}
+<div class="team-show-image">
+  <div>
+    <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
+    {% if logo %}
+    <img src="{{ logo }}"
+      alt="{{ club.name }}" title="{{ club.name }}" />
+    {% endif %}
+  </div>
+</div>
+
+  {% if is_granted("ROLE_ADMIN") and lastPlayer is defined %}
+    <div>{{ lastPlayer }}</div>
+  {% endif %}
 
 {% block playersTeam %}
 <div class="champ-teams-list">

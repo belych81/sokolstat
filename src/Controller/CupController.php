@@ -18,13 +18,14 @@ use App\Entity\Ectable;
 use App\Form\CupType;
 use App\Form\Cup2Type;
 use App\Service\Menu;
+use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CupController extends AbstractController
 {
-  public function index(Menu $serviceMenu, $season)
+  public function index(Menu $serviceMenu, ResizeImage $resize, $season)
   {
       $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
       $stadies = $this->getDoctrine()->getRepository(Stadia::class)
@@ -36,8 +37,22 @@ class CupController extends AbstractController
 
       foreach ($stadies as $stadia)
       {
-        $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
-          ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'russia'));
+        $matches = $this->getDoctrine()->getRepository(Game::class)
+          ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'russia');
+
+        foreach($matches as &$match){
+          $team = $match->getTeam();
+          $img = $team->getImage();         
+          if($img && strpos($img, 'images') === false){
+            $team->setImage($resize->ResizeImageGet($img, ['width' => 80, 'height' => 80]));
+          }
+          $team2 = $match->getTeam2();
+          $img2 = $team2->getImage();
+          if($img2 && strpos($img2, 'images') === false){
+            $team2->setImage($resize->ResizeImageGet($img2, ['width' => 80, 'height' => 80]));
+          }
+        }
+        $stadia->setStadiaMatches($matches);
 
           $stadiaAlias = $stadia->getAlias();
           
@@ -55,7 +70,7 @@ class CupController extends AbstractController
       ]);
   }
 
-  public function show(Menu $serviceMenu, $id, $season)
+  public function show(Menu $serviceMenu, ResizeImage $resize, $id, $season)
   {
       $club = $this->getDoctrine()->getRepository(Team::class)
         ->findOneByTranslit($id);
@@ -75,6 +90,9 @@ class CupController extends AbstractController
         return $this->redirect($this->generateUrl('cup', [
             'season' => $season]));
       }
+      if($club && $img = $club->getImage()){
+        $logo = $resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]);
+      }
       $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
       $players = $this->getDoctrine()->getRepository(Cupplayer::class)
         ->getCupTeamStat($season, $id);
@@ -82,6 +100,14 @@ class CupController extends AbstractController
         ->getTeams($season, 'russia-cup');
       $teams2 = $this->getDoctrine()->getRepository(Game::class)
           ->getTeams($season, 'russia-cup', 2);
+      $teams = array_unique(array_merge($teams, $teams2), SORT_REGULAR);
+
+      foreach($teams as $team){
+        if($team['image']){
+          $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+        }
+      }
+
       for ($i=0, $cnt=count($players); $i < $cnt; $i++)
       {
           $name[$i] = $players[$i]->getPlayer()->getName();
@@ -99,9 +125,10 @@ class CupController extends AbstractController
       return $this->render('cup/show.html.twig', [
           'seasons' => $seasons,
           'players' => $players,
-          'teams' => array_unique(array_merge($teams, $teams2), SORT_REGULAR),
+          'teams' => $teams,
           'club' => $club,
-          'menu' => $menu
+          'menu' => $menu,
+          'logo' => $logo
         ]);
   }
 
