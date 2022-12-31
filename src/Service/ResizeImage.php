@@ -27,7 +27,7 @@ class ResizeImage
 
 		if(!is_file($fileName))
 			return $this->pathOutput . $file;
-			
+
 		$imgInfo = getimagesize($fileName);
 		$width = $imgInfo[0];
 		$height = $imgInfo[1];

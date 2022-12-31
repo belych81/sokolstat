@@ -102,7 +102,7 @@ class CupController extends AbstractController
           ->getTeams($season, 'russia-cup', 2);
       $teams = array_unique(array_merge($teams, $teams2), SORT_REGULAR);
 
-      foreach($teams as $team){
+      foreach($teams as &$team){
         if($team['image']){
           $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
         }
