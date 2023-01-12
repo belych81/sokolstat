@@ -93,6 +93,11 @@ class Country
      */
     private $image2 = "-";
 
+    /**
+     * @ORM\OneToMany(targetEntity=City::class, mappedBy="country")
+     */
+    private $cities;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -106,6 +111,7 @@ class Country
         $this->sostavs = new ArrayCollection();
         $this->nhlPlayers = new ArrayCollection();
         $this->mundialTables = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -502,6 +508,36 @@ class Country
     public function setImage2(?string $image2): self
     {
         $this->image2 = $image2;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|City[]
+     */
+    public function getCities(): Collection
+    {
+        return $this->cities;
+    }
+
+    public function addCity(City $city): self
+    {
+        if (!$this->cities->contains($city)) {
+            $this->cities[] = $city;
+            $city->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCity(City $city): self
+    {
+        if ($this->cities->removeElement($city)) {
+            // set the owning side to null (unless already changed)
+            if ($city->getCountry() === $this) {
+                $city->setCountry(null);
+            }
+        }
 
         return $this;
     }

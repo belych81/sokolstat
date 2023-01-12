@@ -199,6 +199,11 @@ class Team
      */
     private $games;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="teams")
+     */
+    private $city;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -1054,6 +1059,18 @@ class Team
                 $game->setTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

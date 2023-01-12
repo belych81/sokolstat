@@ -20,7 +20,7 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1175px) {
     .search-block, .login-block{
         display: none;
     }
@@ -29,6 +29,9 @@
     }
     .login-bar{
         display: block;
+    }
+    header .col-md-7.menu_top {
+      width: 90%;
     }
 }
 @media (max-width: 923px) {
@@ -61,16 +64,20 @@
 }
 
 
-@media (max-width: 750px) {
-    .panel-box { display: block; }
-	header { display: none; }
-      .logo {
-        width: 60px;
-        height: 55px;
-      }
-      .login-bar-block .btn-xs span{
-          display: none;
-      }
+@media (max-width: 769px) {
+  .panel-box { 
+    display: block; 
+  }
+	header { 
+    display: none; 
+  }
+    .logo {
+      width: 60px;
+      height: 55px;
+    }
+    .login-bar-block .btn-xs span{
+        display: none;
+    }
 }
 
 @media (max-width: 690px) {

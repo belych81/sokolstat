@@ -20,6 +20,12 @@ h1{
   margin-top: 8px;
   text-align: center;
 }
+a {
+  background-color: inherit;
+}
+a.stadia-scroll:hover {
+  color: #fff;
+}
 header {
     width: 100%;
     height: 65px;
@@ -50,6 +56,14 @@ li.dropdown a {
 }
 .dropdown:hover > .dropdown-menu{
 
+}
+.dropdown-menu > li > a:focus {
+  background-color: #936;
+  color: #fff;
+}
+.navbar .navbar-nav li.dropdown.nav-item > a,
+.dropdown-menu > li > a{
+    background: #936;
 }
 .navbar .navbar-nav li.dropdown.nav-item > a:hover,
 .dropdown-menu > li > a:hover{

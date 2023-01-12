@@ -43,12 +43,23 @@ class City
      */
     private $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Team::class, mappedBy="city")
+     */
+    private $teams;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="cities")
+     */
+    private $country;
+
     public function __construct()
     {
         $this->mundials = new ArrayCollection();
         $this->rfplmatches = new ArrayCollection();
         $this->ecsostavs = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,6 +201,48 @@ class City
                 $game->setCity(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->removeElement($team)) {
+            // set the owning side to null (unless already changed)
+            if ($team->getCity() === $this) {
+                $team->setCity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }
