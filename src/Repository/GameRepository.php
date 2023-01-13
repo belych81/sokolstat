@@ -201,7 +201,8 @@ class GameRepository extends ServiceEntityRepository
           $qb->andWhere('tr.alias IN (:fnl)')
              ->setParameter('fnl', ['england-champ', 'spain-champ', 'italy-champ', 'germany-champ',
               'france-champ', 'fnl', 'england-cup', 'spain-cup', 'italy-cup', 'germany-cup',
-               'france-cup', 'league-cup']);
+               'france-cup', 'league-cup', 'england-supercup', 'spain-supercup', 'italy-supercup', 'germany-supercup',
+               'france-supercup']);
         }
         if($turnir) {
           $qb->andWhere('tr.alias = :turnir')
