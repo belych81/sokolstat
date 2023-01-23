@@ -54,21 +54,24 @@ class NhlController extends AbstractController
       }
       $obNextDate = false;
       $obPrevDate = false;
-      $prevKey = $keyLast - 1;
-      $curDate = $obDates[$keyLast][1];
-      $nextKey = $keyLast + 1;
-      if(key_exists($prevKey, $obDates)){
-        $obPrevDate = new \DateTime($obDates[$prevKey][1]);
-      }
-      if(key_exists($nextKey, $obDates)){
-        $obNextDate = new \DateTime($obDates[$nextKey][1]);
-      }
-      $obCurDate = new \DateTime($curDate);
-      $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
-          ->getMatches($curDate);
-      foreach ($matches as $key => $match) {
-        $obData = $match->getData();
-        $dates[$obData->format("d.m")][] = $match;
+      $dates = [];
+      if($keyLast){
+          $prevKey = $keyLast - 1;
+          $curDate = $obDates[$keyLast][1];
+          $nextKey = $keyLast + 1;
+          if(key_exists($prevKey, $obDates)){
+            $obPrevDate = new \DateTime($obDates[$prevKey][1]);
+          }
+          if(key_exists($nextKey, $obDates)){
+            $obNextDate = new \DateTime($obDates[$nextKey][1]);
+          }
+          $obCurDate = new \DateTime($curDate);
+          $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
+              ->getMatches($curDate);
+          foreach ($matches as $key => $match) {
+            $obData = $match->getData();
+            $dates[$obData->format("d.m")][] = $match;
+          }
       }
 
 

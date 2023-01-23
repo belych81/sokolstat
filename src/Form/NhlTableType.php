@@ -19,19 +19,10 @@ class NhlTableType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $season = "1992-93";
-        if(\key_exists('season', $_SESSION)){
-          $season = $_SESSION['season'];
-        }
-
-        $division = "Норриса";
-        if(\key_exists('division', $_SESSION)){
-          $division = $_SESSION['division'];
-        }
 
         $builder
-            ->add('season', null, ['data' => $season])
-            ->add('division', null, ['data' => $division])
+            ->add('season')
+            ->add('division')
             ->add('team', EntityType::class, [
                 'class' => NhlTeam::class,
                 'query_builder' => function (NhlTeamRepository $repository) {
