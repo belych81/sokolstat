@@ -12,41 +12,43 @@
 {% block content %}
   <div><h1>НХЛ {{ app.request.get('season') }}</h1></div>
 
-  {% for name, divis in division %}
-    <div class="champ-table champs">
-      <p class="champ-title">Дивизион {{ name }}</p>
-        <table class="shipTable">
-            <thead>
-                <tr class="shipTableTitle">
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                    <th class="winsTable">И</th>
-                    <th class="winsTable">В</th>
-                    <th class="winsTable">Н</th>
-                    <th class="winsTable">П</th>
-                    <th class="goalsTable">M</th>
-                    <th class="winsTable">О</th>
+  <div class="row">
+    {% for name, divis in division %}
+      <div class="champ-table champs col-lg-4">
+        <p class="champ-title">Дивизион {{ name }}</p>
+          <table class="shipTable">
+              <thead>
+                  <tr class="shipTableTitle">
+                      <th>&nbsp;</th>
+                      <th>&nbsp;</th>
+                      <th class="winsTable">И</th>
+                      <th class="winsTable">В</th>
+                      <th class="winsTable">Н</th>
+                      <th class="winsTable">П</th>
+                      <th class="goalsTable">M</th>
+                      <th class="winsTable">О</th>
 
-                </tr>
-            </thead>
-            <tbody>
-              {% for entity in divis %}
+                  </tr>
+              </thead>
+              <tbody>
+                {% for entity in divis %}
 
-                <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                    <td class="player-position">{{ loop.index }}</td>
-                    <td class="tableLeft">
-                        {{ entity.team.name }}</td>
-                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                    <td>{{ entity.wins }}</td>
-                    <td>{{ entity.nich }}</td>
-                    <td>{{ entity.porazh }}</td>
-                    <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                    <td class="table-score">{{ entity.score }}</td>
+                  <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                      <td class="player-position">{{ loop.index }}</td>
+                      <td class="tableLeft">
+                          {{ entity.team.name }}</td>
+                      <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                      <td>{{ entity.wins }}</td>
+                      <td>{{ entity.nich }}</td>
+                      <td>{{ entity.porazh }}</td>
+                      <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                      <td class="table-score">{{ entity.score }}</td>
 
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-  {% endfor %}
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

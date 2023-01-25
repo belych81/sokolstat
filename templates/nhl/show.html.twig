@@ -26,7 +26,7 @@
           'id': team.translit}) }}"
           class="spiski">
           {% if team.image %}
-            <img src="{{ asset('images/') }}{{ team.image }}"
+            <img src="{{ team.image }}"
               alt="{{ team.name }}" title="{{ team.name }}" />
           {% else %}
                 {{ team.name }}
@@ -38,7 +38,7 @@
   <div class="team-show-image">
     <div>
       {% if club.image %}
-      <img src="{{ asset('images/') }}{{ club.image }}"
+      <img src="{{ club.image }}"
         alt="{{ club.name }}" title="{{ club.name }}" />
       {% endif %}
       <table class="shipTable showTeam">

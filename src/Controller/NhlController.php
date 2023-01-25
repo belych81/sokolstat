@@ -19,6 +19,7 @@ use App\Form\NhlRegType;
 use App\Form\NhlChampType;
 use App\Form\NhlPlayersteamType;
 use App\Repository\SeasonsRepository;
+use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +56,7 @@ class NhlController extends AbstractController
       $obNextDate = false;
       $obPrevDate = false;
       $dates = [];
-      if($keyLast){
+      if($keyLast || $keyLast === 0){
           $prevKey = $keyLast - 1;
           $curDate = $obDates[$keyLast][1];
           $nextKey = $keyLast + 1;
@@ -161,7 +162,7 @@ class NhlController extends AbstractController
       ]);
   }
 
-  public function show(SessionInterface $session, $id, $season)
+  public function show(SessionInterface $session, ResizeImage $resize, $id, $season)
   {
       $club = $this->getDoctrine()->getRepository(NhlTeam::class)
         ->findOneByTranslit($id);
@@ -170,6 +171,9 @@ class NhlController extends AbstractController
       if(empty($isTeam)){
         return $this->redirect($this->generateUrl('nhl_season', [
             'season' => $season]));
+      }
+      if($logo= $club->getImage()){
+        $club->setImage($resize->ResizeImageGet($logo, ['width' => 270, 'height' => 270]));
       }
       $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
               ->getSeasons();
@@ -204,6 +208,12 @@ class NhlController extends AbstractController
       $teams = $this->getDoctrine()->getRepository(NhlTable::class)
         ->getTeams($season);
 
+      foreach($teams as &$team){
+        if($team['image']){
+          $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+        }
+      }
+
       $lastPlayer = $session->get('lastPlayer');
 
       return $this->render('nhl/show.html.twig', [
@@ -214,7 +224,7 @@ class NhlController extends AbstractController
           'club' => $club,
           'lastPlayer' => $lastPlayer,
           'shiptable' => $shiptable
-          ]);
+      ]);
   }
 
   public function editPlayer($id)
