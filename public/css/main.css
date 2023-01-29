@@ -1309,7 +1309,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
 }
 .teams-list .spiski{
   display: inline-block;
-  background: #c1e3c8;
+  background: #fff;
   border: 1px solid #060;
   border-radius: 4px;
   color: #060;
