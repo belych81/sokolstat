@@ -1836,3 +1836,15 @@ th.sorted[data-order="1"]::after {
 {
   color: #0b110d;
 }
+.champ-table
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.shipTable
+{
+ max-width: 500px;   
+ margin: 0 auto 15px;
+}

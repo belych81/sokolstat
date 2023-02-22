@@ -19,7 +19,8 @@ class NhlChampType extends AbstractType
         $flag = $options['flag'];
         $club = $options['club'];
 
-        $builder
+        if($flag != 'nfl'){
+          $builder
             ->add('player', EntityType::class, [
             'class' => NhlPlayer::class,
             'query_builder' => function (NhlPlayerRepository $repository) use ($season,
@@ -36,7 +37,8 @@ class NhlChampType extends AbstractType
                    break;
                }
             }
-            ]);
+          ]);
+        }
   }
 
   public function configureOptions(OptionsResolver $resolver)

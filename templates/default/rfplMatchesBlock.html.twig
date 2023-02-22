@@ -12,7 +12,7 @@
       </span>
     </div>
     <div class="match-info">
-      <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" style="float: left;" />
+      <img class="match-team-img" src="{{ asset('images/') }}{{ match.team.image }}" style="float: left;" />
       {% if match.city %}
       <span class="match-main-info info">
         {{ match.city.name }}.
@@ -25,7 +25,7 @@
         {% endif %}
       </span>
       {% endif %}
-      <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" style="float: right;" />
+      <img class="match-team2-img" src="{{ asset('images/') }}{{ match.team2.image }}" style="float: right;" />
     </div>
   </div>
   {% if match.game %}

@@ -18,6 +18,7 @@ use App\Form\NhlPlayerEditType;
 use App\Form\NhlRegType;
 use App\Form\NhlChampType;
 use App\Form\NhlPlayersteamType;
+use App\Form\ShipplayerType;
 use App\Repository\SeasonsRepository;
 use App\Service\ResizeImage;
 
@@ -97,9 +98,18 @@ class NhlController extends AbstractController
       {
         $division[$item->getDivision()->getName()][] = $item;
       }
+      ksort($division);
+      
+      $conf = [];
+      foreach($entities as $item)
+      {
+        $conf[$item->getDivision()->getConf()->getName()][] = $item;
+      }
+      
       return $this->render('nhl/standing.html.twig', [
           'seasons' => $seasons,
-          'division' => $division
+          'division' => $division,
+          'conf' => $conf
       ]);
   }
 
@@ -554,6 +564,7 @@ class NhlController extends AbstractController
         $entity = new NhlReg();
         $club = $this->getDoctrine()->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
+        
         $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
             'team' => $team, 'flag' => $flag, 'club' => $club]);
 
@@ -563,9 +574,10 @@ class NhlController extends AbstractController
         ));
     }
 
-    public function createChampNation(Request $request, $team, $season, $flag)
+    public function createChampNation(SessionInterface $session, Request $request, $team, $season, $flag)
     {
         $entity  = new NhlReg();
+        $em = $this->getDoctrine()->getManager();
 
         $club = $this->getDoctrine()->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
@@ -578,8 +590,31 @@ class NhlController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if(!$entity->getPlayer()) {
+          $selectedPlayer = $session->get('lastPlayerAdd');
+          $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+          $obNhlPlayer = $this->getDoctrine()->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
+          if($obNhlPlayer){
+            $entity->setPlayer($obNhlPlayer);
+          } else {
+            $entityPlayer  = new NhlPlayer();
+            $entityPlayer->setName($obPlayer->getName());
+            $entityPlayer->setBorn($obPlayer->getBorn());
+            $entityPlayer->setTranslit($obPlayer->getTranslit());
+            $entityPlayer->setInsertdate($obPlayer->getInsertdate());
+            $entityPlayer->setCountry($obPlayer->getCountry());
+            $entityPlayer->setAmplua($obPlayer->getAmplua());
+            $em->persist($entityPlayer);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('nhl_show', [
+              'id' => $team,
+              'season' => $season
+            ]));
+          }
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($entity);
             $em->flush();
             /*$id = $entity->getId();

@@ -193,6 +193,9 @@ class NhlPlayerRepository extends ServiceEntityRepository
     public function queryLchPlayers($season, $team)
     {
         $year = \substr($season, 0, 4);
+        if(!intval($year)){
+            $year = 2022;
+        }
         $start = $year-39;
         $end = $year-16;
         $str_start = $start.'-01-01';
@@ -207,6 +210,9 @@ class NhlPlayerRepository extends ServiceEntityRepository
     public function queryPlayersteam($season, $team)
     {
         $year = \substr($season, 0, 4);
+        if(!intval($year)){
+            $year = 2022;
+        }
         $start = $year-39;
         $end = $year-16;
         $str_start = $start.'-01-01';
