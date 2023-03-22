@@ -137,6 +137,11 @@ class Menu
           'route' => 'sbornie'
         ],
         [
+          'name' => 'Чемпионаты Европы (отбор)',
+          'url' => $this->router->generate('sbornie', ['turnir' => 'otbor-euro', 'year' => '2024']),
+          'route' => 'sbornie'
+        ],
+        [
           'name' => 'Кубок Африки',
           'url' => $this->router->generate('sbornie', ['turnir' => 'african', 'year' => '2022']),
           'route' => 'sbornie'

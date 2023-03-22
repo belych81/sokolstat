@@ -545,6 +545,12 @@ footer {
 .menu-login{
     max-width: 150px;
     color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 65px;
+    gap: 10px;
+    align-items: center;
 }
 .menu-login a{
   color: #fff;
@@ -556,8 +562,7 @@ footer {
     margin-left: 5px;
 }
 .menu-login .btn-xs{
-  width: 90%;
-  margin-top: 5px;
+  height: 30px;
 }
 .btn-sign{
   background-color: #366;
@@ -1004,7 +1009,9 @@ footer {
 .registerLink {
     color: #edde34;
     font-weight: bold;
-    }
+    padding: 3px 20px;
+    text-decoration: none;
+}
 .right_column {
     display: inline-block;
     width: 372px;
@@ -1847,4 +1854,7 @@ th.sorted[data-order="1"]::after {
 {
  max-width: 500px;   
  margin: 0 auto 15px;
+}
+.glyphicon-log-in {
+  padding-right: 5px;
 }

@@ -69,7 +69,7 @@ class NhlController extends AbstractController
           }
           $obCurDate = new \DateTime($curDate);
           $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
-              ->getMatches($curDate);
+              ->getMatches($curDate, $season);
           foreach ($matches as $key => $match) {
             $obData = $match->getData();
             $dates[$obData->format("d.m")][] = $match;
