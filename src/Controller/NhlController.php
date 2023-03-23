@@ -592,7 +592,7 @@ class NhlController extends AbstractController
 
         if(!$entity->getPlayer()) {
           $selectedPlayer = $session->get('lastPlayerAdd');
-          $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+          $obPlayer = $this->getDoctrine()->getRepository(NhlPlayer::class)->findOneById($selectedPlayer);
           $obNhlPlayer = $this->getDoctrine()->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
           if($obNhlPlayer){
             $entity->setPlayer($obNhlPlayer);
