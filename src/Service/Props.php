@@ -4,8 +4,8 @@ namespace App\Service;
 class Props
 {
     private $lastSeason = '2022-23';
-    private $lastMundSeason = 2022;
-    private $sbornieRusYear = 2021;
+    private $lastMundSeason = 2024;
+    private $sbornieRusYear = 2023;
     private $tops = ['Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
     private $topEmblem = [
       'Англия' => 'Premier_League.svg.png',
