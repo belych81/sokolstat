@@ -206,7 +206,7 @@
       <div class="np-champ-matches">
         {% if nationsleague['lch'] is not empty %}
           {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'mund2022.jpg', 'title': 'ЛИГА НАЦИЙ' }) }}
-          <h2 class="article-title">Заголовок</h2>
+          <h2 class="article-title"></h2>
           <article class="textcols mund-article">
           </article>
           {% if nationsleague['lchGroups'] %}
@@ -215,6 +215,24 @@
             {% endfor %}
           {% else %}
             {% for match in nationsleague['lch'] %}
+              {{ include('default/mundMatchesBlock.html.twig', { 'match': match }) }}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div class="np-champ-matches">
+        {% if otborEuro['lch'] is not empty %}
+          {{ include('default/titleEmblemBlock.html.twig', { 'host': host, 'fileName': 'mund2022.jpg', 'title': 'ЧЕМПИОНАТ ЕВРОПЫ (ОТБОР)' }) }}
+          <h2 class="article-title"></h2>
+          <article class="textcols mund-article">
+          </article>
+          {% if otborEuro['lchGroups'] %}
+            {% for stadia, group in otborEuro['lchGroups'] %}
+              {{ include('default/mundGroupBlock.html.twig', { 'stadia': stadia, 'group': group }) }}
+            {% endfor %}
+          {% else %}
+            {% for match in otborEuro['lch'] %}
               {{ include('default/mundMatchesBlock.html.twig', { 'match': match }) }}
             {% endfor %}
           {% endif %}

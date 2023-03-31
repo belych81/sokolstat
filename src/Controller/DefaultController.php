@@ -173,6 +173,7 @@ class DefaultController extends AbstractController
 
     $mund = $newspaper->getMundial('worldcup');
     $nationsleague = $newspaper->getMundial('nationsleague');
+    $otborEuro = $newspaper->getMundial('otbor-euro');
     $lch = $newspaper->getEurocup('leagueChampions');
     $le = $newspaper->getEurocup('leagueEuropa');
     $lk = $newspaper->getEurocup('conference-league');
@@ -221,6 +222,7 @@ class DefaultController extends AbstractController
       'le' => $le,
       'mund' => $mund,
       'nationsleague' => $nationsleague,
+      'otborEuro' => $otborEuro,
       'rusBombs' => $rusBombs,
       'fnlBombs' => $fnlBombs,
       'bombs' => $bombs,

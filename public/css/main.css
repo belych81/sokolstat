@@ -646,7 +646,6 @@ footer {
 .search-top{
   display: inline-block;
   width: 200px;
-  margin-top: 10px;
 }
 .menu-trigger {
     display: inline-block;
@@ -1007,7 +1006,7 @@ footer {
   margin-top: 15px;
 }
 .registerLink {
-    color: #edde34;
+    color: #fff;
     font-weight: bold;
     padding: 3px 20px;
     text-decoration: none;
@@ -1857,4 +1856,16 @@ th.sorted[data-order="1"]::after {
 }
 .glyphicon-log-in {
   padding-right: 5px;
+}
+.nav>li {
+  display: flex;
+  align-items: center;
+}
+.navbar-nav>li>a {
+  line-height: auto;
+}
+.search-block {
+  height: 65px;
+  display: flex;
+  align-items: center;
 }

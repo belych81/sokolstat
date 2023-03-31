@@ -19,6 +19,23 @@
     width: 21.66666667%;
   }
 }
+@media (max-width: 1600px) {
+  .menu-login {
+    display: block;
+  }
+  .menu-login .btn-xs {
+    height: 25px;
+  }
+  .login-block {
+    display: flex;
+    align-items: center;
+    height: 65px;
+  }
+  .menu-login .btn-xs {
+    height: 25px;
+    margin: 3px 0;
+  }
+}
 
 @media (max-width: 1175px) {
     .search-block, .login-block{
@@ -65,18 +82,22 @@
 
 
 @media (max-width: 769px) {
-  .panel-box { 
-    display: block; 
-  }
-	header { 
-    display: none; 
-  }
+    .panel-box { 
+      display: block; 
+    }
+    header { 
+      display: none; 
+    }
     .logo {
       width: 60px;
       height: 55px;
     }
     .login-bar-block .btn-xs span{
         display: none;
+    }
+    .navbar-nav>li>a {
+      padding-top: 0;
+      padding-bottom: 0;
     }
 }
 
