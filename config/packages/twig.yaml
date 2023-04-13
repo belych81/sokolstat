@@ -3,7 +3,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
+    form_themes: ['bootstrap_4_layout.html.twig']
     globals:
         season: 2022-23
         stadia: groupA
-        newspaper_number: 12
+        newspaper_number: 14

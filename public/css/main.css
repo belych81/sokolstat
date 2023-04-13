@@ -963,35 +963,6 @@ footer {
     font-size: 16px;
     width: 150px;
 }
-.reg-form{
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.reg-form > div{
-  margin-left: auto;
-  margin-right: auto;
-}
-.reg-form div div{
-  text-align: center;
-  display: table-row;
-}
-.reg-form form{
-  display: table;
-  margin: auto;
-}
-.reg-form input{
-  display: table-cell;
-
-}
-.reg-form label{
-  font-weight: bold;
-  padding: 10px 0 10px 0;
-}
-.reg-form li{
-  list-style-type: none;
-  color: red;
-}
 .reg-submit {
     width: 130px;
     height: 30px;
@@ -1868,4 +1839,7 @@ th.sorted[data-order="1"]::after {
   height: 65px;
   display: flex;
   align-items: center;
+}
+a.registerLink:hover {
+  text-decoration: none;
 }
