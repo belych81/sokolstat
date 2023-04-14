@@ -149,7 +149,12 @@
           {% else %}
             <div class="eurocup-matches">
               {% for match in le['lch'] %}
-                {{ include('default/rfplMatchesBlock.html.twig', { 'match': match }) }}
+                <div>
+                  <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
+                  <b>{{ match.team2.name | upper }}</b> -
+                  {{ match.score }}</span>
+                  (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
+                </div>
               {% endfor %}
             </div>
           {% endif %}
@@ -168,7 +173,12 @@
                 {% else %}
                   <div class="eurocup-matches">
                     {% for match in lk['lch'] %}
-                      {{ include('default/rfplMatchesBlock.html.twig', { 'match': match }) }}
+                      <div>
+                        <span class="np-matches-team"><b>{{ match.team.name | upper }}</b> -
+                        <b>{{ match.team2.name | upper }}</b> -
+                        {{ match.score }}</span>
+                        (<span>{{ match.bomb | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'}) }}</span>).
+                      </div>
                     {% endfor %}
                   </div>
                 {% endif %}
