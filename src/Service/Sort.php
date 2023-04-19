@@ -24,6 +24,13 @@ class Sort
     	return ($v1['goal'] < $v2['goal']) ? 1 : -1;
     }
 
+    public static function sortByAge($v1, $v2) {
+    	if($v1['age'] == $v2['age']) {
+    		return 0;
+    	}
+    	return ($v1['age'] < $v2['age']) ? 1 : -1;
+    }
+
     public static function sortByDate($v1, $v2) {
         if($v1->getData() < $v2->getData()){
             return -1;

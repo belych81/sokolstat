@@ -57,7 +57,7 @@ class PlayerRepository extends ServiceEntityRepository
               ->select('p.id, p.name, p.translit, TIMESTAMPDIFF(YEAR, p.born, CURRENT_TIMESTAMP()) age')
               ->where('DAY(p.born) = DAY(CURRENT_TIMESTAMP())')
               ->andWhere('MONTH(p.born) = MONTH(CURRENT_TIMESTAMP())')
-              ->orderBy('p.born', 'ASC')
+              ->orderBy('p.viewed', 'DESC', 'p.born', 'ASC')
               ->setMaxResults(30);
 
         $query = $qb->getQuery();

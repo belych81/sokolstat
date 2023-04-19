@@ -75,6 +75,7 @@ class DefaultController extends AbstractController
 
       $birthdays = $this->getDoctrine()->getRepository(Player::class)
         ->getBirthdayPlayer(date('m-d'));
+      uasort($birthdays, ['App\Service\Sort', 'sortByAge']);
       $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
         ->getLastPlayer();
 
