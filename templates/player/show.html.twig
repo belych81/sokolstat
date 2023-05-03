@@ -1,25 +1,25 @@
 {% extends 'player/index.html.twig' %}
 
 {% block title %}
-    {{ player.0.name }}
+    {{ player.name }}
 {% endblock %}
 
 {% block description %}
-    <meta name="description" content="{{ player.0.name }}, статистика игрока, дата рождения, гражданство,
+    <meta name="description" content="{{ player.name }}, статистика игрока, дата рождения, гражданство,
           амплуа, история выступлений, количество игр и мячей по сезонам">
 {% endblock %}
 
 {% block content %}
     <div class="scLink">
-      <p class="playername">{{ player.0.name }}</p>
-        <p>{{ player.0.country.name }}</p>
-        <p>Дата рождения: <b>{{ player.0.born | date('d.m.Y') }}</b></p>
-        <p>{{ player.0.amplua.name }}</p>
+      <p class="playername">{{ player.name }}</p>
+        <p>{{ player.country.name }}</p>
+        <p>Дата рождения: <b>{{ player.born | date('d.m.Y') }}</b></p>
+        <p>{{ player.amplua.name }}</p>
         {% if rusplayer %}
         <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
         {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-          <a href="{{ path('player_edit', {'id': player.0.id}) }}">
+          <a href="{{ path('player_edit', {'id': player.id}) }}">
              изменить</a>
         {% endif %}
 
@@ -169,7 +169,7 @@
         </div>
       {% endif %}
     </div>
-    <input type="hidden" id="playerId" value="{{ player.0.id }}" />
+    <input type="hidden" id="playerId" value="{{ player.id }}" />
 {% endblock %}
 
 

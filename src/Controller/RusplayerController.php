@@ -102,9 +102,9 @@ class RusplayerController extends AbstractController
     {
         $items = [];
         $player = $this->getDoctrine()->getRepository(Player::class)
-          ->findByTranslit($id);
+          ->findOneByTranslit($id);
         $popular = $this->getDoctrine()->getRepository(Player::class)
-          ->getPopular($id);
+          ->getSeems($id, $player->getCountry()->getName());
         shuffle($popular);
         $popular = array_slice($popular, 0, 6);
         $rusplayer = $this->getDoctrine()->getRepository(Rusplayer::class)

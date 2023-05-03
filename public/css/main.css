@@ -1828,11 +1828,11 @@ th.sorted[data-order="1"]::after {
 .glyphicon-log-in {
   padding-right: 5px;
 }
-.nav>li {
+.main-menu .nav>li {
   display: flex;
   align-items: center;
 }
-.navbar-nav>li>a {
+.main-menu .navbar-nav>li>a {
   line-height: auto;
 }
 .search-block {

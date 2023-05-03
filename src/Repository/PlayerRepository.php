@@ -38,12 +38,24 @@ class PlayerRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getPopular($id, $n = 30)
+    public function getPopular($n = 20)
     {
         $qb = $this->createQueryBuilder('p')
-            ->select('p.name, p.translit, p.born')
-            ->where("p.translit != :id")
-            ->setParameter('id', $id)
+            ->select('p.name, p.translit, p.viewed')
+            ->orderBy('p.viewed', 'DESC')
+            ->setMaxResults($n);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function getSeems($id, $country, $n = 20)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.name, p.translit')
+            ->join('p.country', 'c')
+            ->where('c.name = :country')
+            ->setParameter('country', $country)
             ->orderBy('p.viewed', 'DESC')
             ->setMaxResults($n);
 

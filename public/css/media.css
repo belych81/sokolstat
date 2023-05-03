@@ -78,6 +78,10 @@
     .sidebar, .right_column, .leader-table{
         width: 100%
     }
+    .navbar-nav>li>a {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
 }
 
 
@@ -95,9 +99,8 @@
     .login-bar-block .btn-xs span{
         display: none;
     }
-    .navbar-nav>li>a {
-      padding-top: 0;
-      padding-bottom: 0;
+    #navbar-collapse-1 .navbar-nav > li > a{
+      padding: 5px 0;
     }
 }
 

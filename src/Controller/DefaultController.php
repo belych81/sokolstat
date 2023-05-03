@@ -38,6 +38,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DefaultController extends AbstractController
 {
@@ -101,23 +102,31 @@ class DefaultController extends AbstractController
       $minAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
-      return $this->render('default/index.html.twig', [
-          'entities' => $entities,
-          'yestmatch' => $yestmatch,
-          'curmatch' => $curmatch,
-          'tommatch' => $tommatch,
-          'bombTotal' => $bombTotal,
-          'birthdays' => $birthdays,
-          'lastPlayers' => $lastPlayers,
-          'topMatchesRus' => $topMatchesRus,
-          'topMatchesRusCurr' => $topMatchesRusCurr,
-          'topGoalsRus' => $topGoalsRus,
-          'topGoalsRusCurr' => $topGoalsRusCurr,
-          'topGoalkeepers' => $topGoalkeepers,
-          'topGoalkeepersCurr' => $topGoalkeepersCurr,
-          'maxAgePlayers' => $maxAgePlayers,
-          'minAgePlayers' => $minAgePlayers
-      ]);
+      $arParams = [
+        'entities' => $entities,
+        'yestmatch' => $yestmatch,
+        'curmatch' => $curmatch,
+        'tommatch' => $tommatch,
+        'bombTotal' => $bombTotal,
+        'birthdays' => $birthdays,
+        'lastPlayers' => $lastPlayers,
+        'topMatchesRus' => $topMatchesRus,
+        'topMatchesRusCurr' => $topMatchesRusCurr,
+        'topGoalsRus' => $topGoalsRus,
+        'topGoalsRusCurr' => $topGoalsRusCurr,
+        'topGoalkeepers' => $topGoalkeepers,
+        'topGoalkeepersCurr' => $topGoalkeepersCurr,
+        'maxAgePlayers' => $maxAgePlayers,
+        'minAgePlayers' => $minAgePlayers
+      ];
+
+      if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+        $popular = $this->getDoctrine()->getRepository(Player::class)
+              ->getPopular();
+        $arParams['popular'] = $popular;
+      }
+
+      return $this->render('default/index.html.twig', $arParams);
   }
 
   public function newspaper(Props $props)

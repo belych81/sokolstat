@@ -52,6 +52,33 @@
         </div>
       </div>
 
+      {% if is_granted("ROLE_ADMIN") %}
+      <div class="panel panel-success">
+        <div class="panel-heading">Популярные</div>
+        <div class="panel-body top-bomb">
+          <table class="table">
+            <thead>
+              <tr class="shipTableTitle">
+                <th class="bombName" colspan="2">&nbsp;</th>
+                <th>Просмотров</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for gamer in popular %}
+              <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <td class="player-position">{{ loop.index }}</td>
+                <td class="bomb5">
+                  <a href="{{ path('player_show', {'id': gamer.translit}) }}" class="list-item">{{ gamer.name }}</a>
+                </td>
+                <td class="tableGoal">{{ gamer.viewed }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+      
       <div class="panel panel-success">
         <div class="panel-heading">Последние добавленные футболисты</div>
         <div class="panel-body">
