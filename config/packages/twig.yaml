@@ -7,4 +7,4 @@ twig:
     globals:
         season: 2022-23
         stadia: groupA
-        newspaper_number: 14
+        newspaper_number: 18

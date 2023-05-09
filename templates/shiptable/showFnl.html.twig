@@ -188,8 +188,7 @@
             <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route' : 'championships_show',
             'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
                 Добавить последнего игрока</a> |
-            <a href="{{ path('player_newChampNation', {'season': app.request.get('season'),
-              'country': app.request.get('country'), 'team': app.request.get('id'),
+            <a href="{{ path('player_newFnl', {'season': app.request.get('season'), 'team': app.request.get('id'),
               'flag':'all'}) }}">
                   Добавить игрока</a> |
             <a href="{{ path('player_newPlayer', {'country': 'fnl', 'route' : 'championships_show',

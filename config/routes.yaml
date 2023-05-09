@@ -692,8 +692,10 @@ player_createMund:
     requirements: { _method: post }
 
 player_newFnl:
-    path:  /playeradmin/admin/fnl/{season}/{team}
+    path:  /playeradmin/admin/fnl/{season}/{team}/{flag}
     controller: App\Controller\PlayerController:newFnl
+    defaults:
+      flag: false
 
 player_createFnl:
     path:  /playeradmin/admin/createFnl/{season}/{team}
