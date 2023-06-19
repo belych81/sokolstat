@@ -151,6 +151,82 @@ class NhlRegRepository extends ServiceEntityRepository
                 $changeParam5 = 'g.zeroSum';
                 $changeParam6 = 'g.zeroSum-1';
                 break;
+            case 'plusAssistPo' :
+                $changeParam = 'g.assistPlayOff';
+                $changeParam2 = 'g.assistPlayOff+1';
+                $changeParam7 = 'g.scorePlayOff';
+                $changeParam8 = 'g.scoreSum';
+                $changeParam3 = 'g.scorePlayOff+1';
+                $changeParam4 = 'g.scoreSum+1';
+                $changeParam5 = 'g.assistSum';
+                $changeParam6 = 'g.assistSum+1';
+                break;
+            case 'minusAssistPo' :
+                $changeParam = 'g.assistPlayOff';
+                $changeParam2 = 'g.assistPlayOff-1';
+                $changeParam3 = 'g.scorePlayOff-1';
+                $changeParam4 = 'g.scoreSum-1';
+                $changeParam5 = 'g.assistSum';
+                $changeParam6 = 'g.assistSum-1';
+                $changeParam7 = 'g.scorePlayOff';
+                $changeParam8 = 'g.scoreSum';
+                break;
+            case 'plusGoalPo' :
+                $changeParam = 'g.goalPlayOff';
+                $changeParam2 = 'g.goalPlayOff+1';
+                $changeParam3 = 'g.scorePlayOff+1';
+                $changeParam4 = 'g.scoreSum+1';
+                $changeParam5 = 'g.goalSum';
+                $changeParam6 = 'g.goalSum+1';
+                $changeParam7 = 'g.scorePlayOff';
+                $changeParam8 = 'g.scoreSum';
+                break;
+            case 'minusGoalPo' :
+                $changeParam = 'g.goalPlayOff';
+                $changeParam2 = 'g.goalPlayOff-1';
+                $changeParam3 = 'g.scorePlayOff-1';
+                $changeParam4 = 'g.scoreSum+1';
+                $changeParam5 = 'g.goalSum';
+                $changeParam6 = 'g.goalSum-1';
+                $changeParam7 = 'g.scorePlayOff';
+                $changeParam8 = 'g.scoreSum';
+                break;
+            case 'plusGamePo' :
+                $changeParam = 'g.gamePlayOff';
+                $changeParam2 = 'g.gamePlayOff+1';
+                $changeParam5 = 'g.gameSum';
+                $changeParam6 = 'g.gameSum+1';
+                break;
+            case 'minusGamePo' :
+                $changeParam = 'g.gamePlayOff';
+                $changeParam2 = 'g.gamePlayOff-1';
+                $changeParam5 = 'g.gameSum';
+                $changeParam6 = 'g.gameSum-1';
+                break;
+            case 'plusMissedPo' :
+                $changeParam = 'g.missedPlayOff';
+                $changeParam2 = 'g.missedPlayOff+1';
+                $changeParam5 = 'g.missedSum';
+                $changeParam6 = 'g.missedSum+1';
+                break;
+            case 'minusMissedPo' :
+                $changeParam = 'g.missedPlayOff';
+                $changeParam2 = 'g.missedPlayOff-1';
+                $changeParam5 = 'g.missedSum';
+                $changeParam6 = 'g.missedSum-1';
+                break;
+            case 'plusZeroPo' :
+                $changeParam = 'g.zeroPlayOff';
+                $changeParam2 = 'g.zeroPlayOff+1';
+                $changeParam5 = 'g.zeroSum';
+                $changeParam6 = 'g.zeroSum+1';
+                break;
+            case 'minusZeroPo' :
+                $changeParam = 'g.zeroPlayOff';
+                $changeParam2 = 'g.zeroPlayOff-1';
+                $changeParam5 = 'g.zeroSum';
+                $changeParam6 = 'g.zeroSum-1';
+                break;
         }
         if($changeParam7){
             $qb = $this->_em->createQueryBuilder()

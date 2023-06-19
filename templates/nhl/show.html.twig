@@ -223,14 +223,56 @@
                           {{ player.score }}
                         </span>
                     </td>
-                    <td class="champ-team-column total-game">
+                    <td class="champ-team-column total-game tableGoal">
+                      {% if is_granted("ROLE_ADMIN") %}
+                        <span class="changeGameGoalPlayer"
+                          data-change="minusGoalPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">-</span>
+                        {% endif %}
+
+                        <span data-id="{{ player.id }}" data-param="goalPo">
                         {{ player.goalPlayOff }}
+                        </span>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                          <span class="changeGameGoalPlayer"
+                            data-change="plusGoalPo"
+                            data-path="nhl_editChamp"
+                            data-id="{{ player.id }}"
+                            data-season="{{ app.request.get('season') }}"
+                            data-team="{{ app.request.get('id') }}">+</span>
+                        {% endif %}
                     </td>
-                    <td class="champ-team-column total-game">
+                    <td class="champ-team-column total-game tableGoal">
+                      {% if is_granted("ROLE_ADMIN") %}
+                        <span class="changeGameGoalPlayer"
+                          data-change="minusAssistPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">-</span>
+                        {% endif %}
+
+                        <span data-id="{{ player.id }}" data-param="assistPo">
                         {{ player.assistPlayOff }}
+                        </span>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                        <span class="changeGameGoalPlayer"
+                          data-change="plusAssistPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">+</span>
+                        {% endif %}
                     </td>
-                    <td class="champ-team-column total-game">
-                        {{ player.scorePlayOff }}
+                    <td class="champ-team-column total-game tableGoal">
+                        <span data-id="{{ player.id }}" data-param="scorePo">
+                          {{ player.scorePlayOff }}
+                        </span>
                     </td>
                     <td class="champ-team-column total-game">
                         {{ player.goalSum }}
@@ -376,43 +418,70 @@
                           data-team="{{ app.request.get('id') }}">+</span>
                         {% endif %}
                     </td>
-                    <td class="champ-team-column total-game">
+
+                    <td class="tableGoal shipplayer-game">
                         {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('playeradmin_editTotalChamp',
-                              {'id': player.id, 'season': app.request.get('season'),
-                              'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                        <span class="changeGameGoalPlayer"
+                          data-change="minusGamePo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">-</span>
                         {% endif %}
-                        {{ player.gamePlayOff }}
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editTotalChamp',
-                    {'id': player.id, 'season': app.request.get('season'),
-                        'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                        <span data-id="{{ player.id }}" data-param="gamePo">
+                          {{ player.gamePlayOff }}
+                        </span>
+                        {% if is_granted("ROLE_ADMIN") %}
+                          <span class="changeGameGoalPlayer"
+                            data-change="plusGamePo"
+                            data-path="nhl_editChamp"
+                            data-id="{{ player.id }}"
+                            data-season="{{ app.request.get('season') }}"
+                            data-team="{{ app.request.get('id') }}">+</span>
                         {% endif %}
                     </td>
-                    <td class="champ-team-column total-game">
+                    <td class="tableGoal">
                         {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('playeradmin_editTotalChamp',
-                    {'id': player.id, 'season': app.request.get('season'),
-                        'team': app.request.get('id'), 'change': 'minusGoal'}) }}">-</a>
+                        <span class="changeGameGoalPlayer"
+                          data-change="minusMissedPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">-</span>
                         {% endif %}
-                        {{ player.missedPlayOff }}
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('playeradmin_editTotalChamp',
-                    {'id': player.id, 'season': app.request.get('season'),
-                        'team': app.request.get('id'), 'change': 'plusGoal'}) }}">+</a>
+                        <span data-id="{{ player.id }}" data-param="missedPo">
+                          {{ player.missedPlayOff }}
+                        </span>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                        <span class="changeGameGoalPlayer"
+                          data-change="plusMissedPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">+</span>
                         {% endif %}
                     </td>
-                    <td class="champ-team-column total-game">
+                    <td class="tableGoal">
                         {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('playeradmin_editTotalTeam',
-                              {'id': player.id, 'season': app.request.get('season'),
-                              'team': app.request.get('id'), 'change': 'minusGame'}) }}">-</a>
+                        <span class="changeGameGoalPlayer"
+                          data-change="minusZeroPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">-</span>
                         {% endif %}
-                        {{ player.zeroPlayOff }}
+                        <span data-id="{{ player.id }}" data-param="zeroPo">
+                          {{ player.zeroPlayOff }}
+                        </span>
+
                         {% if is_granted("ROLE_ADMIN") %}
-                          <a href="{{ path('playeradmin_editTotalTeam',
-                            {'id': player.id, 'season': app.request.get('season'),
-                            'team': app.request.get('id'), 'change': 'plusGame'}) }}">+</a>
+                        <span class="changeGameGoalPlayer"
+                          data-change="plusZeroPo"
+                          data-path="nhl_editChamp"
+                          data-id="{{ player.id }}"
+                          data-season="{{ app.request.get('season') }}"
+                          data-team="{{ app.request.get('id') }}">+</span>
                         {% endif %}
                     </td>
                     <td class="champ-team-column total-game">

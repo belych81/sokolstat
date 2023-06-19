@@ -225,6 +225,7 @@ $(document).on('click', '.tour_js', function(){
         dataType: 'json',
         success: function(data){
 					console.log(data);
+          console.log(route);
             $(".spiski.selected").removeClass('selected');
             $(".spiski[data-id="+id+"]").addClass('selected');
 						if(route == 'playeradmin_editChampTotal'){
@@ -239,13 +240,20 @@ $(document).on('click', '.tour_js', function(){
 						} else if(route == 'playeradmin_editNationSbornie'){
 								$("[data-id="+id+"][data-param='sbornie']").text(data['goal']);
 						} else {
+              console.log($("[data-id="+id+"][data-param='goalPo']"))
             	$("[data-id="+id+"][data-param='game']").text(data['game']);
             	$("[data-id="+id+"][data-param='goal']").text(data['goal']);
+              $("[data-id="+id+"][data-param='gamePo']").text(data['gamePo']);
+            	$("[data-id="+id+"][data-param='goalPo']").text(data['goalPo']);
 						}
             $("[data-id="+id+"][data-param='assist']").text(data['assist']);
             $("[data-id="+id+"][data-param='score']").text(data['score']);
             $("[data-id="+id+"][data-param='missed']").text(data['missed']);
             $("[data-id="+id+"][data-param='zero']").text(data['zero']);
+            $("[data-id="+id+"][data-param='assistPo']").text(data['assistPo']);
+            $("[data-id="+id+"][data-param='scorePo']").text(data['scorePo']);
+            $("[data-id="+id+"][data-param='missedPo']").text(data['missedPo']);
+            $("[data-id="+id+"][data-param='zeroPo']").text(data['zeroPo']);
 						$(".loading[data-id="+id+"]").hide();
 						$this.addClass('changed-player');
         },

@@ -531,7 +531,13 @@ class NhlController extends AbstractController
             'assist' => $entity->getAssist(),
             'score' => $entity->getScore(),
             'missed' => $entity->getMissed(),
-            'zero' => $entity->getZero()
+            'zero' => $entity->getZero(),
+            'gamePo' => $entity->getGamePlayOff(),
+            'goalPo' => $entity->getGoalPlayOff(),
+            'assistPo' => $entity->getAssistPlayOff(),
+            'scorePo' => $entity->getScorePlayOff(),
+            'missedPo' => $entity->getMissedPlayOff(),
+            'zeroPo' => $entity->getZeroPlayOff()
         ]);
         return new Response($response);
     }

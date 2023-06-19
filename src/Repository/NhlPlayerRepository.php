@@ -146,8 +146,83 @@ class NhlPlayerRepository extends ServiceEntityRepository
                 $changeParam6 = 'r.zeroSum+1';
                 break;
             case 'minusZero' :
-                $changeParam = 'r.zero';
-                $changeParam2 = 'r.zero-1';
+                $changeParam = 'r.zeroReg';
+                $changeParam2 = 'r.zeroReg-1';
+                $changeParam5 = 'r.zeroSum';
+                $changeParam6 = 'r.zeroSum-1';
+                break;
+            case 'plusAssistPo' :
+                $changeParam = 'r.assistPlayOff';
+                $changeParam2 = 'r.assistPlayOff+1';
+                $changeParam3 = 'r.scorePlayOff';
+                $changeParam4 = 'r.scorePlayOff+1';
+                $changeParam5 = 'r.scoreSum';
+                $changeParam6 = 'r.scoreSum+1';
+                $changeParam7 = 'r.assistSum';
+                $changeParam8 = 'r.assistSum+1';
+                break;
+            case 'minusAssistPo' :
+                $changeParam = 'r.assistPlayOff';
+                $changeParam2 = 'r.assistPlayOff-1';
+                $changeParam3 = 'r.scorePlayOff';
+                $changeParam4 = 'r.scorePlayOff-1';
+                $changeParam5 = 'r.scoreSum';
+                $changeParam6 = 'r.scoreSum-1';
+                $changeParam7 = 'r.assistSum';
+                $changeParam8 = 'r.assistSum-1';
+                break;
+            case 'plusGoalPo' :
+                $changeParam = 'r.goalPlayOff';
+                $changeParam2 = 'r.goalPlayOff+1';
+                $changeParam3 = 'r.scorePlayOff';
+                $changeParam4 = 'r.scorePlayOff+1';
+                $changeParam5 = 'r.scoreSum';
+                $changeParam6 = 'r.scoreSum+1';
+                $changeParam7 = 'r.goalSum';
+                $changeParam8 = 'r.goalSum+1';
+                break;
+            case 'minusGoalPo' :
+                $changeParam = 'r.goalPlayOff';
+                $changeParam2 = 'r.goalPlayOff-1';
+                $changeParam3 = 'r.scorePlayOff';
+                $changeParam4 = 'r.scorePlayOff-1';
+                $changeParam5 = 'r.scoreSum';
+                $changeParam6 = 'r.scoreSum-1';
+                $changeParam7 = 'r.goalSum';
+                $changeParam8 = 'r.goalSum-1';
+                break;
+            case 'plusGamePo' :
+                $changeParam = 'r.gamePlayOff';
+                $changeParam2 = 'r.gamePlayOff+1';
+                $changeParam5 = 'r.gameSum';
+                $changeParam6 = 'r.gameSum+1';
+                break;
+            case 'minusGamePo' :
+                $changeParam = 'r.gamePlayOff';
+                $changeParam2 = 'r.gamePlayOff-1';
+                $changeParam5 = 'r.gameSum';
+                $changeParam6 = 'r.gameSum-1';
+                break;
+            case 'plusMissedPo' :
+                $changeParam = 'r.missedPlayOff';
+                $changeParam2 = 'r.missedPlayOff+1';
+                $changeParam5 = 'r.missedSum';
+                $changeParam6 = 'r.missedSum+1';
+                break;
+            case 'minusMissedPo' :
+                $changeParam = 'r.missedPlayOff';
+                $changeParam2 = 'r.missedPlayOff-1';
+                $changeParam5 = 'r.missedSum';
+                $changeParam6 = 'r.missedSum-1';
+            case 'plusZeroPo' :
+                $changeParam = 'r.zeroPlayOff';
+                $changeParam2 = 'r.zeroPlayOff+1';
+                $changeParam5 = 'r.zeroSum';
+                $changeParam6 = 'r.zeroSum+1';
+                break;
+            case 'minusZeroPo' :
+                $changeParam = 'r.zeroPlayOff';
+                $changeParam2 = 'r.zeroPlayOff-1';
                 $changeParam5 = 'r.zeroSum';
                 $changeParam6 = 'r.zeroSum-1';
                 break;
