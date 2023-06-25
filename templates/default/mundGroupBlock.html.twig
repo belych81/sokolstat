@@ -12,6 +12,9 @@
           </span>
         </div>
         <div class="match-info">
+        {% if match.country.image %}
+          <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: left;" />
+        {% endif %}
           {% if match.city %}
             <div class="match-main-info">
               {{ match.city.name }}.
@@ -22,17 +25,25 @@
               Судья {{ match.referee.name }} ({{ match.referee.country.name }}).
             </div>
           {% endif %}
+          {% if match.country2.image %}
+            <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: left;" />
+          {% endif %}
         </div>
       </div>
       {% if match.game and match.game != '-' %}
            <div class="match-sostav">
-              <p><em><b>{{ match.team.name }}</b></em>:
+              <p><em><b>{{ match.country.name }}</b></em>:
                 {{ match.game }}</p>
-              <p><em><b>{{ match.team2.name }}</b></em>: {{ match.game2 }}</p>
+              <p><em><b>{{ match.country2.name }}</b></em>: {{ match.game2 }}</p>
           </div>
       {% endif %}
       {% if match.score != '0-0' %}
         <p><b>Голы</b>: {{ match.goal | replace({'(а)': ' - в свои ворота', '(п)': ' - с пенальти'})}}.</p>
+      {% endif %}
+      {% if match.penalty and match.penalty != '-' %}
+        <div class="match-sostav">
+          <strong>Наказания</strong>: {{ match.penalty }}.
+        </div>
       {% endif %}
     </div>
   {% endfor %}
