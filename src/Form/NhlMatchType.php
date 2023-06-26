@@ -17,14 +17,14 @@ class NhlMatchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!in_array('date', $_SESSION)) {
-            $_SESSION['date'] = new \DateTime();
-        }
+        //if (!$_SESSION || !in_array('date', $_SESSION)) {
+       //     $_SESSION['date'] = new \DateTime();
+       // }
 
         $builder
             ->add('stadia')
-            ->add('data', null, ['data' => $_SESSION['date'],
-              'years' => range(1991, 2023)])
+            ->add('data', null, ['data' => new \DateTime(),
+              'years' => range(1991, date('Y'))])
             ->add('team', EntityType::class, [
             'class' => NhlTeam::class,
             'query_builder' => function (NhlTeamRepository $repository) {

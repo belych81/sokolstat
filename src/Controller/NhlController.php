@@ -374,8 +374,10 @@ class NhlController extends AbstractController
           $seas=$entity->getSeason()->getId();
           $goal1=$entity->getGoal1();
           $goal2=$entity->getGoal2();
-          $this->getDoctrine()->getRepository(NhlTable::class)
-             ->updateNhltable($team, $team2, $goal1, $goal2, $seas);
+          if($entity->getStadia()->getTranslit() == 'regular'){
+            $this->getDoctrine()->getRepository(NhlTable::class)
+              ->updateNhltable($team, $team2, $goal1, $goal2, $seas);
+          }
           $this->getDoctrine()->getRepository(NhlTeam::class)
             ->updateSvod($team, $team2, $goal1, $goal2);
           $season = $entity->getSeason()->getName();
