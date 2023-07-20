@@ -10,7 +10,7 @@
   {% set team2 = matches.team2.name %}
   {% set currentTeam = club.name  %}
 
-  {% if matches.score and goal1 == 0 and goal2 == 0 %}
+  {% if matches.score is defined and goal1 == 0 and goal2 == 0 %}
     {% set arScore = matches.score | split('-') %}
     {% set arScore0 = arScore[0] %}
     {% set arScore1 = arScore[1] %}
@@ -49,7 +49,9 @@
 
   <li class="{{ cycle(['odd', 'even'], loop.index) }}">
     <span class="team-matches-date">{{ matches.data | date('d.m') }}</span>
-    <span class="last_matches_turnir">{{ matches.turnir.name }}</span>
+    {% if matches.turnir is defined %}
+      <span class="last_matches_turnir">{{ matches.turnir.name }}</span>
+    {% endif %}
     <span class="spiski">
       {% if club.name == matches.team.name %}
         {{ matches.team.name | upper }} - {{ matches.team2.name }}
@@ -58,7 +60,7 @@
       {% endif %}
      </span> -
     <span class="scScore">
-      {% if matches.score and goal1 == 0 and goal2 == 0 %}
+      {% if matches.score is defined and goal1 == 0 and goal2 == 0 %}
         {{ matches.score | replace({'-': ':'}) }}
       {% else %}
         {{ matches.goal1 }}:{{ matches.goal2 }}

@@ -194,8 +194,10 @@ nhl_createPlayer:
     requirements: { _method: post }
 
 nhl_newChampLast:
-    path:  /nhl/admin/champ-last/{season}/{team}/
+    path:  /nhl/admin/champ-last/{season}/{team}/{isTeam}
     controller: App\Controller\NhlController:newChampLast
+    defaults:
+      isTeam: false
 
 nhl_editChamp:
     path:  /nhl/admin/{id}/edit/{season}/{team}/{change}/

@@ -72,6 +72,20 @@ class NhlPlayerRepository extends ServiceEntityRepository
         return $query->getSingleResult();
     }
 
+    public function getLastTeamPlayer($team) {
+
+        $query = $this->createQueryBuilder('p')
+                ->leftJoin('p.nhlPlayersTeams', 'pt')
+                ->join('pt.team', 't')
+                ->where("t.translit = :team")
+                ->setParameter('team', $team)
+                ->orderBy('pt.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery();
+
+        return $query->getSingleResult();
+    }
+
     public function updateStatPlayer($player, $change)
     {
         $changeParam7 = false;

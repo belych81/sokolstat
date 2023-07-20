@@ -44,4 +44,22 @@ class NhlMatchRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function getLastMatchesByTeam($season, $team, $cntLastMatches)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('t')
+              ->join('t.season', 's')
+              ->join('t.team', 'tm')
+              ->join('t.team2', 'tm2')
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("tm.translit = :team OR tm2.translit = :team")
+              ->setParameter('team', $team)
+              ->andWhere('t.status = 0')
+              ->orderBy('t.data', 'DESC')
+              ->setMaxResults($cntLastMatches)
+              ->getQuery()
+              ->getResult();
+    }
 }

@@ -225,6 +225,14 @@ class NhlController extends AbstractController
         }
       }
 
+      $cntLastMatches = 10;
+      if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+          $cntLastMatches = 20;
+      }
+
+      $lastMatches = $this->getDoctrine()->getRepository(NhlMatch::class)
+                    ->getLastMatchesByTeam($season, $id, $cntLastMatches);
+
       $lastPlayer = $session->get('lastPlayer');
 
       return $this->render('nhl/show.html.twig', [
@@ -234,6 +242,7 @@ class NhlController extends AbstractController
           'teams' => $teams,
           'club' => $club,
           'lastPlayer' => $lastPlayer,
+          'lastMatches' => $lastMatches,
           'shiptable' => $shiptable
       ]);
   }
@@ -459,7 +468,7 @@ class NhlController extends AbstractController
             ]);
     }
 
-    public function newChampLast($season, $team)
+    public function newChampLast($season, $team, $isTeam)
     {
         $entity = new NhlReg();
         $maxId = $this->getDoctrine()->getRepository(NhlPlayer::class)
@@ -468,8 +477,15 @@ class NhlController extends AbstractController
           ->findOneByTranslit($team);
         $year = $this->getDoctrine()->getRepository(Seasons::class)
           ->findOneByName($season);
-        $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
-          ->getLastOnePlayer();
+        
+        if($isTeam){
+          $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
+            ->getLastTeamPlayer($team);
+        } else {
+          $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
+            ->getLastOnePlayer();
+        }
+
         $playersTeam = $this->getDoctrine()->getRepository(NhlPlayersTeam::class)
           ->getStat($player->getName(), $team);
 

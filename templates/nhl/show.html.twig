@@ -114,13 +114,8 @@
     </div>
   </div>
 
-  <div class="champ-teams-list">
-    <div class="champ-back">
-      <div class="champ-back-arrow"></div>
-      <a href="{{ path('nhl_season', {
-        'season': app.request.get('season')}) }}">
-        Чемпионат</a>
-    </div>
+<div class="row">
+  <div class="champ-teams-list col-lg-8">
     {% block playersTeam %}
     <div class="champ-teams-list">
         <table>
@@ -520,6 +515,9 @@
               'team': app.request.get('id'),
               'flag':'all'}) }}">
                 Добавить игрока</a> |
+              <a href="{{ path('nhl_newChampLast', {'season': app.request.get('season'),
+                            'team': app.request.get('id'), 'isTeam': true}) }}">
+                                Добавить последнего игрока команды</a> |
               <a href="{{ path('nhl_newChampPlayer', {'season': app.request.get('season'),
                 'team': app.request.get('id'),
                 'flag':'nfl'}) }}">
@@ -535,8 +533,11 @@
               'team': app.request.get('id')}) }}">
                   Создать игрока</a> |
             {% endif %}
+        </div>        
+      </div>
+      <div class="col-lg-4 team-last-matches">
+          {{ include('shiptable/lastMatches.html.twig', {'lastMatches': lastMatches }) }}
         </div>
-
     {% endblock %}
   </div>
 {% endblock %}
