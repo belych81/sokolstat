@@ -12,8 +12,8 @@
         </div>
         <div class="match-info">
           {% if match.game and match.game != '-' %}
-            {% if match.team.image %}
-              <img class="match-team-img" src="{{ asset('images/clubs/') }}{{ match.team.image }}" />
+            {% if match.team2.image and match.team2.image != '-' %}
+              <img class="match-team-img" src="{{ asset('images/') }}{{ match.team.image }}" />
             {% endif %}
             <div class="match-main-info">
               {{ match.city.name }}.
@@ -23,8 +23,8 @@
               {% endif %}
               Судья {{ match.referee.name }} ({{ match.referee.country.name }}).
             </div>
-            {% if match.team2.image %}
-              <img class="match-team2-img" src="{{ asset('images/clubs/') }}{{ match.team2.image }}" />
+            {% if match.team2.image and match.team2.image != '-' %}
+              <img class="match-team2-img" src="{{ asset('images/') }}{{ match.team2.image }}" />
             {% endif %}
           {% endif %}
         </div>
