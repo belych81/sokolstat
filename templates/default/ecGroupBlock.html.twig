@@ -44,7 +44,8 @@
   {% if group['tomm'] is defined %}
     <div class="ec-matches-tomm">
       {% for date, dates in group['tomm'] %}
-        <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября', '.12': ' декабря'})}}</strong></div>
+        <div><strong>{{ date | replace({'.9': ' сентября', '.10': ' октября', '.11': ' ноября', '.12': ' декабря',
+            '.1': ' января', '.2': ' февраля', '.3': ' марта', '.4': ' апреля', '.5': ' мая', '.6': ' июня', '.7': ' июля', '.8': ' августа'}) }}</strong></div>
         {% for match in dates %}
           <div>{{ match.team | upper }} - {{ match.team2 | upper }}</div>
         {% endfor %}
