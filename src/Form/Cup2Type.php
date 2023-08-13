@@ -23,7 +23,7 @@ class Cup2Type extends AbstractType
           ->add('game')
           ->add('game2')
           ->add('penalty')
-          ->add('player', EntityType::class, [
+          /*->add('player', EntityType::class, [
             'class' => Player::class,
             'query_builder' => function (PlayerRepository $repository) use ($season) {
                 return $repository->queryRfplTrainers($season);
@@ -34,7 +34,7 @@ class Cup2Type extends AbstractType
             'query_builder' => function (PlayerRepository $repository) use ($season) {
                 return $repository->queryRfplTrainers($season);
               }
-          ])
+          ])*/
           ->add('bomb');
     }
 
