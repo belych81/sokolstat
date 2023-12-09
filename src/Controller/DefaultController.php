@@ -39,31 +39,42 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class DefaultController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+
   public function index(Props $props, Functions $functions)
   {
-      $bombTotal5 = $this->getDoctrine()->getRepository(Shipplayer::class)
+
+      $bombTotal5 = $this->entityManager->getRepository(Shipplayer::class)
         ->getBombSum($props->getLastSeason());
-      $bombTotalRus = $this->getDoctrine()->getRepository(Gamers::class)
+      $bombTotalRus = $this->entityManager->getRepository(Gamers::class)
         ->getBombSum($props->getLastSeason());
       $bombTotal = array_merge($bombTotal5, $bombTotalRus);
       uasort($bombTotal, ['App\Service\Sort', 'sortBySum']);
       $bombTotal = array_slice($bombTotal, 0, 20);
 
-      $curmatch = $this->getDoctrine()->getRepository(Game::class)
+      $curmatch = $this->entityManager->getRepository(Game::class)
           ->getCurMatches();
-      $tommatch = $this->getDoctrine()->getRepository(Game::class)
+      $tommatch = $this->entityManager->getRepository(Game::class)
           ->getTomMatches();
-      $yestmatch = $this->getDoctrine()->getRepository(Game::class)
+      $yestmatch = $this->entityManager->getRepository(Game::class)
           ->getYesterdayMatches();
 
-      $curMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+      $curMundmatch = $this->entityManager->getRepository(Mundial::class)
           ->getCurMatches();
-      $tomMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+      $tomMundmatch = $this->entityManager->getRepository(Mundial::class)
           ->getTomMatches();
-      $yestMundmatch = $this->getDoctrine()->getRepository(Mundial::class)
+      $yestMundmatch = $this->entityManager->getRepository(Mundial::class)
           ->getYesterdayMatches();
 
       $curmatch = array_merge($curmatch, $curMundmatch);
@@ -74,32 +85,32 @@ class DefaultController extends AbstractController
       uasort($tommatch, ['App\Service\Sort', 'sortByDate']);
       uasort($yestmatch, ['App\Service\Sort', 'sortByDate']);
 
-      $birthdays = $this->getDoctrine()->getRepository(Player::class)
+      $birthdays = $this->entityManager->getRepository(Player::class)
         ->getBirthdayPlayer(date('m-d'));
       uasort($birthdays, ['App\Service\Sort', 'sortByAge']);
-      $lastPlayers = $this->getDoctrine()->getRepository(Player::class)
+      $lastPlayers = $this->entityManager->getRepository(Player::class)
         ->getLastPlayer();
 
-      $entities = $this->getDoctrine()->getRepository(News::class)->getNews(10, 0);
+      $entities = $this->entityManager->getRepository(News::class)->getNews(10, 0);
       foreach ($entities as $v) {
         $v->setText($functions->truncateText($v->getText(), 500));
       }
       $limitRusplayers = 10;
-      $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topMatchesRus = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayers($limitRusplayers, 'game');
-      $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topMatchesRusCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayersCurr($limitRusplayers, 'game', $props->getLastSeason());
-      $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalsRus = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayers($limitRusplayers, 'goal');
-      $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalsRusCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayersCurr($limitRusplayers, 'goal', $props->getLastSeason());
-      $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalkeepers = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopGoalkeepers($limitRusplayers);
-      $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalkeepersCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopGoalkeepersCurr($limitRusplayers, $props->getLastSeason());
-      $maxAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+      $maxAgePlayers = $this->entityManager->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'ASC');
-      $minAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+      $minAgePlayers = $this->entityManager->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
       $arParams = [
@@ -121,7 +132,7 @@ class DefaultController extends AbstractController
       ];
 
       if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
-        $popular = $this->getDoctrine()->getRepository(Player::class)
+        $popular = $this->entityManager->getRepository(Player::class)
               ->getPopular();
         $arParams['popular'] = $popular;
       }

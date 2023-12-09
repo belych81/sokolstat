@@ -12,24 +12,34 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
     private $functions;
+    private $passwordHasher;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(EmailVerifier $emailVerifier, Functions $functions)
+    public function __construct(
+        EmailVerifier $emailVerifier, 
+        Functions $functions, 
+        UserPasswordHasherInterface $passwordHasher, 
+        EntityManagerInterface $entityManager
+        )
     {
         $this->emailVerifier = $emailVerifier;
         $this->functions = $functions;
+        $this->passwordHasher = $passwordHasher;
+        $this->entityManager = $entityManager;
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -37,13 +47,19 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                $form->get('password')->getData()
+            );
+            $user->setPassword($hashedPassword);
+
+            /*$user->setPassword(
+                $this->passwordHasher->hashPassword(
                     $user,
                     $form->get('password')->getData()
                 )
-            );
-            $entityManager = $this->getDoctrine()->getManager();
+            );*/
+            $entityManager = $this->entityManager;
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -80,7 +96,7 @@ class RegistrationController extends AbstractController
     {
         //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if($token = $this->functions->getParamUrl('token', $request->getUri())){
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['token' => $token]);
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['token' => $token]);
 
             if($user instanceof User)
             {

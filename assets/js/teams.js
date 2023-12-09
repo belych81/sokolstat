@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import VueRouter from 'vue-router';
 
 Vue.config.productionTip = false
@@ -16,7 +16,9 @@ const router = new VueRouter({
     routes
 })
 
-const app = new Vue({
+createApp(App).mount('#tabs');
+
+/*const app = new Vue({
     router,
     render: (h) => h(App)
-}).$mount('#tabs');
+}).$mount('#tabs');*/

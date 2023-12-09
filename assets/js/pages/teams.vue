@@ -48,20 +48,22 @@ export default {
       if(this.shiptables.length > 0) {
         arrTabs.push('Чемпионат');
         if(this.selectedTab == '') {
-          this.selectedTab = 'Чемпионат';
+        //this.selectedTab = 'Чемпионат';
         }
       }
       if(this.cups.length > 0) {
         arrTabs.push('Кубок');
         if(this.selectedTab == ''){
-          this.selectedTab == 'Кубок';
+          this.selectedTab = 'Кубок';
         }
       }
+      console.log(this.eurocups.length)
       if(this.eurocups.length > 0) {
         arrTabs.push('Еврокубки');
         if(this.selectedTab == ''){
-          this.selectedTab == 'Еврокубки';
+          this.selectedTab = 'Еврокубки';
         }
+        console.log(this.selectedTab)
       }
       return arrTabs;
     }

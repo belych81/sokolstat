@@ -22,22 +22,30 @@ use App\Service\Props;
 use App\Service\ResizeImage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MundialController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+
     public function index(Menu $serviceMenu, ResizeImage $resize, $turnir, $year)
     {
-        $seasons = $this->getDoctrine()->getRepository(Mundial::class)
+        $seasons = $this->entityManager->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
 
-        $champ = $this->getDoctrine()->getRepository(Turnir::class)
+        $champ = $this->entityManager->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $raunds = $this->getDoctrine()->getRepository(Stadia::class)
+        $raunds = $this->entityManager->getRepository(Stadia::class)
           ->getStadiaMundial($turnir, $year);
 
         $arSborn = [];
         foreach ($raunds as $raund) {
-            $matches = $this->getDoctrine()->getRepository(Mundial::class)
+            $matches = $this->entityManager->getRepository(Mundial::class)
             ->getEntityByTurnir($turnir, $year, $raund->getId());
             foreach($matches as &$match){
               $sbornId = $match->getCountry()->getId();
@@ -58,7 +66,7 @@ class MundialController extends AbstractController
               }
             }
             $raund->setStadiaMatches($matches);
-            $raund->setStadiaTable($this->getDoctrine()->getRepository(MundialTable::class)
+            $raund->setStadiaTable($this->entityManager->getRepository(MundialTable::class)
               ->getTable($turnir, $year, $raund->getAlias()));
         }
         $menu = $serviceMenu->generateMundial();
@@ -73,12 +81,12 @@ class MundialController extends AbstractController
 
     public function show(Menu $serviceMenu, $id, $turnir, $year)
     {
-        $entity = $this->getDoctrine()->getRepository(Mundial::class)->find($id);
-        $seasons = $this->getDoctrine()->getRepository(Mundial::class)
+        $entity = $this->entityManager->getRepository(Mundial::class)->find($id);
+        $seasons = $this->entityManager->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
-        $champ = $this->getDoctrine()->getRepository(Turnir::class)
+        $champ = $this->entityManager->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $countries = $this->getDoctrine()->getRepository(MundialTable::class)
+        $countries = $this->entityManager->getRepository(MundialTable::class)
           ->getCountriesBySeason($year, $turnir);
         $menu = $serviceMenu->generateMundial();
 
@@ -93,20 +101,20 @@ class MundialController extends AbstractController
 
     public function showCountry(Menu $serviceMenu, ResizeImage $resize, $turnir, $year, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Sostav::class)
+        $entity = $this->entityManager->getRepository(Sostav::class)
           ->getSbPlayersByCountry($year, $country);
-        $sborn = $this->getDoctrine()->getRepository(Country::class)
+        $sborn = $this->entityManager->getRepository(Country::class)
           ->findOneByTranslit($country);
-        $champ = $this->getDoctrine()->getRepository(Turnir::class)
+        $champ = $this->entityManager->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
-        $countries = $this->getDoctrine()->getRepository(MundialTable::class)
+        $countries = $this->entityManager->getRepository(MundialTable::class)
           ->getCountriesBySeason($year, $turnir);
         foreach($countries as &$country){
           if($country['image']){
             $country['image'] = $resize->ResizeImageGet($country['image'], ['width' => 80, 'height' => 80]);
           }
         }
-        $seasons = $this->getDoctrine()->getRepository(Mundial::class)
+        $seasons = $this->entityManager->getRepository(Mundial::class)
           ->getSeasonsByTurnir($turnir);
         $menu = $serviceMenu->generateMundial();
 
@@ -127,7 +135,7 @@ class MundialController extends AbstractController
 
     public function showRus(Props $lastYear, Menu $serviceMenu, $season)
     {
-        $entity = $this->getDoctrine()->getRepository(Sbplayer::class)
+        $entity = $this->entityManager->getRepository(Sbplayer::class)
           ->getSbPlayersBySeason($season);
         $seasons = range(1992, $lastYear->getSbornieRusYear());
         $menu = $serviceMenu->generateMundial();
@@ -165,7 +173,7 @@ class MundialController extends AbstractController
     {
         $ent = MundialtableType::class;
         $entity  = new MundialTable();
-        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)
+        $obTurnir = $this->entityManager->getRepository(Turnir::class)
             ->findOneByAlias($turnir);
         $entity->setYear($season);
         $entity->setTurnir($obTurnir);
@@ -178,7 +186,7 @@ class MundialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $session->set('stadia', $entity->getStadia()->getName());
             $em->persist($entity);
             $em->flush();
@@ -210,7 +218,7 @@ class MundialController extends AbstractController
 
     public function createMatch(Menu $serviceMenu, Request $request, $season, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
         $entity  = new Mundial();
 
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
@@ -241,7 +249,7 @@ class MundialController extends AbstractController
 
     public function edit($id, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -255,7 +263,7 @@ class MundialController extends AbstractController
 
     public function update(Request $request, $id, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -287,7 +295,7 @@ class MundialController extends AbstractController
 
     public function editMatch($id, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -301,7 +309,7 @@ class MundialController extends AbstractController
 
     public function updateMatch(Request $request, $id, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -328,7 +336,7 @@ class MundialController extends AbstractController
 
     public function editMundialTable($id, $season, $turnir)
     {
-        $entity = $this->getDoctrine()->getRepository(Mundial::class)->find($id);
+        $entity = $this->entityManager->getRepository(Mundial::class)->find($id);
         $form   = $this->createForm(EctableEditType::class, $entity);
 
         return $this->render('mundial/editEctable.html.twig', array(
@@ -339,7 +347,7 @@ class MundialController extends AbstractController
 
     public function updateMundialTable(Request $request, $id, $season, $turnir)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 

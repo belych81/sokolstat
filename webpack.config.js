@@ -56,7 +56,7 @@ Encore
         config.corejs = 3;
     })
 
-    .enableVueLoader()
+    .enableVueLoader(() => {}, { runtimeCompilerBuild: true })
 
     // enables Sass/SCSS support
     .enableSassLoader()

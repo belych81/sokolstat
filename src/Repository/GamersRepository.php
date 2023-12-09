@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Gamers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Gamers|null find($id, $lockMode = null, $lockVersion = null)
@@ -199,7 +199,7 @@ class GamersRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter)
+    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter = [])
     {
         $qb = $this->createQueryBuilder('r');
         switch($sort){

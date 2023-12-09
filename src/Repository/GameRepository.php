@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Game|null find($id, $lockMode = null, $lockVersion = null)
@@ -281,6 +281,9 @@ class GameRepository extends ServiceEntityRepository
 
     public function findByTeamAndSeason($team, $season, $turnir)
     {
+      if(!is_array($turnir)){
+        $turnir = [$turnir];
+      }
         return $this->createQueryBuilder('c')
             ->select('c', 't', 't2', 's')
             ->join('c.season', 's')
@@ -289,7 +292,7 @@ class GameRepository extends ServiceEntityRepository
             ->join('c.team2', 't2')
             ->where('c.team = :team OR c.team2 = :team')
             ->andWhere('s.name = :season')
-            ->andWhere("tr.alias = :turnir")
+            ->andWhere("tr.alias IN (:turnir)")
             ->setParameters([
                 'season' => $season,
                 'turnir' => $turnir,

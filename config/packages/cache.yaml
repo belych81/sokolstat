@@ -1,6 +1,5 @@
 framework:
     cache:
-
         # Unique name of your app: used to compute stable namespaces for cache keys.
         #prefix_seed: your_vendor_name/app_name
 
@@ -9,26 +8,12 @@ framework:
         # Other options include:
 
         # Redis
-        default_redis_provider: 'redis://localhost' # or '%env(resolve:REDIS_URL)%'
-
-        pools:
-          doctrine.result_cache_pool:
-            adapter: cache.adapter.redis
-        
+        #app: cache.adapter.redis
+        #default_redis_provider: redis://localhost
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
         #app: cache.adapter.apcu
 
         # Namespaced pools use the above "app" backend by default
-      #  pools:
-      #        cache.my_redis:
-      #            adapter: cache.adapter.redis
-      #            provider: app.my_custom_redis_provider
-
-services:
-    app.my_custom_redis_provider:
-        class: \Redis
-        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
-        arguments:
-            - 'redis://localhost'
-            - { retry_interval: 2, timeout: 10 }
+        #pools:
+            #my.dedicated.cache: null

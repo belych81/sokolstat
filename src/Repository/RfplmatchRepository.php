@@ -165,7 +165,7 @@ class RfplmatchRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter)
+    public function getEntity($max, $offset=null, $sort='id', $order='desc', array $arFilter = [])
     {
         $qb = $this->createQueryBuilder('r')
             ->join('r.season', 's')

@@ -1,18 +1,13 @@
 ###> symfony/framework-bundle ###
 /.env
+/.env.test
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/dompdf-tagged-pdf/
-/public/images/
-/public/oop/
-/public/file.pdf
-/public/newspaper.php
-/public/nfl.php
-/public/newspapers/
+/public/bundles/
 /var/
-/bin/
+/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -32,3 +27,13 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+*.lock
+.vscode/
+/public/build/
+/public/images/

@@ -15,12 +15,20 @@ use App\Service\Menu;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UefaSupercupController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+  
   public function index(Menu $serviceMenu, $country)
   {
-    $entities = $this->getDoctrine()->getRepository(Game::class)
+    $entities = $this->entityManager->getRepository(Game::class)
       ->getNationSupercup($country);
     switch ($country) {
         case 'uefa' :
@@ -35,7 +43,7 @@ class UefaSupercupController extends AbstractController
             $menu = $serviceMenu->generate($country);
         }
 
-        $rus_country = $this->getDoctrine()->getRepository(Shiptable::class)
+        $rus_country = $this->entityManager->getRepository(Shiptable::class)
                           ->translateCountry($country)['rusCountry'];
 
         return $this->render('uefasupercup/index.html.twig', [
@@ -47,7 +55,7 @@ class UefaSupercupController extends AbstractController
 
     public function show(Menu $serviceMenu, $id, $country)
     {
-      $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+      $entity = $this->entityManager->getRepository(Game::class)->find($id);
 
         switch ($country)
         {
@@ -118,7 +126,7 @@ class UefaSupercupController extends AbstractController
               $turnir = $country."-supercup";
         }
         $entity->setStatus(1);
-        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)
+        $obTurnir = $this->entityManager->getRepository(Turnir::class)
           ->findOneByAlias($turnir);
 
         $entity->setTurnir($obTurnir);
@@ -130,7 +138,7 @@ class UefaSupercupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -161,7 +169,7 @@ class UefaSupercupController extends AbstractController
 
               $menu = $serviceMenu->generate($country);
         }
-        $entity = $this->getDoctrine()->getRepository($ent)->find($id);
+        $entity = $this->entityManager->getRepository($ent)->find($id);
 
         $form = $this->createForm(Supercup2Type::class, $entity, [
               'country' => $country
@@ -190,7 +198,7 @@ class UefaSupercupController extends AbstractController
           case 'france' :
             $turnir = $country."-supercup";
       }
-        $entity = $this->getDoctrine()->getRepository($ent)->find($id);
+        $entity = $this->entityManager->getRepository($ent)->find($id);
         $form = $this->createForm(Supercup2Type::class, $entity, [
               'country' => $country
               ]);
@@ -199,7 +207,7 @@ class UefaSupercupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();

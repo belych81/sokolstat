@@ -14,12 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class TeamController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+  
     public function index()
     {
-        $entities = $this->getDoctrine()->getRepository(Team::class)
+        $entities = $this->entityManager->getRepository(Team::class)
                 ->getTeams();
         $letters = [];
         foreach ($entities as $key => $value) {
@@ -37,7 +45,7 @@ class TeamController extends AbstractController
 
     public function show(ResizeImage $resize, $code)
     {
-        $team = $this->getDoctrine()->getRepository(Team::class)
+        $team = $this->entityManager->getRepository(Team::class)
           ->findOneByTranslit($code);
 
         if($img = $team->getImage()){
@@ -50,7 +58,7 @@ class TeamController extends AbstractController
 
     public function getByLetter($letter)
     {
-      $entities = $this->getDoctrine()->getRepository(Team::class)
+      $entities = $this->entityManager->getRepository(Team::class)
               ->getTeamsByLetter($letter);
         $teams = [];
         foreach ($entities as $key => $value) {

@@ -22,13 +22,21 @@ use App\Service\ResizeImage;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CupController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+
   public function index(Menu $serviceMenu, ResizeImage $resize, $season)
   {
-      $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
-      $stadies = $this->getDoctrine()->getRepository(Stadia::class)
+      $seasons = $this->entityManager->getRepository(Game::class)->getSeasons('russia-cup');
+      $stadies = $this->entityManager->getRepository(Stadia::class)
         ->getStadiaEurocup($season, 'russia-cup');
 
       if(!$stadies){
@@ -37,7 +45,7 @@ class CupController extends AbstractController
 
       foreach ($stadies as $stadia)
       {
-        $matches = $this->getDoctrine()->getRepository(Game::class)
+        $matches = $this->entityManager->getRepository(Game::class)
           ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'russia');
 
         foreach($matches as &$match){
@@ -57,7 +65,7 @@ class CupController extends AbstractController
           $stadiaAlias = $stadia->getAlias();
           
           if (strpos($stadiaAlias, 'group') !== false) {
-             $stadia->setStadiaTable($this->getDoctrine()->getRepository(Ectable::class)
+             $stadia->setStadiaTable($this->entityManager->getRepository(Ectable::class)
                 ->getEcTable('russia-cup', $season, $stadiaAlias));
           }
       }
@@ -72,14 +80,14 @@ class CupController extends AbstractController
 
   public function show(Menu $serviceMenu, ResizeImage $resize, $id, $season)
   {
-      $club = $this->getDoctrine()->getRepository(Team::class)
+      $club = $this->entityManager->getRepository(Team::class)
         ->findOneByTranslit($id);
 
       if(!$club){
         throw $this->createNotFoundException('The club does not exist');
       }
 
-      $isTeam = $this->getDoctrine()->getRepository(Game::class)
+      $isTeam = $this->entityManager->getRepository(Game::class)
               ->findByTeamAndSeason($club->getId(), $season, 'russia-cup');
 
       if(!$isTeam){
@@ -93,12 +101,12 @@ class CupController extends AbstractController
       if($club && $img = $club->getImage()){
         $logo = $resize->ResizeImageGet($img, ['width' => 270, 'height' => 270]);
       }
-      $seasons = $this->getDoctrine()->getRepository(Game::class)->getSeasons('russia-cup');
-      $players = $this->getDoctrine()->getRepository(Cupplayer::class)
+      $seasons = $this->entityManager->getRepository(Game::class)->getSeasons('russia-cup');
+      $players = $this->entityManager->getRepository(Cupplayer::class)
         ->getCupTeamStat($season, $id);
-      $teams = $this->getDoctrine()->getRepository(Game::class)
+      $teams = $this->entityManager->getRepository(Game::class)
         ->getTeams($season, 'russia-cup');
-      $teams2 = $this->getDoctrine()->getRepository(Game::class)
+      $teams2 = $this->entityManager->getRepository(Game::class)
           ->getTeams($season, 'russia-cup', 2);
       $teams = array_unique(array_merge($teams, $teams2), SORT_REGULAR);
 
@@ -111,9 +119,9 @@ class CupController extends AbstractController
       for ($i=0, $cnt=count($players); $i < $cnt; $i++)
       {
           $name[$i] = $players[$i]->getPlayer()->getName();
-          $ptgame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+          $ptgame[$i] = $this->entityManager->getRepository(Playersteam::class)
                            ->getStat($name[$i], $id, 'game')[0]->getGame();
-          $ptgoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+          $ptgoal[$i] = $this->entityManager->getRepository(Playersteam::class)
                            ->getStat($name[$i], $id, 'goal')[0]->getGoal();
 
           $players[$i]->setGameTeam($ptgame[$i]);
@@ -153,10 +161,10 @@ class CupController extends AbstractController
   {
       $ent = CupType::class;
       $entity  = new Game();
-      $year = $this->getDoctrine()->getRepository(Seasons::class)
+      $year = $this->entityManager->getRepository(Seasons::class)
         ->findOneByName($season);
 
-      $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)->findOneByAlias('russia-cup');
+      $obTurnir = $this->entityManager->getRepository(Turnir::class)->findOneByAlias('russia-cup');
       $entity->setSeason($year);
       $entity->setTurnir($obTurnir);
       $entity->setStatus(1);
@@ -168,7 +176,7 @@ class CupController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $em->persist($entity);
           $em->flush();
       }
@@ -184,7 +192,7 @@ class CupController extends AbstractController
 
     public function new(Menu $serviceMenu, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $season = $entity->getSeason()->getName();
 
         $form   = $this->createForm(Cup2Type::class, $entity, [
@@ -202,7 +210,7 @@ class CupController extends AbstractController
 
     public function create(Menu $serviceMenu, Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
 
         $season = $entity->getSeason()->getName();
         $form = $this->createForm(Cup2Type::class, $entity, [
@@ -212,7 +220,7 @@ class CupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();

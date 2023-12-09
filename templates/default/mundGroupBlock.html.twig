@@ -13,7 +13,7 @@
         </div>
         <div class="match-info">
         {% if match.country.image %}
-          <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: left;" />
+          <img class="match-team-img" src="{{ asset('images/') }}{{ match.country.image }}" style="float: left;" />
         {% endif %}
           {% if match.city %}
             <div class="match-main-info">
@@ -26,7 +26,7 @@
             </div>
           {% endif %}
           {% if match.country2.image %}
-            <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: left;" />
+            <img class="match-team2-img" src="{{ asset('images/') }}{{ match.country2.image }}" style="float: right;" />
           {% endif %}
         </div>
       </div>

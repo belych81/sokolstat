@@ -39,17 +39,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerController extends AbstractController
 {
-/*
-    private $finder;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(PaginatedFinderInterface $finder)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->finder = $finder;
+        $this->entityManager = $entityManager;
     }
-*/
+
     public function search(Request $request)
     {
         $query = htmlspecialchars($request->request->get('query'));
@@ -60,7 +60,7 @@ class PlayerController extends AbstractController
         $results = $this->finder->findHybrid($query);
 
         var_dump($results);*/
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
 
@@ -86,7 +86,7 @@ class PlayerController extends AbstractController
 
     public function edit($id)
     {
-        $entity = $this->getDoctrine()->getRepository(Player::class)->find($id);
+        $entity = $this->entityManager->getRepository(Player::class)->find($id);
         $form   = $this->createForm(PlayerEditType::class, $entity);
 
         return $this->render('player/edit.html.twig', array(
@@ -97,12 +97,12 @@ class PlayerController extends AbstractController
 
     public function update(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Player::class)->find($id);
+        $entity = $this->entityManager->getRepository(Player::class)->find($id);
         $form   = $this->createForm(PlayerEditType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $translit = $entity->getTranslit();
@@ -118,7 +118,7 @@ class PlayerController extends AbstractController
 
     public function editShipplayer(Menu $serviceMenu,  $id, $season, $country, $team)
     {
-        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $entity = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $form   = $this->createForm(ShipplayerEditType::class, $entity);
 
         $menu = $serviceMenu->generateEurocup($season);
@@ -132,12 +132,12 @@ class PlayerController extends AbstractController
 
     public function updateShipplayer(Request $request, $id, $season, $country, $team)
     {
-        $entity = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $entity = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $form   = $this->createForm(ShipplayerEditType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             return $this->redirect($this->generateUrl('championships_show', [
@@ -154,7 +154,7 @@ class PlayerController extends AbstractController
     {
         $arAssist = ['minusAssist', 'plusAssist', 'minusScore', 'plusScore'];
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $cache = $em->getCache();
         $cache->evictEntity(Gamers::class, $id);
         $em->getRepository(Gamers::class)->updateGamer($id, $change);
@@ -183,8 +183,8 @@ class PlayerController extends AbstractController
 
     public function editChampTotal(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Gamers::class)->updateGamer($id, $change, true);
-        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
+        $this->entityManager->getRepository(Gamers::class)->updateGamer($id, $change, true);
+        $entity = $this->entityManager->getRepository(Gamers::class)->find($id);
 
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
@@ -198,11 +198,11 @@ class PlayerController extends AbstractController
 
     public function editSb(SessionInterface $session, $id, $season, $change)
     {
-        $this->getDoctrine()->getRepository(Sbplayer::class)->updateSb($id, $change);
-        $entity = $this->getDoctrine()->getRepository(Sbplayer::class)->find($id);
+        $this->entityManager->getRepository(Sbplayer::class)->updateSb($id, $change);
+        $entity = $this->entityManager->getRepository(Sbplayer::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
         $player = $entity->getPlayer();
-        $this->getDoctrine()->getRepository(Rusplayer::class)
+        $this->entityManager->getRepository(Rusplayer::class)
           ->updateSbplayer($playerId, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
@@ -216,9 +216,9 @@ class PlayerController extends AbstractController
 
     public function editTotalChamp($id, $season, $team, $change)
     {
-        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
+        $entity = $this->entityManager->getRepository(Gamers::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Rusplayer::class)
+        $this->entityManager->getRepository(Rusplayer::class)
           ->updateRusplayerTotalChamp($playerId, $change);
 
         return $this->redirect($this->generateUrl('championships_show', [
@@ -230,10 +230,10 @@ class PlayerController extends AbstractController
 
     public function editTotalTeam($id, $season, $team, $change)
     {
-        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
+        $entity = $this->entityManager->getRepository(Gamers::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
         $teamOb = $entity->getTeam();
-        $this->getDoctrine()->getRepository(Playersteam::class)
+        $this->entityManager->getRepository(Playersteam::class)
           ->updateTotalTeam($playerId, $teamOb, $change);
 
         return $this->redirect($this->generateUrl('championships_show', [
@@ -245,9 +245,9 @@ class PlayerController extends AbstractController
 
     public function editTotal($id, $season, $team, $change)
     {
-        $entity = $this->getDoctrine()->getRepository(Gamers::class)->find($id);
+        $entity = $this->entityManager->getRepository(Gamers::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Rusplayer::class)
+        $this->entityManager->getRepository(Rusplayer::class)
           ->updateRusplayerTotal($playerId, $change);
 
         return $this->redirect($this->generateUrl('championships_show', [
@@ -259,12 +259,12 @@ class PlayerController extends AbstractController
 
     public function newChampLast($season, $team, $country, $route, $isTeam)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         if($isTeam){
-          $player = $this->getDoctrine()->getRepository(Player::class)
+          $player = $this->entityManager->getRepository(Player::class)
             ->getLastTeamPlayer($team);
         } else {
-          $player = $this->getDoctrine()->getRepository(Player::class)
+          $player = $this->entityManager->getRepository(Player::class)
             ->getLastOnePlayer();
         }
         switch($country){
@@ -288,7 +288,7 @@ class PlayerController extends AbstractController
                 $entity2->setGame(0);
                 $entity2->setGoal(0);
                 $entity2->setPlayer($player);
-                $team2 = $this->getDoctrine()->getRepository(Team::class)
+                $team2 = $this->entityManager->getRepository(Team::class)
                             ->findOneByTranslit($team);
                 $entity2->setTeam($team2);
 
@@ -300,11 +300,11 @@ class PlayerController extends AbstractController
             $entity = new Shipplayer();
         }
 
-        $maxId = $this->getDoctrine()->getRepository(Player::class)
+        $maxId = $this->entityManager->getRepository(Player::class)
                     ->getMaxId();
-        $club = $this->getDoctrine()->getRepository(Team::class)
+        $club = $this->entityManager->getRepository(Team::class)
           ->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)
+        $year = $this->entityManager->getRepository(Seasons::class)
           ->findOneByName($season);
 
         $entity->setTeam($club);
@@ -345,8 +345,8 @@ class PlayerController extends AbstractController
     {
         $entity  = new Gamers();
         $rusplayer = new RusPlayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $club = $this->entityManager->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
 
@@ -357,13 +357,13 @@ class PlayerController extends AbstractController
         if ($form->isValid()) {
             $goal = (int)$form->get('goal')->getData();
             $entity->setTotalgoal($goal);
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer();
-            $this->getDoctrine()->getRepository(Rusplayer::class)
+            $this->entityManager->getRepository(Rusplayer::class)
                 ->updateRusplayerChamp($player, $goal);
-            $this->getDoctrine()->getRepository(Playersteam::class)
+            $this->entityManager->getRepository(Playersteam::class)
                 ->updatePlayersteam($player, $club, $goal);
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
@@ -401,7 +401,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $year = $em->getRepository(Seasons::class)->findOneByName($year);
             $countr = $em->getRepository(Country::class)->findOneByTranslit($country);
             $entity->setSeason($year);
@@ -410,9 +410,9 @@ class PlayerController extends AbstractController
             $em->flush();
             /*$player = $entity->getPlayer();
             $goal = $entity->getGoal();
-            $this->getDoctrine()->getRepository(Rusplayer::class)
+            $this->entityManager->getRepository(Rusplayer::class)
                 ->updateRusplayerChamp($player, $goal);
-            $this->getDoctrine()->getRepository(Playersteam::class)
+            $this->entityManager->getRepository(Playersteam::class)
                 ->updatePlayersteam($player, $club, $goal);
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
@@ -451,8 +451,8 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $team2 = $this->getDoctrine()->getRepository(Team::class)
+            $em = $this->entityManager;
+            $team2 = $this->entityManager->getRepository(Team::class)
                         ->findOneByTranslit($team);
             $entity->setTeam($team2);
             $entity->setGoal(0);
@@ -500,7 +500,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
 
@@ -508,7 +508,7 @@ class PlayerController extends AbstractController
             $entity2->setGame(0);
             $entity2->setGoal(0);
             $entity2->setPlayer($entity->getPlayer());
-            $team2 = $this->getDoctrine()->getRepository(Team::class)
+            $team2 = $this->entityManager->getRepository(Team::class)
                         ->findOneByTranslit($team);
             $entity2->setTeam($team2);
             $em->persist($entity2);
@@ -532,7 +532,7 @@ class PlayerController extends AbstractController
         $entity = new Player();
 
         $form   = $this->createForm(PlayerType::class, $entity);
-        $maxId = $this->getDoctrine()->getRepository(Player::class)->getMaxId();
+        $maxId = $this->entityManager->getRepository(Player::class)->getMaxId();
 
         return $this->render('rusplayer/newPlayer.html.twig', array(
             'entity' => $entity,
@@ -551,7 +551,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $entity->setInsertdate(new \DateTime());
             $em->persist($entity);
             $em->flush();
@@ -580,18 +580,18 @@ class PlayerController extends AbstractController
 
     public function editNation(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Shipplayer::class)
+        $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoal($id, $change);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
         if($change == 'plusGame' || $change == 'minusGame')
         {
-          $this->getDoctrine()->getRepository(Player::class)
+          $this->entityManager->getRepository(Player::class)
             ->updatePlayerGame($player_id, $change);
         }
         else
         {
-          $this->getDoctrine()->getRepository(Player::class)
+          $this->entityManager->getRepository(Player::class)
             ->updatePlayerTotalGoal($player_id, $change, 1);
         }
         $session->set('lastPlayer', $player->getPlayer()->getName());
@@ -606,12 +606,12 @@ class PlayerController extends AbstractController
 
     public function editNationCup(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Shipplayer::class)
+        $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoalCup($id, $change);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
         $playerName = $player->getPlayer()->getName();
-        $this->getDoctrine()->getRepository(Player::class)
+        $this->entityManager->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 1);
         $session->set('lastPlayer', $playerName);
 
@@ -624,12 +624,12 @@ class PlayerController extends AbstractController
 
     public function editNationSupercup(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Shipplayer::class)
+        $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoalSupercup($id, $change);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $playerName = $player->getPlayer()->getName();
         $player_id = $player->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Player::class)
+        $this->entityManager->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 1);
         $session->set('lastPlayer', $playerName);
 
@@ -642,12 +642,12 @@ class PlayerController extends AbstractController
 
     public function editNationEurocup(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Shipplayer::class)
+        $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoalEurocup($id, $change);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $playerName = $player->getPlayer()->getName();
         $player_id = $player->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Player::class)
+        $this->entityManager->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 0, 1);
         $session->set('lastPlayer', $playerName);
 
@@ -660,12 +660,12 @@ class PlayerController extends AbstractController
 
     public function editNationSbornie(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Shipplayer::class)
+        $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoalSbornie($id, $change);
-        $player = $this->getDoctrine()->getRepository(Shipplayer::class)->find($id);
+        $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
         $player_id = $player->getPlayer()->getId();
         $playerName = $player->getPlayer()->getName();
-        $this->getDoctrine()->getRepository(Player::class)
+        $this->entityManager->getRepository(Player::class)
           ->updatePlayerGoal($player_id, $change, 0, 0, 0, 0, 0, 1);
         $session->set('lastPlayer', $playerName);
 
@@ -685,7 +685,7 @@ class PlayerController extends AbstractController
 
     public function viewedPlayerAdd($id)
     {
-        $this->getDoctrine()->getRepository(Player::class)->viewedPlayer($id);
+        $this->entityManager->getRepository(Player::class)->viewedPlayer($id);
 
         return new Response($id);
     }
@@ -695,7 +695,7 @@ class PlayerController extends AbstractController
         ini_set('memory_limit','64M');
 
         $entity = new Shipplayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)
+        $club = $this->entityManager->getRepository(Team::class)
           ->findOneByTranslit($team);
         $country = $club->getCountry()->getName();
         $form = $this->createForm(ShipplayerType::class, $entity, [
@@ -712,8 +712,8 @@ class PlayerController extends AbstractController
     {
         $entity  = new Shipplayer();
 
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $club = $this->entityManager->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(ShipplayerType::class, $entity, [
@@ -724,12 +724,12 @@ class PlayerController extends AbstractController
 
         if(!$entity->getPlayer()) {
             $selectedPlayer = $session->get('lastPlayerAdd');
-            $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+            $obPlayer = $this->entityManager->getRepository(Player::class)->findOneById($selectedPlayer);
             $entity->setPlayer($obPlayer);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $id = $entity->getId();
@@ -771,7 +771,7 @@ class PlayerController extends AbstractController
             $className = Gamers::class;
             break;
         }
-        $entity = $this->getDoctrine()->getRepository($className)->find($id);
+        $entity = $this->entityManager->getRepository($className)->find($id);
 
         return $this->render('shiptable/deleteShipplayer.html.twig', array(
             'entity' => $entity,
@@ -781,7 +781,7 @@ class PlayerController extends AbstractController
 
     public function delete($id, $type, $country)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $routeParams = [];
         switch($type){
           case 'Shipplayer' :
@@ -800,7 +800,7 @@ class PlayerController extends AbstractController
             break;
         }
 
-        $entity = $this->getDoctrine()->getRepository($className)->find($id);
+        $entity = $this->entityManager->getRepository($className)->find($id);
 
         $routeParams['season'] = $entity->getSeason()->getName();
         $routeParams['id'] = $entity->getTeam()->getTranslit();
@@ -836,9 +836,9 @@ class PlayerController extends AbstractController
 
     public function updatePlayerTurnirs(Request $request, $season, $team, $country)
     {
-      $teamOb = $this->getDoctrine()->getRepository(Team::class)
+      $teamOb = $this->entityManager->getRepository(Team::class)
         ->findOneByTranslit($team);
-      $seasonOb = $this->getDoctrine()->getRepository(Seasons::class)
+      $seasonOb = $this->entityManager->getRepository(Seasons::class)
         ->findOneByName($season);
       if($country == 'fnl')
       {
@@ -857,7 +857,7 @@ class PlayerController extends AbstractController
 
         if ($editForm->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $player = $editForm["player"]->getData()->getId();
             $game= $editForm['game']->getData();
             $goal= $editForm['goal']->getData();
@@ -894,11 +894,11 @@ class PlayerController extends AbstractController
 
     public function editFnl(SessionInterface $session, $id, $season, $team, $change)
     {
-        $this->getDoctrine()->getRepository(Fnlplayer::class)
+        $this->entityManager->getRepository(Fnlplayer::class)
           ->updateFnlplayer($id, $change);
-        $entity = $this->getDoctrine()->getRepository(Fnlplayer::class)->find($id);
+        $entity = $this->entityManager->getRepository(Fnlplayer::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
-        $this->getDoctrine()->getRepository(Rusplayer::class)
+        $this->entityManager->getRepository(Rusplayer::class)
           ->updateRusplayerFnl($playerId, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
         $response = json_encode([
@@ -930,8 +930,8 @@ class PlayerController extends AbstractController
     public function createFnl(Menu $serviceMenu, Request $request, $team, $season)
     {
         $entity  = new Fnlplayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $club = $this->entityManager->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(FnlType::class, $entity, ['season' => $season,
@@ -939,7 +939,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer();
@@ -968,7 +968,7 @@ class PlayerController extends AbstractController
         ini_set('memory_limit','16M');
 
         $entity = new Supercupplayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneById($team);
+        $club = $this->entityManager->getRepository(Team::class)->findOneById($team);
         $translit = $club->getTranslit();
         $form   = $this->createForm(RusType::class, $entity, ['season' => $season,
             'team' => $translit]);
@@ -983,9 +983,9 @@ class PlayerController extends AbstractController
     {
         $entity  = new Supercupplayer();
 
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneById($team);
+        $club = $this->entityManager->getRepository(Team::class)->findOneById($team);
         $translit = $club->getTranslit();
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(RusType::class, $entity, ['season' => $season,
@@ -994,7 +994,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer();
@@ -1032,8 +1032,8 @@ class PlayerController extends AbstractController
     {
         $entity  = new Cupplayer();
 
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+        $club = $this->entityManager->getRepository(Team::class)->findOneByTranslit($team);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
         $form = $this->createForm(RusType::class, $entity, ['season' => $season,
@@ -1042,7 +1042,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $player = $entity->getPlayer()->getId();
@@ -1063,7 +1063,7 @@ class PlayerController extends AbstractController
 
     public function editCup(SessionInterface $session, $id, $season, $team, $change)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $em->getRepository(Cupplayer::class)->updateCupplayer($id, $change);
         $entity = $em->getRepository(Cupplayer::class)->find($id);
@@ -1087,17 +1087,17 @@ class PlayerController extends AbstractController
 
     public function editLchplayer(SessionInterface $session, $id, $season, $team, $change)
     {
-      $this->getDoctrine()->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
-      $player = $this->getDoctrine()->getRepository(Lchplayer::class)->find($id);
+      $this->entityManager->getRepository(Lchplayer::class)->updateLchplayerGoal($id, $change);
+      $player = $this->entityManager->getRepository(Lchplayer::class)->find($id);
       $player_id = $player->getPlayer()->getId();
 
       if (strpos($change, 'Game') !== false)
       {
-        $this->getDoctrine()->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);
+        $this->entityManager->getRepository(Player::class)->updatePlayerLchGame($player_id, $change);
       }
       elseif (strpos($change, 'Goal') !== false)
       {
-        $this->getDoctrine()->getRepository(Player::class)->updatePlayerLchGoal($player_id, $change);
+        $this->entityManager->getRepository(Player::class)->updatePlayerLchGoal($player_id, $change);
       }
 
       $session->set('lastPlayer', $player->getPlayer()->getName());
@@ -1115,7 +1115,7 @@ class PlayerController extends AbstractController
         ini_set('memory_limit','64M');
 
         $entity = new Lchplayer();
-        $club = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($team);
+        $club = $this->entityManager->getRepository(Team::class)->findOneByTranslit($team);
 
         $form   = $this->createForm(LchplayerType::class, $entity, ['season' => $season,
             'team' => $team, 'flag' => $flag, 'club' => $club]);
@@ -1132,7 +1132,7 @@ class PlayerController extends AbstractController
     public function createLchPlayer(SessionInterface $session, Menu $serviceMenu,  Request $request, $team, $season, $flag)
     {
         $entity  = new Lchplayer();
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $club = $em->getRepository(Team::class)->findOneByTranslit($team);
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
         $entity->setTeam($club);
@@ -1145,7 +1145,7 @@ class PlayerController extends AbstractController
 
         if(!$entity->getPlayer()) {
             $selectedPlayer = $session->get('lastPlayerAdd');
-            $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
+            $obPlayer = $this->entityManager->getRepository(Player::class)->findOneById($selectedPlayer);
             $entity->setPlayer($obPlayer);
         }
 
@@ -1178,7 +1178,7 @@ class PlayerController extends AbstractController
 
     public function editEc(SessionInterface $session, $id, $season, $team, $turnir, $change)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $em->getRepository(Ecplayer::class)->updateEcplayer($id, $change);
         $ecplayer = $em->getRepository(Ecplayer::class)->find($id);
         $player = $ecplayer->getPlayer();
@@ -1200,7 +1200,7 @@ class PlayerController extends AbstractController
 
     public function editMund(SessionInterface $session, $id, $change)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $em->getRepository(Sostav::class)->updateGamer($id, $change);
         $sostavPlayer = $em->getRepository(Sostav::class)->find($id);
@@ -1233,7 +1233,7 @@ class PlayerController extends AbstractController
     public function createEc(Request $request, $team, $season, $turnir)
     {
         $entity  = new Ecplayer();
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $club = $em->getRepository(Team::class)->findOneByTranslit($team);
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
         $cup = $em->getRepository(Turnir::class)->findOneByAlias($turnir);
@@ -1281,7 +1281,7 @@ class PlayerController extends AbstractController
     {
         $entity  = new Sbplayer();
         $form = $this->createForm(SbplayerType::class, $entity, ['season' => $season]);
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
         $entity->setSeason($year);
         $form->handleRequest($request);

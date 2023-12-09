@@ -36,35 +36,42 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ShiptableController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function index(Menu $serviceMenu, Functions $functions, ResizeImage $resize, $country, $season, $tour)
     {
-        $strana = $this->getDoctrine()->getRepository(Shiptable::class)
+        $strana = $this->entityManager->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
 
-        $entities = $this->getDoctrine()->getRepository(Shiptable::class)
+        $entities = $this->entityManager->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
 
         if(!$entities){
           throw $this->createNotFoundException('The season does not exist');
         }
 
-        $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
+        $seasons = $this->entityManager->getRepository(Shiptable::class)
                 ->getSeasons($strana);
 
-        $maxTour = $this->getDoctrine()->getRepository(Game::class)
+        $maxTour = $this->entityManager->getRepository(Game::class)
                          ->getMaxTour($country, $season);
         if(!$tour) {
-           $matches = $this->getDoctrine()->getRepository(Game::class)
+           $matches = $this->entityManager->getRepository(Game::class)
                       ->getMatches($country, $season, $maxTour);
          } else {
-             $matches = $this->getDoctrine()->getRepository(Game::class)
+             $matches = $this->entityManager->getRepository(Game::class)
                             ->getMatches($country, $season, $tour);
          }
-        $numberTour = $this->getDoctrine()->getRepository(Game::class)
+        $numberTour = $this->entityManager->getRepository(Game::class)
                          ->getTours($country, $season);
 
         if(!$matches){
@@ -81,11 +88,11 @@ class ShiptableController extends AbstractController
             $match->getTeam2()->setImage($resize->ResizeImageGet($img2, ['width' => 80, 'height' => 80]));
           }
         }
-        $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
+        $rusCountry = $this->entityManager->getRepository(Shiptable::class)
                 ->translateCountry($country)['rusCountry'];
         switch ($country) {
             case 'russia' :
-              $bombs = $this->getDoctrine()->getRepository(Gamers::class)
+              $bombs = $this->entityManager->getRepository(Gamers::class)
                     ->getBomb($season);
                     break;
             case 'england' :
@@ -93,11 +100,11 @@ class ShiptableController extends AbstractController
             case 'italy' :
             case 'germany' :
             case 'france' :
-                $bombs = $this->getDoctrine()->getRepository(Shipplayer::class)
+                $bombs = $this->entityManager->getRepository(Shipplayer::class)
                     ->getBomb5($season, $strana);
                     break;
             case 'fnl' :
-                $bombs = $this->getDoctrine()->getRepository(Fnlplayer::class)
+                $bombs = $this->entityManager->getRepository(Fnlplayer::class)
                     ->getBomb5($season, $strana);
 
         }
@@ -130,24 +137,24 @@ class ShiptableController extends AbstractController
 
     public function stat(Menu $serviceMenu, Props $props, $country)
     {
-      $topMatchesRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topMatchesRus = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayers(20, 'game');
-      $topMatchesRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topMatchesRusCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayersCurr(20, 'game', $props->getLastSeason());
-      $topGoalsRus = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalsRus = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayers(20, 'goal');
-      $topGoalsRusCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalsRusCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopPlayersCurr(20, 'goal', $props->getLastSeason());
-      $topGoalkeepers = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalkeepers = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopGoalkeepers(20);
-      $topGoalkeepersCurr = $this->getDoctrine()->getRepository(Rusplayer::class)
+      $topGoalkeepersCurr = $this->entityManager->getRepository(Rusplayer::class)
         ->getTopGoalkeepersCurr(20, $props->getLastSeason());
       $menu = $serviceMenu->generate($country);
-      $rusCountry = $this->getDoctrine()->getRepository(Shiptable::class)
+      $rusCountry = $this->entityManager->getRepository(Shiptable::class)
               ->translateCountry($country)['rusCountry'];
-      $maxAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+      $maxAgePlayers = $this->entityManager->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'ASC');
-      $minAgePlayers = $this->getDoctrine()->getRepository(Gamers::class)
+      $minAgePlayers = $this->entityManager->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
       return $this->render('stat/index.html.twig', [
@@ -166,7 +173,7 @@ class ShiptableController extends AbstractController
 
     public function show(SessionInterface $session, Menu $serviceMenu, ResizeImage $resize, $id, $season, $country)
     {
-        $club = $this->getDoctrine()->getRepository(Team::class)
+        $club = $this->entityManager->getRepository(Team::class)
           ->findOneByTranslit($id);
 
         if(!$club){
@@ -176,33 +183,33 @@ class ShiptableController extends AbstractController
         if($logo= $club->getImage()){
           $club->setImage($resize->ResizeImageGet($logo, ['width' => 270, 'height' => 270]));
         }
-        $isTeam = $this->getDoctrine()->getRepository(Shiptable::class)
+        $isTeam = $this->entityManager->getRepository(Shiptable::class)
                 ->findByTeamAndSeason($club->getId(), $season);
         if(empty($isTeam)){
           return $this->redirect($this->generateUrl('championships', [
               'season' => $season, 'country' => $country]));
         }
-        $strana = $this->getDoctrine()->getRepository(Shiptable::class)
+        $strana = $this->entityManager->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
-        $seasons = $this->getDoctrine()->getRepository(Shiptable::class)
+        $seasons = $this->entityManager->getRepository(Shiptable::class)
                 ->getSeasons($strana, $id);
-        $shiptable = $this->getDoctrine()->getRepository(Shiptable::class)
+        $shiptable = $this->entityManager->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
 
         $arSborn = [];
         if ($country == 'russia') {
-            $players = $this->getDoctrine()->getRepository(Gamers::class)
+            $players = $this->entityManager->getRepository(Gamers::class)
               ->getRusTeamStat($season, $id);
 
             for ($i=0, $cnt=count($players); $i < $cnt; $i++) {
                 $name[$i] = $players[$i]->getPlayer()->getName();
 
-                $arPtGame[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                $arPtGame[$i] = $this->entityManager->getRepository(Playersteam::class)
                                  ->getStat($name[$i], $id, 'game');
                 if(isset($arPtGame[$i][0]))
                 {
                   $ptgame[$i] = $arPtGame[$i][0]->getGame();
-                  $arPtGoal[$i] = $this->getDoctrine()->getRepository(Playersteam::class)
+                  $arPtGoal[$i] = $this->entityManager->getRepository(Playersteam::class)
                                    ->getStat($name[$i], $id, 'goal');
                   $ptgoal[$i] = $arPtGoal[$i][0]->getGoal();
                   $players[$i]->setGameTeam($ptgame[$i]);
@@ -211,10 +218,10 @@ class ShiptableController extends AbstractController
             }
         } else {
           if ($country == 'fnl') {
-            $players = $this->getDoctrine()->getRepository(Fnlplayer::class)
+            $players = $this->entityManager->getRepository(Fnlplayer::class)
                           ->getTeamStat($season, $id);
           } else {
-            $players = $this->getDoctrine()->getRepository(Shipplayer::class)
+            $players = $this->entityManager->getRepository(Shipplayer::class)
                           ->getTeamStat($season, $id);
           }
         }
@@ -234,11 +241,11 @@ class ShiptableController extends AbstractController
            $cntLastMatches = 20;
         }
 
-        $lastMatches = $this->getDoctrine()->getRepository(Game::class)
+        $lastMatches = $this->entityManager->getRepository(Game::class)
                       ->getLastMatchesByTeam($season, $id, $cntLastMatches);
-        $strana = $this->getDoctrine()->getRepository(Shiptable::class)
+        $strana = $this->entityManager->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
-        $teams = $this->getDoctrine()->getRepository(Shiptable::class)
+        $teams = $this->entityManager->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
 
         foreach($teams as &$team){
@@ -297,8 +304,8 @@ class ShiptableController extends AbstractController
         $ent = TourMatchType::class;
         $entity  = new Game();
 
-        $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
-        $obTurnir = $this->getDoctrine()->getRepository(Turnir::class)->findOneByAlias($turnir);
+        $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
+        $obTurnir = $this->entityManager->getRepository(Turnir::class)->findOneByAlias($turnir);
 
         $entity->setSeason($year);
         $entity->setTurnir($obTurnir);
@@ -312,7 +319,7 @@ class ShiptableController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -354,7 +361,7 @@ class ShiptableController extends AbstractController
 
             $ent = ShiptableType::class;
             $entity  = new Shiptable();
-            $strana = $this->getDoctrine()->getRepository(Country::class)
+            $strana = $this->entityManager->getRepository(Country::class)
               ->findOneByName($country2);
             $entity->setCountry($strana);
 
@@ -366,7 +373,7 @@ class ShiptableController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $session->set('season', $entity->getSeason()->getName());
             $em->persist($entity);
             $em->flush();
@@ -381,7 +388,7 @@ class ShiptableController extends AbstractController
 
     public function newRus($id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $season = $entity->getSeason()->getName();
 
         $form   = $this->createForm(Rfplmatch2Type::class, $entity, [
@@ -396,7 +403,7 @@ class ShiptableController extends AbstractController
 
     public function createRus(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $season = $entity->getSeason()->getName();
 
         $form = $this->createForm(Rfplmatch2Type::class, $entity, [
@@ -406,7 +413,7 @@ class ShiptableController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $team=$entity->getTeam()->getId();
@@ -414,9 +421,9 @@ class ShiptableController extends AbstractController
             $seas=$entity->getSeason()->getId();
             $goal1=$entity->getGoal1();
             $goal2=$entity->getGoal2();
-            $this->getDoctrine()->getRepository(Shiptable::class)
+            $this->entityManager->getRepository(Shiptable::class)
                ->updateShiptable($team, $team2, $goal1, $goal2, $seas);
-            $this->getDoctrine()->getRepository(Team::class)
+            $this->entityManager->getRepository(Team::class)
               ->updateSvod($team, $team2, $goal1, $goal2);
             $season = $entity->getSeason()->getName();
             return $this->redirect($this->generateUrl('championships', [
@@ -431,7 +438,7 @@ class ShiptableController extends AbstractController
 
     public function new($id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form   = $this->createForm(TourType::class, $entity);
 
         return $this->render('shiptable/new.html.twig', array(
@@ -442,13 +449,13 @@ class ShiptableController extends AbstractController
 
     public function create(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form = $this->createForm(TourType::class, $entity);
         $entity->setStatus(0);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $team = $entity->getTeam()->getId();
@@ -464,7 +471,7 @@ class ShiptableController extends AbstractController
             $goal1=$entity->getGoal1();
             $goal2=$entity->getGoal2();
 
-            $this->getDoctrine()->getRepository(Shiptable::class)
+            $this->entityManager->getRepository(Shiptable::class)
                ->updateShiptable($team, $team2, $goal1, $goal2, $seas);
             $season=$entity->getSeason()->getName();
 
@@ -480,7 +487,7 @@ class ShiptableController extends AbstractController
 
     public function edit($id, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form   = $this->createForm(RfplmatchEditType::class, $entity);
 
         return $this->render('shiptable/edit.html.twig', array(
@@ -492,12 +499,12 @@ class ShiptableController extends AbstractController
 
     public function update(Request $request, $id, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form   = $this->createForm(RfplmatchEditType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $season=$entity->getSeason()->getName();
@@ -514,7 +521,7 @@ class ShiptableController extends AbstractController
 
     public function confirm($id, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
 
         return $this->render('shiptable/delete.html.twig', array(
             'entity' => $entity
@@ -523,7 +530,7 @@ class ShiptableController extends AbstractController
 
     public function delete($id, $country)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $entity = $em->getRepository(Game::class)->find($id);
 
         $season = $entity->getSeason()->getName();
@@ -536,7 +543,7 @@ class ShiptableController extends AbstractController
 
     public function svod(Menu $serviceMenu, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Team::class)
+        $entity = $this->entityManager->getRepository(Team::class)
           ->getSvod($country);
         switch ($country) {
             case 'russia' : $country2 = 'России'; break;
@@ -560,17 +567,17 @@ class ShiptableController extends AbstractController
     {
       $query = $request->request->get('query');
       $champ = $request->request->get('champ');
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->entityManager;
       $param = [];
       foreach ($query as $val) {
         if($champ == 'top5'){
           $em->getRepository(Shipplayer::class)->updateShipplayers($val);
           $em->getRepository(Player::class)->updateShipplayerSumGame($val);
-          $player = $this->getDoctrine()->getRepository(Shipplayer::class)
+          $player = $this->entityManager->getRepository(Shipplayer::class)
             ->find($val[0]);
         } else {
           $em->getRepository(Fnlplayer::class)->updateFnlplayers($val);
-          $player = $this->getDoctrine()->getRepository(Fnlplayer::class)
+          $player = $this->entityManager->getRepository(Fnlplayer::class)
             ->find($val[0]);
           $em->getRepository(Rusplayer::class)->updateFnlSumGame($val);
         }
@@ -583,7 +590,7 @@ class ShiptableController extends AbstractController
 
     public function tour(ResizeImage $resize, $country, $season, $tour)
     {
-      $matches = $this->getDoctrine()->getRepository(Game::class)
+      $matches = $this->entityManager->getRepository(Game::class)
                             ->getMatches($country, $season, $tour);
       foreach($matches as &$match){
         $img = $match->getTeam()->getImage();

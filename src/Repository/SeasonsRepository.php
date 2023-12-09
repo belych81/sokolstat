@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Seasons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Seasons|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,10 +23,13 @@ class SeasonsRepository extends ServiceEntityRepository
     {
       return $this->createQueryBuilder('s')
               ->select('s', 'e')
-              ->leftJoin('s.'.$turnir, 'e')
+              ->leftJoin('s.games', 'e')
+              ->join('e.turnir', 't')
               ->where("e.season = s.id")
               ->andWhere("e.team = :team OR e.team2 = :team")
+              ->andWhere("t.alias IN (:turnir)")
               ->setParameter('team', $team)
+              ->setParameter('turnir', $turnir)
               ->orderBy('s.name', 'ASC')
               ->getQuery()
               ->getResult()

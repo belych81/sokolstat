@@ -13,18 +13,26 @@ use App\Service\Menu;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CupLeagueController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function index(Menu $serviceMenu, $season)
     {
-        $seasons = $this->getDoctrine()->getRepository(Game::class)
+        $seasons = $this->entityManager->getRepository(Game::class)
           ->getSeasons('league-cup');
-        $stadies = $this->getDoctrine()->getRepository(Stadia::class)
+        $stadies = $this->entityManager->getRepository(Stadia::class)
           ->getStadiaCupLeague($season);
         foreach ($stadies as $stadia)
         {
-          $stadia->setStadiaMatches($this->getDoctrine()->getRepository(Game::class)
+          $stadia->setStadiaMatches($this->entityManager->getRepository(Game::class)
                     ->findAllBySeasonAndStadiaAndCountry($season, $stadia, 'league'));
         }
         $menu = $serviceMenu->generate('england', $season);
@@ -58,9 +66,9 @@ class CupLeagueController extends AbstractController
     {
         $ent = CupLeagueType::class;
         $entity  = new Game();
-        $year = $this->getDoctrine()->getRepository(Seasons::class)
+        $year = $this->entityManager->getRepository(Seasons::class)
           ->findOneByName($season);
-        $turnir = $this->getDoctrine()->getRepository(Turnir::class)
+        $turnir = $this->entityManager->getRepository(Turnir::class)
           ->findOneByAlias('league-cup');
 
         $entity->setSeason($year);
@@ -74,7 +82,7 @@ class CupLeagueController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -91,7 +99,7 @@ class CupLeagueController extends AbstractController
 
     public function new(Menu $serviceMenu, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form   = $this->createForm(NationCup2Type::class, $entity);
 
         $menu = $serviceMenu->generate('england');
@@ -105,13 +113,13 @@ class CupLeagueController extends AbstractController
 
     public function create(Request $request, $id)
     {
-        $entity = $this->getDoctrine()->getRepository(Game::class)->find($id);
+        $entity = $this->entityManager->getRepository(Game::class)->find($id);
         $form = $this->createForm(NationCup2Type::class, $entity);
         $entity->setStatus(0);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();

@@ -1,8 +1,6 @@
 <?php
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class ResizeImage
 {
 	private $container;
@@ -12,13 +10,12 @@ class ResizeImage
 	private $pathOutputResize = '';
 	private $errors = '';
 
-	public function __construct(ContainerInterface $container)
+	public function __construct($path, $pathResize, $pathOutput, $pathOutputResize)
     {
-        $this->container = $container;
-		$this->path = $this->container->getParameter('file_directory');
-		$this->pathResize = $this->container->getParameter('file_resize_directory');
-		$this->pathOutput = $this->container->getParameter('file_output_directory');
-		$this->pathOutputResize = $this->container->getParameter('file_output_resize_directory');
+		$this->path = $path;
+		$this->pathResize = $pathResize;
+		$this->pathOutput = $pathOutput;
+		$this->pathOutputResize = $pathOutputResize;
     }
 
     public function resizeImageGet(string $file, array $arSize) :string

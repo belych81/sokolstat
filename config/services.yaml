@@ -2,7 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     file_directory: '%kernel.project_dir%/public/images/'
     file_resize_directory: '%kernel.project_dir%/public/images/resize/'
@@ -43,26 +43,9 @@ services:
         arguments:
             $targetDirectory: '%file_directory%'
 
-  #  redis_cache_service:
-  #      class: Doctrine\Common\Cache\RedisCache
-  #      calls:
-  #          - method: setRedis
-  #            arguments:
-  #              - '@redis'
-
-  #  redis:
-  #      class: Redis
-  #      public: false
-  #      calls:
-  #          - method: connect
-  #            arguments:
-  #              - '/var/run/redis/redis.sock' # or host/ip with port
-  #          - method: select
-  #            arguments:
-  #              - 13 # change database by index
-
-  #  App\Controller\PlayerController:
-  #          tags: ['controller.service_arguments']
-  #          public: true
-  #          arguments:
-  #              - '@fos_elastica.finder.website.player'
+    App\Service\ResizeImage:
+        arguments:
+            $path: '%file_directory%'
+            $pathResize: '%file_resize_directory%'
+            $pathOutput: '%file_output_directory%'
+            $pathOutputResize: '%file_output_resize_directory%'

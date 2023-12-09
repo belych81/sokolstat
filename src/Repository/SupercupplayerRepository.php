@@ -4,8 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Supercupplayer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Supercupplayer|null find($id, $lockMode = null, $lockVersion = null)
  * @method Supercupplayer|null findOneBy(array $criteria, array $orderBy = null)

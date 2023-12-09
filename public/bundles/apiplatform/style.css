@@ -42,6 +42,10 @@ header #logo img {
   background-color: rgba(40, 134, 144, .4)
 }
 
+.svg-icons {
+    position:absolute;width:0;height:0
+}
+
 /** WEBBY AND WEB **/
 
 .web, .webby {
@@ -308,7 +312,7 @@ header #logo img {
   outline: none;
 }
 
-/** REMOVE TITILIUM FONT **/
+/** USE OPEN SANS FONT **/
 
 .swagger-ui .opblock-tag,
 .swagger-ui .opblock .opblock-section-header label,

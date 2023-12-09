@@ -103,7 +103,7 @@ task_new:
 
 task_create:
     path:  /task/admin/create/
-    controller: App\Controller\TaskController:create
+    controller: App\Controller\TaskController::create
     requirements: { _method: post }
 
 task_close:
@@ -112,11 +112,11 @@ task_close:
 
 task_edit:
     path: /task/edit/{id}
-    controller: App\Controller\TaskController:edit
+    controller: App\Controller\TaskController::edit
 
 task_update:
     path: /task/update/{id}
-    controller: App\Controller\TaskController:update
+    controller: App\Controller\TaskController::update
     requirements: { _method: post }
 
 soglasie:
@@ -133,125 +133,125 @@ nhl_add:
 
 nhl_standing:
     path:  /nhl/standing/{season}/
-    controller: App\Controller\NhlController:standing
+    controller: App\Controller\NhlController::standing
 
 nhl_leaders:
     path:  /nhl/leaders/{season}/
-    controller: App\Controller\NhlController:leaders
+    controller: App\Controller\NhlController::leaders
 
 nhl_player_show:
     path:  /nhl/player/{id}/
-    controller: App\Controller\NhlController:showPlayer
+    controller: App\Controller\NhlController::showPlayer
 
 nhl_newSeason:
     path:  /nhl/admin/season/
-    controller: App\Controller\NhlController:newSeason
+    controller: App\Controller\NhlController::newSeason
 
 nhl_season:
     path:  /nhl/{season}/
-    controller: App\Controller\NhlController:index
+    controller: App\Controller\NhlController::index
 
 nhl_date:
     path:  /nhl/date/{season}/
-    controller: App\Controller\NhlController:index
+    controller: App\Controller\NhlController::index
     options:
         expose: true
 
 nhl_show:
     path:  /nhl/{season}/{id}/
-    controller: App\Controller\NhlController:show
+    controller: App\Controller\NhlController::show
 
 nhl_createSeason:
     path:  /nhl/admin/season/create/
-    controller: App\Controller\NhlController:createSeason
+    controller: App\Controller\NhlController::createSeason
     requirements: { _method: post }
 
 nhl_newMatch:
     path:  /nhl/admin/newMatch/{season}/
-    controller: App\Controller\NhlController:newMatch
+    controller: App\Controller\NhlController::newMatch
 
 nhl_createMatch:
     path:  /nhl/admin/create/newMatch/{season}/
-    controller: App\Controller\NhlController:createMatch
+    controller: App\Controller\NhlController::createMatch
     requirements: { _method: post }
 
 nhl_newrus:
     path:  /nhl/admin/new/rus/{id}/
-    controller: App\Controller\NhlController:newRus
+    controller: App\Controller\NhlController::newRus
 
 nhl_createrus:
     path:  /nhl/admin/create/match/rus/{id}/
-    controller: App\Controller\NhlController:createRus
+    controller: App\Controller\NhlController::createRus
     requirements: { _method: post }
 
 nhl_newPlayer:
     path:  /nhl/admin/newPlayer/{season}/{team}/
-    controller: App\Controller\NhlController:newPlayer
+    controller: App\Controller\NhlController::newPlayer
 
 nhl_createPlayer:
     path:  /nhl/admin/createNewPlayer/{season}/{team}/
-    controller: App\Controller\NhlController:createNewPlayer
+    controller: App\Controller\NhlController::createNewPlayer
     requirements: { _method: post }
 
 nhl_newChampLast:
     path:  /nhl/admin/champ-last/{season}/{team}/{isTeam}
-    controller: App\Controller\NhlController:newChampLast
+    controller: App\Controller\NhlController::newChampLast
     defaults:
       isTeam: false
 
 nhl_editChamp:
     path:  /nhl/admin/{id}/edit/{season}/{team}/{change}/
-    controller: App\Controller\NhlController:editChamp
+    controller: App\Controller\NhlController::editChamp
     options:
         expose: true
 
 nhl_confirm_delete_player:
     path:  /nhl/admin/confirm/{id}/
-    controller: App\Controller\NhlController:confirm
+    controller: App\Controller\NhlController::confirm
     requirements:
         id: \d+
 
 nhl_delete_player:
     path:  /nhl/admin/delete/{id}/
-    controller: App\Controller\NhlController:delete
+    controller: App\Controller\NhlController::delete
     requirements: { _method: post }
 
 nhl_player_edit:
     path: /nhl/player/edit/{id}
-    controller: App\Controller\NhlController:editPlayer
+    controller: App\Controller\NhlController::editPlayer
 
 nhl_player_update:
     path: /nhl/player/update/{id}
-    controller: App\Controller\NhlController:updatePlayer
+    controller: App\Controller\NhlController::updatePlayer
     requirements: { _method: post }
 
 nhl_newChampPlayer:
     path:  /nhl/player/admin/champnation/{season}/{team}/{flag}/
-    controller: App\Controller\NhlController:newChampNation
+    controller: App\Controller\NhlController::newChampNation
 
 nhl_createChampPlayer:
     path:  /nhl/player/admin/createChampnation/{season}/{team}/{flag}/
-    controller: App\Controller\NhlController:createChampNation
+    controller: App\Controller\NhlController::createChampNation
     requirements: { _method: post }
 
 nhl_newPlayersteam:
     path:  /nhl/player/admin/playersteam/{season}/{team}/
-    controller: App\Controller\NhlController:newPlayersteam
+    controller: App\Controller\NhlController::newPlayersteam
 
 nhl_createPlayersteam:
     path:  /nhl/player/admin/createPlayersteam/{season}/{team}/
-    controller: App\Controller\NhlController:createPlayersteam
+    controller: App\Controller\NhlController::createPlayersteam
     requirements: { _method: post }
 
 stat:
     path:  /stat/{country}/
-    controller: App\Controller\ShiptableController:stat
+    controller: App\Controller\ShiptableController::stat
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
 
 championships:
     path:  /championships/{country}/{season}/{tour}
-    controller: App\Controller\ShiptableController:index
+    controller: App\Controller\ShiptableController::index
     defaults:
         tour: false
     requirements:
@@ -262,7 +262,7 @@ championships:
 
 championships_tour:
     path:  /championships/tour/{country}/{season}/{tour}/
-    controller: App\Controller\ShiptableController:tour
+    controller: App\Controller\ShiptableController::tour
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
         tour: \d+
@@ -271,175 +271,175 @@ championships_tour:
 
 championships_show:
     path:  /championships/{country}/{season}/{id}
-    controller: App\Controller\ShiptableController:show
+    controller: App\Controller\ShiptableController::show
     requirements:
         country: russia|england|spain|italy|germany|france|fnl|leagueChampions
 
 championships_new:
     path:  /championships/admin/{id}
-    controller: App\Controller\ShiptableController:new
+    controller: App\Controller\ShiptableController::new
 
 championships_create:
     path:  /championships/admin/create/{id}
-    controller: App\Controller\ShiptableController:create
+    controller: App\Controller\ShiptableController::create
     requirements: { _method: post }
 
 championships_newMatch:
     path:  /championships/admin/newMatch/{season}/{country}/
-    controller: App\Controller\ShiptableController:newMatch
+    controller: App\Controller\ShiptableController::newMatch
 
 championships_createMatch:
     path:  /championships/admin/create/newMatch/{season}/{country}/
-    controller: App\Controller\ShiptableController:createMatch
+    controller: App\Controller\ShiptableController::createMatch
     requirements: { _method: post }
 
 championships_edit:
     path:  /championships/admin/edit/{id}/{country}
-    controller: App\Controller\ShiptableController:edit
+    controller: App\Controller\ShiptableController::edit
     requirements:
         id: \d+
 
 championships_update:
     path:  /championships/admin/update/{id}/{country}
-    controller: App\Controller\ShiptableController:update
+    controller: App\Controller\ShiptableController::update
     requirements: { _method: post }
 
 championships_confirm_delete:
     path:  /championships/admin/confirm/{id}/{country}
-    controller: App\Controller\ShiptableController:confirm
+    controller: App\Controller\ShiptableController::confirm
     requirements:
         id: \d+
 
 championships_delete:
     path:  /championships/admin/delete/{id}/{country}
-    controller: App\Controller\ShiptableController:delete
+    controller: App\Controller\ShiptableController::delete
     requirements: { _method: post }
 
 championships_newSeason:
     path:  /championships/admin/season/{country}
-    controller: App\Controller\ShiptableController:newSeason
+    controller: App\Controller\ShiptableController::newSeason
 
 championships_createSeason:
     path:  /championships/admin/season/create/{country}
-    controller: App\Controller\ShiptableController:createSeason
+    controller: App\Controller\ShiptableController::createSeason
     requirements: { _method: post }
 
 championships_newrus:
     path:  /championships/admin/new/rus/{id}
-    controller: App\Controller\ShiptableController:newRus
+    controller: App\Controller\ShiptableController::newRus
 
 championships_createrus:
     path:  /championships/admin/create/match/rus/{id}
-    controller: App\Controller\ShiptableController:createRus
+    controller: App\Controller\ShiptableController::createRus
     requirements: { _method: post }
 
 cup:
     path:     /cup/{season}
-    controller: App\Controller\CupController:index
+    controller: App\Controller\CupController::index
 
 cup_show:
     path:     /cup/{id}/{season}/show
-    controller: App\Controller\CupController:show
+    controller: App\Controller\CupController::show
 
 cup_new:
     path:  /cup/admin/{id}
-    controller: App\Controller\CupController:new
+    controller: App\Controller\CupController::new
     requirements:
         id: \d+
 
 cup_create:
     path:  /cup/admin/create/{id}
-    controller: App\Controller\CupController:create
+    controller: App\Controller\CupController::create
     requirements:
       _method: post
       id: \d+
 
 cup_newMatch:
     path:  /cup/admin/{season}
-    controller: App\Controller\CupController:newMatch
+    controller: App\Controller\CupController::newMatch
 
 cup_createMatch:
     path:  /cup/admin/create/{season}
-    controller: App\Controller\CupController:createMatch
+    controller: App\Controller\CupController::createMatch
     requirements: { _method: post }
 
 cup_league:
     path:     /cup_league/{season}/
-    controller: App\Controller\CupLeagueController:index
+    controller: App\Controller\CupLeagueController::index
 
 cup_league_new:
     path:  /cup_league/admin/{id}/
-    controller: App\Controller\CupLeagueController:new
+    controller: App\Controller\CupLeagueController::new
     requirements:
         id: \d+
 
 cup_league_create:
     path:  /cup_league/admin/create/{id}/
-    controller: App\Controller\CupLeagueController:create
+    controller: App\Controller\CupLeagueController::create
     requirements:
       _method: post
       id: \d+
 
 cup_league_newMatch:
     path:  /cup_league/admin/{season}/
-    controller: App\Controller\CupLeagueController:newMatch
+    controller: App\Controller\CupLeagueController::newMatch
 
 cup_league_createMatch:
     path:  /cup_league/admin/create/{season}/
-    controller: App\Controller\CupLeagueController:createMatch
+    controller: App\Controller\CupLeagueController::createMatch
     requirements: { _method: post }
 
 nationcup:
     path:     /nationcup/{country}/{season}
-    controller: App\Controller\NationcupController:index
+    controller: App\Controller\NationcupController::index
 
 nationcup_new:
     path:  /nationcup/admin/{id}/{country}
-    controller: App\Controller\NationcupController:new
+    controller: App\Controller\NationcupController::new
     requirements:
         id: \d+
 
 nationcup_create:
     path:  /nationcup/admin/create/{id}/{country}
-    controller: App\Controller\NationcupController:create
+    controller: App\Controller\NationcupController::create
     requirements:
       _method: post
       id: \d+
 
 nationcup_newMatch:
     path:  /nationcup/admin/{season}/{country}
-    controller: App\Controller\NationcupController:newMatch
+    controller: App\Controller\NationcupController::newMatch
 
 nationcup_createMatch:
     path:  /nationcup/admin/create/{season}/{country}
-    controller: App\Controller\NationcupController:createMatch
+    controller: App\Controller\NationcupController::createMatch
     requirements: { _method: post }
 
 nationsupercup_newMatch:
     path:  /nationsupercup/admin/{country}
-    controller: App\Controller\UefaSupercupController:newMatch
+    controller: App\Controller\UefaSupercupController::newMatch
 
 nationsupercup_createMatch:
     path:  /nationsupercup/admin/create/{country}
-    controller: App\Controller\UefaSupercupController:createMatch
+    controller: App\Controller\UefaSupercupController::createMatch
     requirements: { _method: post }
 
 nationsupercup_new:
     path:  /nationsupercup/admin/{id}/{country}
-    controller: App\Controller\UefaSupercupController:new
+    controller: App\Controller\UefaSupercupController::new
     requirements:
         id: \d+
 
 nationsupercup_create:
     path:  /nationsupercup/admin/create/{id}/{country}
-    controller: App\Controller\UefaSupercupController:create
+    controller: App\Controller\UefaSupercupController::create
     requirements:
       _method: post
       id: \d+
 
 eurocup:
     path:  /eurocup/{turnir}/{season}/
-    controller: App\Controller\EurocupController:index
+    controller: App\Controller\EurocupController::index
     defaults:
       turnir: leagueChampions
     requirements:
@@ -447,44 +447,44 @@ eurocup:
 
 eurocup_show:
     path:  /eurocup/{turnir}/{season}/{id}/show
-    controller: App\Controller\EurocupController:show
+    controller: App\Controller\EurocupController::show
 
 eurocup_showTeam:
     path:  /eurocup/{season}/{turnir}/{id}/show/team
-    controller: App\Controller\EurocupController:showTeam
+    controller: App\Controller\EurocupController::showTeam
 
 eurocup_showmatch:
     path:  /eurocup/{turnir}/{season}/{id}/showmatch
-    controller: App\Controller\EurocupController:showMatch
+    controller: App\Controller\EurocupController::showMatch
     requirements:
         id: \d+
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league
 
 eurocup_edit:
     path:  /eurocup/{turnir}/{id}/edit
-    controller: App\Controller\EurocupController:edit
+    controller: App\Controller\EurocupController::edit
     requirements:
         id: \d+
 
 eurocup_update:
     path:  /eurocup/{turnir}/{id}/update
-    controller: App\Controller\EurocupController:update
+    controller: App\Controller\EurocupController::update
     requirements: { _method: post|put }
 
 eurocup_editMatch:
     path:  /eurocup/{turnir}/{id}/editMatch
-    controller: App\Controller\EurocupController:editMatch
+    controller: App\Controller\EurocupController::editMatch
     requirements:
         id: \d+
 
 eurocup_updateMatch:
     path:  /eurocup/{turnir}/{id}/updateMatch
-    controller: App\Controller\EurocupController:updateMatch
+    controller: App\Controller\EurocupController::updateMatch
     requirements: { _method: post|put }
 
 ectable_edit:
     path:  /eurocup/{turnir}/{id}/{season}/editEctable/{stadia}
-    controller: App\Controller\EurocupController:editEctable
+    controller: App\Controller\EurocupController::editEctable
     requirements:
         id: \d+
     defaults:
@@ -492,23 +492,23 @@ ectable_edit:
 
 ectable_update:
     path:  /eurocup/{turnir}/{id}/{season}/updateEctable/{stadia}
-    controller: App\Controller\EurocupController:updateEctable
+    controller: App\Controller\EurocupController::updateEctable
     requirements: { _method: post|put }
     defaults:
         stadia: false
 
 eurocup_newMatch:
     path:  /eurocup/admin/{season}
-    controller: App\Controller\EurocupController:newMatch
+    controller: App\Controller\EurocupController::newMatch
 
 eurocup_createMatch:
     path:  /eurocup/admin/create/{season}
-    controller: App\Controller\EurocupController:createMatch
+    controller: App\Controller\EurocupController::createMatch
     requirements: { _method: post }
 
 eurocup_new:
     path:  /eurocup/admin/{turnir}/{season}/{stadia}
-    controller: App\Controller\EurocupController:new
+    controller: App\Controller\EurocupController::new
     defaults:
       stadia: null
     requirements:
@@ -516,102 +516,102 @@ eurocup_new:
 
 eurocup_create:
     path:  /eurocup/admin/create/{turnir}/{season}/{stadia}
-    controller: App\Controller\EurocupController:create
+    controller: App\Controller\EurocupController::create
     defaults:
       stadia: null
     requirements: { _method: post }
 
 eurocup_newSeason:
     path:  /eurocup/admin/season/{turnir}/{season}/
-    controller: App\Controller\EurocupController:newSeason
+    controller: App\Controller\EurocupController::newSeason
     requirements:
         turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league|russia-cup
 
 eurocup_createSeason:
     path:  /eurocup/admin/season/create/{turnir}/{season}/
-    controller: App\Controller\EurocupController:createSeason
+    controller: App\Controller\EurocupController::createSeason
     requirements: { _method: post }
 
 supercup:
     path:  /supercup/{country}
-    controller: App\Controller\UefaSupercupController:index
+    controller: App\Controller\UefaSupercupController::index
 
 supercup_show:
     path:  /supercup/{country}/{id}
-    controller: App\Controller\UefaSupercupController:show
+    controller: App\Controller\UefaSupercupController::show
 
 sbornie_newSeason:
     path:  /sbornie/admin/season/{turnir}/{season}/
-    controller: App\Controller\MundialController:newSeason
+    controller: App\Controller\MundialController::newSeason
 
 sbornie_createSeason:
     path:  /sbornie/admin/season/create/{turnir}/{season}/
-    controller: App\Controller\MundialController:createSeason
+    controller: App\Controller\MundialController::createSeason
     requirements: { _method: post }
 
 sbornie_newMatch:
     path:  /sbornie/admin/{season}/{turnir}
-    controller: App\Controller\MundialController:newMatch
+    controller: App\Controller\MundialController::newMatch
 
 sbornie_createMatch:
     path:  /sbornie/admin/create/{season}/{turnir}
-    controller: App\Controller\MundialController:createMatch
+    controller: App\Controller\MundialController::createMatch
     requirements: { _method: post }
 
 sbornie_editMatch:
     path:  /sbornie/{turnir}/{id}/editMatch
-    controller: App\Controller\MundialController:editMatch
+    controller: App\Controller\MundialController::editMatch
     requirements:
         id: \d+
 
 sbornie_updateMatch:
     path:  /sbornie/{turnir}/{id}/updateMatch
-    controller: App\Controller\MundialController:updateMatch
+    controller: App\Controller\MundialController::updateMatch
     requirements: { _method: post|put }
 
 sbornieTable_edit:
     path:  /sbornie/{turnir}/{id}/{season}/editMundialTable/
-    controller: App\Controller\MundialController:editMundialTable
+    controller: App\Controller\MundialController::editMundialTable
     requirements:
         id: \d+
 
 sbornieTable_update:
     path:  /sbornie/{turnir}/{id}/{season}/updateMundialTable/
-    controller: App\Controller\MundialController:updateMundialTable
+    controller: App\Controller\MundialController::updateMundialTable
     requirements: { _method: post|put }
 
 sbornie_edit:
     path:  /sbornie/{turnir}/{id}/edit
-    controller: App\Controller\MundialController:edit
+    controller: App\Controller\MundialController::edit
     requirements:
         id: \d+
 
 sbornie_update:
     path:  /sbornie/{turnir}/{id}/update
-    controller: App\Controller\MundialController:update
+    controller: App\Controller\MundialController::update
     requirements: { _method: post|put }
 
 sbornie:
     path:  /sbornie/{turnir}/{year}
-    controller: App\Controller\MundialController:index
+    controller: App\Controller\MundialController::index
 
 sbornieRus:
     path:  /sbornie/{season}
-    controller: App\Controller\MundialController:showRus
+    controller: App\Controller\MundialController::showRus
 
 sbornie_show:
     path:  /sbornie/{turnir}/{year}/{id}
-    controller: App\Controller\MundialController:show
+    controller: App\Controller\MundialController::show
     requirements:
         id: \d+
 
 sbornieCountry:
     path:  /sbornie/{turnir}/{year}/{country}
-    controller: App\Controller\MundialController:showCountry
+    controller: App\Controller\MundialController::showCountry
 
 player:
     path:  /player/russia/{page}/{sort}/{order}/{team}/{country}
-    controller: App\Controller\RusplayerController:index
+    controller: App\Controller\RusplayerController::index
     defaults:
       page: 1
       sort: game
@@ -625,7 +625,7 @@ player:
 
 player_all:
     path:  /player/all/{page}/{sort}/{order}/{team}/{country}
-    controller: App\Controller\RusplayerController:index_all
+    controller: App\Controller\RusplayerController::index_all
     defaults:
       page: 1
       sort: game
@@ -639,208 +639,208 @@ player_all:
 
 news_search:
     path:  /search
-    controller: App\Controller\PlayerController:search
+    controller: App\Controller\PlayerController::search
     options:
         expose: true
 
 player_edit:
     path: /player/edit/{id}
-    controller: App\Controller\PlayerController:edit
+    controller: App\Controller\PlayerController::edit
 
 player_update:
     path: /player/update/{id}
-    controller: App\Controller\PlayerController:update
+    controller: App\Controller\PlayerController::update
     requirements: { _method: post }
 
 player_search:
     path: /player/search
-    controller: App\Controller\RusplayerController:search
+    controller: App\Controller\RusplayerController::search
 
 player_show:
     path:  /player/{id}
-    controller: App\Controller\RusplayerController:show
+    controller: App\Controller\RusplayerController::show
 
 player_newSb:
     path:  /playeradmin/admin/sb/{season}
-    controller: App\Controller\PlayerController:newSb
+    controller: App\Controller\PlayerController::newSb
 
 player_createSb:
     path:  /playeradmin/admin/createSb/{season}
-    controller: App\Controller\PlayerController:createSb
+    controller: App\Controller\PlayerController::createSb
     requirements: { _method: post }
 
 player_newChampLast:
     path:  /playeradmin/admin/champ-last/{season}/{team}/{country}/{route}/{isTeam}
-    controller: App\Controller\PlayerController:newChampLast
+    controller: App\Controller\PlayerController::newChampLast
     defaults:
       isTeam: false
 
 player_newChamp:
     path:  /playeradmin/admin/champ/{season}/{team}
-    controller: App\Controller\PlayerController:newChamp
+    controller: App\Controller\PlayerController::newChamp
 
 player_createChamp:
     path:  /playeradmin/admin/createChamp/{season}/{team}
-    controller: App\Controller\PlayerController:createChamp
+    controller: App\Controller\PlayerController::createChamp
     requirements: { _method: post }
 
 player_newMund:
     path:  /playeradmin/admin/mund/{year}/{country}/{turnir}/
-    controller: App\Controller\PlayerController:newMund
+    controller: App\Controller\PlayerController::newMund
 
 player_createMund:
     path:  /playeradmin/admin/createMund/{year}/{country}/{turnir}/
-    controller: App\Controller\PlayerController:createMund
+    controller: App\Controller\PlayerController::createMund
     requirements: { _method: post }
 
 player_newFnl:
     path:  /playeradmin/admin/fnl/{season}/{team}/{flag}
-    controller: App\Controller\PlayerController:newFnl
+    controller: App\Controller\PlayerController::newFnl
     defaults:
       flag: false
 
 player_createFnl:
     path:  /playeradmin/admin/createFnl/{season}/{team}
-    controller: App\Controller\PlayerController:createFnl
+    controller: App\Controller\PlayerController::createFnl
     requirements: { _method: post }
 
 player_newPlayer:
     path:  /admin/newPlayer/{route}/{country}/{season}/{team}
-    controller: App\Controller\PlayerController:newPlayer
+    controller: App\Controller\PlayerController::newPlayer
 
 player_createPlayer:
     path:  /admin/createNewPlayer/{route}/{country}/{season}/{team}
-    controller: App\Controller\PlayerController:createNewPlayer
+    controller: App\Controller\PlayerController::createNewPlayer
     requirements: { _method: post }
 
 player_newChampNation:
     path:  /playeradmin/admin/champnation/{season}/{country}/{team}/{flag}/
-    controller: App\Controller\PlayerController:newChampNation
+    controller: App\Controller\PlayerController::newChampNation
 
 player_createChampNation:
     path:  /playeradmin/admin/createChampnation/{season}/{country}/{team}/{flag}/
-    controller: App\Controller\PlayerController:createChampNation
+    controller: App\Controller\PlayerController::createChampNation
     requirements: { _method: post }
 
 player_newlchplayer:
     path:  /playeradmin/admin/champnation/{season}/{team}/{flag}/
-    controller: App\Controller\PlayerController:newLchPlayer
+    controller: App\Controller\PlayerController::newLchPlayer
 
 player_createlchplayer:
     path:  /playeradmin/admin/createChampnation/{season}/{team}/{flag}/
-    controller: App\Controller\PlayerController:createLchPlayer
+    controller: App\Controller\PlayerController::createLchPlayer
     requirements: { _method: post }
 
 player_newRusplayer:
     path:  /playeradmin/admin/rusplayer/{season}/{team}/{country}
-    controller: App\Controller\PlayerController:newRusplayer
+    controller: App\Controller\PlayerController::newRusplayer
 
 player_createRusplayer:
     path:  /admin/createRusplayer/{season}/{team}/{country}
-    controller: App\Controller\PlayerController:createRusplayer
+    controller: App\Controller\PlayerController::createRusplayer
     requirements: { _method: post }
 
 player_newPlayersteam:
     path:  /playeradmin/admin/playersteam/{season}/{team}/{turnir}/
-    controller: App\Controller\PlayerController:newPlayersteam
+    controller: App\Controller\PlayerController::newPlayersteam
 
 player_createPlayersteam:
     path:  /playeradmin/admin/createPlayersteam/{season}/{team}/{turnir}/
-    controller: App\Controller\PlayerController:createPlayersteam
+    controller: App\Controller\PlayerController::createPlayersteam
     requirements: { _method: post }
 
 player_newEc:
     path:  /playeradmin/admin/ec/{turnir}/{season}/{team}
-    controller: App\Controller\PlayerController:newEc
+    controller: App\Controller\PlayerController::newEc
 
 player_createEc:
     path:  /playeradmin/admin/createEc/{turnir}/{season}/{team}
-    controller: App\Controller\PlayerController:createEc
+    controller: App\Controller\PlayerController::createEc
     requirements: { _method: post }
 
 player_newCup:
     path:  /playeradmin/admin/cup/{season}/{team}
-    controller: App\Controller\PlayerController:newCup
+    controller: App\Controller\PlayerController::newCup
 
 player_createCup:
     path:  /playeradmin/admin/createCup/{season}/{team}
-    controller: App\Controller\PlayerController:createCup
+    controller: App\Controller\PlayerController::createCup
     requirements: { _method: post }
 
 player_newSc:
     path:  /playeradmin/admin/sc/{season}/{team}/{id}
-    controller: App\Controller\PlayerController:newSc
+    controller: App\Controller\PlayerController::newSc
 
 player_createSc:
     path:  /playeradmin/admin/createSc/{season}/{team}/{id}
-    controller: App\Controller\PlayerController:createSc
+    controller: App\Controller\PlayerController::createSc
     requirements: { _method: post }
 
 player_editSb:
     path:  /playeradmin/admin/{id}/editSb/{season}/{change}
-    controller: App\Controller\PlayerController:editSb
+    controller: App\Controller\PlayerController::editSb
     options:
         expose: true
 
 shipplayer_confirm_delete:
     path:  /playeradmin/admin/confirm/{id}/{type}/{country}/
-    controller: App\Controller\PlayerController:confirm
+    controller: App\Controller\PlayerController::confirm
     requirements:
         id: \d+
 
 shipplayer_delete:
     path:  /playeradmin/admin/delete/{id}/{type}/{country}/
-    controller: App\Controller\PlayerController:delete
+    controller: App\Controller\PlayerController::delete
     requirements: { _method: post }
 
 playeradmin_editChamp:
     path:  /playeradmin/admin/{id}/edit/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editChamp
+    controller: App\Controller\PlayerController::editChamp
     options:
         expose: true
 
 playeradmin_editChampTotal:
     path:  /playeradmin/admin/{id}/editTotal/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editChampTotal
+    controller: App\Controller\PlayerController::editChampTotal
     options:
         expose: true
 
 playeradmin_editFnl:
     path:  /playeradmin/admin/{id}/editFnl/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editFnl
+    controller: App\Controller\PlayerController::editFnl
     options:
         expose: true
 
 playeradmin_editTotalChamp:
     path:  /playeradmin/admin/totalChamp/{id}/edit/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editTotalChamp
+    controller: App\Controller\PlayerController::editTotalChamp
 
 playeradmin_editTotal:
     path:  /playeradmin/admin/total/{id}/edit/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editTotal
+    controller: App\Controller\PlayerController::editTotal
 
 playeradmin_editTotalTeam:
     path:  /playeradmin/admin/totalTeam/{id}/edit/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editTotalTeam
+    controller: App\Controller\PlayerController::editTotalTeam
 
 playeradmin_editCup:
     path:  /playeradmin/admin/cup/{id}/edit/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editCup
+    controller: App\Controller\PlayerController::editCup
     options:
         expose: true
 
 playeradmin_editPlayerTurnirs:
     path:  /playeradmin/admin/editTurnirs/{season}/{country}/{team}
-    controller: App\Controller\PlayerController:editPlayerTurnirs
+    controller: App\Controller\PlayerController::editPlayerTurnirs
 
 playeradmin_updatePlayerTurnirs:
     path:  /playeradmin/admin/updateTurnirs/{season}/{country}/{team}
-    controller: App\Controller\PlayerController:updatePlayerTurnirs
+    controller: App\Controller\PlayerController::updatePlayerTurnirs
     requirements: { _method: post|put }
 
 playeradmin_editNation:
     path:  /playeradmin/admin/{id}/editNation/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editNation
+    controller: App\Controller\PlayerController::editNation
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
     options:
@@ -848,7 +848,7 @@ playeradmin_editNation:
 
 playeradmin_editMund:
     path:  /playeradmin/admin/{id}/editMund/{change}/
-    controller: App\Controller\PlayerController:editMund
+    controller: App\Controller\PlayerController::editMund
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
     options:
@@ -856,7 +856,7 @@ playeradmin_editMund:
 
 playeradmin_editNationCup:
     path:  /playeradmin/admin/{id}/editNationCup/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editNationCup
+    controller: App\Controller\PlayerController::editNationCup
     requirements:
         change: minus|plus
     options:
@@ -864,7 +864,7 @@ playeradmin_editNationCup:
 
 playeradmin_editNationSupercup:
     path:  /playeradmin/admin/{id}/editNationSupercup/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editNationSupercup
+    controller: App\Controller\PlayerController::editNationSupercup
     requirements:
         change: minus|plus
     options:
@@ -872,7 +872,7 @@ playeradmin_editNationSupercup:
 
 playeradmin_editNationEurocup:
     path:  /playeradmin/admin/{id}/editNationEurocup/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editNationEurocup
+    controller: App\Controller\PlayerController::editNationEurocup
     requirements:
         change: minus|plus
     options:
@@ -880,7 +880,7 @@ playeradmin_editNationEurocup:
 
 playeradmin_editNationSbornie:
     path:  /playeradmin/admin/{id}/editNationSbornie/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editNationSbornie
+    controller: App\Controller\PlayerController::editNationSbornie
     requirements:
         change: minus|plus
     options:
@@ -888,7 +888,7 @@ playeradmin_editNationSbornie:
 
 playeradmin_editLchplayer:
     path:  /playeradmin/admin/{id}/editLchplayer/{season}/{team}/{change}
-    controller: App\Controller\PlayerController:editLchplayer
+    controller: App\Controller\PlayerController::editLchplayer
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus
     options:
@@ -896,31 +896,31 @@ playeradmin_editLchplayer:
 
 playeradmin_editEc:
     path:  /playeradmin/admin/{id}/editEc/{season}/{team}/{turnir}/{change}
-    controller: App\Controller\PlayerController:editEc
+    controller: App\Controller\PlayerController::editEc
     options:
         expose: true
 
 shipplayer_edit:
     path:  /shipplayer/admin/edit/{id}/{country}/{season}/{team}/
-    controller: App\Controller\PlayerController:editShipplayer
+    controller: App\Controller\PlayerController::editShipplayer
     requirements:
         id: \d+
 
 shipplayer_update:
     path:  /shipplayer/admin/update/{id}/{country}/{season}/{team}/
-    controller: App\Controller\PlayerController:updateShipplayer
+    controller: App\Controller\PlayerController::updateShipplayer
     requirements: { _method: post }
 
 team_get_by_letter:
     path:  /team/admin/{letter}/
-    controller: App\Controller\TeamController:getByLetter
+    controller: App\Controller\TeamController::getByLetter
     options:
         expose: true
 
 
 shipplayers_update:
     path:  /shipplayers/admin/update/
-    controller: App\Controller\ShiptableController:shipplayersUpdate
+    controller: App\Controller\ShiptableController::shipplayersUpdate
     requirements: { _method: post }
     options:
         expose: true

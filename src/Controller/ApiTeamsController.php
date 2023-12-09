@@ -6,21 +6,28 @@ use App\Entity\NationCup;
 use App\Entity\Team;
 use App\Entity\Shiptable;
 use App\Entity\Cup;
-use App\Entity\Eurocup;
+use App\Entity\Game;
 use App\Entity\Seasons;
 use App\Service\Props;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ApiTeamsController extends ApiController
 {
     private $team = null;
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function getTeam(string $code): ?Team
     {
         if(!$this->team)
         {
-            $this->team = $this->getDoctrine()->getRepository(Team::class)
+            $this->team = $this->entityManager->getRepository(Team::class)
                 ->findOneByTranslit($code);
         }
         return $this->team;
@@ -31,7 +38,7 @@ class ApiTeamsController extends ApiController
     public function getChamp(string $code)
     {
         $team = $this->getTeam($code);
-        $champTables =  $this->getDoctrine()->getRepository(Shiptable::class)
+        $champTables =  $this->entityManager->getRepository(Shiptable::class)
             ->getShiptablesByTeam($team->getId());
         $arrChamp = [];
         foreach ($champTables as $obj){
@@ -55,33 +62,24 @@ class ApiTeamsController extends ApiController
     public function getCup(Props $prop, $code)
     {
         $team = $this->getTeam($code);
-        $country = $team->getCountry()->getName();
+        $country = $team->getCountry()->getTranslit();
         $cupSeasons = [];
         $tops = $prop->getTops();
-        if($country == 'Россия'){
-            $cupSeasons = $this->getDoctrine()->getRepository(Seasons::class)
-                ->getSeasonsTurnirByTeam($team->getId(), 'cups');
-            foreach ($cupSeasons as &$cupSeason)
-            {
-                $cupSeason->setSeasonCupMatches($this->getDoctrine()
-                    ->getRepository(Cup::class)
-                    ->findByTeamAndSeason($team->getId(), $cupSeason->getName()));
-            }
-        } elseif(in_array($country, $tops)) {
-            $cupSeasons = $this->getDoctrine()->getRepository(Seasons::class)
-                ->getSeasonsTurnirByTeam($team->getId(), 'nationCups');
-            foreach ($cupSeasons as &$cupSeason)
-            {
-                $cupSeason->setSeasonCupMatches($this->getDoctrine()
-                    ->getRepository(NationCup::class)
-                    ->findByTeamAndSeason($team->getId(), $cupSeason->getName()));
-            }
+        $euroSeasons = $this->entityManager->getRepository(Seasons::class)
+            ->getSeasonsTurnirByTeam($team->getId(), $country . '-cup');
+ 
+        foreach ($euroSeasons as &$season)
+        {
+            $season->setSeasonMatches($this->entityManager
+                ->getRepository(Game::class)
+                ->findByTeamAndSeason($team, $season->getName(), $country . '-cup'));
         }
+
         $arrCup = [];
-        foreach ($cupSeasons as $key => $obj){
-            $seasonCupMatches = $obj->getSeasonCupMatches();
+        foreach ($euroSeasons as $key => $obj){
+            $seasonMatches = $obj->getSeasonMatches();
             $arrCup[$key] = ['season' => $obj->getName(), 'matches' => []];
-            foreach ($seasonCupMatches as $matches){
+            foreach ($seasonMatches as $matches){
                 $arrCup[$key]['matches'][] = [
                     'data' => $matches->getData()->format("d.m"),
                     'stadia' => $matches->getStadia()->getName(),
@@ -92,6 +90,7 @@ class ApiTeamsController extends ApiController
                 ];
             }
         }
+
         return $this->respond($arrCup);
     }
 
@@ -102,13 +101,14 @@ class ApiTeamsController extends ApiController
     {
         $team = $this->getTeam($code);
 
-        $euroSeasons = $this->getDoctrine()->getRepository(Seasons::class)
-            ->getSeasonsTurnirByTeam($team->getId(), 'eurocups');
+        $euroSeasons = $this->entityManager->getRepository(Seasons::class)
+            ->getSeasonsTurnirByTeam($team->getId(), ['leagueChampions', 'leagueEuropa']);
+ 
         foreach ($euroSeasons as &$season)
         {
-            $season->setSeasonMatches($this->getDoctrine()
-                ->getRepository(Eurocup::class)
-                ->findAllBySeasonAndTeam($season->getName(), $team->getId()));
+            $season->setSeasonMatches($this->entityManager
+                ->getRepository(Game::class)
+                ->findByTeamAndSeason($team, $season->getName(), ['leagueChampions', 'leagueEuropa']));
         }
 
         $arrEurocup = [];
