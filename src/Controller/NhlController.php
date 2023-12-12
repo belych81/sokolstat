@@ -273,7 +273,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isValid()) {
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $em->persist($entity);
           $em->flush();
           $translit = $entity->getTranslit();
@@ -310,7 +310,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $session->set('season', $entity->getSeason()->getName());
           $session->set('division', $entity->getDivision()->getName());
           $em->persist($entity);
@@ -351,7 +351,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $session->set('date', $entity->getData());
           $em->persist($entity);
           $em->flush();
@@ -383,7 +383,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $em->persist($entity);
           $em->flush();
           $team=$entity->getTeam()->getId();
@@ -423,7 +423,7 @@ class NhlController extends AbstractController
           $goal = $nhlReg->getGoal();
           // ... perform some action, such as saving the task to the database
           // for example, if Task is a Doctrine entity, save it!
-          $entityManager = $this->entityManager->getManager();
+          $entityManager = $this->entityManager;
           $entityManager->persist($nhlReg);
           $entityManager->flush();
 
@@ -461,7 +461,7 @@ class NhlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $entity->setInsertdate(new \DateTime());
             $em->persist($entity);
             $em->flush();
@@ -497,7 +497,7 @@ class NhlController extends AbstractController
         $playersTeam = $this->entityManager->getRepository(NhlPlayersTeam::class)
           ->getStat($player->getName(), $team);
 
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         if(!$playersTeam)
         {
@@ -579,7 +579,7 @@ class NhlController extends AbstractController
 
     public function delete($id)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(NhlReg::class)->find($id);
 
@@ -610,7 +610,7 @@ class NhlController extends AbstractController
     public function createChampNation(SessionInterface $session, Request $request, $team, $season, $flag)
     {
         $entity  = new NhlReg();
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $club = $this->entityManager->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
@@ -700,7 +700,7 @@ class NhlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $team2 = $this->entityManager->getRepository(NhlTeam::class)
                         ->findOneByTranslit($team);
             $entity->setTeam($team2);
