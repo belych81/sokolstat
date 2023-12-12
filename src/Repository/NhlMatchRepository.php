@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\NhlMatch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method NhlMatch|null find($id, $lockMode = null, $lockVersion = null)
