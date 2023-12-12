@@ -423,7 +423,7 @@ class DefaultController extends AbstractController
               $countryFileName = $fileUploader->upload($countryFile);
               $entity->setImage($countryFileName);
           }
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $em->persist($entity);
           $em->flush();
 
@@ -454,7 +454,7 @@ class DefaultController extends AbstractController
               $countryFileName = $fileUploader->upload($countryFile);
               $entity->setImage($countryFileName);
           }
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $em->persist($entity);
           $em->flush();
 
