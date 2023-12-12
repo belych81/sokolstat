@@ -27,12 +27,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class NhlController extends AbstractController
 {
+  private EntityManagerInterface $entityManager;
+
+  public function __construct(EntityManagerInterface $entityManager)
+  {
+      $this->entityManager = $entityManager;
+  }
+
   public function index(Request $request, $season)
   {
-    $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+    $seasons = $this->entityManager->getRepository(NhlTable::class)
         ->getSeasons();
     $routeName = $request->attributes->get('_route');
 
@@ -42,7 +50,7 @@ class NhlController extends AbstractController
       } else {
         $seasonName = $season;
       }
-      $obDates = $this->getDoctrine()->getRepository(NhlMatch::class)
+      $obDates = $this->entityManager->getRepository(NhlMatch::class)
           ->getDates($seasonName);
 
       if($routeName == 'nhl_season'){
@@ -69,7 +77,7 @@ class NhlController extends AbstractController
             $obNextDate = new \DateTime($obDates[$nextKey][1]);
           }
           $obCurDate = new \DateTime($curDate);
-          $matches = $this->getDoctrine()->getRepository(NhlMatch::class)
+          $matches = $this->entityManager->getRepository(NhlMatch::class)
               ->getMatches($curDate, $season);
           foreach ($matches as $key => $match) {
             $obData = $match->getData();
@@ -90,9 +98,9 @@ class NhlController extends AbstractController
 
   public function standing($season)
   {
-      $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+      $seasons = $this->entityManager->getRepository(NhlTable::class)
         ->getSeasons();
-      $entities = $this->getDoctrine()->getRepository(NhlTable::class)
+      $entities = $this->entityManager->getRepository(NhlTable::class)
               ->getTable($season);
       $division = [];
       foreach($entities as $item)
@@ -116,9 +124,9 @@ class NhlController extends AbstractController
 
   public function leaders($season)
   {
-      $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+      $seasons = $this->entityManager->getRepository(NhlTable::class)
         ->getSeasons();
-      $bombs = $this->getDoctrine()->getRepository(NhlReg::class)
+      $bombs = $this->entityManager->getRepository(NhlReg::class)
         ->getBomb($season);
         $bombSum = [];
         foreach ($bombs as $val) {
@@ -175,9 +183,9 @@ class NhlController extends AbstractController
 
   public function show(SessionInterface $session, ResizeImage $resize, $id, $season)
   {
-      $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+      $club = $this->entityManager->getRepository(NhlTeam::class)
         ->findOneByTranslit($id);
-      $isTeam = $this->getDoctrine()->getRepository(NhlTable::class)
+      $isTeam = $this->entityManager->getRepository(NhlTable::class)
               ->findByTeamAndSeason($club->getId(), $season);
       if(empty($isTeam)){
         return $this->redirect($this->generateUrl('nhl_season', [
@@ -186,21 +194,21 @@ class NhlController extends AbstractController
       if($logo= $club->getImage()){
         $club->setImage($resize->ResizeImageGet($logo, ['width' => 270, 'height' => 270]));
       }
-      $seasons = $this->getDoctrine()->getRepository(NhlTable::class)
+      $seasons = $this->entityManager->getRepository(NhlTable::class)
               ->getSeasons();
-      $shiptable = $this->getDoctrine()->getRepository(NhlTable::class)
+      $shiptable = $this->entityManager->getRepository(NhlTable::class)
               ->getTable($season);
 
-      $players = $this->getDoctrine()->getRepository(NhlReg::class)
+      $players = $this->entityManager->getRepository(NhlReg::class)
         ->getTeamStat($season, $id);
 
-      $goalies = $this->getDoctrine()->getRepository(NhlReg::class)
+      $goalies = $this->entityManager->getRepository(NhlReg::class)
           ->getTeamGoalie($season, $id);
 
       for ($i=0, $cnt=count($players); $i < $cnt; $i++) {
           $name[$i] = $players[$i]->getPlayer()->getName();
 
-          $arPt[$i] = $this->getDoctrine()->getRepository(NhlPlayersTeam::class)
+          $arPt[$i] = $this->entityManager->getRepository(NhlPlayersTeam::class)
                            ->getStat($name[$i], $id);
           $players[$i]->setGoalTeam($arPt[$i][0]->getGoalSum());
           $players[$i]->setAssistTeam($arPt[$i][0]->getAssistSum());
@@ -210,13 +218,13 @@ class NhlController extends AbstractController
       for ($i=0, $cnt=count($goalies); $i < $cnt; $i++) {
           $name[$i] = $goalies[$i]->getPlayer()->getName();
 
-          $arPt[$i] = $this->getDoctrine()->getRepository(NhlPlayersTeam::class)
+          $arPt[$i] = $this->entityManager->getRepository(NhlPlayersTeam::class)
                            ->getStat($name[$i], $id);
           $goalies[$i]->setGameTeam($arPt[$i][0]->getGameSum());
           $goalies[$i]->setZeroTeam($arPt[$i][0]->getZeroSum());
           $goalies[$i]->setMissedTeam($arPt[$i][0]->getMissedSum());
       }
-      $teams = $this->getDoctrine()->getRepository(NhlTable::class)
+      $teams = $this->entityManager->getRepository(NhlTable::class)
         ->getTeams($season);
 
       foreach($teams as &$team){
@@ -230,7 +238,7 @@ class NhlController extends AbstractController
           $cntLastMatches = 20;
       }
 
-      $lastMatches = $this->getDoctrine()->getRepository(NhlMatch::class)
+      $lastMatches = $this->entityManager->getRepository(NhlMatch::class)
                     ->getLastMatchesByTeam($season, $id, $cntLastMatches);
 
       $lastPlayer = $session->get('lastPlayer');
@@ -249,7 +257,7 @@ class NhlController extends AbstractController
 
   public function editPlayer($id)
   {
-      $entity = $this->getDoctrine()->getRepository(NhlPlayer::class)->find($id);
+      $entity = $this->entityManager->getRepository(NhlPlayer::class)->find($id);
       $form   = $this->createForm(NhlPlayerEditType::class, $entity);
 
       return $this->render('nhl/player_edit.html.twig', array(
@@ -260,12 +268,12 @@ class NhlController extends AbstractController
 
   public function updatePlayer(Request $request, $id)
   {
-      $entity = $this->getDoctrine()->getRepository(NhlPlayer::class)->find($id);
+      $entity = $this->entityManager->getRepository(NhlPlayer::class)->find($id);
       $form   = $this->createForm(NhlPlayerEditType::class, $entity);
       $form->handleRequest($request);
 
       if ($form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $em->persist($entity);
           $em->flush();
           $translit = $entity->getTranslit();
@@ -302,7 +310,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $session->set('season', $entity->getSeason()->getName());
           $session->set('division', $entity->getDivision()->getName());
           $em->persist($entity);
@@ -333,7 +341,7 @@ class NhlController extends AbstractController
       $ent = NhlMatchType::class;
       $entity  = new NhlMatch();
 
-      $year = $this->getDoctrine()->getRepository(Seasons::class)->findOneByName($season);
+      $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
 
       $entity->setSeason($year);
       $entity->setStatus(1);
@@ -343,7 +351,7 @@ class NhlController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $session->set('date', $entity->getData());
           $em->persist($entity);
           $em->flush();
@@ -358,7 +366,7 @@ class NhlController extends AbstractController
 
   public function newRus($id)
   {
-      $entity = $this->getDoctrine()->getRepository(NhlMatch::class)->find($id);
+      $entity = $this->entityManager->getRepository(NhlMatch::class)->find($id);
       $form   = $this->createForm(NhlMatch2Type::class, $entity);
 
       return $this->render('nhl/newRus.html.twig', array(
@@ -369,13 +377,13 @@ class NhlController extends AbstractController
 
   public function createRus(Request $request, $id)
   {
-      $entity = $this->getDoctrine()->getRepository(NhlMatch::class)->find($id);
+      $entity = $this->entityManager->getRepository(NhlMatch::class)->find($id);
       $form = $this->createForm(NhlMatch2Type::class, $entity);
       $entity->setStatus(0);
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $em->persist($entity);
           $em->flush();
           $team=$entity->getTeam()->getId();
@@ -384,10 +392,10 @@ class NhlController extends AbstractController
           $goal1=$entity->getGoal1();
           $goal2=$entity->getGoal2();
           if($entity->getStadia()->getTranslit() == 'regular'){
-            $this->getDoctrine()->getRepository(NhlTable::class)
+            $this->entityManager->getRepository(NhlTable::class)
               ->updateNhltable($team, $team2, $goal1, $goal2, $seas);
           }
-          $this->getDoctrine()->getRepository(NhlTeam::class)
+          $this->entityManager->getRepository(NhlTeam::class)
             ->updateSvod($team, $team2, $goal1, $goal2);
           $season = $entity->getSeason()->getName();
           return $this->redirect($this->generateUrl('nhl_season', [
@@ -415,11 +423,11 @@ class NhlController extends AbstractController
           $goal = $nhlReg->getGoal();
           // ... perform some action, such as saving the task to the database
           // for example, if Task is a Doctrine entity, save it!
-          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager = $this->entityManager->getManager();
           $entityManager->persist($nhlReg);
           $entityManager->flush();
 
-          $this->getDoctrine()->getRepository(NhlPlayer::class)
+          $this->entityManager->getRepository(NhlPlayer::class)
             ->updateNhlPlayer($playerId, $goal, 1);
           //return $this->redirectToRoute('nhl_add');
       }
@@ -434,7 +442,7 @@ class NhlController extends AbstractController
         $entity = new NhlPlayer();
 
         $form   = $this->createForm(NhlPlayerType::class, $entity);
-        $maxId = $this->getDoctrine()->getRepository(NhlPlayer::class)
+        $maxId = $this->entityManager->getRepository(NhlPlayer::class)
                     ->getMaxId();
 
         return $this->render('nhl/newPlayer.html.twig', array(
@@ -453,7 +461,7 @@ class NhlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager->getManager();
             $entity->setInsertdate(new \DateTime());
             $em->persist($entity);
             $em->flush();
@@ -471,25 +479,25 @@ class NhlController extends AbstractController
     public function newChampLast($season, $team, $isTeam)
     {
         $entity = new NhlReg();
-        $maxId = $this->getDoctrine()->getRepository(NhlPlayer::class)
+        $maxId = $this->entityManager->getRepository(NhlPlayer::class)
                     ->getMaxId();
-        $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+        $club = $this->entityManager->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)
+        $year = $this->entityManager->getRepository(Seasons::class)
           ->findOneByName($season);
         
         if($isTeam){
-          $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
+          $player = $this->entityManager->getRepository(NhlPlayer::class)
             ->getLastTeamPlayer($team);
         } else {
-          $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
+          $player = $this->entityManager->getRepository(NhlPlayer::class)
             ->getLastOnePlayer();
         }
 
-        $playersTeam = $this->getDoctrine()->getRepository(NhlPlayersTeam::class)
+        $playersTeam = $this->entityManager->getRepository(NhlPlayersTeam::class)
           ->getStat($player->getName(), $team);
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         if(!$playersTeam)
         {
@@ -515,10 +523,10 @@ class NhlController extends AbstractController
 
     public function showPlayer($id)
     {
-        $player = $this->getDoctrine()->getRepository(NhlPlayer::class)
+        $player = $this->entityManager->getRepository(NhlPlayer::class)
           ->findByTranslit($id);
 
-        $entities = $this->getDoctrine()->getRepository(NhlReg::class)
+        $entities = $this->entityManager->getRepository(NhlReg::class)
           ->getStatPlayer($id);
 
         return $this->render('nhl/showPlayer.html.twig', [
@@ -530,15 +538,15 @@ class NhlController extends AbstractController
     public function editChamp(SessionInterface $session, $id, $season, $team,
       $change)
     {
-        $this->getDoctrine()->getRepository(NhlReg::class)
+        $this->entityManager->getRepository(NhlReg::class)
           ->updateGamer($id, $change);
-        $entity = $this->getDoctrine()->getRepository(NhlReg::class)->find($id);
+        $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
         $playerId = $entity->getPlayer()->getId();
         $player = $entity->getPlayer();
         $teamOb = $entity->getTeam();
-        $this->getDoctrine()->getRepository(NhlPlayer::class)
+        $this->entityManager->getRepository(NhlPlayer::class)
           ->updateStatPlayer($playerId, $change);
-        $this->getDoctrine()->getRepository(NhlPlayersTeam::class)
+        $this->entityManager->getRepository(NhlPlayersTeam::class)
                 ->updatePlayersteam($player, $teamOb, $change);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
 
@@ -562,7 +570,7 @@ class NhlController extends AbstractController
 
     public function confirm($id)
     {
-        $entity = $this->getDoctrine()->getRepository(NhlReg::class)->find($id);
+        $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
 
         return $this->render('nhl/delete.html.twig', array(
             'entity' => $entity
@@ -571,7 +579,7 @@ class NhlController extends AbstractController
 
     public function delete($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
         $entity = $em->getRepository(NhlReg::class)->find($id);
 
@@ -587,7 +595,7 @@ class NhlController extends AbstractController
     public function newChampNation($season, $team, $flag)
     {
         $entity = new NhlReg();
-        $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+        $club = $this->entityManager->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
         
         $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
@@ -602,11 +610,11 @@ class NhlController extends AbstractController
     public function createChampNation(SessionInterface $session, Request $request, $team, $season, $flag)
     {
         $entity  = new NhlReg();
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager->getManager();
 
-        $club = $this->getDoctrine()->getRepository(NhlTeam::class)
+        $club = $this->entityManager->getRepository(NhlTeam::class)
           ->findOneByTranslit($team);
-        $year = $this->getDoctrine()->getRepository(Seasons::class)
+        $year = $this->entityManager->getRepository(Seasons::class)
           ->findOneByName($season);
         $entity->setTeam($club);
         $entity->setSeason($year);
@@ -617,8 +625,8 @@ class NhlController extends AbstractController
 
         if(!$entity->getPlayer()) {
           $selectedPlayer = $session->get('lastPlayerAdd');
-          $obPlayer = $this->getDoctrine()->getRepository(Player::class)->findOneById($selectedPlayer);
-          $obNhlPlayer = $this->getDoctrine()->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
+          $obPlayer = $this->entityManager->getRepository(Player::class)->findOneById($selectedPlayer);
+          $obNhlPlayer = $this->entityManager->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
           if($obNhlPlayer){
             $entity->setPlayer($obNhlPlayer);
           } else {
@@ -692,8 +700,8 @@ class NhlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $team2 = $this->getDoctrine()->getRepository(NhlTeam::class)
+            $em = $this->entityManager->getManager();
+            $team2 = $this->entityManager->getRepository(NhlTeam::class)
                         ->findOneByTranslit($team);
             $entity->setTeam($team2);
             $em->persist($entity);

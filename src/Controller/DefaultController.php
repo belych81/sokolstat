@@ -154,11 +154,11 @@ class DefaultController extends AbstractController
     $fromDate = $newspaper->getNewspaperDate();
     $lastSeason = $props->getLastSeason();
 
-    $em = $this->getDoctrine();
+    $em = $this->entityManager;
     $rfplMatch = [];
     $rfplMatch = $em->getRepository(Game::class)->findByLastWeek($fromDate, false, 'russia-champ');
     $rfplCupMatch = $newspaper->getEurocup('russia-cup');
-    $matches = $this->getDoctrine()->getRepository(Game::class)
+    $matches = $this->entityManager->getRepository(Game::class)
       ->findByLastWeek($fromDate, true);
     $tours = [];
     foreach ($matches as $match) {
@@ -186,7 +186,7 @@ class DefaultController extends AbstractController
       }
     }
 
-    $entities = $this->getDoctrine()->getRepository(Shiptable::class)
+    $entities = $this->entityManager->getRepository(Shiptable::class)
             ->getTableAll($lastSeason);
     foreach ($entities as $ent) {
       $tours[$ent->getCountry()->getName()]['table'][] = $ent;
@@ -203,18 +203,18 @@ class DefaultController extends AbstractController
     $top5 = $props->getTops();
     $topEmblem = $props->getTopEmblem();
     foreach($top5 as $champ) {
-      $bombsEng = $this->getDoctrine()->getRepository(Shipplayer::class)
+      $bombsEng = $this->entityManager->getRepository(Shipplayer::class)
           ->getBomb5($lastSeason, $champ);
       $arBombEng = $functions->getBombSum($bombsEng, 11);
       $bombs[$champ] = $functions->getNewspaperBomb($arBombEng);
     }
 
-    $bombsRus = $this->getDoctrine()->getRepository(Gamers::class)
+    $bombsRus = $this->entityManager->getRepository(Gamers::class)
           ->getBomb($lastSeason);
     $arBombSum = $functions->getBombSum($bombsRus, 11);
     $rusBombs = $functions->getNewspaperBomb($arBombSum);
 
-    $bombsFnl = $this->getDoctrine()->getRepository(Fnlplayer::class)
+    $bombsFnl = $this->entityManager->getRepository(Fnlplayer::class)
           ->getBomb5($lastSeason);
     $arBombFnl = $functions->getBombSum($bombsFnl, 11);
     $fnlBombs = $functions->getNewspaperBomb($arBombFnl);
@@ -265,7 +265,7 @@ class DefaultController extends AbstractController
     $fromDate->setTime(0, 0, 0);
     $fromDate->modify('-1 year');
     $notStadia = [18, 19, 20, 21, 25];
-    $matches = $this->getDoctrine()->getRepository(Game::class)
+    $matches = $this->entityManager->getRepository(Game::class)
       ->findByLastWeek($fromDate, false, false, 'fnl');
 
     $teamsRating = [];
@@ -387,7 +387,7 @@ class DefaultController extends AbstractController
 
     public function fileForm($turnir, $year, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Country::class)->findOneByTranslit($country);
+        $entity = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country);
 
         $form = $this->createForm(CountryType::class, $entity);
 
@@ -399,7 +399,7 @@ class DefaultController extends AbstractController
 
     public function fileFormClub($code)
     {
-        $entity = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($code);
+        $entity = $this->entityManager->getRepository(Team::class)->findOneByTranslit($code);
 
         $form = $this->createForm(TeamType::class, $entity);
 
@@ -411,7 +411,7 @@ class DefaultController extends AbstractController
 
     public function fileUpload(Request $request, FileUploader $fileUploader, $turnir, $year, $country)
     {
-        $entity = $this->getDoctrine()->getRepository(Country::class)->findOneByTranslit($country);
+        $entity = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country);
 
         $form = $this->createForm(CountryType::class, $entity);
         $form->handleRequest($request);
@@ -423,7 +423,7 @@ class DefaultController extends AbstractController
               $countryFileName = $fileUploader->upload($countryFile);
               $entity->setImage($countryFileName);
           }
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $em->persist($entity);
           $em->flush();
 
@@ -442,7 +442,7 @@ class DefaultController extends AbstractController
 
     public function fileUploadClub(Request $request, FileUploader $fileUploader, $code)
     {
-        $entity = $this->getDoctrine()->getRepository(Team::class)->findOneByTranslit($code);
+        $entity = $this->entityManager->getRepository(Team::class)->findOneByTranslit($code);
 
         $form = $this->createForm(TeamType::class, $entity);
         $form->handleRequest($request);
@@ -454,7 +454,7 @@ class DefaultController extends AbstractController
               $countryFileName = $fileUploader->upload($countryFile);
               $entity->setImage($countryFileName);
           }
-          $em = $this->getDoctrine()->getManager();
+          $em = $this->entityManager->getManager();
           $em->persist($entity);
           $em->flush();
 
