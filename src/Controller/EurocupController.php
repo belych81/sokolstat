@@ -215,7 +215,7 @@ class EurocupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $session->set('stadia', $entity->getStadia()->getName());
             $em->persist($entity);
             $em->flush();
@@ -245,7 +245,7 @@ class EurocupController extends AbstractController
 
     public function createMatch(Request $request, $season)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity  = new Game();
 
@@ -290,7 +290,7 @@ class EurocupController extends AbstractController
     public function create(Request $request, $turnir, $season, $stadia)
     {
         $entity  = new Eurocup();
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
         $cup = $em->getRepository(Turnir::class)->findOneByAlias($turnir);
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
 
@@ -322,7 +322,7 @@ class EurocupController extends AbstractController
 
     public function edit($id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Game::class)->find($id);
 
@@ -338,7 +338,7 @@ class EurocupController extends AbstractController
 
     public function update(Request $request, $id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Game::class)->find($id);
 
@@ -373,7 +373,7 @@ class EurocupController extends AbstractController
 
     public function editMatch($id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Game::class)->find($id);
 
@@ -387,7 +387,7 @@ class EurocupController extends AbstractController
 
     public function updateMatch(Request $request, $id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Game::class)->find($id);
 
@@ -436,7 +436,7 @@ class EurocupController extends AbstractController
     public function updateEctable(Menu $serviceMenu, Request $request, $id, $season, $turnir,
       $stadia=false)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Ectable::class)->find($id);
 
