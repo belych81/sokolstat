@@ -175,7 +175,7 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
-            $coef = 3;
+            $coef = 4;
             break;
         }
       } else {
@@ -192,7 +192,7 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
-            $coef = 7;
+            $coef = 6;
             break;
         }
       }
