@@ -35,5 +35,4 @@ yarn-error.log
 
 *.lock
 .vscode/
-/public/build/
 /public/images/
