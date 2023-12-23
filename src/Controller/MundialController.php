@@ -186,7 +186,7 @@ class MundialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $session->set('stadia', $entity->getStadia()->getName());
             $em->persist($entity);
             $em->flush();
@@ -218,7 +218,7 @@ class MundialController extends AbstractController
 
     public function createMatch(Menu $serviceMenu, Request $request, $season, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
         $entity  = new Mundial();
 
         $year = $em->getRepository(Seasons::class)->findOneByName($season);
@@ -249,7 +249,7 @@ class MundialController extends AbstractController
 
     public function edit($id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -263,7 +263,7 @@ class MundialController extends AbstractController
 
     public function update(Request $request, $id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -295,7 +295,7 @@ class MundialController extends AbstractController
 
     public function editMatch($id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -309,7 +309,7 @@ class MundialController extends AbstractController
 
     public function updateMatch(Request $request, $id, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 
@@ -347,7 +347,7 @@ class MundialController extends AbstractController
 
     public function updateMundialTable(Request $request, $id, $season, $turnir)
     {
-        $em = $this->entityManager->getManager();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(Mundial::class)->find($id);
 

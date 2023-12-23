@@ -95,15 +95,8 @@
 {% endblock %}
 
 {% block content %}
-  <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9">
-    {{ include('stat/data.html.twig', { 'topMatchesRus': topMatchesRus,
-    'topMatchesRusCurr': topMatchesRusCurr,
-    'topGoalsRus': topGoalsRus,
-    'topGoalsRusCurr': topGoalsRusCurr,
-    'topGoalkeepers': topGoalkeepers,
-    'topGoalkeepersCurr': topGoalkeepersCurr,
-    'maxAgePlayers': maxAgePlayers,
-    'minAgePlayers': minAgePlayers }) }}
+  <div class="col-xs-12 col-md-8 col-lg-9">
+    {{ include('news/list.html.twig', { 'entities': entities }) }}
   </div>
 </div>
 {% endblock %}

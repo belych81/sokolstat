@@ -176,7 +176,7 @@ class CupController extends AbstractController
       $form->handleRequest($request);
 
       if ($form->isValid()) {
-          $em = $this->entityManager->getManager();
+          $em = $this->entityManager;
           $em->persist($entity);
           $em->flush();
       }
@@ -220,7 +220,7 @@ class CupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();

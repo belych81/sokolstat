@@ -95,23 +95,6 @@ class DefaultController extends AbstractController
       foreach ($entities as $v) {
         $v->setText($functions->truncateText($v->getText(), 500));
       }
-      $limitRusplayers = 10;
-      $topMatchesRus = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopPlayers($limitRusplayers, 'game');
-      $topMatchesRusCurr = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopPlayersCurr($limitRusplayers, 'game', $props->getLastSeason());
-      $topGoalsRus = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopPlayers($limitRusplayers, 'goal');
-      $topGoalsRusCurr = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopPlayersCurr($limitRusplayers, 'goal', $props->getLastSeason());
-      $topGoalkeepers = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopGoalkeepers($limitRusplayers);
-      $topGoalkeepersCurr = $this->entityManager->getRepository(Rusplayer::class)
-        ->getTopGoalkeepersCurr($limitRusplayers, $props->getLastSeason());
-      $maxAgePlayers = $this->entityManager->getRepository(Gamers::class)
-              ->getAgeListPlayers($props->getLastSeason(), 'ASC');
-      $minAgePlayers = $this->entityManager->getRepository(Gamers::class)
-              ->getAgeListPlayers($props->getLastSeason(), 'DESC');
 
       $arParams = [
         'entities' => $entities,
@@ -120,15 +103,7 @@ class DefaultController extends AbstractController
         'tommatch' => $tommatch,
         'bombTotal' => $bombTotal,
         'birthdays' => $birthdays,
-        'lastPlayers' => $lastPlayers,
-        'topMatchesRus' => $topMatchesRus,
-        'topMatchesRusCurr' => $topMatchesRusCurr,
-        'topGoalsRus' => $topGoalsRus,
-        'topGoalsRusCurr' => $topGoalsRusCurr,
-        'topGoalkeepers' => $topGoalkeepers,
-        'topGoalkeepersCurr' => $topGoalkeepersCurr,
-        'maxAgePlayers' => $maxAgePlayers,
-        'minAgePlayers' => $minAgePlayers
+        'lastPlayers' => $lastPlayers
       ];
 
       if($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())){

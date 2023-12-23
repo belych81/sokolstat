@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\News;
 use App\Entity\Period;
 use App\Entity\Transfer;
@@ -15,12 +16,19 @@ class NewsController extends AbstractController
     const NEWS_ON_PAGE = 10;
     const NEWS_TRUNCATE = 500;
 
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * @Route("/news", name="news")
      */
     public function index(Functions $functions, $page = 1): Response
     {
-      $em = $this->getDoctrine();
+      $em = $this->entityManager;
 
       $countNews = $em->getRepository(News::class)->countNews();
 
@@ -44,7 +52,7 @@ class NewsController extends AbstractController
 
     public function show($translit)
     {
-        $em = $this->getDoctrine();
+        $em = $this->entityManager;
 
         $entity = $em->getRepository(News::class)->findOneByTranslit($translit);
         $period = $em->getRepository(Period::class)->getByNews($entity->getId());

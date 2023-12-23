@@ -138,7 +138,7 @@ class UefaSupercupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -207,7 +207,7 @@ class UefaSupercupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->entityManager->getManager();
+            $em = $this->entityManager;
             $em->persist($entity);
             $em->flush();
             $season = $entity->getSeason()->getName();

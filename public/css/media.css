@@ -12,12 +12,12 @@
 }
 
 @media (min-width: 992px) {
-  header .col-md-7{
+  /*header .col-md-7{
     width: 53.33333333%;
   }
   header .col-md-2.search-block{
     width: 21.66666667%;
-  }
+  }*/
 }
 @media (max-width: 1600px) {
   .menu-login {
