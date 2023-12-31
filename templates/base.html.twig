@@ -39,9 +39,8 @@
             <img src="{{ asset('images/i.jpg') }}"
                 alt="SokolTeam" class="logo" />
           </a>
-          <a href="{{ path('steam_fbstat_homepage') }}" class="logo-text-a">
-                <img src="{{ asset('images/rrr.jpg') }}"
-                    alt="SokolTeam" class="logo-text" />
+          <a class="flex_a header-navigation__link" target="_blank" href="https://t.me/sokolstat">
+            <div class="header-navigation__icon tg_bg"></div>
           </a>
           <a class="menu-trigger" href="javascript:void(0);">
               <span class="menu-trigger-icon"></span>
@@ -163,12 +162,12 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2 col-lg-1 messenger-block">
+            <div class="col-md-1 col-lg-1 messenger-block">
               <a class="flex_a header-navigation__link" target="_blank" href="https://t.me/sokolstat">
 								<div class="header-navigation__icon tg_bg"></div>
 							</a>
             </div>
-            <div class="col-md-2 col-lg-2 login-block">
+            <div class="col-md-1 col-lg-2 login-block">
               <div class="menu-login">
                   {% if is_granted("ROLE_USER") %}
                     <button class="btn btn-success btn-xs btn-signed">

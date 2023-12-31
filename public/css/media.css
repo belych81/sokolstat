@@ -37,7 +37,13 @@
   }
 }
 
-@media (max-width: 1175px) {
+@media  (max-width: 1399px) {
+  .header-navigation__link.flex_a {
+    margin-left: 35px;
+  }
+}
+
+@media (max-width: 1242px) {
     .search-block, .login-block{
         display: none;
     }
@@ -48,21 +54,46 @@
         display: block;
     }
     header .col-md-7.menu_top {
-      width: 90%;
+      width: 80%;
     }
 }
+
+@media (min-width: 879px) and (max-width: 991px) {
+  .news_index.col-xs-12 {
+    width: 60%;
+  }
+  .sidebar.col-xs-12 {
+    width: 40%
+  }
+}
+
 @media (max-width: 923px) {
   .champ-country{
     display: none;
   }
 }
+@media (max-width: 878px) {
+  .sidebar.col-xs-12 {
+    width: 100%
+  }
+}
+
 @media (max-width: 852px) {
   .champ-born{
     display: none;
   }
 }
+@media (max-width: 829px) {
+  header .col-md-7.menu_top {
+    margin-left: 5px;
+    width: 83%;
+  }
+  .header-navigation__link.flex_a {
+    margin-left: 0;
+  }
+}
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .sidebarMenu{
     display: none;
   }
@@ -81,6 +112,12 @@
     .navbar-nav>li>a {
       padding-top: 0;
       padding-bottom: 0;
+    }
+
+    .header-navigation__link.flex_a {
+      position: absolute;
+      top: 11px;
+      right: 60px;
     }
 }
 
@@ -121,6 +158,21 @@
     .nation-cups{
       display: none;
     }
+}
+
+@media (max-width: 459px) {
+  .login-bar {
+    height: auto;
+  }
+  .login-bar-block, .search-bar {
+    display: block;
+    margin-left: 10px;
+
+  }
+  .login-bar-block {
+    padding-bottom: 10px;
+    float: none;
+  }
 }
 
 @media (max-width: 435px) {
