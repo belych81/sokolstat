@@ -133,9 +133,6 @@
       width: 60px;
       height: 55px;
     }
-    .login-bar-block .btn-xs span{
-        display: none;
-    }
     #navbar-collapse-1 .navbar-nav > li > a{
       padding: 5px 0;
     }
