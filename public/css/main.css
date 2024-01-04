@@ -1866,3 +1866,7 @@ a.registerLink:hover {
   align-items: center;
   height: 65px;
 }
+
+footer.container {
+  margin-bottom: 0;
+}

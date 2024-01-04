@@ -3,10 +3,18 @@ namespace App\Service;
 
 class Functions
 {
-  public function truncateText($text, $max)
+  public function truncateText($text, $max, $letter = ' ')
   {
       $length = \strlen($text);
-      $truncateText = ($length > $max ? substr($text, 0, strpos($text, ' ', $max)).'...' : $text);
+      if($length <= $max)
+        return $text;
+
+      $pos = strpos($text, $letter, $max);
+      if($pos === false){
+        $pos = strpos($text, ' ', $max);
+      }
+      $truncateText = substr($text, 0, $pos).'...';
+      
       return $truncateText;
   }
 

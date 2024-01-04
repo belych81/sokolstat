@@ -93,7 +93,7 @@ class DefaultController extends AbstractController
 
       $entities = $this->entityManager->getRepository(News::class)->getNews(10, 0);
       foreach ($entities as $v) {
-        $v->setText($functions->truncateText($v->getText(), 500));
+        $v->setText($functions->truncateText($v->getText(), 500, '</div>'));
       }
 
       $arParams = [
