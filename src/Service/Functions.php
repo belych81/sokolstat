@@ -12,9 +12,11 @@ class Functions
       $pos = strpos($text, $letter, $max);
       if($pos === false){
         $pos = strpos($text, ' ', $max);
+      } else {
+        $pos += \strlen($letter);
       }
       $truncateText = substr($text, 0, $pos).'...';
-      
+
       return $truncateText;
   }
 
