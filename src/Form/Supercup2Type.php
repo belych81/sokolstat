@@ -13,7 +13,7 @@ class Supercup2Type extends AbstractType
       $country = $options['country'];
 
         $builder
-          ->add('data')
+          ->add('data', null, ['years' => \range(1992, \date('Y')+1)])
           ->add('score')
           ->add('bomb');
 
