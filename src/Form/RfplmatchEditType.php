@@ -17,7 +17,7 @@ class RfplmatchEditType extends AbstractType
       $builder
             ->add('season')
             ->add('tour')
-            ->add('data')
+            ->add('data', null, ['years' => \range(1992, \date('Y')+1)])
             ->add('team')
             ->add('team2')
             ->add('city')
