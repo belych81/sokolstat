@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Game;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -22,7 +23,7 @@ class GameCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            Field::new('id'),
+            Field::new('id')->hideOnForm(),
             AssociationField::new('turnir'),
             Field::new('tour'),
             Field::new('data'),
@@ -33,6 +34,16 @@ class GameCrudController extends AbstractCrudController
             Field::new('goal2'),
             Field::new('bomb'),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('season')
+            ->add('turnir')
+            ->add('team')
+            ->add('team2')
+        ;
     }
     
 }

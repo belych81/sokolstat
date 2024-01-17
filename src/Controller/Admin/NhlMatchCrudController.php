@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\NhlMatch;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -21,14 +22,24 @@ class NhlMatchCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            Field::new('id'),
+            Field::new('id')->hideOnForm(),
             Field::new('data'),
+            AssociationField::new('season'),
             AssociationField::new('team'),
             AssociationField::new('team2'),
             Field::new('goal1'),
             Field::new('goal2'),
             Field::new('bomb'),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('season')
+            ->add('team')
+            ->add('team2')
+        ;
     }
     
 }
