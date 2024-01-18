@@ -58,7 +58,7 @@ class DashboardController extends AbstractDashboardController
 
             //MenuItem::section('Blog'),
             MenuItem::linkToCrud('Game', 'fa fa-tags', Game::class),
-            MenuItem::linkToCrud('Mundial', 'fa fa-file-text', Player::class),
+            MenuItem::linkToCrud('Mundial', 'fa fa-file-text', Mundial::class),
             MenuItem::linkToCrud('Player', 'fa fa-file-text', Player::class),
 
             MenuItem::linkToCrud('City', 'fa fa-comment', City::class),
