@@ -28,6 +28,7 @@ class MundialRepository extends ServiceEntityRepository
                 ->join('m.season', 's')
                 ->where("t.alias = :turnir")
                 ->setParameter('turnir', $turnir)
+                ->orderBy('s.name')
                 ;
 
         $query = $qb->getQuery();
