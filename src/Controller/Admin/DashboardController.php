@@ -13,6 +13,7 @@ use App\Entity\Amplua;
 use App\Entity\Stadia;
 use App\Entity\Turnir;
 use App\Entity\Transfer;
+use App\Entity\Period;
 use App\Entity\News;
 use App\Entity\NhlMatch;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -69,6 +70,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Stadia', 'fa fa-user', Stadia::class),
             MenuItem::linkToCrud('Turnir', 'fa fa-comment', Turnir::class),
             MenuItem::linkToCrud('Transfer', 'fa fa-user', Transfer::class),
+            MenuItem::linkToCrud('Period', 'fa fa-user', Period::class),
             MenuItem::linkToCrud('News', 'fa fa-user', News::class),
             MenuItem::linkToCrud('NhlMatch', 'fa fa-user', NhlMatch::class),
         ];
