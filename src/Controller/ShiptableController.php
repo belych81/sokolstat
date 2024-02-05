@@ -565,8 +565,9 @@ class ShiptableController extends AbstractController
 
     public function shipplayersUpdate(Request $request)
     {
-      $query = $request->request->get('query');
-      $champ = $request->request->get('champ');
+      $all = $request->getPayload()->all();
+      $query = $all['query'];
+      $champ = $all['champ'];
       $em = $this->entityManager;
       $param = [];
       foreach ($query as $val) {

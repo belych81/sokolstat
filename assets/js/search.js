@@ -194,7 +194,7 @@ $(document).on('click', '.tour_js', function(){
         arGames.push([
           $(this).data('id'),
           $(this).data('player'),
-          game
+          parseInt(game)
         ]);
       }
     });

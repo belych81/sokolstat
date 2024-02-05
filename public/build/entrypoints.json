@@ -2,31 +2,32 @@
   "entrypoints": {
     "app": {
       "js": [
-        "build/runtime.9a71ee5d.js",
-        "build/223.455f2d7f.js",
-        "build/98.2b2e7e72.js",
-        "build/app.2e8dc3ca.js"
+        "build/runtime.js",
+        "build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_s-6657b7.js",
+        "build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bs-custom-file-input_-f448d4.js",
+        "build/app.js"
       ],
       "css": [
-        "build/app.66b0b8f3.css"
+        "build/app.css"
       ]
     },
     "teams": {
       "js": [
-        "build/runtime.9a71ee5d.js",
-        "build/223.455f2d7f.js",
-        "build/479.caeca9dc.js",
-        "build/teams.c56cdec4.js"
+        "build/runtime.js",
+        "build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_s-6657b7.js",
+        "build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-8ced14.js",
+        "build/teams.js"
       ],
       "css": [
-        "build/teams.f2ee2ec0.css"
+        "build/teams.css"
       ]
     },
     "custom": {
       "js": [
-        "build/runtime.9a71ee5d.js",
-        "build/223.455f2d7f.js",
-        "build/custom.9096a2e0.js"
+        "build/runtime.js",
+        "build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_s-6657b7.js",
+        "build/vendors-node_modules_core-js_modules_es_array_find_js-node_modules_core-js_modules_es_array_f-7d4272.js",
+        "build/custom.js"
       ]
     }
   }
