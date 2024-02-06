@@ -19,8 +19,9 @@
         <p><b>Всего:</b> матчей - <b>{{ rusplayer.0.totalgame }}</b>, мячей - <b>{{ rusplayer.0.totalgoal }}</b></p>
         {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-          <a href="{{ path('player_edit', {'id': player.id}) }}">
-             изменить</a>
+          <p>Просмотров - {{ player.viewed }}</p>
+          <p><a href="{{ path('player_edit', {'id': player.id}) }}">
+             изменить</a></p>
         {% endif %}
 
         <div class="panel panel-success">
