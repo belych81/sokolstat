@@ -1870,3 +1870,7 @@ a.registerLink:hover {
 footer.container {
   margin-bottom: 0;
 }
+
+.nav.start_menu .eChild {
+  display: none;
+}

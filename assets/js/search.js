@@ -400,6 +400,7 @@ function sliceMainMenu(resize){
 				}, 300);
 
 		}
+    
 
 	}
 
@@ -411,6 +412,7 @@ function sliceMainMenu(resize){
 	}
 
 	$_eChild.hover(openChild, closeChild);
+  $mainMenu.removeClass('start_menu');
 }
 
 $(window).on("resize", function(){
