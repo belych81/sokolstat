@@ -475,9 +475,15 @@ class NhlController extends AbstractController
 
           $arPt[$i] = $this->entityManager->getRepository(NhlPlayersTeam::class)
                            ->getStat($name[$i], $id);
-          $players[$i]->setGoalTeam($arPt[$i][0]->getGoalSum());
-          $players[$i]->setAssistTeam($arPt[$i][0]->getAssistSum());
-          $players[$i]->setScoreTeam($arPt[$i][0]->getScoreSum());
+          if($arPt[$i]){
+            $players[$i]->setGoalTeam($arPt[$i][0]->getGoalSum());
+            $players[$i]->setAssistTeam($arPt[$i][0]->getAssistSum());
+            $players[$i]->setScoreTeam($arPt[$i][0]->getScoreSum());
+          } else {
+            $players[$i]->setGoalTeam(0);
+            $players[$i]->setAssistTeam(0);
+            $players[$i]->setScoreTeam(0);
+          }
       }
 
       for ($i=0, $cnt=count($goalies); $i < $cnt; $i++) {
