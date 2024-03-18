@@ -62,6 +62,11 @@ class NhlMatch
      */
     private $bomb = "-";
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $overtime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -189,5 +194,17 @@ class NhlMatch
             }
         }
         return $var;
+    }
+
+    public function isOvertime(): ?bool
+    {
+        return $this->overtime;
+    }
+
+    public function setOvertime(?bool $overtime): static
+    {
+        $this->overtime = $overtime;
+
+        return $this;
     }
 }

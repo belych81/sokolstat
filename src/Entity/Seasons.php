@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -149,6 +150,19 @@ class Seasons
      */
     private $games;
 
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: NflMatch::class)]
+    private Collection $nflMatches;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private ?\DateTimeInterface $lastdate = null;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $lastId = null;
+
     public function __construct()
     {
         $this->cups = new ArrayCollection();
@@ -174,6 +188,7 @@ class Seasons
         $this->nhlTables = new ArrayCollection();
         $this->cupLeagues = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->nflMatches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -941,6 +956,60 @@ class Seasons
                 $game->setSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NflMatch>
+     */
+    public function getNflMatches(): Collection
+    {
+        return $this->nflMatches;
+    }
+
+    public function addNflMatch(NflMatch $nflMatch): static
+    {
+        if (!$this->nflMatches->contains($nflMatch)) {
+            $this->nflMatches->add($nflMatch);
+            $nflMatch->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNflMatch(NflMatch $nflMatch): static
+    {
+        if ($this->nflMatches->removeElement($nflMatch)) {
+            // set the owning side to null (unless already changed)
+            if ($nflMatch->getSeason() === $this) {
+                $nflMatch->setSeason(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLastdate(): ?\DateTimeInterface
+    {
+        return $this->lastdate;
+    }
+
+    public function setLastdate(?\DateTimeInterface $lastdate): static
+    {
+        $this->lastdate = $lastdate;
+
+        return $this;
+    }
+
+    public function getLastId(): ?int
+    {
+        return $this->lastId;
+    }
+
+    public function setLastId(?int $lastId): static
+    {
+        $this->lastId = $lastId;
 
         return $this;
     }

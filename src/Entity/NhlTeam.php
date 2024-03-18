@@ -39,6 +39,11 @@ class NhlTeam
     private $nhlMatches;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NflMatch", mappedBy="team")
+     */
+    private $nflMatches;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $translit;
@@ -51,107 +56,107 @@ class NhlTeam
     /**
      * @ORM\Column(type="integer")
      */
-    private $winsreg;
+    private $winsreg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nichreg;
+    private $nichreg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $porazhreg;
+    private $porazhreg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mzreg;
+    private $mzreg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mpreg;
+    private $mpreg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $scorereg;
+    private $scorereg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $winspo;
+    private $winspo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nichpo;
+    private $nichpo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $porazhpo;
+    private $porazhpo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mzpo;
+    private $mzpo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mppo;
+    private $mppo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $scorepo;
+    private $scorepo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $wins;
+    private $wins = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nich;
+    private $nich = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $porazh;
+    private $porazh = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mz;
+    private $mz = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $mp;
+    private $mp = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $score;
+    private $score = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $gamereg;
+    private $gamereg = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $gamepo;
+    private $gamepo = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $game;
+    private $game = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayersTeam", mappedBy="team")
@@ -161,18 +166,24 @@ class NhlTeam
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private $image = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image2;
+    private $image2 = '';
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $matches = 0;
 
     public function __construct()
     {
         $this->nhlRegs = new ArrayCollection();
         $this->nhlPlayOffs = new ArrayCollection();
         $this->nhlMatches = new ArrayCollection();
+        $this->nflMatches = new ArrayCollection();
         $this->nhlTables = new ArrayCollection();
         $this->nhlPlayersTeams = new ArrayCollection();
     }
@@ -286,6 +297,37 @@ class NhlTeam
             // set the owning side to null (unless already changed)
             if ($nhlMatch->getTeam() === $this) {
                 $nhlMatch->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|NflMatch[]
+     */
+    public function getNflMatches(): Collection
+    {
+        return $this->nflMatches;
+    }
+
+    public function addNflMatch(NflMatch $nflMatch): self
+    {
+        if (!$this->nflMatches->contains($nflMatch)) {
+            $this->nflMatches[] = $nflMatch;
+            $nflMatch->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNflMatch(NflMatch $nflMatch): self
+    {
+        if ($this->nflMatches->contains($nflMatch)) {
+            $this->nflMatches->removeElement($nflMatch);
+            // set the owning side to null (unless already changed)
+            if ($nflMatch->getTeam() === $this) {
+                $nflMatch->setTeam(null);
             }
         }
 
@@ -638,6 +680,18 @@ class NhlTeam
     public function setImage2(string $image2): self
     {
         $this->image2 = $image2;
+
+        return $this;
+    }
+
+    public function getMatches(): ?int
+    {
+        return $this->matches;
+    }
+
+    public function setMatches(?int $matches): static
+    {
+        $this->matches = $matches;
 
         return $this;
     }

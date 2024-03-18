@@ -22,17 +22,15 @@ class NhlTableRepository extends ServiceEntityRepository
     public function getSeasons()
     {
         return $this->createQueryBuilder('st')
-                ->select('st','s')
-                ->join('st.team', 't')
+                ->select('DISTINCT s.name')
                 ->join('st.season', 's')
-                ->groupBy('s')
                 ->orderBy('s.name')
                 ->getQuery()
                 ->getResult()
                 ;
     }
 
-    public function updateNhltable($team, $team2, $goal1, $goal2, $season)
+    public function updateNhltable($team, $team2, $goal1, $goal2, $season, $overtime = false)
     {
         if ($goal1 == $goal2)
         {
@@ -59,7 +57,7 @@ class NhlTableRepository extends ServiceEntityRepository
                 $winner = $team2;
                 $looser = $team;
                 $goalW = $goal2;
-                $goalL = $goal1;
+                $goalL = $goal1;               
             }
             else
             {
@@ -68,76 +66,100 @@ class NhlTableRepository extends ServiceEntityRepository
                 $goalW = $goal1;
                 $goalL = $goal2;
             }
+            if($overtime){
+                $scoreL = 1;
+                $scoreW = 2;
+                $wins = 0;
+                $winst = 1;
+                $porazh = 0;
+                $porazht = 1;
+            } else {
+                $scoreL = 0;
+                $scoreW = 3;
+                $wins = 1;
+                $winst = 0;
+                $porazh = 1;
+                $porazht = 0;
+            }
             $qb = $this->_em->createQueryBuilder('NhlTable', 'st')
                     ->update('App\Entity\NhlTable', 'st')
-                    ->set('st.wins', 'st.wins+1')
+                    ->set('st.wins', 'st.wins+?6')
+                    ->set('st.winst', 'st.winst+?7')
                     ->set('st.mz', 'st.mz+?1')
                     ->set('st.mp', 'st.mp+?2')
-                    ->set('st.score', 'st.score+2')
+                    ->set('st.score', 'st.score+?5')
                     ->where('st.team = ?3')
                     ->andWhere('st.season = ?4')
                     ->setParameter(1, $goalW)
                     ->setParameter(2, $goalL)
                     ->setParameter(3, $winner)
                     ->setParameter(4, $season)
+                    ->setParameter(5, $scoreW)
+                    ->setParameter(6, $wins)
+                    ->setParameter(7, $winst)
                     ->getQuery();
 
             $qb2 = $this->_em->createQueryBuilder('NhlTable', 'st')
                     ->update('App\Entity\NhlTable', 'st')
-                    ->set('st.porazh', 'st.porazh+1')
+                    ->set('st.porazh', 'st.porazh+?6')
+                    ->set('st.porazht', 'st.porazht+?7')
                     ->set('st.mz', 'st.mz+?1')
                     ->set('st.mp', 'st.mp+?2')
+                    ->set('st.score', 'st.score+?5')
                     ->where('st.team = ?3')
                     ->andWhere('st.season = ?4')
                     ->setParameter(1, $goalL)
                     ->setParameter(2, $goalW)
                     ->setParameter(3, $looser)
                     ->setParameter(4, $season)
+                    ->setParameter(5, $scoreL)
+                    ->setParameter(6, $porazh)
+                    ->setParameter(7, $porazht)
                     ->getQuery();
 
             $qb->execute();
             $qb2->execute();
         }
-      }
+    }
 
-        public function getTable($season)
-        {
-            return $this->createQueryBuilder('st')
-                ->select('st', 't')
+    public function getTable($season)
+    {
+        return $this->createQueryBuilder('st')
+            ->select('st', 't')
+            ->join('st.team', 't')
+            ->join('st.season', 's')
+            ->andWhere('s.name = :season')
+            ->setParameter('season', $season)
+            ->orderBy('st.score DESC, st.wins DESC, st.mz DESC, st.mp')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTeamAndSeason($teamId, $season)
+    {
+        return $this->createQueryBuilder('st')
+            ->select('st.id')
+            ->join('st.season', 's')
+            ->where('st.team = :team')
+            ->andWhere('s.name = :season')
+            ->setParameter('team', $teamId)
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTeams($season)
+    {
+        return $this->createQueryBuilder('st')
+                ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')
                 ->join('st.team', 't')
                 ->join('st.season', 's')
-                ->andWhere('s.name = :season')
+                ->andWhere("s.name = :season")
                 ->setParameter('season', $season)
-                ->orderBy('st.score DESC, st.wins DESC, st.mz DESC, st.mp')
+                ->orderBy('t.name')
                 ->getQuery()
-                ->getResult();
-        }
-
-        public function findByTeamAndSeason($teamId, $season)
-        {
-            return $this->createQueryBuilder('st')
-                ->select('st.id')
-                ->join('st.season', 's')
-                ->where('st.team = :team')
-                ->andWhere('s.name = :season')
-                ->setParameter('team', $teamId)
-                ->setParameter('season', $season)
-                ->getQuery()
-                ->getResult();
-        }
-
-        public function getTeams($season)
-        {
-          return $this->createQueryBuilder('st')
-                  ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')
-                  ->join('st.team', 't')
-                  ->join('st.season', 's')
-                  ->andWhere("s.name = :season")
-                  ->setParameter('season', $season)
-                  ->orderBy('t.name')
-                  ->getQuery()
-                  ->getResult()
-                  ;
-        }
+                ->getResult()
+                ;
+    }
 
 }

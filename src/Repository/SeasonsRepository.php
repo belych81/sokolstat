@@ -44,4 +44,18 @@ class SeasonsRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function setNflLastMatch($id, $season, $data)
+    {
+        $qb = $this->_em->createQueryBuilder('Seasons', 's')
+            ->update('App\Entity\Seasons', 's')
+            ->set('s.lastdate', '?3')
+            ->set('s.lastId', '?2')
+            ->where('s.id = ?1')
+            ->setParameter(1, $season)
+            ->setParameter(2, $id)
+            ->setParameter(3, $data)
+            ->getQuery();
+        $qb->execute();
+    }
 }

@@ -325,4 +325,16 @@ class GameRepository extends ServiceEntityRepository
               ;
     }
 
+    public function getNflMatches($data, int $limit = 10)
+    {
+      return $this->createQueryBuilder('c')
+          ->where('DATE_DIFF(c.data, :data) >= 0')
+          ->setParameter('data', $data)
+          ->orderBy('c.data', 'ASC')
+          ->setMaxResults($limit)
+          ->getQuery()
+          ->getResult()
+      ;
+    }
+
 }

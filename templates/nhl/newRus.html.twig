@@ -35,6 +35,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.overtime) }}</th>
+                    <td>
+                        {{ form_errors(form.overtime) }}
+                        {{ form_widget(form.overtime) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.bomb) }}</th>
                     <td>
                         {{ form_errors(form.bomb) }}

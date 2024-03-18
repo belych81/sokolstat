@@ -13,6 +13,7 @@ class NhlMatch2Type extends AbstractType
         $builder
           ->add('goal1')
           ->add('goal2')
+          ->add('overtime')
           ->add('bomb');
     }
 

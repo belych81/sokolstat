@@ -35,6 +35,8 @@ doctrine:
                 Day: App\DQL\Day
                 Month: App\DQL\Month
                 Date: App\DQL\Date
+            numeric_functions:
+                 rand: DoctrineExtensions\Query\Mysql\Rand
       #  metadata_cache_driver:
       #      type: service
       #      id: redis_cache_service

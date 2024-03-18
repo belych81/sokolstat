@@ -1,0 +1,402 @@
+{% extends 'nhl/index.html.twig' %}
+
+{% block title %}
+   Чемпионат НХЛ
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block seasons %}
+{% endblock %}
+
+
+
+{% block content %}
+   <div class="wrapper nfl">
+      <div class="teams-list">
+         {% for team in teams %}
+            <div class="" data-id="{{ team.id }}"><img src="{{ team.image }}"></div>
+         {% endfor %}
+      </div>
+      <div class="nfl_top">
+         <div class="search-top">
+            <div class="search">
+               <form action="" method="get">
+                  <input type="text" name="q" size="6"
+                     value=""
+                     id="searchPlayer"
+                     placeholder="Игрок"
+                     data-season="{{ app.request.get('season') }}"
+                     class="search_keywords_nfl" autocomplete="off"/>
+                  <input type="submit" value="OK" class="search-btn" />
+               </form>
+            </div>
+            <div class="search_result search_result_nfl">
+               <div class="search_result_items search_result_items_nfl"></div>
+            </div>
+         </div>
+
+         <div class="search-top">
+            <div class="search">
+               <form action="" method="get" id="add_player_form">
+                  <input type="text" name="q" size="6"
+                     value=""
+                     placeholder="Добавить игрока"
+                     class="search_team" autocomplete="off"/>
+                  <input type="hidden" name="season" value="{{ app.request.get('season') }}" />
+                  <input type="submit" value="OK" class="search-btn" />
+               </form>
+            </div>
+         </div>
+
+         <div class="search" id="nfl_search_team">
+            <form action="" method="get">
+               <input type="hidden" name="season" value="{{ app.request.get('season') }}" />
+               <input type="text" name="player" size="6"
+                  value=""
+                  id="searchPlayerTeam"
+                  placeholder="Игрок"
+                  class="search_keywords_nfl" autocomplete="off"/>
+               <select name="team">
+                  {% for team in teams %}
+                     <option class="" value="{{ team.id }}">{{ team.name }}</option>
+                  {% endfor %}
+               </select>
+               <input type="submit" value="OK" class="search-btn" />
+            </form>
+            <div class="search_result">
+               <div class="search_result_items"></div>
+            </div>
+         </div>
+
+         <div>
+            <div class="nfl_matches">
+               <div class="nfl_matches_items">
+                  {% for key, game in matches %}
+                     <div class="item {% if key < 1 %}selected{% endif %}" data-id="{{ key }}" data-matchid="{{ game.id }}" data-date="{{ game.data | date('Y-m-d H:i:s') }}">
+                        {{ game.data | date('d.m H:i') }} {{ game.team.name }} - {{ game.team2.name }} {{ game.goal1 }}:{{ game.goal2 }} - <strong>{{ game.bomb }}</strong>
+                     </div>
+                  {% endfor %}              
+               </div>
+               <button class="nflEnd">Завершить</button>
+            </div>
+            <div class="nfl_matches">
+               <div class="nfl_matches_items">
+                  {% for key, game in matchesM %}
+                     <div class="item {% if key < 1 %}selected{% endif %}" data-id="{{ key }}" data-matchid="{{ game.id }}" data-date="{{ game.data | date('Y-m-d H:i:s') }}">
+                        {{ game.data | date('d.m H:i') }} {{ game.country.name }} - {{ game.country2.name }} {{ game.score }} - <strong>{{ game.goal }}</strong>
+                     </div>
+                  {% endfor %}              
+               </div>
+               <button class="nflEnd">Завершить</button>
+            </div>
+         </div>
+      </div>
+
+      <div class="ok_btn">
+         <button id="applyMatches">Применить матчи</button>
+      </div>
+
+      <div class="match_images"></div>
+         
+      <div class="matches-tour"></div>
+   </div>
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+
+   <script>
+      $(document).ready(function(){
+         $(document).on("keyup", '#searchPlayer', function() {
+            if(this.value.length >= 1){
+               $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_search'),
+                  data: {query: this.value, season: $(this).data('season'), nfl: true },
+                  dataType: 'json',
+                  success: function(data){
+                     $(".search_result_items_nfl").empty().hide();
+                     if(data){
+                        $(".search_result_nfl, .search_result_items_nfl").show();
+                        $.each(data, function(player, team){
+                           $(".search_result_items")
+                           .append("<div>"+player+" (" + team +")</div>");
+      
+                        });
+                        $("body").not(".search-top").click(function(){
+                           $(".search_result_nfl, .search_result_items_nfl").hide();
+                        });
+                     } else {
+                        $(".search_result_nfl, .search_result_items_nfl").hide();
+                     }
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+
+                  }
+               });
+            } else {
+               $(".search_result_nfl, .search_result_items_nfl").hide();
+            }
+         });
+
+         $(document).on('keyup', '#searchPlayerTeam', function(e) {
+            let form = $("#nfl_search_team");
+            let result_items =  form.find(".search_result_items");
+            let search_result =  form.find(".search_result");
+            let items = result_items.find('div');
+            let item_selected = result_items.find('div.selected');
+            //38 - up
+            //40 - down
+            if(e.keyCode == 40 || e.keyCode == 38){
+               if(e.keyCode == 40){
+                  if(item_selected.length > 0){
+                     let index = item_selected.index();
+                     items.eq(index+1).addClass('selected');
+                     items.eq(index).removeClass('selected');
+                  } else {
+                     items.first().addClass('selected');
+                  }                
+               } else if(e.keyCode == 38){
+                  if(item_selected.length > 0){
+                     let index = item_selected.index();
+                     items.eq(index-1).addClass('selected');
+                     items.eq(index).removeClass('selected');
+                  } else {
+                     items.last().addClass('selected');
+                  }
+               }
+               let name = result_items.find('div.selected').text();
+               let id = result_items.find('div.selected').text();
+               $('#searchPlayerTeam').val(name).data('id', id);
+            } else if(this.value.length >= 1){
+               $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_search'),
+                  data: {query: this.value},
+                  dataType: 'json',
+                  success: function(data){
+                     console.log(data)
+                     result_items.empty().hide();
+                     if(data){
+                        result_items.show();
+                        search_result.show();
+                        $.each(data, function(id, name){
+                           result_items.append("<div data-id='" + id + "'>" + name + "</div>");
+      
+                        });
+                        $("body").not(".search-top").click(function(){
+                           result_items.hide();
+                           search_result.hide();
+                        });
+                     } else {
+                        result_items.hide();
+                        search_result.hide();
+                     }
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+
+                  }
+               });
+            } else {
+               $(".search_result, .search_result_items").hide();
+            }
+         });
+
+         $(document).on('click', '#nfl_search_team .search_result_items div', function() {
+            let id = $(this).data('id');
+            let name = $(this).text();
+            $('#searchPlayerTeam').val(name).data('id', id);
+
+         });
+         
+         var matchId, team, team2, img1, img2;
+         
+         $(document).on("click", ".teams-list div", function(){
+            let $this = $(this);
+            let id = $this.data('id');
+            let image = $this.find('img').attr('src');
+            let season = $("#nfl_search_team [name='season']").val();
+            console.log(id)
+            $.ajax({
+               type: 'post',
+               url: Routing.generate('nhl_next_match'),
+               data: {team: id, image: image, season: season},
+               dataType: 'json',
+               success: function(data){
+                     console.log(data)
+                     if(data){
+                        $(".match_images").html('');
+                        for (const key in data) {
+                           let id = 'matchNext_'+key;
+                           $(".match_images").append("<div id='"+id+"'></div>");
+                           $("#matchNext_" + key).append("<img src=" + data[key].img1 + " />");
+                           $("#matchNext_" + key).append("<img src=" + data[key].img2 + " />");
+                           $("#matchNext_" + key).append("<span>" + data[key].matches + "</span>");
+                           $("#matchNext_" + key).append("<div class='ok_btn btn_matches'><button data-id='"+data[key].id+"' data-team='"+data[key].team+"' data-team2='"+data[key].team2+"' data-img1='"+data[key].img1+"' data-img2='"+data[key].img2+"'>Принять</button></div>");
+                           }
+                        matchId = data.id;
+                        team = data.team;
+                        team2 = data.team2;
+                        img1 = data.img1;
+                        img2 = data.img2;
+                     }
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                  console.log(ajaxOptions)
+               }
+            });
+         });
+         
+         $(document).on("click", ".ok_btn.btn_matches button", function(){
+            let matchId = $(this).data('id');
+            let team = $(this).data('team');
+            let team2 = $(this).data('team2');
+            let img1 = $(this).data('img1');
+            let img2 = $(this).data('img2');
+            $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_set_match'),
+                  data: {id: matchId, team: team, team2: team2},
+                  //dataType: 'json',
+                  success: function(data){
+                        console.log(data)
+                        $(".match_images").html('');
+                        //$(".ok_btn button").hide();
+                        $(".matches-tour").append("<div class=\"matches-tour-images\" data-id='" + matchId + "' data-team='"+team+"' data-team2='"+team2+"'><img src=" + img1 + " /><img src=" + img2 + " /><div><input type='text' class='goal1' size='1'><input type='text' class='goal2' size='1'><input type='text' class='bomb' size='20'></div></div>");
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                     
+                  }
+            });
+         });
+         
+         $(document).on("click", ".ok_btn.btn_player button", function(){
+            let team = $(this).data('id');
+            let player = $("#add_player_form [name=q]").val();
+            let season = $("#nfl_search_team [name='season']").val();
+            $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_set_player'),
+                  data: {team: team, player: player, season: season},
+                  //dataType: 'json',
+                  success: function(data){
+                        console.log(data)
+                        $(".match_images").html('');
+                        $(".ok_btn button").hide();
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                     
+                  }
+            });
+         });
+
+         $(document).on("submit", "#nfl_search_team form", function(e){
+            e.preventDefault();
+            let player_id = $("#searchPlayerTeam").data('id');
+            let player = $("#searchPlayerTeam").val();
+            $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_set_player'),
+                  data: $(this).serialize(),
+                  dataType: 'json',
+                  success: function(data){
+                        $("#searchPlayerTeam").val('');
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                     
+                  }
+            });
+         });
+         
+         $(document).on("submit", "#add_player_form", function(e){
+            e.preventDefault();
+            $.ajax({
+               type: 'post',
+               url: Routing.generate('nhl_player_choose_team'),
+               data: $(this).serialize(),
+               dataType: 'json',
+               success: function(data){
+                  console.log(data)
+                  if(data){
+                     $(".match_images").html('');
+                     for (const key in data) {
+                        let id = 'matchNext_'+key;
+                        $(".match_images").append("<div id='"+id+"'></div>");
+                        $("#matchNext_" + key).append("<img src='/nfl/images/" + data[key].image + "' />");
+                        $("#matchNext_" + key).append("<div class='ok_btn btn_player'><button data-id='"+data[key].id+"' data-team='"+data[key].name+"' data-img='"+data[key].image+"'>Принять</button></div>");
+                     }
+                  }
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                  
+               }
+            });
+         });
+
+         $(document).on("click", "#applyMatches", function(){
+            let matches = $(".matches-tour .matches-tour-images");
+            let season = $("#nfl_search_team [name='season']").val();
+            let th = $(this);
+            console.log(matches.length)
+            if(matches.length > 0){
+               let data = [];
+               matches.each(function(){
+                  data.push({
+                     id: $(this).data('id'),
+                     team: $(this).data('team'),
+                     team2: $(this).data('team2'),
+                     goal1: $(this).find(".goal1").val(),
+                     goal2: $(this).find(".goal2").val(),
+                     bomb: $(this).find(".bomb").val(),
+                  })
+               })
+               console.log(data)
+               $.ajax({
+                  type: 'post',
+                  url: Routing.generate('nhl_apply_matches'),
+                  data: {'data' : data, 'season' : season},
+                  dataType: 'json',
+                  success: function(resp){
+                        console.log(resp)
+                        th.text('Применено').attr('disabled', 'disabled');
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                     
+                  }
+               });
+            }
+         })
+
+         $(document).on("click", ".nfl_matches_items", function(){
+            let th = $(this);
+            let item_selected = th.find('.item.selected');
+            let key = item_selected.data('id');
+            item_selected.removeClass('selected');
+            let new_key = key+1;
+            th.find('.item[data-id="'+new_key+'"]').addClass('selected');
+         });
+
+         $(document).on("click", "#nflEnd", function(){
+            let th = $(this);
+            let season = $("#nfl_search_team [name='season']").val();
+            let id = $(".nfl_matches_items .item.selected").data('matchid');
+            let data = $(".nfl_matches_items .item.selected").data('date');
+            $.ajax({
+               type: 'post',
+               url: Routing.generate('nhl_nfl_end'),
+               data: {'id' : id, 'season' : season, data: data},
+               dataType: 'json',
+               success: function(resp){
+                     console.log(resp)
+                     th.text('Завершено');
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                  
+               }
+            });
+         })
+      });
+   </script>
+{% endblock %}

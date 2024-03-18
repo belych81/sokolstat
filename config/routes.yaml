@@ -139,14 +139,66 @@ nhl_leaders:
     path:  /nhl/leaders/{season}/
     controller: App\Controller\NhlController::leaders
 
+nhl_champ:
+    path:  /nhl/champ/{season}/
+    controller: App\Controller\NhlController::champ
+
 nhl_player_show:
     path:  /nhl/player/{id}/
     controller: App\Controller\NhlController::showPlayer
 
 nhl_newSeason:
-    path:  /nhl/admin/season/
+    path:  /nhl/admin/season/new/{season}/
     controller: App\Controller\NhlController::newSeason
 
+nhl_search:
+    path:  /nhl/search/
+    controller: App\Controller\NhlController::search
+    options:
+        expose: true
+
+nhl_set_player:
+    path:  /nhl/set_player/
+    controller: App\Controller\NhlController::setPlayer
+    options:
+        expose: true
+
+nhl_player_choose_team:
+    path:  /nhl/player_choose_team/
+    controller: App\Controller\NhlController::playerChooseTeam
+    options:
+        expose: true
+
+nhl_add_nhl_reg:
+    path:  /nhl/add_nhl_reg/
+    controller: App\Controller\NhlController::addNhlReg
+    options:
+        expose: true
+
+nhl_next_match:
+    path:  /nhl/next_match/
+    controller: App\Controller\NhlController::nextMatch
+    options:
+        expose: true
+
+nhl_set_match:
+    path:  /nhl/set_match/
+    controller: App\Controller\NhlController::setMatch
+    options:
+        expose: true
+
+nhl_apply_matches:
+    path:  /nhl/apply_matches/
+    controller: App\Controller\NhlController::applyMatches
+    options:
+        expose: true
+
+nhl_nfl_end:
+    path:  /nhl/nfl_end/
+    controller: App\Controller\NhlController::nflEnd
+    options:
+        expose: true
+        
 nhl_season:
     path:  /nhl/{season}/
     controller: App\Controller\NhlController::index
@@ -162,7 +214,7 @@ nhl_show:
     controller: App\Controller\NhlController::show
 
 nhl_createSeason:
-    path:  /nhl/admin/season/create/
+    path:  /nhl/admin/season/create/{season}/
     controller: App\Controller\NhlController::createSeason
     requirements: { _method: post }
 

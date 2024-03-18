@@ -7,13 +7,12 @@
 {% block seasons %}
 
     {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
         {% else %}
-        <a href="{{ path('championships_show', {
-          'country': app.request.get('country'), 'season': season.season.name,
-          'id': app.request.get('id')}) }}" class="spiski">
-          {{ season.season.name }}</a>
+        <a href="{{ path('nhl_season', {
+          'season': season.name }) }}" class="spiski">
+          {{ season.name }}</a>
         {% endif %}
     {% endfor %}
 

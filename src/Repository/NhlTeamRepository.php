@@ -19,10 +19,51 @@ class NhlTeamRepository extends ServiceEntityRepository
         parent::__construct($registry, NhlTeam::class);
     }
 
-    public function queryTeamsForSeason() {
-
+    public function queryTeamsForSeason() 
+    {
         return $query = $this->createQueryBuilder('t')
                 ->orderBy('t.name');
+    }
+
+    public function getTeams() 
+    {
+        return $this->createQueryBuilder('t')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function getTeamsByIds(array $ids) 
+    {
+        return $this->createQueryBuilder('t')
+                    ->select('t.id', 't.image', 't.name')
+                    ->where('t.id IN (:ids)')
+                    ->setParameter('ids', $ids)                 
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function getNextTeam(array $ids) 
+    {
+        return $this->createQueryBuilder('t')
+                    ->select('t.id', 't.image', 't.name', 't.matches')
+                    ->where('t.id IN (:ids)')
+                    ->setParameter('ids', $ids)
+                    ->orderBy('t.matches', 'ASC')
+                    ->setMaxResults(3)
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function addMatchCount($team, $team2)
+    {
+        $qb = $this->_em->createQueryBuilder('NhlTeam', 'st')
+            ->update('App\Entity\NhlTeam', 'st')
+            ->set('st.matches', 'st.matches+1')
+            ->where('st.id = ?1 OR st.id = ?2')
+            ->setParameter(1, $team)
+            ->setParameter(2, $team2)
+            ->getQuery();
+        $qb->execute();
     }
 
     public function updateSvod($team, $team2, $goal1, $goal2)

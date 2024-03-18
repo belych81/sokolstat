@@ -994,7 +994,8 @@ header > .row {
   margin-left: 0;
   margin-right: 0;
 }
-.search_keywords{
+.search_keywords,
+.search_keywords_nfl {
   background: url("../images/searchH2.png") 10px 50% no-repeat transparent;
   background-color: #fff;
   box-sizing: border-box;
@@ -1104,7 +1105,9 @@ header > .row {
     margin: 5px;
     font-size: 14px;
 }
-.search_result .search_result_items a:hover{
+.search_result .search_result_items a:hover,
+.search_result_items div.selected
+{
     background-color: #936;
     color: #fff;
 }
@@ -1873,4 +1876,124 @@ footer.container {
 
 .nav.start_menu .eChild {
   display: none;
+}
+
+
+.nfl.wrapper {
+  display: flex;
+  height: 100%;
+}
+.nfl img {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #5c7c8c;
+  background: #b8dbd9;
+  border-radius: 6px;
+}
+.nfl .form_add_player {
+  display: flex;
+  align-items: center;
+  
+}
+.nfl .search_result, 
+.nfl .player_search_result
+{
+  width: 270px;
+}
+.nfl .teams-list div
+{
+  display: inline-block;
+  cursor: pointer;
+}
+.nfl .search_team {
+background: url("../images/searchH2.png") 10px 50% no-repeat transparent;
+  background-color: transparent;
+background-color: #fff;
+box-sizing: border-box;
+padding-left: 35px;
+margin-top: 3px;
+margin-bottom: 3px;
+height: 30px;
+width: 190px;
+border: 0;
+}
+.nfl .match_images
+{
+  display: grid;
+  justify-content: right;
+}
+.nfl .match_images img
+{
+height: 130px;   
+}
+.nfl .match_images div
+{
+display: flex;  
+align-items: center;
+}
+.nfl .ok_btn
+{
+  display: flex;
+  justify-content: center;
+}
+.nfl .ok_btn button
+{
+  width: 150px;
+  height: 50px;
+  background: #0a0;
+  border-radius: 5px;
+  font-weight: bold;
+  border: 1px solid;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.nfl .matches-tour
+{
+  position: absolute;
+  left: 5px;
+  top: 400px;
+  display: flex;
+  max-height: 550px;
+  flex-wrap: wrap;
+  padding: 0;
+  flex-direction: column;
+}
+.nfl .matches-tour-images
+{
+  /*width: 250px;*/
+  /*height: 80px;*/
+  padding: 10px;
+  display: flex;
+}
+.nfl .matches-tour-images img
+{
+  height: 70px;
+  margin: 1px;
+}
+
+.nfl_top {
+  display: flex;
+  gap: 25px;
+}
+.nfl_matches {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  width: 600px;
+  background: #fff;
+  color: #936;
+  cursor: pointer;
+}
+.nfl_matches .item {
+  display: none;
+  padding: 10px;
+  height: 60px;
+}
+.nfl_matches .item.selected {
+  display: block;
+}
+.nfl_matches_items {
+  display: flex;
+  justify-content: space-between;
 }

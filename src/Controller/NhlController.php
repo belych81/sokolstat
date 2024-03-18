@@ -8,9 +8,13 @@ use App\Entity\NhlTeam;
 use App\Entity\NhlReg;
 use App\Entity\NhlPlayer;
 use App\Entity\NhlMatch;
+use App\Entity\NflMatch;
+use App\Entity\NhlStadia;
 use App\Entity\Seasons;
 use App\Entity\NhlPlayersTeam;
 use App\Entity\Player;
+use App\Entity\Game;
+use App\Entity\Mundial;
 use App\Form\NhlTableType;
 use App\Form\NhlMatchType;
 use App\Form\NhlPlayerType;
@@ -22,16 +26,20 @@ use App\Form\NhlPlayersteamType;
 use App\Form\ShipplayerType;
 use App\Repository\SeasonsRepository;
 use App\Service\ResizeImage;
+use App\Service\Nfl;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 class NhlController extends AbstractController
 {
   private EntityManagerInterface $entityManager;
+
+  const NFL_MATCHES_LIMIT = 50;
 
   public function __construct(EntityManagerInterface $entityManager)
   {
@@ -40,9 +48,9 @@ class NhlController extends AbstractController
 
   public function index(Request $request, $season)
   {
-    $seasons = $this->entityManager->getRepository(NhlTable::class)
+      $seasons = $this->entityManager->getRepository(NhlTable::class)
         ->getSeasons();
-    $routeName = $request->attributes->get('_route');
+      $routeName = $request->attributes->get('_route');
 
       $dates = [];
       if($routeName != 'nhl_season'){
@@ -65,6 +73,7 @@ class NhlController extends AbstractController
       }
       $obNextDate = false;
       $obPrevDate = false;
+      $obCurDate = false;
       $dates = [];
       if($keyLast || $keyLast === 0){
           $prevKey = $keyLast - 1;
@@ -94,7 +103,6 @@ class NhlController extends AbstractController
           'nextDate' => $obNextDate
       ]);
   }
-
 
   public function standing($season)
   {
@@ -179,6 +187,258 @@ class NhlController extends AbstractController
           'seasons' => $seasons,
           'bombs' => $bombSum
       ]);
+  }
+
+  public function champ(Request $request, ResizeImage $resize, Nfl $nfl, $season)
+  {
+    $isUpload = $request->query->get('upload', false);
+
+    if($isUpload){
+      $lines = $nfl->getMatchesByFile('nfl2022.txt');
+      if($lines){
+        $nfl->setTeamIds();
+        $nfl->parseMatches($lines, $season);
+      }
+    }
+    $em = $this->entityManager;
+
+    $year = $em->getRepository(Seasons::class)->findOneByName($season);
+    $teams = $em->getRepository(NhlTable::class)->getTeams($season);
+    $matches = $em->getRepository(Game::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
+    $matchesM = $em->getRepository(Mundial::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
+
+    foreach($matchesM as $key => $match){
+      if($match->getId() == $year->getLastId()){
+        unset($matchesM[$key]);
+        break;
+      } elseif($match->getData() == $year->getLastdate()) {
+        unset($matchesM[$key]);
+      }
+    }
+    foreach($matches as $key => $match){
+      if($match->getId() == $year->getLastId()){
+        unset($matches[$key]);
+        break;
+      } elseif($match->getData() == $year->getLastdate()) {
+        unset($matches[$key]);
+      }
+    }
+    $matches = array_values($matches);
+    $matchesM = array_values($matchesM);
+
+    foreach($teams as &$team){
+      if($team['image']){
+        $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+      }
+    }
+
+    return $this->render('nhl/champ.html.twig', [
+      'teams' => $teams,
+      'matches' => $matches,
+      'matchesM' => $matchesM
+    ]);
+  }
+
+  public function search(Request $request)
+  {
+      $query = htmlspecialchars($request->request->get('query'));
+      $nfl = htmlspecialchars($request->request->get('nfl'));
+      $isFormPlayer = htmlspecialchars($request->request->get('form_player'));
+      $player = [];
+
+      if($query){
+        $arQuery = explode(" ", $query);
+
+        if($nfl){
+          $season = htmlspecialchars($request->request->get('season'));
+          $responsePlayer = $this->entityManager->getRepository(NhlReg::class)->searchPlayers($arQuery, $season);
+          foreach($responsePlayer as $val){
+            $player[$val->getPlayer()->getName()] = $val->getTeam()->getName();
+          } 
+        } else {
+          $responsePlayer = $this->entityManager->getRepository(NhlPlayer::class)->searchPlayers($arQuery);
+          foreach($responsePlayer as $val){
+            $player[$val->getId()] = $val->getName();
+          } 
+        }     
+      }
+
+      return new JsonResponse($player);
+  }
+
+  public function setPlayer(Request $request)
+  {
+      $player_name = htmlspecialchars($request->request->get('player'));
+      $season = htmlspecialchars($request->request->get('season'));
+      $team_id = htmlspecialchars($request->request->get('team'));
+      $em = $this->entityManager;
+
+      $year = $em->getRepository(Seasons::class)->findOneByName($season);
+      $team = $em->getRepository(NhlTeam::class)->findOneById($team_id);
+      $player = $em->getRepository(NhlPlayer::class)->findOneByName($player_name);
+
+      if(!is_object($player)){
+        $obPlayer = $em->getRepository(Player::class)->findOneByName($player_name);
+        $player  = new NhlPlayer();
+        $player->setName($obPlayer->getName());
+        $player->setBorn($obPlayer->getBorn());
+        $player->setTranslit($obPlayer->getTranslit());
+        $player->setInsertdate($obPlayer->getInsertdate());
+        $player->setCountry($obPlayer->getCountry());
+        $player->setAmplua($obPlayer->getAmplua());
+        $em->persist($player);
+        $em->flush();
+      }
+      $entity  = new NhlReg();
+      $entity->setSeason($year);
+      $entity->setTeam($team);
+      $entity->setPlayer($player);
+
+      $em->persist($entity);
+      $em->flush();
+
+      return new JsonResponse($entity->getId());
+  }
+
+  public function nextMatch(Request $request)
+  {
+      $season = htmlspecialchars($request->request->get('season'));
+      $team_id = htmlspecialchars($request->request->get('team'));
+      $image = htmlspecialchars($request->request->get('image'));
+
+      $em = $this->entityManager;
+
+      $team = $em->getRepository(NhlTeam::class)->findOneById($team_id);
+      $nextMatches = $em->getRepository(NflMatch::class)->getNextMatches($season, $team->getTranslit());
+      $arNextMatches = $arTeams = [];
+      if($nextMatches){
+        foreach($nextMatches as $match){
+            if($match->getTeam()->getId() == $team_id){
+                $arTeams[] = $match->getTeam2()->getId();
+            } else {
+                $arTeams[] = $match->getTeam()->getId();
+            }
+        }
+        $arTeams = array_unique($arTeams);
+        $res = $em->getRepository(NhlTeam::class)->getNextTeam($arTeams);
+        $json = json_encode($res);
+        $arRes = json_decode($json, true);
+        $arGame = [];
+        foreach($nextMatches as $k => $match){
+            if(array_search($match->getTeam()->getId(), array_column($arRes, 'id')) !== false || array_search($match->getTeam2()->getId(), array_column($arRes, 'id')) !== false){
+              $arGame[$k]['id'] = $match->getId();
+              $arGame[$k]['team'] = $match->getTeam()->getId();
+              $arGame[$k]['team2'] = $match->getTeam2()->getId();  
+              if(($key = array_search($match->getTeam()->getId(), array_column($arRes, 'id'))) !== false){
+                    $arGame[$k]['img1'] = "/images/" . $arRes[$key]['image'];
+                    $arGame[$k]['img2'] = $image;
+                    $arGame[$k]['matches'] = $arRes[$key]['matches'];
+                } elseif(($key2 = array_search($match->getTeam2()->getId(), array_column($arRes, 'id'))) !== false) {
+                    $arGame[$k]['img2'] = "/images/" . $arRes[$key2]['image'];
+                    $arGame[$k]['img1'] = $image;
+                    $arGame[$k]['matches'] = $arRes[$key2]['matches'];
+                }
+            }
+        }
+      }
+
+      return new JsonResponse($arGame);
+  }
+
+  public function setMatch(Request $request)
+  {
+      $match_id = htmlspecialchars($request->request->get('id'));
+      $team_id = htmlspecialchars($request->request->get('team'));
+      $team2_id = htmlspecialchars($request->request->get('team2'));
+
+      $em = $this->entityManager;
+
+      $em->getRepository(NflMatch::class)->setStatus($match_id, 1); 
+      $em->getRepository(NhlTeam::class)->addMatchCount($team_id, $team2_id);      
+
+      return new JsonResponse([]);
+  }
+
+  public function nflEnd(Request $request)
+  {
+      $id = htmlspecialchars($request->request->get('id'));
+      $season = htmlspecialchars($request->request->get('season'));
+      $data = new \DateTime(htmlspecialchars($request->request->get('data')));
+
+      $em = $this->entityManager;
+      $year = $em->getRepository(Seasons::class)->findOneByName($season);
+      $em->getRepository(Seasons::class)->setNflLastMatch($id, $year->getId(), $data);      
+
+      return new JsonResponse([]);
+  }
+
+  public function applyMatches(Request $request)
+  {
+      $data = $request->request->all();
+      $arData = $data['data'];
+      $season = $data['season'];
+
+      $em = $this->entityManager;
+
+      if(!empty($arData)){
+        $year = $em->getRepository(Seasons::class)->findOneByName($season);
+
+        foreach($arData as $arr){
+          $team = $em->getRepository(NhlTeam::class)->findOneById($arr['team']);
+          $team2 = $em->getRepository(NhlTeam::class)->findOneById($arr['team2']);
+          $stadia = $em->getRepository(NhlStadia::class)->findOneById(1);
+
+          $entity  = new NhlMatch();
+
+          $entity->setSeason($year);
+          $entity->setTeam($team);
+          $entity->setStatus(0);
+          $entity->setTeam2($team2);
+          $entity->setGoal1($arr['goal1']);
+          $entity->setGoal2($arr['goal2']);
+          $entity->setData(new \DateTime());
+          $entity->setStadia($stadia);
+          $entity->setBomb($arr['bomb']);
+
+          $em->persist($entity);
+          $em->flush();
+
+          $em->getRepository(NhlTable::class)->updateNhltable($arr['team'], $arr['team2'], $arr['goal1'], $arr['goal2'], $year->getId());
+        }
+      }   
+
+      return new JsonResponse($arData);
+  }
+
+  public function playerChooseTeam(Request $request)
+  {
+      $player_name = htmlspecialchars($request->request->get('player'));
+      $season = htmlspecialchars($request->request->get('season'));
+      $em = $this->entityManager;
+
+      $year = $em->getRepository(Seasons::class)->findOneByName($season);
+      $season_id = $year->getId();
+      $stmt = $em->getConnection()
+          ->prepare("SELECT COUNT(DISTINCT team_id) AS cnt FROM nhl_reg WHERE season_id = :sid");
+      $stmt->bindValue(':sid', $season_id);
+      $arT = $stmt->executeQuery()->fetchAllAssociative();
+
+      if($arT[0]['cnt'] < 30){
+          $sql = "SELECT DISTINCT team_id FROM nfl_match WHERE season_id = :sid AND team_id NOT IN (SELECT team_id FROM nhl_reg WHERE season_id = :sid) ORDER BY RAND() LIMIT 3";
+      } else {
+          $sql = "SELECT team_id FROM nhl_reg WHERE season_id = :sid GROUP BY team_id HAVING COUNT(id) = (SELECT MIN(cnt) FROM (SELECT COUNT(id) AS cnt, team_id FROM nhl_reg WHERE season_id = :sid GROUP BY team_id) AS T2) ORDER BY RAND() LIMIT 3";
+      }
+      $stmt2 = $em->getConnection()->prepare($sql);
+      $stmt2->bindValue(':sid', $season_id);
+      $minPlayersTeams = $stmt2->executeQuery()->fetchAllAssociative();
+
+      $arTeamIds = [];
+      foreach($minPlayersTeams as $ar){
+        $arTeamIds[] = $ar['team_id'];
+      }
+      $arTeams = $em->getRepository(NhlTeam::class)->getTeamsByIds($arTeamIds);
+
+      return new JsonResponse($arTeams);
   }
 
   public function show(SessionInterface $session, ResizeImage $resize, $id, $season)
@@ -311,8 +571,8 @@ class NhlController extends AbstractController
 
       if ($form->isSubmitted() && $form->isValid()) {
           $em = $this->entityManager;
-          $session->set('season', $entity->getSeason()->getName());
-          $session->set('division', $entity->getDivision()->getName());
+          //$session->set('season', $entity->getSeason()->getName());
+          //$session->set('division', $entity->getDivision()->getName());
           $em->persist($entity);
           $em->flush();
           //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
@@ -393,7 +653,7 @@ class NhlController extends AbstractController
           $goal2=$entity->getGoal2();
           if($entity->getStadia()->getTranslit() == 'regular'){
             $this->entityManager->getRepository(NhlTable::class)
-              ->updateNhltable($team, $team2, $goal1, $goal2, $seas);
+              ->updateNhltable($team, $team2, $goal1, $goal2, $seas, $entity->isOvertime());
           }
           $this->entityManager->getRepository(NhlTeam::class)
             ->updateSvod($team, $team2, $goal1, $goal2);
@@ -408,315 +668,316 @@ class NhlController extends AbstractController
       ));
   }
 
-    public function add(Request $request)
-    {
-      $nhlReg = new NhlReg();
-      $form = $this->createForm(NhlRegType::class, $nhlReg);
+  public function addNhlReg(Request $request)
+  {
+    $nhlReg = new NhlReg();
+  }
+
+  public function add(Request $request)
+  {
+    $nhlReg = new NhlReg();
+    $form = $this->createForm(NhlRegType::class, $nhlReg);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $nhlReg = $form->getData();
+        $playerId = $nhlReg->getPlayer()->getId();
+        $goal = $nhlReg->getGoal();
+        $entityManager = $this->entityManager;
+        $entityManager->persist($nhlReg);
+        $entityManager->flush();
+
+        $this->entityManager->getRepository(NhlPlayer::class)
+          ->updateNhlPlayer($playerId, $goal, 1);
+        //return $this->redirectToRoute('nhl_add');
+    }
+
+    return $this->render('nhl/add.html.twig', array(
+          'form' => $form->createView()
+      ));
+  }
+
+  public function newPlayer()
+  {
+      $entity = new NhlPlayer();
+
+      $form   = $this->createForm(NhlPlayerType::class, $entity);
+      $maxId = $this->entityManager->getRepository(NhlPlayer::class)
+                  ->getMaxId();
+
+      return $this->render('nhl/newPlayer.html.twig', array(
+          'entity' => $entity,
+          'maxId' => $maxId,
+          'form'   => $form->createView()
+      ));
+  }
+
+  public function createNewPlayer(Request $request, $team, $season)
+  {
+      $entity  = new NhlPlayer();
+
+      $form = $this->createForm(NhlPlayerType::class, $entity);
 
       $form->handleRequest($request);
 
-      if ($form->isSubmitted() && $form->isValid()) {
-          // $form->getData() holds the submitted values
-          // but, the original `$task` variable has also been updated
-          $nhlReg = $form->getData();
-          $playerId = $nhlReg->getPlayer()->getId();
-          $goal = $nhlReg->getGoal();
-          // ... perform some action, such as saving the task to the database
-          // for example, if Task is a Doctrine entity, save it!
-          $entityManager = $this->entityManager;
-          $entityManager->persist($nhlReg);
-          $entityManager->flush();
-
-          $this->entityManager->getRepository(NhlPlayer::class)
-            ->updateNhlPlayer($playerId, $goal, 1);
-          //return $this->redirectToRoute('nhl_add');
-      }
-
-      return $this->render('nhl/add.html.twig', array(
-            'form' => $form->createView()
-        ));
-    }
-
-    public function newPlayer()
-    {
-        $entity = new NhlPlayer();
-
-        $form   = $this->createForm(NhlPlayerType::class, $entity);
-        $maxId = $this->entityManager->getRepository(NhlPlayer::class)
-                    ->getMaxId();
-
-        return $this->render('nhl/newPlayer.html.twig', array(
-            'entity' => $entity,
-            'maxId' => $maxId,
-            'form'   => $form->createView()
-        ));
-    }
-
-    public function createNewPlayer(Request $request, $team, $season)
-    {
-        $entity  = new NhlPlayer();
-
-        $form = $this->createForm(NhlPlayerType::class, $entity);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->entityManager;
-            $entity->setInsertdate(new \DateTime());
-            $em->persist($entity);
-            $em->flush();
-            return $this->redirect($this->generateUrl('nhl_show', [
-                'id' => $team,
-                'season' => $season
-                    ]));
-        }
-
-        return $this->render('nhl/newPlayer.html.twig', ['entity' => $entity,
-            'form'   => $form->createView(),
-            ]);
-    }
-
-    public function newChampLast($season, $team, $isTeam)
-    {
-        $entity = new NhlReg();
-        $maxId = $this->entityManager->getRepository(NhlPlayer::class)
-                    ->getMaxId();
-        $club = $this->entityManager->getRepository(NhlTeam::class)
-          ->findOneByTranslit($team);
-        $year = $this->entityManager->getRepository(Seasons::class)
-          ->findOneByName($season);
-        
-        if($isTeam){
-          $player = $this->entityManager->getRepository(NhlPlayer::class)
-            ->getLastTeamPlayer($team);
-        } else {
-          $player = $this->entityManager->getRepository(NhlPlayer::class)
-            ->getLastOnePlayer();
-        }
-
-        $playersTeam = $this->entityManager->getRepository(NhlPlayersTeam::class)
-          ->getStat($player->getName(), $team);
-
-        $em = $this->entityManager;
-
-        if(!$playersTeam)
-        {
-          $pTeam = new NhlPlayersTeam();
-          $pTeam->setTeam($club);
-          $pTeam->setPlayer($player);
-          $em->persist($pTeam);
+      if ($form->isValid()) {
+          $em = $this->entityManager;
+          $entity->setInsertdate(new \DateTime());
+          $em->persist($entity);
           $em->flush();
-        }
-
-        $entity->setTeam($club);
-        $entity->setSeason($year);
-        $entity->setPlayer($player);
-
-        $em->persist($entity);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('nhl_show', [
-            'id' => $team,
-            'season' => $season
-                ]));
-    }
-
-    public function showPlayer($id)
-    {
-        $player = $this->entityManager->getRepository(NhlPlayer::class)
-          ->findByTranslit($id);
-
-        $entities = $this->entityManager->getRepository(NhlReg::class)
-          ->getStatPlayer($id);
-
-        return $this->render('nhl/showPlayer.html.twig', [
-            'entities' => $entities,
-            'player' => $player
-            ]);
-    }
-
-    public function editChamp(SessionInterface $session, $id, $season, $team,
-      $change)
-    {
-        $this->entityManager->getRepository(NhlReg::class)
-          ->updateGamer($id, $change);
-        $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
-        $playerId = $entity->getPlayer()->getId();
-        $player = $entity->getPlayer();
-        $teamOb = $entity->getTeam();
-        $this->entityManager->getRepository(NhlPlayer::class)
-          ->updateStatPlayer($playerId, $change);
-        $this->entityManager->getRepository(NhlPlayersTeam::class)
-                ->updatePlayersteam($player, $teamOb, $change);
-        $session->set('lastPlayer', $entity->getPlayer()->getName());
-
-        $response = json_encode([
-            'name' => $entity->getPlayer()->getName(),
-            'game' => $entity->getGame(),
-            'goal' => $entity->getGoal(),
-            'assist' => $entity->getAssist(),
-            'score' => $entity->getScore(),
-            'missed' => $entity->getMissed(),
-            'zero' => $entity->getZero(),
-            'gamePo' => $entity->getGamePlayOff(),
-            'goalPo' => $entity->getGoalPlayOff(),
-            'assistPo' => $entity->getAssistPlayOff(),
-            'scorePo' => $entity->getScorePlayOff(),
-            'missedPo' => $entity->getMissedPlayOff(),
-            'zeroPo' => $entity->getZeroPlayOff()
-        ]);
-        return new Response($response);
-    }
-
-    public function confirm($id)
-    {
-        $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
-
-        return $this->render('nhl/delete.html.twig', array(
-            'entity' => $entity
-        ));
-    }
-
-    public function delete($id)
-    {
-        $em = $this->entityManager;
-
-        $entity = $em->getRepository(NhlReg::class)->find($id);
-
-        $season = $entity->getSeason()->getName();
-        $team = $entity->getTeam()->getTranslit();
-        $em->remove($entity);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('nhl_show', [
-            'season' => $season, 'id' => $team]));
-    }
-
-    public function newChampNation($season, $team, $flag)
-    {
-        $entity = new NhlReg();
-        $club = $this->entityManager->getRepository(NhlTeam::class)
-          ->findOneByTranslit($team);
-        
-        $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
-            'team' => $team, 'flag' => $flag, 'club' => $club]);
-
-        return $this->render('nhl/newChampNation.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        ));
-    }
-
-    public function createChampNation(SessionInterface $session, Request $request, $team, $season, $flag)
-    {
-        $entity  = new NhlReg();
-        $em = $this->entityManager;
-
-        $club = $this->entityManager->getRepository(NhlTeam::class)
-          ->findOneByTranslit($team);
-        $year = $this->entityManager->getRepository(Seasons::class)
-          ->findOneByName($season);
-        $entity->setTeam($club);
-        $entity->setSeason($year);
-        $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
-            'team' => $team, 'flag' => $flag, 'club' => $club]);
-
-        $form->handleRequest($request);
-
-        if(!$entity->getPlayer()) {
-          $selectedPlayer = $session->get('lastPlayerAdd');
-          $obPlayer = $this->entityManager->getRepository(Player::class)->findOneById($selectedPlayer);
-          $obNhlPlayer = $this->entityManager->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
-          if($obNhlPlayer){
-            $entity->setPlayer($obNhlPlayer);
-          } else {
-            $entityPlayer  = new NhlPlayer();
-            $entityPlayer->setName($obPlayer->getName());
-            $entityPlayer->setBorn($obPlayer->getBorn());
-            $entityPlayer->setTranslit($obPlayer->getTranslit());
-            $entityPlayer->setInsertdate($obPlayer->getInsertdate());
-            $entityPlayer->setCountry($obPlayer->getCountry());
-            $entityPlayer->setAmplua($obPlayer->getAmplua());
-            $em->persist($entityPlayer);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('nhl_show', [
-              'id' => $team,
-              'season' => $season
-            ]));
-          }
-        }
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($entity);
-            $em->flush();
-            /*$id = $entity->getId();
-            $player_id = $entity->getPlayer()->getId();
-            $goal = $entity->getGoal();
-            $game = $entity->getGame();
-            $cup = $entity->getCup();
-            $supercup = $entity->getSupercup();
-            $eurocup = $entity->getEurocup();
-            $em->getRepository(Shipplayer::class)
-               ->updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup);
-            $em->getRepository(Player::class)
-               ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
-               $em->getRepository(Player::class)
-                  ->updatePlayerGame($player_id, false, $game);*/
-            return $this->redirect($this->generateUrl('nhl_show', [
-                'id' => $team,
-                'season' => $season
-                    ]));
-        }
-
-        return $this->render('nhl/newChampNation.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    public function newPlayersteam($team, $season)
-    {
-        $entity = new NhlPlayersTeam();
-
-        $form   = $this->createForm(NhlPlayersteamType::class, $entity, [
-            'season' => $season,
-            'team' => $team]);
-
-        return $this->render('nhl/newPlayersteam.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        ));
-    }
-
-    public function createPlayersteam(Request $request, $team, $season)
-    {
-        $entity = new NhlPlayersTeam();
-
-        $form = $this->createForm(NhlPlayersteamType::class, $entity, [
-            'season' => $season,
-            'team' => $team]);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->entityManager;
-            $team2 = $this->entityManager->getRepository(NhlTeam::class)
-                        ->findOneByTranslit($team);
-            $entity->setTeam($team2);
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('nhl_show', [
+          return $this->redirect($this->generateUrl('nhl_show', [
               'id' => $team,
               'season' => $season
                   ]));
-        }
+      }
 
-        return $this->render('nhl/newPlayersteam.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
+      return $this->render('nhl/newPlayer.html.twig', ['entity' => $entity,
+          'form'   => $form->createView(),
+          ]);
+  }
+
+  public function newChampLast($season, $team, $isTeam)
+  {
+      $entity = new NhlReg();
+      $maxId = $this->entityManager->getRepository(NhlPlayer::class)
+                  ->getMaxId();
+      $club = $this->entityManager->getRepository(NhlTeam::class)
+        ->findOneByTranslit($team);
+      $year = $this->entityManager->getRepository(Seasons::class)
+        ->findOneByName($season);
+      
+      if($isTeam){
+        $player = $this->entityManager->getRepository(NhlPlayer::class)
+          ->getLastTeamPlayer($team);
+      } else {
+        $player = $this->entityManager->getRepository(NhlPlayer::class)
+          ->getLastOnePlayer();
+      }
+
+      $playersTeam = $this->entityManager->getRepository(NhlPlayersTeam::class)
+        ->getStat($player->getName(), $team);
+
+      $em = $this->entityManager;
+
+      if(!$playersTeam)
+      {
+        $pTeam = new NhlPlayersTeam();
+        $pTeam->setTeam($club);
+        $pTeam->setPlayer($player);
+        $em->persist($pTeam);
+        $em->flush();
+      }
+
+      $entity->setTeam($club);
+      $entity->setSeason($year);
+      $entity->setPlayer($player);
+
+      $em->persist($entity);
+      $em->flush();
+
+      return $this->redirect($this->generateUrl('nhl_show', [
+          'id' => $team,
+          'season' => $season
+              ]));
+  }
+
+  public function showPlayer($id)
+  {
+      $player = $this->entityManager->getRepository(NhlPlayer::class)
+        ->findByTranslit($id);
+
+      $entities = $this->entityManager->getRepository(NhlReg::class)
+        ->getStatPlayer($id);
+
+      return $this->render('nhl/showPlayer.html.twig', [
+          'entities' => $entities,
+          'player' => $player
+          ]);
+  }
+
+  public function editChamp(SessionInterface $session, $id, $season, $team,
+    $change)
+  {
+      $this->entityManager->getRepository(NhlReg::class)
+        ->updateGamer($id, $change);
+      $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
+      $playerId = $entity->getPlayer()->getId();
+      $player = $entity->getPlayer();
+      $teamOb = $entity->getTeam();
+      $this->entityManager->getRepository(NhlPlayer::class)
+        ->updateStatPlayer($playerId, $change);
+      $this->entityManager->getRepository(NhlPlayersTeam::class)
+              ->updatePlayersteam($player, $teamOb, $change);
+      $session->set('lastPlayer', $entity->getPlayer()->getName());
+
+      $response = json_encode([
+          'name' => $entity->getPlayer()->getName(),
+          'game' => $entity->getGame(),
+          'goal' => $entity->getGoal(),
+          'assist' => $entity->getAssist(),
+          'score' => $entity->getScore(),
+          'missed' => $entity->getMissed(),
+          'zero' => $entity->getZero(),
+          'gamePo' => $entity->getGamePlayOff(),
+          'goalPo' => $entity->getGoalPlayOff(),
+          'assistPo' => $entity->getAssistPlayOff(),
+          'scorePo' => $entity->getScorePlayOff(),
+          'missedPo' => $entity->getMissedPlayOff(),
+          'zeroPo' => $entity->getZeroPlayOff()
+      ]);
+      return new Response($response);
+  }
+
+  public function confirm($id)
+  {
+      $entity = $this->entityManager->getRepository(NhlReg::class)->find($id);
+
+      return $this->render('nhl/delete.html.twig', array(
+          'entity' => $entity
+      ));
+  }
+
+  public function delete($id)
+  {
+      $em = $this->entityManager;
+
+      $entity = $em->getRepository(NhlReg::class)->find($id);
+
+      $season = $entity->getSeason()->getName();
+      $team = $entity->getTeam()->getTranslit();
+      $em->remove($entity);
+      $em->flush();
+
+      return $this->redirect($this->generateUrl('nhl_show', [
+          'season' => $season, 'id' => $team]));
+  }
+
+  public function newChampNation($season, $team, $flag)
+  {
+    $entity = new NhlReg();
+    $club = $this->entityManager->getRepository(NhlTeam::class)
+      ->findOneByTranslit($team);
+    
+    $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
+        'team' => $team, 'flag' => $flag, 'club' => $club]);
+
+    return $this->render('nhl/newChampNation.html.twig', array(
+        'entity' => $entity,
+        'form'   => $form->createView()
+    ));
+  }
+
+  public function createChampNation(SessionInterface $session, Request $request, $team, $season, $flag)
+  {
+      $entity  = new NhlReg();
+      $em = $this->entityManager;
+
+      $club = $this->entityManager->getRepository(NhlTeam::class)
+        ->findOneByTranslit($team);
+      $year = $this->entityManager->getRepository(Seasons::class)
+        ->findOneByName($season);
+      $entity->setTeam($club);
+      $entity->setSeason($year);
+      $form = $this->createForm(NhlChampType::class, $entity, ['season' => $season,
+          'team' => $team, 'flag' => $flag, 'club' => $club]);
+
+      $form->handleRequest($request);
+
+      if(!$entity->getPlayer()) {
+        $selectedPlayer = $session->get('lastPlayerAdd');
+        $obPlayer = $this->entityManager->getRepository(Player::class)->findOneById($selectedPlayer);
+        $obNhlPlayer = $this->entityManager->getRepository(NhlPlayer::class)->findOneByName($obPlayer->getName());
+        if($obNhlPlayer){
+          $entity->setPlayer($obNhlPlayer);
+        } else {
+          $entityPlayer  = new NhlPlayer();
+          $entityPlayer->setName($obPlayer->getName());
+          $entityPlayer->setBorn($obPlayer->getBorn());
+          $entityPlayer->setTranslit($obPlayer->getTranslit());
+          $entityPlayer->setInsertdate($obPlayer->getInsertdate());
+          $entityPlayer->setCountry($obPlayer->getCountry());
+          $entityPlayer->setAmplua($obPlayer->getAmplua());
+          $em->persist($entityPlayer);
+          $em->flush();
+
+          return $this->redirect($this->generateUrl('nhl_show', [
+            'id' => $team,
+            'season' => $season
+          ]));
+        }
+      }
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          $em->persist($entity);
+          $em->flush();
+          /*$id = $entity->getId();
+          $player_id = $entity->getPlayer()->getId();
+          $goal = $entity->getGoal();
+          $game = $entity->getGame();
+          $cup = $entity->getCup();
+          $supercup = $entity->getSupercup();
+          $eurocup = $entity->getEurocup();
+          $em->getRepository(Shipplayer::class)
+              ->updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup);
+          $em->getRepository(Player::class)
+              ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
+              $em->getRepository(Player::class)
+                ->updatePlayerGame($player_id, false, $game);*/
+          return $this->redirect($this->generateUrl('nhl_show', [
+              'id' => $team,
+              'season' => $season
+                  ]));
+      }
+
+      return $this->render('nhl/newChampNation.html.twig', array(
+          'entity' => $entity,
+          'form'   => $form->createView(),
+      ));
+  }
+
+  public function newPlayersteam($team, $season)
+  {
+      $entity = new NhlPlayersTeam();
+
+      $form   = $this->createForm(NhlPlayersteamType::class, $entity, [
+          'season' => $season,
+          'team' => $team]);
+
+      return $this->render('nhl/newPlayersteam.html.twig', array(
+          'entity' => $entity,
+          'form'   => $form->createView()
+      ));
+  }
+
+  public function createPlayersteam(Request $request, $team, $season)
+  {
+      $entity = new NhlPlayersTeam();
+
+      $form = $this->createForm(NhlPlayersteamType::class, $entity, [
+          'season' => $season,
+          'team' => $team]);
+
+      $form->handleRequest($request);
+
+      if ($form->isValid()) {
+          $em = $this->entityManager;
+          $team2 = $this->entityManager->getRepository(NhlTeam::class)
+                      ->findOneByTranslit($team);
+          $entity->setTeam($team2);
+          $em->persist($entity);
+          $em->flush();
+
+          return $this->redirect($this->generateUrl('nhl_show', [
+            'id' => $team,
+            'season' => $season
+                ]));
+      }
+
+      return $this->render('nhl/newPlayersteam.html.twig', array(
+          'entity' => $entity,
+          'form'   => $form->createView(),
+      ));
+  }
 
 }

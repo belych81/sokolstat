@@ -264,4 +264,42 @@ class NhlRegRepository extends ServiceEntityRepository
           ->getResult()
       ;
     }
+
+    public function searchPlayers($arQuery, $season)
+    {
+        $q = $this->createQueryBuilder('n')
+            ->join('n.player', 'p')
+            ->join('n.season', 's')
+            ->where('s.name = :season')
+            ->setParameter('season', $season)
+            ->andWhere("p.name LIKE '%$arQuery[0]%'")
+            ->setMaxResults(10);
+
+        foreach($arQuery as $key => $val){
+            if($key == 0) continue;
+            $q->andWhere("p.name LIKE '%$val%'");
+        }
+        $qb = $q->getQuery();
+
+        return $qb->getResult();
+    }
+
+    public function getMinPlayers($season)
+    {
+        $q = $this->createQueryBuilder('n')
+            ->join('n.player', 'p')
+            ->join('n.season', 's')
+            ->where('s.name = :season')
+            ->setParameter('season', $season)
+            ->andWhere("p.name LIKE '%$arQuery[0]%'")
+            ->setMaxResults(10);
+
+        foreach($arQuery as $key => $val){
+            if($key == 0) continue;
+            $q->andWhere("p.name LIKE '%$val%'");
+        }
+        $qb = $q->getQuery();
+
+        return $qb->getResult();
+    }
 }

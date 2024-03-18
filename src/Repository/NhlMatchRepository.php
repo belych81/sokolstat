@@ -40,7 +40,7 @@ class NhlMatchRepository extends ServiceEntityRepository
               ->join('t.season', 's')
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
-              ->orderBy('t.data', 'ASC')
+              ->orderBy('DATE(t.data)', 'ASC')
               ->getQuery()
               ->getResult();
     }

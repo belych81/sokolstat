@@ -11,12 +11,12 @@
 
 {% block seasons %}
     {% for season in seasons %}
-        {% if app.request.get('season') == season.season.name %}
-            <b>{{ season.season.name }}</b>
+        {% if app.request.get('season') == season.name %}
+            <b>{{ season.name }}</b>
         {% else %}
             <a href="{{ path('nhl_season', {
-              'season': season.season.name}) }}" class="spiski">
-              {{ season.season.name }}
+              'season': season.name}) }}" class="spiski">
+              {{ season.name }}
             </a>
         {% endif %}
     {% endfor %}
@@ -56,6 +56,12 @@
                "><a href="{{ path('nhl_leaders', {'season': app.request.get('season') }) }}">
                  ЛИДЕРЫ
                </a></li>
+               <li class="{% if app.request.attributes.get('_route') == 'nhl_leaders' %}
+                     active
+                   {% endif %}
+               "><a href="{{ path('nhl_champ', {'season': app.request.get('season') }) }}">
+                 ЧЕМПИОНАТ
+               </a></li>
              </ul>
          </div>
     </div>
@@ -87,13 +93,13 @@
           {% for match in data %}
             <tr class="champ-match-title">
                 {% if is_granted("ROLE_ADMIN") %}
-                      <td colspan="6">
+                      <td colspan="7">
                         <a href="{{ path('nhl_newrus', {'id': match.id}) }}">
                           {{ match.data | date('d.m H:i') }}
                         </a>
                       </td>
                 {% else %}
-                      <td colspan="6">
+                      <td colspan="7">
                           {% if match.status == 1 %}
                             {{ match.data | date('d.m H:i') }}
                           {% else %}
@@ -122,6 +128,11 @@
                 {% endif %}
               </td>
               <td class="champTourScore">
+                {% if match.overtime %}
+                  Т
+                {% endif %}
+              </td>
+              <td class="champTourScore">
               {% if match.status == 1 %}
                 -
               {% else %}
@@ -141,7 +152,7 @@
               </td>
             </tr>
             <tr class="champ-match-bomb">
-              <td colspan="6" class="">{{ match.bomb }}</td>
+              <td colspan="7" class="">{{ match.bomb }}</td>
             </tr>
             {% endfor %}
           {% endfor %}
@@ -150,6 +161,6 @@
   </div>
 
   {% if is_granted("ROLE_ADMIN") %}
-    <p><a href="{{ path('nhl_newSeason') }}">Добавить сезон</a></p>
+    <p><a href="{{ path('nhl_newSeason', {'season': app.request.get('season')}) }}">Добавить сезон</a></p>
   {% endif %}
 {% endblock %}

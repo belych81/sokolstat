@@ -12,7 +12,7 @@
 
 {% block content %}
 
-    <form action="{{ path('nhl_createSeason') }}" method="post" >
+    <form action="{{ path('nhl_createSeason', {'season': app.request.get('season')} ) }}" method="post" >
        <table>
             <tbody>
                 <tr>

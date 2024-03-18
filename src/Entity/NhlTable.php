@@ -61,6 +61,16 @@ class NhlTable
      */
     private $division;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $winst = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $porazht = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -170,6 +180,30 @@ class NhlTable
     public function setDivision(?NhlDivision $division): self
     {
         $this->division = $division;
+
+        return $this;
+    }
+
+    public function getWinst(): ?int
+    {
+        return $this->winst;
+    }
+
+    public function setWinst(?int $winst): static
+    {
+        $this->winst = $winst;
+
+        return $this;
+    }
+
+    public function getPorazht(): ?int
+    {
+        return $this->porazht;
+    }
+
+    public function setPorazht(?int $porazht): static
+    {
+        $this->porazht = $porazht;
 
         return $this;
     }
