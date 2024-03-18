@@ -271,6 +271,7 @@ class NhlController extends AbstractController
       $player_name = htmlspecialchars($request->request->get('player'));
       $season = htmlspecialchars($request->request->get('season'));
       $team_id = htmlspecialchars($request->request->get('team'));
+
       $em = $this->entityManager;
 
       $year = $em->getRepository(Seasons::class)->findOneByName($season);
@@ -289,15 +290,19 @@ class NhlController extends AbstractController
         $em->persist($player);
         $em->flush();
       }
-      $entity  = new NhlReg();
-      $entity->setSeason($year);
-      $entity->setTeam($team);
-      $entity->setPlayer($player);
+      $reg = $em->getRepository(NhlReg::class)->searchPlayers([$player->getName()], $season);
+      if(!empty($reg) && is_object($reg[0])){
+        $em->getRepository(NhlReg::class)->updateTeamPlayer($reg[0]->getId(), $team_id);
+      } else {
+        $entity  = new NhlReg();
+        $entity->setSeason($year);
+        $entity->setTeam($team);
+        $entity->setPlayer($player);
+        $em->persist($entity);
+        $em->flush();
+      }
 
-      $em->persist($entity);
-      $em->flush();
-
-      return new JsonResponse($entity->getId());
+      return new JsonResponse([]);
   }
 
   public function nextMatch(Request $request)

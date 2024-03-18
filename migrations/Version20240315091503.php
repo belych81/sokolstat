@@ -21,7 +21,7 @@ final class Version20240315091503 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         
-        $this->addSql('ALTER TABLE nhl_match ADD overtime TINYINT(1) NOT NULL, CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE stadia_id stadia_id INT DEFAULT NULL, CHANGE bomb bomb VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE nhl_match ADD overtime TINYINT(1) NULL');
         
     }
 

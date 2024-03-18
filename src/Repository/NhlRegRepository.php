@@ -302,4 +302,16 @@ class NhlRegRepository extends ServiceEntityRepository
 
         return $qb->getResult();
     }
+
+    public function updateTeamPlayer(int $id, int $team_id)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->update('App\Entity\NhlReg', 'g')
+            ->set('g.team', '?2')
+            ->where('g.id = ?1')
+            ->setParameter(1, $id)
+            ->setParameter(2, $team_id)
+            ->getQuery();
+        $qb->execute();
+    }
 }

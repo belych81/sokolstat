@@ -21,7 +21,7 @@ final class Version20240313152613 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         
-        $this->addSql('ALTER TABLE nhl_team ADD matches INT NOT NULL DEFAULT 0, CHANGE name name VARCHAR(255) NOT NULL, CHANGE translit translit VARCHAR(255) NOT NULL, CHANGE winsreg winsreg INT NOT NULL, CHANGE nichreg nichreg INT NOT NULL, CHANGE porazhreg porazhreg INT NOT NULL, CHANGE mzreg mzreg INT NOT NULL, CHANGE mpreg mpreg INT NOT NULL, CHANGE scorereg scorereg INT NOT NULL, CHANGE winspo winspo INT NOT NULL, CHANGE nichpo nichpo INT NOT NULL, CHANGE porazhpo porazhpo INT NOT NULL, CHANGE mzpo mzpo INT NOT NULL, CHANGE mppo mppo INT NOT NULL, CHANGE scorepo scorepo INT NOT NULL, CHANGE wins wins INT NOT NULL, CHANGE nich nich INT NOT NULL, CHANGE porazh porazh INT NOT NULL, CHANGE mz mz INT NOT NULL, CHANGE mp mp INT NOT NULL, CHANGE score score INT NOT NULL, CHANGE gamereg gamereg INT NOT NULL, CHANGE gamepo gamepo INT NOT NULL, CHANGE game game INT NOT NULL, CHANGE image image VARCHAR(255) NOT NULL, CHANGE image2 image2 VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE nhl_team ADD matches INT NOT NULL DEFAULT 0');
         
     }
 

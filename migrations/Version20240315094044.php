@@ -21,7 +21,7 @@ final class Version20240315094044 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         
-        $this->addSql('ALTER TABLE nhl_table ADD winst INT DEFAULT 0, ADD porazht INT DEFAULT 0, CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE division_id division_id INT DEFAULT NULL, CHANGE mz mz INT NOT NULL, CHANGE mp mp INT NOT NULL, CHANGE score score INT NOT NULL');
+        $this->addSql('ALTER TABLE nhl_table ADD winst INT DEFAULT 0, ADD porazht INT DEFAULT 0');
         
     }
 
