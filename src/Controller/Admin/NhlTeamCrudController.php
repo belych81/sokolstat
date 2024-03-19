@@ -26,6 +26,8 @@ class NhlTeamCrudController extends AbstractCrudController
             Field::new('name'),
             Field::new('matches'),
             Field::new('translit')->onlyOnForms(),
+            Field::new('image'),
+            Field::new('image2'),
         ];
     }
 
