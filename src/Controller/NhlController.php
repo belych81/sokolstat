@@ -206,12 +206,13 @@ class NhlController extends AbstractController
     $teams = $em->getRepository(NhlTable::class)->getTeams($season);
     $matches = $em->getRepository(Game::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
     $matchesM = $em->getRepository(Mundial::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
-
     foreach($matchesM as $key => $match){
-      if($match->getId() == $year->getLastId()){
+      if($match->getId() == $year->getLastId()){ 
         unset($matchesM[$key]);
         break;
-      } elseif($match->getData() == $year->getLastdate()) {
+      } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
+        break;
+      } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
         unset($matchesM[$key]);
       }
     }
@@ -219,7 +220,7 @@ class NhlController extends AbstractController
       if($match->getId() == $year->getLastId()){
         unset($matches[$key]);
         break;
-      } elseif($match->getData() == $year->getLastdate()) {
+      } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
         unset($matches[$key]);
       }
     }

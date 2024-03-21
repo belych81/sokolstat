@@ -324,7 +324,7 @@
                      for (const key in data) {
                         let id = 'matchNext_'+key;
                         $(".match_images").append("<div id='"+id+"'></div>");
-                        $("#matchNext_" + key).append("<img src='/nfl/images/" + data[key].image + "' />");
+                        $("#matchNext_" + key).append("<img src='/images/" + data[key].image + "' />");
                         $("#matchNext_" + key).append("<div class='ok_btn btn_player'><button data-id='"+data[key].id+"' data-team='"+data[key].name+"' data-img='"+data[key].image+"'>Принять</button></div>");
                      }
                   }
@@ -378,7 +378,7 @@
             th.find('.item[data-id="'+new_key+'"]').addClass('selected');
          });
 
-         $(document).on("click", "#nflEnd", function(){
+         $(document).on("click", ".nflEnd", function(){
             let th = $(this);
             let season = $("#nfl_search_team [name='season']").val();
             let id = $(".nfl_matches_items .item.selected").data('matchid');
