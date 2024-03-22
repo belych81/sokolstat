@@ -92,6 +92,10 @@
                <button class="nflEnd">Завершить</button>
             </div>
          </div>
+         <div>
+            <input type="text" id="totalGoalMatches" value="0" size="2">
+            <input type="text" id="totalMatches" value="0" size="2">
+         </div>
       </div>
 
       <div class="ok_btn">
@@ -397,6 +401,24 @@
                }
             });
          })
+
+         $(document).on('change', '.matches-tour .goal1, .matches-tour .goal2', function(){
+            let goal1Node = $('.matches-tour .goal1');
+            let goal2Node = $('.matches-tour .goal2');
+            let goals = 0;
+            goal1Node.each(function(){
+               if($(this).val()){
+                  goals += parseInt($(this).val());
+               }
+            });
+            goal2Node.each(function(){
+               if($(this).val()){
+                  goals += parseInt($(this).val());
+               }
+            });
+            $("#totalGoalMatches").val(goals);
+            $("#totalMatches").val(goal1Node.length);
+         });
       });
    </script>
 {% endblock %}
