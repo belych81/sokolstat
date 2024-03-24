@@ -112,6 +112,8 @@
    {{ parent() }}
 
    <script>
+      window.teams = [];
+
       $(document).ready(function(){
          $(document).on("keyup", '#searchPlayer', function() {
             if(this.value.length >= 1){
@@ -223,10 +225,11 @@
             let image = $this.find('img').attr('src');
             let season = $("#nfl_search_team [name='season']").val();
             console.log(id)
+            console.log('w_teams', window.teams)
             $.ajax({
                type: 'post',
                url: Routing.generate('nhl_next_match'),
-               data: {team: id, image: image, season: season},
+               data: {team: id, image: image, season: season, teams: JSON.stringify(window.teams)},
                dataType: 'json',
                success: function(data){
                      console.log(data)
@@ -267,7 +270,8 @@
                   success: function(data){
                         console.log(data)
                         $(".match_images").html('');
-                        //$(".ok_btn button").hide();
+                        window.teams.push(team);
+                        window.teams.push(team2);
                         $(".matches-tour").append("<div class=\"matches-tour-images\" data-id='" + matchId + "' data-team='"+team+"' data-team2='"+team2+"'><img src=" + img1 + " /><img src=" + img2 + " /><div><input type='text' class='goal1' size='1'><input type='text' class='goal2' size='1'><input type='text' class='bomb' size='20'></div></div>");
                   },
                   error: function (xhr, ajaxOptions, thrownError) {
@@ -288,7 +292,6 @@
                   success: function(data){
                         console.log(data)
                         $(".match_images").html('');
-                        $(".ok_btn button").hide();
                   },
                   error: function (xhr, ajaxOptions, thrownError) {
                      

@@ -208,7 +208,7 @@ class NhlController extends AbstractController
     $matchesM = $em->getRepository(Mundial::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
     foreach($matchesM as $key => $match){
       if($match->getId() == $year->getLastId()){ 
-        unset($matchesM[$key]);
+        //unset($matchesM[$key]);
         break;
       } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
         break;
@@ -217,11 +217,13 @@ class NhlController extends AbstractController
       }
     }
     foreach($matches as $key => $match){
-      if($match->getId() == $year->getLastId()){
-        unset($matches[$key]);
+      if($match->getId() == $year->getLastId()){ 
+        //unset($matchesM[$key]);
+        break;
+      } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
         break;
       } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
-        unset($matches[$key]);
+        unset($matchesM[$key]);
       }
     }
     $matches = array_values($matches);
@@ -311,11 +313,12 @@ class NhlController extends AbstractController
       $season = htmlspecialchars($request->request->get('season'));
       $team_id = htmlspecialchars($request->request->get('team'));
       $image = htmlspecialchars($request->request->get('image'));
+      $teams = json_decode($request->request->get('teams'), 1);
 
       $em = $this->entityManager;
 
       $team = $em->getRepository(NhlTeam::class)->findOneById($team_id);
-      $nextMatches = $em->getRepository(NflMatch::class)->getNextMatches($season, $team->getTranslit());
+      $nextMatches = $em->getRepository(NflMatch::class)->getNextMatches($season, $team->getTranslit(), $teams);
       $arNextMatches = $arTeams = [];
       if($nextMatches){
         foreach($nextMatches as $match){

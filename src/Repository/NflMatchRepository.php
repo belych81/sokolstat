@@ -21,9 +21,9 @@ class NflMatchRepository extends ServiceEntityRepository
         parent::__construct($registry, NflMatch::class);
     }
 
-    public function getNextMatches($season, $team, int $cntLastMatches = 7)
+    public function getNextMatches($season, $team, array $teams = [], int $cntLastMatches = 7)
     {
-        return $this->createQueryBuilder('t')
+        $qb = $this->createQueryBuilder('t')
             ->select('t')
             ->join('t.season', 's')
             ->join('t.team', 'tm')
@@ -32,11 +32,18 @@ class NflMatchRepository extends ServiceEntityRepository
             ->setParameter('season', $season)
             ->andWhere("tm.translit = :team OR tm2.translit = :team")
             ->setParameter('team', $team)
-            ->andWhere('t.status = 0')
-            ->orderBy('RAND()')
-            ->setMaxResults($cntLastMatches)
-            ->getQuery()
-            ->getResult();
+            ->andWhere('t.status = 0');
+
+        if(!empty($teams)){
+            $qb->andWhere("tm.id NOT IN (:teams)")
+                ->andWhere("tm2.id NOT IN (:teams)")
+                ->setParameter('teams', $teams);
+        }
+
+        return $qb->orderBy('RAND()')
+                ->setMaxResults($cntLastMatches)
+                ->getQuery()
+                ->getResult();
     }
 
     public function setStatus(int $id, $status)
