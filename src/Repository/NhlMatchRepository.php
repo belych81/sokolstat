@@ -26,8 +26,8 @@ class NhlMatchRepository extends ServiceEntityRepository
               ->join('t.season', 's')
               ->join('t.team', 'tm')
               ->andWhere("t.data LIKE '%$curDate%'")
-              ->andWhere("s.name = :season")
-              ->setParameter('season', $season)
+              //->andWhere("s.name = :season")
+              //->setParameter('season', $season)
               ->orderBy('t.data', 'ASC')
               ->getQuery()
               ->getResult();

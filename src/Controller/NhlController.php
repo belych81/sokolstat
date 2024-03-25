@@ -218,12 +218,12 @@ class NhlController extends AbstractController
     }
     foreach($matches as $key => $match){
       if($match->getId() == $year->getLastId()){ 
-        //unset($matchesM[$key]);
+        //unset($matches[$key]);
         break;
       } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
         break;
       } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
-        unset($matchesM[$key]);
+        unset($matches[$key]);
       }
     }
     $matches = array_values($matches);
