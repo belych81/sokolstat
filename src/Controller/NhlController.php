@@ -54,7 +54,16 @@ class NhlController extends AbstractController
 
       $dates = [];
       if($routeName != 'nhl_season'){
-        $seasonName = '1992-93';
+        $date = \DateTime::createFromFormat('d-n-Y', $season);
+        $month = $date->format('n');
+        $year1 = $date->format('Y');
+        if($month > 7){
+          $year2 = $year1 + 1;
+          $seasonName = $year1 . '-' . substr($year2, 2, 2);
+        } else {
+          $year2 = $year1 - 1;
+          $seasonName = $year2 . '-' . substr($year1, 2, 2);
+        }
       } else {
         $seasonName = $season;
       }
