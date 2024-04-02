@@ -50,12 +50,12 @@ class Gamers
     private $goalTeam;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $totalgame = 1;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $totalgoal = 0;
 

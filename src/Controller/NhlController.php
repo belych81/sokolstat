@@ -70,6 +70,8 @@ class NhlController extends AbstractController
       $obDates = $this->entityManager->getRepository(NhlMatch::class)
           ->getDates($seasonName);
 
+      $keyLast = 0;
+      
       if($routeName == 'nhl_season'){
         $keyLast = array_key_last($obDates);
       } else {
@@ -96,7 +98,7 @@ class NhlController extends AbstractController
           }
           $obCurDate = new \DateTime($curDate);
           $matches = $this->entityManager->getRepository(NhlMatch::class)
-              ->getMatches($curDate, $season);
+              ->getMatches($curDate, $seasonName);
           foreach ($matches as $key => $match) {
             $obData = $match->getData();
             $dates[$obData->format("d.m")][] = $match;

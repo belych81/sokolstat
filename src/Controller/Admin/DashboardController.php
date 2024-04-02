@@ -3,12 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Game;
+use App\Entity\Gamers;
+use App\Entity\Shipplayer;
 use App\Entity\Player;
 use App\Entity\City;
 use App\Entity\Country;
 use App\Entity\Referee;
 use App\Entity\Team;
 use App\Entity\Mundial;
+use App\Entity\MundialTable;
 use App\Entity\Amplua;
 use App\Entity\Seasons;
 use App\Entity\Stadia;
@@ -69,6 +72,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Country', 'fa fa-user', Country::class),
             MenuItem::linkToCrud('Game', 'fa fa-tags', Game::class),
             MenuItem::linkToCrud('Mundial', 'fa fa-file-text', Mundial::class),
+            MenuItem::linkToCrud('MundialTable', 'fa fa-file-text', MundialTable::class),
             MenuItem::linkToCrud('News', 'fa fa-user', News::class),
             MenuItem::linkToCrud('NflMatch', 'fa fa-user', NflMatch::class),
             MenuItem::linkToCrud('NhlMatch', 'fa fa-user', NhlMatch::class),
@@ -78,6 +82,8 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('NhlPlayer', 'fa fa-user', NhlPlayer::class),
             MenuItem::linkToCrud('Period', 'fa fa-user', Period::class),
             MenuItem::linkToCrud('Player', 'fa fa-file-text', Player::class),
+            MenuItem::linkToCrud('Gamers', 'fa fa-tags', Gamers::class),
+            MenuItem::linkToCrud('Shipplayer', 'fa fa-tags', Shipplayer::class),
             MenuItem::linkToCrud('Referee', 'fa fa-comment', Referee::class),
             MenuItem::linkToCrud('Seasons', 'fa fa-user', Seasons::class),
             MenuItem::linkToCrud('Stadia', 'fa fa-user', Stadia::class),
