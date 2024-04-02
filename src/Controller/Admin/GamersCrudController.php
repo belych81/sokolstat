@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Gamers;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -44,6 +45,15 @@ class GamersCrudController extends AbstractCrudController
             ->add('season')
             ->add('team')
         ;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return parent::configureCrud($crud)
+            ->setDefaultSort([
+                'totalgoal' => 'DESC',
+                'id' => 'ASC',
+            ]);
     }
     
 }
