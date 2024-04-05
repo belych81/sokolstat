@@ -1,4 +1,16 @@
 {% for match in matches %}
+    {% set link = "javascript:void(0);" %}
+    {% set link2 = "javascript:void(0);" %}
+    {% if isNoTop == false or match.team.name in noTopTeams %}
+        {% set link = path('championships_show', {
+                'id': match.team.translit, 'season': app.request.get('season'),
+                'country': app.request.get('country')}) %}
+    {% endif %}
+    {% if isNoTop == false or match.team2.name in noTopTeams %}
+        {% set link = path('championships_show', {
+                'id': match.team2.translit, 'season': app.request.get('season'),
+                'country': app.request.get('country')}) %}
+    {% endif %}
     <tr class="champ-match-title">
         {% if is_granted("ROLE_ADMIN") %}
             {% if app.request.get('country')=='russia' %}
@@ -36,10 +48,7 @@
     </tr>
     <tr>
         <td class="champTourTeam">
-            <a href="{{ path('championships_show', {
-                'country': app.request.get('country'),
-                'season': app.request.get('season'),
-                'id': match.team.translit}) }}">{{ match.team.name }}</a>
+            <a href="{{ link }}">{{ match.team.name }}</a>
         </td>
         <td class="champTourImage">
             {% if match.team.image %}
@@ -61,10 +70,7 @@
             {% endif %}
         </td>
         <td class="champTourTeam">
-            <a href="{{ path('championships_show', {
-                'country': app.request.get('country'),
-                'season': app.request.get('season'),
-                'id': match.team2.translit}) }}">{{ match.team2.name }}</a>
+            <a href="{{ link2 }}">{{ match.team2.name }}</a>
         </td>
     </tr>
     <tr class="champ-match-bomb">

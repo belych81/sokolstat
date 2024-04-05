@@ -23,13 +23,13 @@ class RfplmatchType extends AbstractType
             ->add('team', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
-            return $repository->queryTeamsForForm('Россия', $season);
+            return $repository->queryTeamsForForm('russia', $season);
             }
             ])
             ->add('team2', EntityType::class, [
             'class' => Team::class,
             'query_builder' => function (TeamRepository $repository) use ($season) {
-            return $repository->queryTeamsForForm('Россия', $season);
+            return $repository->queryTeamsForForm('russia', $season);
             }
             ])
             ->add('goal1')

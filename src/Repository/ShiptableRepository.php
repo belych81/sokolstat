@@ -34,6 +34,8 @@ class ShiptableRepository extends ServiceEntityRepository
               break;
             case 'france' : $country = 'Франция'; $rusCountry = 'Франции';
               break;
+            case 'holland' : $country = 'Голландия'; $rusCountry = 'Голландии';
+              break;
             case 'fnl' : $country = 'ФНЛ'; $rusCountry = 'ФНЛ';
               break;
             default : $country = ''; $rusCountry = 'УЕФА';
@@ -129,9 +131,9 @@ class ShiptableRepository extends ServiceEntityRepository
                      ->getResult();
     }
 
-    public function getTeams($season, $country)
+    public function getTeams($season, $country, $arTeams)
     {
-      return $this->createQueryBuilder('st')
+      $qb = $this->createQueryBuilder('st')
               ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')
               ->join('st.team', 't')
               ->join('st.season', 's')
@@ -139,10 +141,15 @@ class ShiptableRepository extends ServiceEntityRepository
               ->where("c.name = :country")
               ->setParameter('country', $country)
               ->andWhere("s.name = :season")
-              ->setParameter('season', $season)
-              ->orderBy('t.name')
-              ->getQuery()
-              ->getResult()
+              ->setParameter('season', $season);
+      if(!empty($arTeams)){
+        $qb->andWhere("t.name IN (:teams)")
+            ->setParameter('teams', $arTeams);
+      }
+              
+      return $qb->orderBy('t.name')
+                ->getQuery()
+                ->getResult()
               ;
     }
 

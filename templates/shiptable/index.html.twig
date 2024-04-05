@@ -54,7 +54,7 @@
 {% block content %}
 <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
     <div class="row shiptable_root">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-{% if isNoTop %}6{% else %}4{% endif %} shiptable_block">
             <div class="champ-tours">Туры:
                 {% for tour in tours %}
                         <span class="spiski tour_js {% if app.request.get('tour') == tour.tour %}active{% endif %}"
@@ -75,12 +75,12 @@
                     {% endif %}
                 <table class="table champship-table">
                     <tbody>
-                        {{ include('shiptable/tour.html.twig', { 'matches': matches }) }}
+                        {{ include('shiptable/tour.html.twig', { 'matches': matches, 'isNoTop': isNoTop, 'noTopTeams': noTopTeams }) }}
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-{% if isNoTop %}6{% else %}4{% endif %} shiptable_block">
             <div class="champ-table">
                 <p class="champ-title">Турнирная таблица</p>
                 <table class="shipTable">
@@ -99,13 +99,19 @@
                     </thead>
                     <tbody>
                     {% for entity in entities %}
-
+                        {% set link = "javascript:void(0);" %}
+                        {% if isNoTop == false or entity.team.name in noTopTeams %}
+                            {% set link = path('championships_show', {
+                                    'id': entity.team.translit, 'season': app.request.get('season'),
+                                    'country': app.request.get('country')}) %}
+                        {% endif %}
                         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                             <td class="player-position">{{ loop.index }}</td>
-                            <td class="tableLeft"><a href="{{ path('championships_show', {
-                                    'id': entity.team.translit, 'season': app.request.get('season'),
-                                    'country': app.request.get('country')}) }}" class="shipTableTeam">
-                                    {{ entity.team.name }}</a></td>
+                            <td class="tableLeft">
+                                <a href="{{ link }}" class="shipTableTeam">
+                                    {{ entity.team.name }}
+                                </a>
+                            </td>
                             <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
                             <td>{{ entity.wins }}</td>
                             <td>{{ entity.nich }}</td>
@@ -119,6 +125,7 @@
                 </table>
             </div>
         </div>
+        {% if isNoTop == false %}
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-bombs">
                 <p class="champ-title">Бомбардиры</p>
@@ -147,6 +154,7 @@
                 </table>
             </div>
         </div>
+        {% endif %}
 
         {% if assistSum %}
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">

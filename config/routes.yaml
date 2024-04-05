@@ -307,7 +307,7 @@ championships:
     defaults:
         tour: false
     requirements:
-        country: russia|england|spain|italy|germany|france|fnl
+        country: russia|england|spain|italy|germany|france|holland|fnl
         tour: \d+
     options:
         expose: true
@@ -316,7 +316,7 @@ championships_tour:
     path:  /championships/tour/{country}/{season}/{tour}/
     controller: App\Controller\ShiptableController::tour
     requirements:
-        country: russia|england|spain|italy|germany|france|fnl
+        country: russia|england|spain|italy|germany|france|holland|fnl
         tour: \d+
     options:
         expose: true
@@ -325,7 +325,7 @@ championships_show:
     path:  /championships/{country}/{season}/{id}
     controller: App\Controller\ShiptableController::show
     requirements:
-        country: russia|england|spain|italy|germany|france|fnl|leagueChampions
+        country: russia|england|spain|italy|germany|france|fnl|holland|leagueChampions
 
 championships_new:
     path:  /championships/admin/{id}

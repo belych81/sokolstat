@@ -47,7 +47,7 @@ class ShiptableController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function index(Menu $serviceMenu, Functions $functions, ResizeImage $resize, $country, $season, $tour)
+    public function index(Menu $serviceMenu, Functions $functions, Props $props, ResizeImage $resize, $country, $season, $tour)
     {
         $strana = $this->entityManager->getRepository(Shiptable::class)
                 ->translateCountry($country)['country'];
@@ -90,23 +90,17 @@ class ShiptableController extends AbstractController
         }
         $rusCountry = $this->entityManager->getRepository(Shiptable::class)
                 ->translateCountry($country)['rusCountry'];
-        switch ($country) {
-            case 'russia' :
-              $bombs = $this->entityManager->getRepository(Gamers::class)
-                    ->getBomb($season);
-                    break;
-            case 'england' :
-            case 'spain' :
-            case 'italy' :
-            case 'germany' :
-            case 'france' :
-                $bombs = $this->entityManager->getRepository(Shipplayer::class)
-                    ->getBomb5($season, $strana);
-                    break;
-            case 'fnl' :
-                $bombs = $this->entityManager->getRepository(Fnlplayer::class)
-                    ->getBomb5($season, $strana);
 
+        $isNoTop = key_exists($country, $props->getNoTops());
+        if($country == 'russia'){
+          $bombs = $this->entityManager->getRepository(Gamers::class)
+                    ->getBomb($season);
+        } elseif($country == 'fnl'){
+          $bombs = $this->entityManager->getRepository(Fnlplayer::class)
+                    ->getBomb5($season, $strana);
+        } elseif(key_exists($country, $props->getTops()) || $isNoTop){
+          $bombs = $this->entityManager->getRepository(Shipplayer::class)
+                    ->getBomb5($season, $strana);
         }
 
         $bombSum = $functions->getBombSum($bombs, 20);
@@ -116,6 +110,10 @@ class ShiptableController extends AbstractController
         if($country == 'russia' && $season > '2021'){
           $assistSum = $functions->getBombSum($bombs, 20, 'assist');
           $scoreSum = $functions->getBombSum($bombs, 20, 'score');
+        }
+        $arTeams = [];
+        if($isNoTop){
+          $arTeams = $props->getNoTopsTeams($country);
         }
 
         $menu = $serviceMenu->generate($country, $season);
@@ -132,6 +130,8 @@ class ShiptableController extends AbstractController
             'strana' => $strana,
             'assistSum' => $assistSum,
             'scoreSum' => $scoreSum,
+            'isNoTop' => $isNoTop,
+            'noTopTeams' => $arTeams
         ]);
     }
 
@@ -171,7 +171,7 @@ class ShiptableController extends AbstractController
       ]);
     }
 
-    public function show(SessionInterface $session, Menu $serviceMenu, ResizeImage $resize, $id, $season, $country)
+    public function show(SessionInterface $session, Menu $serviceMenu, Props $props, ResizeImage $resize, $id, $season, $country)
     {
         $club = $this->entityManager->getRepository(Team::class)
           ->findOneByTranslit($id);
@@ -245,8 +245,14 @@ class ShiptableController extends AbstractController
                       ->getLastMatchesByTeam($season, $id, $cntLastMatches);
         $strana = $this->entityManager->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
+
+        $arTeams = [];
+        $isNoTop = key_exists($country, $props->getNoTops());
+        if($isNoTop){
+          $arTeams = $props->getNoTopsTeams($country);
+        }
         $teams = $this->entityManager->getRepository(Shiptable::class)
-          ->getTeams($season, $strana);
+          ->getTeams($season, $strana, $arTeams);
 
         foreach($teams as &$team){
           if($team['image']){
@@ -349,20 +355,11 @@ class ShiptableController extends AbstractController
     public function createSeason(SessionInterface $session, Request $request,
       $country)
     {
-        switch ($country) {
-            case 'russia' : $country2 = 'Россия'; break;
-            case 'england' : $country2 = 'Англия';  break;
-            case 'spain' : $country2 = 'Испания'; break;
-            case 'italy' : $country2 = 'Италия'; break;
-            case 'germany' : $country2 = 'Германия'; break;
-            case 'france' : $country2 = 'Франция'; break;
-            case 'fnl' : $country2 = 'ФНЛ'; break;
-        }
 
             $ent = ShiptableType::class;
             $entity  = new Shiptable();
             $strana = $this->entityManager->getRepository(Country::class)
-              ->findOneByName($country2);
+              ->findOneByTranslit($country);
             $entity->setCountry($strana);
 
 

@@ -126,7 +126,7 @@ class TeamRepository extends ServiceEntityRepository
                 ->leftJoin('t.shiptables', 'st')
                 ->join('st.country', 'c')
                 ->join('st.season', 's')
-                ->where("c.name = :country")
+                ->where("c.translit = :country")
                 ->andWhere("s.name = :season")
                 ->setParameters([
                     'country' => $country,

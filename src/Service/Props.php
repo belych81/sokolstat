@@ -6,7 +6,13 @@ class Props
     private $lastSeason = '2023-24';
     private $lastMundSeason = 2024;
     private $sbornieRusYear = 2023;
-    private $tops = ['Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
+    private $tops = ['england' => 'Англия', 'spain' => 'Испания', 'italy' => 'Италия', 'germany' => 'Германия', 'france' => 'Франция'];
+    private $noTops = ['holland' => 'Голландия', 'portugal' => 'Португалия', 'scotland' => 'Шотландия', 'turkey' => 'Турция', 'greece' => 'Греция'];
+    private $noTopsTeams = [
+      'holland' => [
+        'Аякс', 'Фейеноорд', 'ПСВ'
+      ]
+    ];
     private $topEmblem = [
       'Англия' => 'Premier_League.svg.png',
       'Испания' => 'LaLiga.svg.png',
@@ -28,6 +34,16 @@ class Props
     public function getTops(): array
     {
         return $this->tops;
+    }
+
+    public function getNoTops(): array
+    {
+        return $this->noTops;
+    }
+
+    public function getNoTopsTeams(string $country): array
+    {
+        return $this->noTopsTeams[$country];
     }
 
     public function getTopEmblem(): array

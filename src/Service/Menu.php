@@ -47,6 +47,13 @@ class Menu
                 'name' => 'Сводная таблица',
                 'url' => $this->router->generate('svod', ['country' => 'russia'])
         ];
+      } elseif(key_exists($country, $this->props->getNoTops())) {
+        $menu = [
+          [
+            'name' => 'Чемпионат',
+            'url' => $this->router->generate('championships', ['country' => $country, 'season' => $season])
+          ]
+        ];
       } else {
         $menu = [
           [
