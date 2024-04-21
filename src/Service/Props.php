@@ -1,18 +1,13 @@
 <?php
 namespace App\Service;
 
+use Symfony\Component\Yaml\Yaml;
+
 class Props
 {
     private $lastSeason = '2023-24';
     private $lastMundSeason = 2024;
     private $sbornieRusYear = 2023;
-    private $tops = ['england' => 'Англия', 'spain' => 'Испания', 'italy' => 'Италия', 'germany' => 'Германия', 'france' => 'Франция'];
-    private $noTops = ['holland' => 'Голландия', 'portugal' => 'Португалия', 'scotland' => 'Шотландия', 'turkey' => 'Турция', 'greece' => 'Греция'];
-    private $noTopsTeams = [
-      'holland' => [
-        'Аякс', 'Фейеноорд', 'ПСВ'
-      ]
-    ];
     private $topEmblem = [
       'Англия' => 'Premier_League.svg.png',
       'Испания' => 'LaLiga.svg.png',
@@ -20,6 +15,16 @@ class Props
       'Германия' => 'Bundesliga.svg.png',
       'Франция' => 'Ligue_1.svg.png'
     ];
+
+    private array $yaml = [];
+
+
+    public function __construct()
+    {
+        if(empty($this->yaml)){
+          $this->yaml = Yaml::parseFile(__DIR__.'/../../config/params.yaml');
+        }
+    }
 
     public function getLastSeason(): ?string
     {
@@ -33,17 +38,17 @@ class Props
 
     public function getTops(): array
     {
-        return $this->tops;
+        return $this->yaml['top']['country'];
     }
 
     public function getNoTops(): array
     {
-        return $this->noTops;
+        return $this->yaml['noTop']['country'];
     }
 
     public function getNoTopsTeams(string $country): array
     {
-        return $this->noTopsTeams[$country];
+        return $this->yaml['noTop']['teams'][$country];
     }
 
     public function getTopEmblem(): array

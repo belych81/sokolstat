@@ -38,7 +38,6 @@ header,
 }
 .container-fluid {
   max-width: 1600px;
-  width: 1300px;
 }
 @media screen and (max-width: 1400px) {
   .container-fluid {
@@ -1303,7 +1302,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
   margin-bottom: 5px;
 }
 .teams-list img {
-  max-height: 40px;
+  max-height: 45px;
 }
 .teams-list.mund img {
   border-radius: 100%;
@@ -1890,7 +1889,7 @@ footer.container {
 }
 .nfl img {
   margin: 10px;
-  padding: 10px;
+  padding: 3px;
   border: 2px solid #5c7c8c;
   background: #b8dbd9;
   border-radius: 6px;

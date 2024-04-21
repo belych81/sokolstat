@@ -1,0 +1,23 @@
+top:
+  country:
+    england: 'Англия'
+    spain: 'Испания'
+    italy: 'Италия'
+    germany: 'Германия'
+    france: 'Франция'
+noTop:
+  country:
+    holland: 'Голландия'
+    portugal: 'Португалия'
+  teams:
+    holland:
+      - 'ajax'
+      - 'psv'
+      - 'feyenoord'
+      - 'tvente'
+      - 'az-alkmaar'
+    portugal:
+      - 'benfica'
+      - 'porto'
+      - 'sporting'
+      - 'braga'

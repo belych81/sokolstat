@@ -100,7 +100,7 @@
                     <tbody>
                     {% for entity in entities %}
                         {% set link = "javascript:void(0);" %}
-                        {% if isNoTop == false or entity.team.name in noTopTeams %}
+                        {% if isNoTop == false or entity.team.translit in noTopTeams %}
                             {% set link = path('championships_show', {
                                     'id': entity.team.translit, 'season': app.request.get('season'),
                                     'country': app.request.get('country')}) %}
