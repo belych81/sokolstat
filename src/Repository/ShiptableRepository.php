@@ -143,7 +143,7 @@ class ShiptableRepository extends ServiceEntityRepository
               ->andWhere("s.name = :season")
               ->setParameter('season', $season);
       if(!empty($arTeams)){
-        $qb->andWhere("t.name IN (:teams)")
+        $qb->andWhere("t.translit IN (:teams)")
             ->setParameter('teams', $arTeams);
       }
               

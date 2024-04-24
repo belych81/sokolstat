@@ -224,15 +224,12 @@
             let id = $this.data('id');
             let image = $this.find('img').attr('src');
             let season = $("#nfl_search_team [name='season']").val();
-            console.log(id)
-            console.log('w_teams', window.teams)
             $.ajax({
                type: 'post',
                url: Routing.generate('nhl_next_match'),
                data: {team: id, image: image, season: season, teams: JSON.stringify(window.teams)},
                dataType: 'json',
                success: function(data){
-                     console.log(data)
                      if(data){
                         $(".match_images").html('');
                         for (const key in data) {
@@ -242,7 +239,7 @@
                            $("#matchNext_" + key).append("<img src=" + data[key].img2 + " />");
                            $("#matchNext_" + key).append("<span>" + data[key].matches + "</span>");
                            $("#matchNext_" + key).append("<div class='ok_btn btn_matches'><button data-id='"+data[key].id+"' data-team='"+data[key].team+"' data-team2='"+data[key].team2+"' data-img1='"+data[key].img1+"' data-img2='"+data[key].img2+"'>Принять</button></div>");
-                           }
+                        }
                         matchId = data.id;
                         team = data.team;
                         team2 = data.team2;
