@@ -408,6 +408,7 @@ class NhlController extends AbstractController
           $team2 = $em->getRepository(NhlTeam::class)->findOneById($arr['team2']);
           $stadia = $em->getRepository(NhlStadia::class)->findOneById(1);
 
+          $arr['ot'] = $arr['ot'] === 'false' ? false : (bool)$arr['ot'];
           $entity  = new NhlMatch();
 
           $entity->setSeason($year);
@@ -419,11 +420,12 @@ class NhlController extends AbstractController
           $entity->setData(new \DateTime());
           $entity->setStadia($stadia);
           $entity->setBomb($arr['bomb']);
+          $entity->setOvertime($arr['ot']);
 
           $em->persist($entity);
           $em->flush();
 
-          $em->getRepository(NhlTable::class)->updateNhltable($arr['team'], $arr['team2'], $arr['goal1'], $arr['goal2'], $year->getId());
+          $em->getRepository(NhlTable::class)->updateNhltable($arr['team'], $arr['team2'], $arr['goal1'], $arr['goal2'], $year->getId(), $arr['ot']);
         }
       }   
 

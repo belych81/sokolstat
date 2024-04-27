@@ -269,7 +269,7 @@
                         $(".match_images").html('');
                         window.teams.push(team);
                         window.teams.push(team2);
-                        $(".matches-tour").append("<div class=\"matches-tour-images\" data-id='" + matchId + "' data-team='"+team+"' data-team2='"+team2+"'><img src=" + img1 + " /><img src=" + img2 + " /><div><input type='text' class='goal1' size='1'><input type='text' class='goal2' size='1'><input type='text' class='bomb' size='20'></div></div>");
+                        $(".matches-tour").append("<div class=\"matches-tour-images\" data-id='" + matchId + "' data-team='"+team+"' data-team2='"+team2+"'><img src=" + img1 + " /><img src=" + img2 + " /><div><div><input type='text' class='goal1' size='1'><input type='text' class='goal2' size='1'><input type='text' class='bomb' size='20'></div><div><input type='checkbox' class='ot' /></div></div></div>");
                   },
                   error: function (xhr, ajaxOptions, thrownError) {
                      
@@ -354,6 +354,7 @@
                      goal1: $(this).find(".goal1").val(),
                      goal2: $(this).find(".goal2").val(),
                      bomb: $(this).find(".bomb").val(),
+                     ot: $(this).find(".ot").prop('checked'),
                   })
                })
                console.log(data)
