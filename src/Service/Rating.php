@@ -175,6 +175,8 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
+          case 'Голландия' :
+          case 'Португалия' :
             $coef = 4;
             break;
         }
@@ -192,6 +194,8 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
+          case 'Голландия' :
+          case 'Португалия' :
             $coef = 6;
             break;
         }
@@ -200,7 +204,7 @@ class Rating
     }
 
     public function checkCountry($country){
-      $arCountry = ['Россия', 'Англия', 'Испания', 'Италия', 'Германия', 'Франция'];
+      $arCountry = ['Россия', 'Англия', 'Испания', 'Италия', 'Германия', 'Франция', 'Голландия', 'Португалия'];
       if(in_array($country, $arCountry)){
         return true;
       }
