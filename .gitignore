@@ -36,3 +36,5 @@ yarn-error.log
 *.lock
 .vscode/
 /public/images/
+
+/config/params.yaml
