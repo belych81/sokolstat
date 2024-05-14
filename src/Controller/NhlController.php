@@ -240,9 +240,11 @@ class NhlController extends AbstractController
     $matches = array_values($matches);
     $matchesM = array_values($matchesM);
 
-    foreach($teams as &$team){
+    foreach($teams as $key => $team){
       if($team['image']){
-        $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+        $teams[$key]['image_small'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
+      } else {
+        $teams[$key]['image_small'] = '';
       }
     }
 

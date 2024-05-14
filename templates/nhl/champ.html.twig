@@ -16,7 +16,7 @@
    <div class="wrapper nfl">
       <div class="teams-list">
          {% for team in teams %}
-            <div class="" data-id="{{ team.id }}"><img src="{{ team.image }}"></div>
+            <div class="" data-id="{{ team.id }}" data-img="{{ team.image }}"><img src="{{ team.image_small }}"></div>
          {% endfor %}
       </div>
       <div class="nfl_top">
@@ -222,7 +222,7 @@
          $(document).on("click", ".teams-list div", function(){
             let $this = $(this);
             let id = $this.data('id');
-            let image = $this.find('img').attr('src');
+            let image = "/images/" + $this.data('img');
             let season = $("#nfl_search_team [name='season']").val();
             $.ajax({
                type: 'post',
