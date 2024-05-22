@@ -54,7 +54,7 @@
 {% block content %}
 <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
     <div class="row shiptable_root">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-{% if isNoTop %}6{% else %}4{% endif %} shiptable_block">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-tours">Туры:
                 {% for tour in tours %}
                         <span class="spiski tour_js {% if app.request.get('tour') == tour.tour %}active{% endif %}"
@@ -80,7 +80,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-{% if isNoTop %}6{% else %}4{% endif %} shiptable_block">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-table">
                 <p class="champ-title">Турнирная таблица</p>
                 <table class="shipTable">
@@ -125,7 +125,7 @@
                 </table>
             </div>
         </div>
-        {% if isNoTop == false %}
+        
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-bombs">
                 <p class="champ-title">Бомбардиры</p>
@@ -154,7 +154,6 @@
                 </table>
             </div>
         </div>
-        {% endif %}
 
         {% if assistSum %}
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">

@@ -103,7 +103,11 @@ class ShiptableController extends AbstractController
                     ->getBomb5($season, $strana);
         }
 
-        $bombSum = $functions->getBombSum($bombs, 20);
+        $limitBomb = 20;
+        if($isNoTop){
+          $limitBomb = 10;
+        }
+        $bombSum = $functions->getBombSum($bombs, $limitBomb);
         $assistSum = false;
         $scoreSum = false;
 
