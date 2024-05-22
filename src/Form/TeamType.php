@@ -15,6 +15,7 @@ class TeamType extends AbstractType
     {
         $builder->add('name')
                 ->add('translit')
+                ->add('city')
                 ->add('image', FileType::class, [
 
                     // unmapped means that this field is not associated to any entity property
