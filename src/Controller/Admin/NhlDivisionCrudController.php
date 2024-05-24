@@ -17,4 +17,12 @@ class NhlDivisionCrudController extends AbstractCrudController
         return NhlDivision::class;
     }
     
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            Field::new('id')->hideOnForm(),
+            AssociationField::new('conf'),
+            Field::new('name'),
+        ];
+    }
 }
