@@ -204,6 +204,7 @@ class NhlController extends AbstractController
   public function champ(Request $request, ResizeImage $resize, Nfl $nfl, $season)
   {
     $isUpload = $request->query->get('upload', false);
+    $isMetro = strpos($season, 'metro') !== false;
 
     if($isUpload){
       $lines = $nfl->getMatchesByFile('nfl2022.txt');
@@ -214,19 +215,26 @@ class NhlController extends AbstractController
     }
     $em = $this->entityManager;
 
+    $matchesM = [];
+    
     $year = $em->getRepository(Seasons::class)->findOneByName($season);
     $teams = $em->getRepository(NhlTable::class)->getTeams($season);
-    $matches = $em->getRepository(Game::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
-    $matchesM = $em->getRepository(Mundial::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
-    foreach($matchesM as $key => $match){
-      if($match->getId() == $year->getLastId()){ 
-        //unset($matchesM[$key]);
-        break;
-      } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
-        break;
-      } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
-        unset($matchesM[$key]);
+    if($isMetro){
+      $matches = $em->getRepository(NhlMatch::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
+    } else {
+      $matches = $em->getRepository(Game::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
+      $matchesM = $em->getRepository(Mundial::class)->getNflMatches($year->getLastdate(), self::NFL_MATCHES_LIMIT);
+      foreach($matchesM as $key => $match){
+        if($match->getId() == $year->getLastId()){ 
+          //unset($matchesM[$key]);
+          break;
+        } elseif($match->getData()->getTimestamp() >= $year->getLastdate()->getTimestamp()){
+          break;
+        } elseif($match->getData()->format('d.m.Y') == $year->getLastdate()->format('d.m.Y')) {
+          unset($matchesM[$key]);
+        }
       }
+      $matchesM = array_values($matchesM);
     }
     foreach($matches as $key => $match){
       if($match->getId() == $year->getLastId()){ 
@@ -239,7 +247,6 @@ class NhlController extends AbstractController
       }
     }
     $matches = array_values($matches);
-    $matchesM = array_values($matchesM);
 
     foreach($teams as $key => $team){
       if($team['image']){
