@@ -844,8 +844,10 @@ class NhlController extends AbstractController
       $playerId = $entity->getPlayer()->getId();
       $player = $entity->getPlayer();
       $teamOb = $entity->getTeam();
-      $this->entityManager->getRepository(NhlPlayer::class)
-        ->updateStatPlayer($playerId, $change);
+      if(strpos($season, 'metro') === false){
+        $this->entityManager->getRepository(NhlPlayer::class)
+          ->updateStatPlayer($playerId, $change);
+      }
       $this->entityManager->getRepository(NhlPlayersTeam::class)
               ->updatePlayersteam($player, $teamOb, $change);
       $session->set('lastPlayer', $entity->getPlayer()->getName());
