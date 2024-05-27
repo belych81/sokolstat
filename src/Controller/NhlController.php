@@ -434,12 +434,20 @@ class NhlController extends AbstractController
       return new JsonResponse($arData);
   }
 
-  public function playerChooseTeam(Request $request)
+  public function playerChooseTeam(Request $request, Props $props)
   {
       $player_name = htmlspecialchars($request->request->get('player'));
       $season = htmlspecialchars($request->request->get('season'));
       $em = $this->entityManager;
 
+      $limit = 30;
+      $champs32 = $props->getChamps32();
+      foreach($champs32 as $champ){
+        if(strpos($season, $champ) !== false){
+          $limit = 32;
+          break;
+        }
+      }
       $year = $em->getRepository(Seasons::class)->findOneByName($season);
       $season_id = $year->getId();
       $stmt = $em->getConnection()
@@ -447,7 +455,7 @@ class NhlController extends AbstractController
       $stmt->bindValue(':sid', $season_id);
       $arT = $stmt->executeQuery()->fetchAllAssociative();
 
-      if($arT[0]['cnt'] < 30){
+      if($arT[0]['cnt'] < $limit){
           $sql = "SELECT DISTINCT team_id FROM nfl_match WHERE season_id = :sid AND team_id NOT IN (SELECT team_id FROM nhl_reg WHERE season_id = :sid) ORDER BY RAND() LIMIT 3";
       } else {
           $sql = "SELECT team_id FROM nhl_reg WHERE season_id = :sid GROUP BY team_id HAVING COUNT(id) = (SELECT MIN(cnt) FROM (SELECT COUNT(id) AS cnt, team_id FROM nhl_reg WHERE season_id = :sid GROUP BY team_id) AS T2) ORDER BY RAND() LIMIT 3";
