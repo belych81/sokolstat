@@ -27,6 +27,7 @@ use App\Form\ShipplayerType;
 use App\Repository\SeasonsRepository;
 use App\Service\ResizeImage;
 use App\Service\Nfl;
+use App\Service\Props;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
