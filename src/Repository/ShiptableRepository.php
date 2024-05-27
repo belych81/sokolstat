@@ -38,6 +38,8 @@ class ShiptableRepository extends ServiceEntityRepository
               break;
             case 'portugal' : $country = 'Португалия'; $rusCountry = 'Португалии';
               break;
+            case 'greece' : $country = 'Греция'; $rusCountry = 'Греции';
+              break;
             case 'fnl' : $country = 'ФНЛ'; $rusCountry = 'ФНЛ';
               break;
             default : $country = ''; $rusCountry = 'УЕФА';
