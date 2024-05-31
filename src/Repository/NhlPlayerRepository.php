@@ -86,6 +86,29 @@ class NhlPlayerRepository extends ServiceEntityRepository
         return $query->getSingleResult();
     }
 
+    public function updateNhlplayers($arr, $fields)
+    {
+        $fields[] = 'scoreSum';
+
+        $change = '+';
+        $val = $arr[2];
+        if($val < 0){
+            $change = '-';
+        }
+        $val = abs($val);
+
+        foreach($fields as $field){                      
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\NhlPlayer', 's')
+                ->set('s.' . $field, 's.' . $field . $change .$val)
+                ->where('s.id = ?1')
+                ->setParameter(1, $arr[1])
+                ->getQuery();
+
+            $qb->execute();
+        }
+    }
+
     public function updateStatPlayer($player, $change)
     {
         $changeParam7 = false;

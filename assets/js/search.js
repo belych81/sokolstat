@@ -185,7 +185,7 @@ $(document).on('click', '.tour_js', function(){
 });
 });
 
-  $("#shipplayersUpdate").click(function(){
+  $(document).on('click', "#shipplayersUpdate", function(){
     var arGames = [];
 		var champ = $(this).data('champ');
     $(".shipplayer-input").each(function(){
@@ -216,7 +216,71 @@ $(document).on('click', '.tour_js', function(){
     });
   });
 
-  $(".changeGameGoalPlayer").click(function(){
+  $(document).on('click', "#nhlplayersUpdate", function(){
+    let arGoalsReg = [];
+    $(".nhlplayer-input.goalReg").each(function(){
+      let goalReg = $(this).val();
+      if(goalReg != 0){
+        arGoalsReg.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(goalReg)
+        ]);
+      }
+    });
+    let arAssistReg = [];
+    $(".nhlplayer-input.assistReg").each(function(){
+      let assistReg = $(this).val();
+      if(assistReg != 0){
+        arAssistReg.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(assistReg)
+        ]);
+      }
+    });
+    let arGoalsPo = [];
+    $(".nhlplayer-input.goalPo").each(function(){
+      let goalPo = $(this).val();
+      if(goalPo != 0){
+        arGoalsPo.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(goalPo)
+        ]);
+      }
+    });
+    let arAssistPo = [];
+    $(".nhlplayer-input.assistPo").each(function(){
+      var game = $(this).val();
+      if(game != 0){
+        arAssistPo.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(game)
+        ]);
+      }
+    });
+    $.ajax({
+        type: 'post',
+        url: Routing.generate('nhlplayers_update'),
+        data: {arGoalsReg: arGoalsReg, arAssistReg: arAssistReg, arGoalsPo: arGoalsPo, arAssistPo: arAssistPo},
+        dataType: 'json',
+        success: function(response){
+          var arr = JSON.parse(response);
+          console.log(arr)
+          /*arr.forEach(function(item, i, arr) {
+            $("[data-id="+item[0]+"][data-param='game']").text(item[1]);
+          });*/
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        }
+    });
+  });
+
+  $(document).on('click', ".changeGameGoalPlayer", function(){
     var change = $(this).data('change');
     var id = $(this).data('id');
     var season = $(this).data('season');

@@ -188,9 +188,12 @@
                             data-id="{{ player.id }}"
                             data-season="{{ app.request.get('season') }}"
                             data-team="{{ app.request.get('id') }}">+</span>
+                            <input type="text" class="nhlplayer-input goalReg" value="0"
+                              data-id="{{ player.id }}"
+                              data-player="{{ player.player.id }}" />
                         {% endif %}
                     </td>
-                    <td class="tableGoal">
+                    <td class="tableGoal shipplayer-game">
                         {% if is_granted("ROLE_ADMIN") %}
                         <span class="changeGameGoalPlayer"
                           data-change="minusAssist"
@@ -210,6 +213,9 @@
                           data-id="{{ player.id }}"
                           data-season="{{ app.request.get('season') }}"
                           data-team="{{ app.request.get('id') }}">+</span>
+                           <input type="text" class="nhlplayer-input assistReg" value="0"
+                              data-id="{{ player.id }}"
+                              data-player="{{ player.player.id }}" />
                         {% endif %}
                     </td>
                     <td class="tableGoal">
@@ -238,6 +244,9 @@
                             data-id="{{ player.id }}"
                             data-season="{{ app.request.get('season') }}"
                             data-team="{{ app.request.get('id') }}">+</span>
+                            <input type="text" class="nhlplayer-input goalPo" value="0"
+                              data-id="{{ player.id }}"
+                              data-player="{{ player.player.id }}" />
                         {% endif %}
                     </td>
                     <td class="champ-team-column total-game tableGoal">
@@ -261,6 +270,9 @@
                           data-id="{{ player.id }}"
                           data-season="{{ app.request.get('season') }}"
                           data-team="{{ app.request.get('id') }}">+</span>
+                          <input type="text" class="nhlplayer-input assistPo" value="0"
+                              data-id="{{ player.id }}"
+                              data-player="{{ player.player.id }}" />
                         {% endif %}
                     </td>
                     <td class="champ-team-column total-game tableGoal">
@@ -531,6 +543,8 @@
               <a href="{{ path('nhl_newPlayer', {'season': app.request.get('season'),
               'team': app.request.get('id')}) }}">
                   Создать игрока</a> |
+              <a href="javascript:void(0)" id="nhlplayersUpdate">
+                Обновить игроков</a>
             {% endif %}
         </div>        
       </div>

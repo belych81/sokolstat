@@ -976,3 +976,10 @@ shipplayers_update:
     requirements: { _method: post }
     options:
         expose: true
+
+nhlplayers_update:
+    path:  /nhlplayers/admin/update/
+    controller: App\Controller\NhlController::nhlplayersUpdate
+    requirements: { _method: post }
+    options:
+        expose: true

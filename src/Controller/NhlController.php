@@ -481,6 +481,91 @@ class NhlController extends AbstractController
       return new JsonResponse($arTeams);
   }
 
+  public function nhlplayersUpdate(Request $request)
+  {
+    $all = $request->getPayload()->all();
+    $arGoalsReg = $arAssistReg = $arGoalsPo = $arAssistPo = [];
+    if(key_exists('arGoalsReg', $all)){
+      $arGoalsReg = $all['arGoalsReg'];
+    }
+    if(key_exists('arAssistReg', $all)){
+      $arAssistReg = $all['arAssistReg'];
+    }
+    if(key_exists('arGoalsPo', $all)){
+      $arGoalsPo = $all['arGoalsPo'];
+    }
+    if(key_exists('arAssistPo', $all)){
+      $arAssistPo = $all['arAssistPo'];
+    }
+    $em = $this->entityManager;
+    $param = [];
+    $arPlayers = [];
+    $teamOb = null;
+
+    foreach ($arGoalsReg as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['goal', 'score', 'goalSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalReg', 'scoreReg', 'assistSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['goalReg', 'scoreReg', 'goalSum']);
+      //$param[] = [$val[0], $player->getGame()];
+    }
+
+    foreach ($arAssistReg as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['assist', 'score', 'assistSum']);
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['assistReg', 'scoreReg', 'assistSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['assistReg', 'scoreReg', 'assistSum']);
+      //$param[] = [$val[0], $player->getGame()];
+    }
+
+    foreach ($arGoalsPo as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['goalPlayOff', 'scorePlayOff', 'goalSum']);
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalPlayOff', 'scorePlayOff', 'goalSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['goalPlayOff', 'scorePlayOff', 'goalSum']);
+      //$param[] = [$val[0], $player->getGame()];
+    }
+
+    foreach ($arAssistPo as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['assistPlayOff', 'scorePlayOff', 'assistSum']);
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['assistPlayOff', 'scorePlayOff', 'assistSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['assistPlayOff', 'scorePlayOff', 'assistSum']);
+      //$param[] = [$val[0], $player->getGame()];
+    }
+    $response = json_encode($all);
+
+    return new JsonResponse($response);
+  }
+
   public function show(SessionInterface $session, ResizeImage $resize, $id, $season)
   {
       $club = $this->entityManager->getRepository(NhlTeam::class)

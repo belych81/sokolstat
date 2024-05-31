@@ -1314,7 +1314,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
 .total-game{
   font-size: 14px;
 }
-.shipplayer-input{
+.shipplayer-input,
+.nhlplayer-input
+{
   width: 25px;
 }
 .showTeam{

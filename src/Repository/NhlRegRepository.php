@@ -71,6 +71,29 @@ class NhlRegRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function updateNhlplayers($arr, $fields)
+    {
+        $fields[] = 'scoreSum';
+
+        $change = '+';
+        $val = $arr[2];
+        if($val < 0){
+            $change = '-';
+        }
+        $val = abs($val);
+
+        foreach($fields as $field){                      
+            $qb = $this->_em->createQueryBuilder()
+                ->update('App\Entity\NhlReg', 's')
+                ->set('s.' . $field, 's.' . $field . $change .$val)
+                ->where('s.id = ?1')
+                ->setParameter(1, $arr[0])
+                ->getQuery();
+
+            $qb->execute();
+        }
+    }
+
     public function updateGamer($id, $change)
     {
         $changeParam7 = false;
