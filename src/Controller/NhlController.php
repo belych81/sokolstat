@@ -513,7 +513,7 @@ class NhlController extends AbstractController
         $entity = $em->getRepository(NhlReg::class)->find($val[0]);
         $teamOb = $entity->getTeam();
       }
-      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalReg', 'scoreReg', 'assistSum']);
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalReg', 'scoreReg', 'goalSum']);
       $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['goalReg', 'scoreReg', 'goalSum']);
       //$param[] = [$val[0], $player->getGame()];
     }
