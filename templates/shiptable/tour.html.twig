@@ -1,16 +1,10 @@
 {% for match in matches %}
-    {% set link = "javascript:void(0);" %}
-    {% set link2 = "javascript:void(0);" %}
-    {% if isNoTop == false or match.team.translit in noTopTeams %}
-        {% set link = path('championships_show', {
-                'id': match.team.translit, 'season': app.request.get('season'),
-                'country': app.request.get('country')}) %}
-    {% endif %}
-    {% if isNoTop == false or match.team2.translit in noTopTeams %}
-        {% set link2 = path('championships_show', {
-                'id': match.team2.translit, 'season': app.request.get('season'),
-                'country': app.request.get('country')}) %}
-    {% endif %}
+    {% set link = path('championships_show', {
+            'id': match.team.translit, 'season': app.request.get('season'),
+            'country': app.request.get('country')}) %}
+    {% set link2 = path('championships_show', {
+            'id': match.team2.translit, 'season': app.request.get('season'),
+            'country': app.request.get('country')}) %}
     <tr class="champ-match-title">
         {% if is_granted("ROLE_ADMIN") %}
             {% if app.request.get('country')=='russia' %}

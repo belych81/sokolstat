@@ -115,10 +115,6 @@ class ShiptableController extends AbstractController
           $assistSum = $functions->getBombSum($bombs, 20, 'assist');
           $scoreSum = $functions->getBombSum($bombs, 20, 'score');
         }
-        $arTeams = [];
-        if($isNoTop){
-          $arTeams = $props->getNoTopsTeams($country);
-        }
 
         $menu = $serviceMenu->generate($country, $season);
 
@@ -133,9 +129,7 @@ class ShiptableController extends AbstractController
             'menu' => $menu,
             'strana' => $strana,
             'assistSum' => $assistSum,
-            'scoreSum' => $scoreSum,
-            'isNoTop' => $isNoTop,
-            'noTopTeams' => $arTeams
+            'scoreSum' => $scoreSum
         ]);
     }
 
@@ -249,14 +243,8 @@ class ShiptableController extends AbstractController
                       ->getLastMatchesByTeam($season, $id, $cntLastMatches);
         $strana = $this->entityManager->getRepository(Shiptable::class)
                      ->translateCountry($country)['country'];
-
-        $arTeams = [];
-        $isNoTop = key_exists($country, $props->getNoTops());
-        if($isNoTop){
-          $arTeams = $props->getNoTopsTeams($country);
-        }
         $teams = $this->entityManager->getRepository(Shiptable::class)
-          ->getTeams($season, $strana, $arTeams);
+          ->getTeams($season, $strana);
 
         foreach($teams as &$team){
           if($team['image']){

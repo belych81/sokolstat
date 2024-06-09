@@ -135,7 +135,7 @@ class ShiptableRepository extends ServiceEntityRepository
                      ->getResult();
     }
 
-    public function getTeams($season, $country, $arTeams)
+    public function getTeams($season, $country, $arTeams = [])
     {
       $qb = $this->createQueryBuilder('st')
               ->select('t.id', 't.name', 't.translit', 't.image', 't.image2')

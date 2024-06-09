@@ -75,7 +75,7 @@
                     {% endif %}
                 <table class="table champship-table">
                     <tbody>
-                        {{ include('shiptable/tour.html.twig', { 'matches': matches, 'isNoTop': isNoTop, 'noTopTeams': noTopTeams }) }}
+                        {{ include('shiptable/tour.html.twig', { 'matches': matches }) }}
                     </tbody>
                 </table>
             </div>
@@ -99,12 +99,9 @@
                     </thead>
                     <tbody>
                     {% for entity in entities %}
-                        {% set link = "javascript:void(0);" %}
-                        {% if isNoTop == false or entity.team.translit in noTopTeams %}
-                            {% set link = path('championships_show', {
-                                    'id': entity.team.translit, 'season': app.request.get('season'),
-                                    'country': app.request.get('country')}) %}
-                        {% endif %}
+                        {% set link = path('championships_show', {
+                                'id': entity.team.translit, 'season': app.request.get('season'),
+                                'country': app.request.get('country')}) %}
                         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                             <td class="player-position">{{ loop.index }}</td>
                             <td class="tableLeft">
