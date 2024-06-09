@@ -480,11 +480,12 @@ class NhlController extends AbstractController
 
       return new JsonResponse($arTeams);
   }
-
+  
   public function nhlplayersUpdate(Request $request)
   {
     $all = $request->getPayload()->all();
-    $arGoalsReg = $arAssistReg = $arGoalsPo = $arAssistPo = [];
+    $arGoalsReg = $arAssistReg = $arGoalsPo = $arAssistPo = $arGameReg = $arMissedReg = $arZeroReg = $arGamePo = $arMissedPo = $arZeroPo = [];
+    
     if(key_exists('arGoalsReg', $all)){
       $arGoalsReg = $all['arGoalsReg'];
     }
@@ -497,6 +498,25 @@ class NhlController extends AbstractController
     if(key_exists('arAssistPo', $all)){
       $arAssistPo = $all['arAssistPo'];
     }
+    if(key_exists('arGameReg', $all)){
+      $arGameReg = $all['arGameReg'];
+    }
+    if(key_exists('arMissedReg', $all)){
+      $arMissedReg = $all['arMissedReg'];
+    }
+    if(key_exists('arZeroReg', $all)){
+      $arZeroReg = $all['arZeroReg'];
+    }
+    if(key_exists('arGamePo', $all)){
+      $arGamePo = $all['arGamePo'];
+    }
+    if(key_exists('arMissedPo', $all)){
+      $arMissedPo = $all['arMissedPo'];
+    }
+    if(key_exists('arZeroPo', $all)){
+      $arZeroPo = $all['arZeroPo'];
+    }
+
     $em = $this->entityManager;
     $param = [];
     $arPlayers = [];
@@ -515,7 +535,6 @@ class NhlController extends AbstractController
       }
       $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalReg', 'scoreReg', 'goalSum']);
       $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['goalReg', 'scoreReg', 'goalSum']);
-      //$param[] = [$val[0], $player->getGame()];
     }
 
     foreach ($arAssistReg as $val) {
@@ -530,7 +549,6 @@ class NhlController extends AbstractController
       }
       $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['assistReg', 'scoreReg', 'assistSum']);
       $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['assistReg', 'scoreReg', 'assistSum']);
-      //$param[] = [$val[0], $player->getGame()];
     }
 
     foreach ($arGoalsPo as $val) {
@@ -545,7 +563,6 @@ class NhlController extends AbstractController
       }
       $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['goalPlayOff', 'scorePlayOff', 'goalSum']);
       $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['goalPlayOff', 'scorePlayOff', 'goalSum']);
-      //$param[] = [$val[0], $player->getGame()];
     }
 
     foreach ($arAssistPo as $val) {
@@ -559,8 +576,98 @@ class NhlController extends AbstractController
       }
       $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['assistPlayOff', 'scorePlayOff', 'assistSum']);
       $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['assistPlayOff', 'scorePlayOff', 'assistSum']);
-      //$param[] = [$val[0], $player->getGame()];
     }
+
+    foreach ($arGameReg as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['game', 'gameSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['gameReg', 'gameSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['gameReg', 'gameSum']);
+    }
+
+    foreach ($arMissedReg as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['missed', 'missedSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['missedReg', 'missedSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['missedReg', 'missedSum']);
+    }
+
+    foreach ($arZeroReg as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['zero', 'zeroSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['zeroReg', 'zeroSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['zeroReg', 'zeroSum']);
+    }
+
+    foreach ($arGamePo as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['gamePlayOff', 'gameSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['gamePlayOff', 'gameSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['gamePlayOff', 'gameSum']);
+    }
+
+    foreach ($arMissedPo as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['missedPlayOff', 'missedSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['missedPlayOff', 'missedSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['missedPlayOff', 'missedSum']);
+    }
+
+    foreach ($arZeroPo as $val) {
+      $em->getRepository(NhlReg::class)->updateNhlplayers($val, ['zeroPlayOff', 'zeroSum']);
+      
+      if(!key_exists($val[1], $arPlayers) || !$arPlayers[$val[1]]){
+        $player = $em->getRepository(NhlPlayer::class)->find($val[1]);
+        $arPlayers[$val[1]] = $player;
+      }
+      if(!$teamOb){
+        $entity = $em->getRepository(NhlReg::class)->find($val[0]);
+        $teamOb = $entity->getTeam();
+      }
+      $em->getRepository(NhlPlayer::class)->updateNhlplayers($val, ['zeroPlayOff', 'zeroSum']);
+      $em->getRepository(NhlPlayersTeam::class)->updateNhlplayers($player, $teamOb, $val, ['zeroPlayOff', 'zeroSum']);
+    }
+
     $response = json_encode($all);
 
     return new JsonResponse($response);

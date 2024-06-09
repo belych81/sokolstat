@@ -116,7 +116,6 @@
 <div class="row">
   <div class="champ-teams-list col-lg-8">
     {% block playersTeam %}
-      {{ players|length }}
         <div class="champ-teams-list">
           {% if players|length > 0 %}
             <table>
@@ -380,6 +379,9 @@
                                 data-id="{{ player.id }}"
                                 data-season="{{ app.request.get('season') }}"
                                 data-team="{{ app.request.get('id') }}">+</span>
+                                <input type="text" class="nhlplayer-input gameReg" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
                         <td class="tableGoal">
@@ -402,6 +404,9 @@
                               data-id="{{ player.id }}"
                               data-season="{{ app.request.get('season') }}"
                               data-team="{{ app.request.get('id') }}">+</span>
+                              <input type="text" class="nhlplayer-input missedReg" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
                         <td class="tableGoal">
@@ -424,6 +429,9 @@
                               data-id="{{ player.id }}"
                               data-season="{{ app.request.get('season') }}"
                               data-team="{{ app.request.get('id') }}">+</span>
+                              <input type="text" class="nhlplayer-input zeroReg" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
 
@@ -446,6 +454,9 @@
                                 data-id="{{ player.id }}"
                                 data-season="{{ app.request.get('season') }}"
                                 data-team="{{ app.request.get('id') }}">+</span>
+                              <input type="text" class="nhlplayer-input gamePo" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
                         <td class="tableGoal">
@@ -462,12 +473,15 @@
                             </span>
 
                             {% if is_granted("ROLE_ADMIN") %}
-                            <span class="changeGameGoalPlayer"
-                              data-change="plusMissedPo"
-                              data-path="nhl_editChamp"
-                              data-id="{{ player.id }}"
-                              data-season="{{ app.request.get('season') }}"
-                              data-team="{{ app.request.get('id') }}">+</span>
+                              <span class="changeGameGoalPlayer"
+                                data-change="plusMissedPo"
+                                data-path="nhl_editChamp"
+                                data-id="{{ player.id }}"
+                                data-season="{{ app.request.get('season') }}"
+                                data-team="{{ app.request.get('id') }}">+</span>
+                              <input type="text" class="nhlplayer-input missedPo" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
                         <td class="tableGoal">
@@ -490,6 +504,9 @@
                               data-id="{{ player.id }}"
                               data-season="{{ app.request.get('season') }}"
                               data-team="{{ app.request.get('id') }}">+</span>
+                              <input type="text" class="nhlplayer-input zeroPo" value="0"
+                                  data-id="{{ player.id }}"
+                                  data-player="{{ player.player.id }}" />
                             {% endif %}
                         </td>
                         <td class="champ-team-column total-game">

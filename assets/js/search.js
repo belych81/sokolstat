@@ -261,14 +261,81 @@ $(document).on('click', '.tour_js', function(){
         ]);
       }
     });
+    let arGameReg = [];
+    $(".nhlplayer-input.gameReg").each(function(){
+      let gameReg = $(this).val();
+      if(gameReg != 0){
+        arGameReg.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(gameReg)
+        ]);
+      }
+    });
+    let arMissedReg = [];
+    $(".nhlplayer-input.missedReg").each(function(){
+      let missedReg = $(this).val();
+      if(missedReg != 0){
+        arMissedReg.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(missedReg)
+        ]);
+      }
+    });
+    let arZeroReg = [];
+    $(".nhlplayer-input.zeroReg").each(function(){
+      let zeroReg = $(this).val();
+      if(zeroReg != 0){
+        arZeroReg.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(zeroReg)
+        ]);
+      }
+    });
+    let arGamePo = [];
+    $(".nhlplayer-input.gamePo").each(function(){
+      let gamePo = $(this).val();
+      if(gamePo != 0){
+        arGamePo.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(gamePo)
+        ]);
+      }
+    });
+    let arMissedPo = [];
+    $(".nhlplayer-input.missedPo").each(function(){
+      let missedPo = $(this).val();
+      if(missedPo != 0){
+        arMissedPo.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(missedPo)
+        ]);
+      }
+    });
+    let arZeroPo = [];
+    $(".nhlplayer-input.zeroPo").each(function(){
+      let zeroPo = $(this).val();
+      if(zeroPo != 0){
+        arZeroPo.push([
+          $(this).data('id'),
+          $(this).data('player'),
+          parseInt(zeroPo)
+        ]);
+      }
+    });
     $.ajax({
         type: 'post',
         url: Routing.generate('nhlplayers_update'),
-        data: {arGoalsReg: arGoalsReg, arAssistReg: arAssistReg, arGoalsPo: arGoalsPo, arAssistPo: arAssistPo},
+        data: {arGoalsReg: arGoalsReg, arAssistReg: arAssistReg, arGoalsPo: arGoalsPo, arAssistPo: arAssistPo, arGameReg: arGameReg, 
+          arMissedReg: arMissedReg, arZeroReg: arZeroReg, arGamePo: arGamePo, arMissedPo: arMissedPo, arZeroPo: arZeroPo},
         dataType: 'json',
         success: function(response){
           var arr = JSON.parse(response);
-          console.log(arr)
+          $(".nhlplayer-input").val(0);
           /*arr.forEach(function(item, i, arr) {
             $("[data-id="+item[0]+"][data-param='game']").text(item[1]);
           });*/
@@ -301,8 +368,6 @@ $(document).on('click', '.tour_js', function(){
         url: Routing.generate(route, params),
         dataType: 'json',
         success: function(data){
-					console.log(data);
-          console.log(route);
             $(".spiski.selected").removeClass('selected');
             $(".spiski[data-id="+id+"]").addClass('selected');
 						if(route == 'playeradmin_editChampTotal'){
@@ -317,7 +382,6 @@ $(document).on('click', '.tour_js', function(){
 						} else if(route == 'playeradmin_editNationSbornie'){
 								$("[data-id="+id+"][data-param='sbornie']").text(data['goal']);
 						} else {
-              console.log($("[data-id="+id+"][data-param='goalPo']"))
             	$("[data-id="+id+"][data-param='game']").text(data['game']);
             	$("[data-id="+id+"][data-param='goal']").text(data['goal']);
               $("[data-id="+id+"][data-param='gamePo']").text(data['gamePo']);
