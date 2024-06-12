@@ -50,7 +50,7 @@ class ShiptableController extends AbstractController
     public function index(Menu $serviceMenu, Functions $functions, Props $props, ResizeImage $resize, $country, $season, $tour)
     {
         $strana = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country)['country'];
+                ->translateCountry($country, $props)['country'];
 
         $entities = $this->entityManager->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
@@ -89,7 +89,7 @@ class ShiptableController extends AbstractController
           }
         }
         $rusCountry = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country)['rusCountry'];
+                ->translateCountry($country, $props)['rusCountry'];
 
         $isNoTop = key_exists($country, $props->getNoTops());
         if($country == 'russia'){
@@ -149,7 +149,7 @@ class ShiptableController extends AbstractController
         ->getTopGoalkeepersCurr(20, $props->getLastSeason());
       $menu = $serviceMenu->generate($country);
       $rusCountry = $this->entityManager->getRepository(Shiptable::class)
-              ->translateCountry($country)['rusCountry'];
+              ->translateCountry($country, $props)['rusCountry'];
       $maxAgePlayers = $this->entityManager->getRepository(Gamers::class)
               ->getAgeListPlayers($props->getLastSeason(), 'ASC');
       $minAgePlayers = $this->entityManager->getRepository(Gamers::class)
@@ -188,7 +188,7 @@ class ShiptableController extends AbstractController
               'season' => $season, 'country' => $country]));
         }
         $strana = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country)['country'];
+                ->translateCountry($country, $props)['country'];
         $seasons = $this->entityManager->getRepository(Shiptable::class)
                 ->getSeasons($strana, $id);
         $shiptable = $this->entityManager->getRepository(Shiptable::class)
@@ -242,7 +242,7 @@ class ShiptableController extends AbstractController
         $lastMatches = $this->entityManager->getRepository(Game::class)
                       ->getLastMatchesByTeam($season, $id, $cntLastMatches);
         $strana = $this->entityManager->getRepository(Shiptable::class)
-                     ->translateCountry($country)['country'];
+                     ->translateCountry($country, $props)['country'];
         $teams = $this->entityManager->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
 

@@ -44,6 +44,7 @@ function scrollToBlock(to, speed, offset) {
     $('.menu-trigger').on('click', function(event) {
       event.preventDefault();
       $('.panel-box').toggleClass('open');
+      $('body').toggleClass('lock');
       $('#navbar-collapse-1').removeClass('in');
     });
     

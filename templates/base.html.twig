@@ -46,54 +46,22 @@
               <span class="menu-trigger-icon"></span>
           </a>
           <div class="panel-drop">
-              <ul>
-                  <li><a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">НАЦИОНАЛЬНЫЕ ТУРНИРЫ</a>
-                      <ul>
-                      <li> <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'holland', 'season': season}) }}">ГОЛЛАНДИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'portugal', 'season': season}) }}">ПОРТУГАЛИЯ</a></li>
-                      </ul>
-                  </li>
-                  <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЕВРОКУБКИ</a>
-                      <ul>
-                      <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'conference-league', 'season': season}) }}">ЛИГА КОНФЕРЕНЦИЙ</a></li>
-                      <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2023', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
-                      </ul>
-                  </li>
-                  <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2022'}) }}">СБОРНЫЕ</a>
-                  <ul>
-                   <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2022'}) }}">ЧЕМПИОНАТЫ МИРА</a></li>
-                   <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2024'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a></li>
-                   <li><a href="{{ path('sbornie', {'turnir': 'nationsleague', 'year': '2022'}) }}">ЛИГА НАЦИЙ</a></li>
-                   <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a></li>
-                   <li><a href="{{ path('sbornie', {'turnir': 'copa-america', 'year': '2021'}) }}">КУБОК АМЕРИКИ</a></li>
-                   <li><a href="{{ path('sbornie', {'turnir': 'african', 'year': '2024'}) }}">КУБОК АФРИКИ</a></li>
-                   <li><a href="{{ path('sbornieRus', {'season': '2024'}) }}">СБОРНАЯ РОССИИ</a></li>
-                  </ul></li>
-                  <li><a href="{{ path('player') }}">ФУТБОЛИСТЫ</a></li>
-                  <li><a href="/newspapers/2024/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
-                  <li class="header-login">
-                      {% if is_granted("ROLE_USER") %}
-                          <a href="" class="registerLink">{{ app.user.username }}</a> |
-                          <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
-                      {% else %}
-                          <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a> |
-                          <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
-                      {% endif %}
-                      {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
-                        <a href="?clear_cache=Y"  class="registerLink">Очистить кэш</a>
-                      {% endif %}
-                  </li>
-              </ul>
+            {{ knp_menu_render('main') }}
+            <ul>
+              <li class="header-login">
+                  {% if is_granted("ROLE_USER") %}
+                      <a href="" class="registerLink">{{ app.user.username }}</a> |
+                      <a href="{{ path('logout') }}"  class="registerLink">Выйти</a>
+                  {% else %}
+                      <a href="{{ path('app_register') }}" class="registerLink">Регистрация</a> |
+                      <a href="{{ path('app_login') }}"  class="registerLink">Войти</a>
+                  {% endif %}
+                  {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('task') }}"  class="registerLink">Задачи</a>
+                    <a href="?clear_cache=Y"  class="registerLink">Очистить кэш</a>
+                  {% endif %}
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -108,48 +76,8 @@
               </div>
             </div>
             <div class="col-sm-11 col-md-7 col-lg-6 menu_top">
-              <nav class="navbar main-menu">
-                <ul class="nav navbar-nav">
-                  <li class="dropdown nav-item">
-                    <a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">НАЦИОНАЛЬНЫЕ ТУРНИРЫ</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{{ path('championships', {'country': 'russia', 'season': season}) }}">РОССИЯ</a></li>
-                      <li><a href="{{ path('championships', {'country': 'england', 'season': season}) }}">АНГЛИЯ</a></li>
-                      <li><a href="{{ path('championships', {'country': 'spain', 'season': season}) }}">ИСПАНИЯ</a></li>
-                      <li><a href="{{ path('championships', {'country': 'italy', 'season': season}) }}">ИТАЛИЯ</a></li>
-                      <li><a href="{{ path('championships', {'country': 'germany', 'season': season}) }}">ГЕРМАНИЯ</a></li>
-                      <li><a href="{{ path('championships', {'country': 'france', 'season': season}) }}">ФРАНЦИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'holland', 'season': season}) }}">ГОЛЛАНДИЯ</a></li>
-                      <li> <a href="{{ path('championships', {'country': 'portugal', 'season': season}) }}">ПОРТУГАЛИЯ</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown nav-item">
-                    <a class="dropdown-toggle" href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЕВРОКУБКИ</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{{ path('eurocup', {'turnir': 'leagueChampions', 'season': season}) }}">ЛИГА ЧЕМПИОНОВ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'leagueEuropa', 'season': season}) }}">ЛИГА ЕВРОПЫ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'conference-league', 'season': season}) }}">ЛИГА КОНФЕРЕНЦИЙ</a></li>
-                      <li><a href="{{ path('supercup', {'country': 'uefa'}) }}">СУПЕРКУБОК ЕВРОПЫ</a></li>
-                      <li><a href="{{ path('eurocup', {'turnir': 'worldCupClub', 'season': '2023', 'stadia': 'final'}) }}">КЛУБНЫЙ ЧЕМПИОНАТ МИРА</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown nav-item">
-                    <a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2022'}) }}">СБОРНЫЕ</a>
-                    <ul class="dropdown-menu">
-                     <li><a href="{{ path('sbornie', {'turnir': 'worldcup', 'year': '2022'}) }}">ЧЕМПИОНАТЫ МИРА</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'euro', 'year': '2024'}) }}">ЧЕМПИОНАТЫ ЕВРОПЫ</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'nationsleague', 'year': '2022'}) }}">ЛИГА НАЦИЙ</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'confederationscup', 'year': '2017'}) }}">КУБОК КОНФЕДЕРАЦИЙ</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'copa-america', 'year': '2021'}) }}">КУБОК АМЕРИКИ</a></li>
-                     <li><a href="{{ path('sbornie', {'turnir': 'african', 'year': '2024'}) }}">КУБОК АФРИКИ</a></li>
-                     <li><a href="{{ path('sbornieRus', {'season': '2024'}) }}">СБОРНАЯ РОССИИ</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown nav-item">
-                    <a href="{{ path('player') }}">ФУТБОЛИСТЫ</a>
-                  </li>
-                  <li class="dropdown nav-item"><a href="/newspapers/2024/{{ newspaper_number }}.html" target="_blank">ГАЗЕТА</a></li>
-                </ul>
+              <nav class="nav navbar main-menu">
+                {{ knp_menu_render('main') }}
               </nav>
             </div>
             <div class="col-md-2 col-lg-2 search-block">

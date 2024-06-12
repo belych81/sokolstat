@@ -46,9 +46,19 @@ class Props
         return $this->yaml['noTop']['country'];
     }
 
+    public function getTranslateCountry(): array
+    {
+        return $this->yaml['translate'];
+    }
+
     public function getNoTopsTeams(string $country): array
     {
         return $this->yaml['noTop']['teams'][$country];
+    }
+
+    public function getParams(): array
+    {
+        return $this->yaml;
     }
 
     public function getChamps32(): array

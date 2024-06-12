@@ -14,6 +14,9 @@ body {
 	background-color: #faf9e6;
 	width: 100%;
 }
+body.lock {
+  overflow: hidden;
+}
 h1{
   color: #5c4b4b;
   display: block;
@@ -51,13 +54,51 @@ header,
 li.dropdown {
     height: 100%;
 }
-li.dropdown a {
+li.dropdown a,
+.nav > ul > li > a,
+.menu_level_1 > li > a {
     display: block;
     color: #fff;
     font-weight: bold;
     text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    padding: 15px;
 }
-.dropdown-menu{
+.menu_level_1 > li > a {
+  padding: 3px 20px;
+  clear: both;
+  line-height: 1.42857143;
+  white-space: nowrap;
+}
+.nav > ul > li:hover .menu_level_1 {
+  display: block;
+}
+.nav .menu_level_1 {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.dropdown-menu,
+.nav .menu_level_1 {
   background: #936;
 }
 .dropdown:hover > .dropdown-menu{
@@ -68,11 +109,14 @@ li.dropdown a {
   color: #fff;
 }
 .navbar .navbar-nav li.dropdown.nav-item > a,
-.dropdown-menu > li > a{
+.dropdown-menu > li > a,
+.nav li a
+{
     background: #936;
 }
 .navbar .navbar-nav li.dropdown.nav-item > a:hover,
-.dropdown-menu > li > a:hover{
+.dropdown-menu > li > a:hover,
+.menu_level_1 > li > a:hover {
     background: #603;
     color: #fff;
 }
@@ -722,8 +766,30 @@ footer {
   padding: 17px 15px;
   height: 65px;
 }
-.main-menu, .main-menu ul.navbar-nav{
+.main-menu, .main-menu ul.navbar-nav,
+.main-menu > ul {
   height: 65px;
+}
+.main-menu .nav>li,
+.main-menu.nav>ul>li {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.main-menu .navbar-nav>li>a {
+  line-height: auto;
+}
+.main-menu > ul > li {
+  position: relative;
+}
+@media (min-width: 768px) {
+  .main-menu > ul {
+    float: left;
+    margin: 0;
+  }
+  .main-menu > ul > li {
+    float: left;
+  }
 }
 .navbar-nav.submenu li a{
   color: #936;
@@ -1837,13 +1903,7 @@ th.sorted[data-order="1"]::after {
 .glyphicon-log-in {
   padding-right: 5px;
 }
-.main-menu .nav>li {
-  display: flex;
-  align-items: center;
-}
-.main-menu .navbar-nav>li>a {
-  line-height: auto;
-}
+
 .search-block {
   height: 65px;
   display: flex;

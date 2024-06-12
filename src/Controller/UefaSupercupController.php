@@ -12,6 +12,7 @@ use App\Entity\Turnir;
 use App\Form\SupercupType;
 use App\Form\Supercup2Type;
 use App\Service\Menu;
+use App\Service\Props;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class UefaSupercupController extends AbstractController
       $this->entityManager = $entityManager;
   }
   
-  public function index(Menu $serviceMenu, $country)
+  public function index(Menu $serviceMenu, Props $props, $country)
   {
     $entities = $this->entityManager->getRepository(Game::class)
       ->getNationSupercup($country);
@@ -44,7 +45,7 @@ class UefaSupercupController extends AbstractController
         }
 
         $rus_country = $this->entityManager->getRepository(Shiptable::class)
-                          ->translateCountry($country)['rusCountry'];
+                          ->translateCountry($country, $props)['rusCountry'];
 
         return $this->render('uefasupercup/index.html.twig', [
             'rus_country' => $rus_country,

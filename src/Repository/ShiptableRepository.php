@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Shiptable;
+use App\Service\Props;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,35 +20,21 @@ class ShiptableRepository extends ServiceEntityRepository
         parent::__construct($registry, Shiptable::class);
     }
 
-    public function translateCountry($country)
+    public function translateCountry($country, Props $props)
     {
-        switch ($country) {
-            case 'russia' : $country = 'Россия'; $rusCountry = 'России';
-              break;
-            case 'england' : $country = 'Англия'; $rusCountry = 'Англии';
-              break;
-            case 'spain' : $country = 'Испания'; $rusCountry = 'Испании';
-              break;
-            case 'italy' : $country = 'Италия'; $rusCountry = 'Италии';
-              break;
-            case 'germany' : $country = 'Германия'; $rusCountry = 'Германии';
-              break;
-            case 'france' : $country = 'Франция'; $rusCountry = 'Франции';
-              break;
-            case 'holland' : $country = 'Голландия'; $rusCountry = 'Голландии';
-              break;
-            case 'portugal' : $country = 'Португалия'; $rusCountry = 'Португалии';
-              break;
-            case 'greece' : $country = 'Греция'; $rusCountry = 'Греции';
-              break;
-            case 'fnl' : $country = 'ФНЛ'; $rusCountry = 'ФНЛ';
-              break;
-            default : $country = ''; $rusCountry = 'УЕФА';
-        }
+      $arCountries = array_merge($props->getTops(), $props->getNoTops());
+      $translate = $props->getTranslateCountry();
+
+      if($country == 'uefa'){
         return [
-            'country' => $country,
-            'rusCountry' => $rusCountry
-                ];
+            'country' => '',
+            'rusCountry' => 'УЕФА'
+          ];
+      }
+      return [
+                'country' => $arCountries[$country],
+                'rusCountry' => $translate[$country]
+              ];
     }
 
     public function getTable($country, $season)

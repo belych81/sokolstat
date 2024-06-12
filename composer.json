@@ -17,6 +17,7 @@
         "easycorp/easyadmin-bundle": "^4.7",
         "friendsofsymfony/elastica-bundle": "^6.3",
         "friendsofsymfony/jsrouting-bundle": "^3.3",
+        "knplabs/knp-menu-bundle": "^3.4",
         "nelmio/cors-bundle": "^2.3",
         "php-amqplib/php-amqplib": "^3.6",
         "phpdocumentor/reflection-docblock": "^5.3",
