@@ -36,6 +36,8 @@ class Rating
 
     public function getScore($differ)
     {
+      $score1 = $score2 = 0;
+
       switch ($differ) {
         case 0:
           $score1 = $score2 = 1;
@@ -177,6 +179,9 @@ class Rating
           case 'Россия' :
           case 'Голландия' :
           case 'Португалия' :
+          case 'Греция' :
+          case 'Турция' :
+          case 'Бельгия' :
             $coef = 4;
             break;
         }
@@ -196,6 +201,9 @@ class Rating
           case 'Россия' :
           case 'Голландия' :
           case 'Португалия' :
+          case 'Греция' :
+          case 'Турция' :
+          case 'Бельгия' :
             $coef = 6;
             break;
         }
@@ -204,7 +212,7 @@ class Rating
     }
 
     public function checkCountry($country){
-      $arCountry = ['Россия', 'Англия', 'Испания', 'Италия', 'Германия', 'Франция', 'Голландия', 'Португалия'];
+      $arCountry = ['Россия', 'Англия', 'Испания', 'Италия', 'Германия', 'Франция', 'Голландия', 'Португалия', 'Греция', 'Турция', 'Бельгия'];
       if(in_array($country, $arCountry)){
         return true;
       }
