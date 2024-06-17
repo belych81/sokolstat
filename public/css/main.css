@@ -1867,6 +1867,7 @@ th.sorted[data-order="1"]::after {
 
 .row {
   margin-right: 0;
+  display: block !important;
 }
 .tour_js {
   cursor: pointer;

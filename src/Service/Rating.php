@@ -177,12 +177,14 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
+            $coef = 4;
+            break;
           case 'Голландия' :
           case 'Португалия' :
           case 'Греция' :
           case 'Турция' :
           case 'Бельгия' :
-            $coef = 4;
+            $coef = 3;
             break;
         }
       } else {
@@ -199,12 +201,14 @@ class Rating
             $coef = 5;
             break;
           case 'Россия' :
+            $coef = 6;
+            break;
           case 'Голландия' :
           case 'Португалия' :
           case 'Греция' :
           case 'Турция' :
           case 'Бельгия' :
-            $coef = 6;
+            $coef = 7;
             break;
         }
       }
