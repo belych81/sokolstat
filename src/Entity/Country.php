@@ -6,96 +6,60 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CountryRepository::class)]
 class Country
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $translit;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Team::class, mappedBy: 'country')]
     private $teams;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Tour::class, mappedBy: 'country')]
     private $tours;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Player::class, mappedBy: 'country')]
     private $players;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationSupercup", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationSupercup::class, mappedBy: 'country')]
     private $nationSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationCup::class, mappedBy: 'country')]
     private $nationCups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shiptable::class, mappedBy: 'country')]
     private $shiptables;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'country')]
     private $mundials;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Referee", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Referee::class, mappedBy: 'country')]
     private $referees;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sostav::class, mappedBy: 'country')]
     private $sostavs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayer", mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlPlayer::class, mappedBy: 'country')]
     private $nhlPlayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: MundialTable::class, mappedBy: 'country')]
     private $mundialTables;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image = "-";
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image2 = "-";
 
-    /**
-     * @ORM\OneToMany(targetEntity=City::class, mappedBy="country")
-     */
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'country')]
     private $cities;
 
     public function __construct()

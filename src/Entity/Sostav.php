@@ -4,55 +4,37 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SostavRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\SostavRepository::class)]
 class Sostav
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="sostavs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'sostavs')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="sostavs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'sostavs')]
     private $country;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="sostavs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'sostavs')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="sostavs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Player::class, inversedBy: 'sostavs')]
     private $player;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $game = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $number = 1;
 
     public function getId(): ?int

@@ -4,66 +4,44 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EurocupRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\EurocupRepository::class)]
 class Eurocup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="eurocups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'eurocups')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="eurocups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'eurocups')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="eurocups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'eurocups')]
     private $team2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Stadia", inversedBy="eurocups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Stadia::class, inversedBy: 'eurocups')]
     private $stadia;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $score = "0-0";
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $bomb = "-";
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $status;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Turnir", inversedBy="eurocups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Turnir::class, inversedBy: 'eurocups')]
     private $turnir;
 
     private $route = 'eurocup';
@@ -193,14 +171,10 @@ class Eurocup
         return $this;
     }
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Ecsostav", mappedBy="eurocup")
-     */
+    #[ORM\OneToOne(targetEntity: \App\Entity\Ecsostav::class, mappedBy: 'eurocup')]
     private $ecsostav;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $number;
 
     public function setEcsostav(?Ecsostav $ecsostav = null): self

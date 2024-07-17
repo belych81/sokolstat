@@ -5,37 +5,25 @@ namespace App\Entity;
 use App\Repository\TransferRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TransferRepository::class)
- */
+#[ORM\Entity(repositoryClass: \App\Repository\TransferRepository::class)]
 class Transfer
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="transfers")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'transfers')]
     private $old;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="transfers")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'transfers')]
     private $new;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Period::class, inversedBy="transfers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'transfers')]
     private $period;
 
     public function getId(): ?int

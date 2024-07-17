@@ -5,27 +5,19 @@ namespace App\Entity;
 use App\Repository\NewsdbRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=NewsdbRepository::class)
- */
+#[ORM\Entity(repositoryClass: NewsdbRepository::class)]
 class Newsdb
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity=News::class, inversedBy="newsdb", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: News::class, inversedBy: 'newsdb', cascade: ['persist', 'remove'])]
     private $news;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $data;
 
     public function getId(): ?int

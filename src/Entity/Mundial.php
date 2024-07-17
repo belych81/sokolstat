@@ -4,98 +4,64 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\MundialRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\MundialRepository::class)]
 class Mundial
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'mundials')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'mundials')]
     private $country;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'mundials')]
     private $country2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Turnir", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Turnir::class, inversedBy: 'mundials')]
     private $turnir;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Stadia", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Stadia::class, inversedBy: 'mundials')]
     private $stadia;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\City::class, inversedBy: 'mundials')]
     private $city;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $goal = '-';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $score = '0-0';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $game = '-';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $game2 = '-';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $penalty = '-';
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $zriteli = 0;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $status = true;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Referee", inversedBy="mundials")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Referee::class, inversedBy: 'mundials')]
     private $referee;
 
     private $route = 'sbornie';

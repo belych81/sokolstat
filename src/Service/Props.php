@@ -5,7 +5,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Props
 {
-    private $lastSeason = '2023-24';
+    private $lastSeason = '2024-25';
     private $lastMundSeason = 2024;
     private $sbornieRusYear = 2023;
     private $topEmblem = [

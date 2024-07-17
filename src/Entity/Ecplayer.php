@@ -4,49 +4,33 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EcplayerRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\EcplayerRepository::class)]
 class Ecplayer
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="ecplayers")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'ecplayers')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="ecplayers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'ecplayers')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="ecplayers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Player::class, inversedBy: 'ecplayers')]
     private $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Turnir", inversedBy="ecplayers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Turnir::class, inversedBy: 'ecplayers')]
     private $turnir;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $game = 1;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal = 0;
 
     public function getId(): ?int

@@ -4,107 +4,69 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\RfplmatchRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\RfplmatchRepository::class)]
 class Rfplmatch
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="rfplmatches")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'rfplmatches')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="rfplmatches")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'rfplmatches')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="rfplmatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Team::class, inversedBy: 'rfplmatches')]
     private $team2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="rfplmatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Player::class, inversedBy: 'rfplmatches')]
     private $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="rfplmatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Player::class, inversedBy: 'rfplmatches')]
     private $player2;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $tour;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal1 = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal2 = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $bomb = "-";
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $status;
 
     private $route = 'championships';
 
     private $country = 'russia';
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $zriteli;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $penalty;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $game;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $game2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="rfplmatches")
-     */
+    #[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'rfplmatches')]
     private $city;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Referee::class, inversedBy="rfplmatches")
-     */
+    #[ORM\ManyToOne(targetEntity: Referee::class, inversedBy: 'rfplmatches')]
     private $referee;
 
     public function getId(): ?int

@@ -38,3 +38,6 @@ yarn-error.log
 /public/images/
 
 /config/params.yaml
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

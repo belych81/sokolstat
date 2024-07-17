@@ -4,67 +4,44 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlMatchRepository")
- */
+
+#[ORM\Entity(repositoryClass: \App\Repository\NhlMatchRepository::class)]
 class NhlMatch
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="matches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'matches')]
     private $season;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nhlMatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class, inversedBy: 'nhlMatches')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class)]
     private $team2;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal1 = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal2 = 0;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $status;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlStadia", inversedBy="nhlMatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlStadia::class, inversedBy: 'nhlMatches')]
     private $stadia;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $bomb = "-";
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private ?bool $overtime = null;
 
     public function getId(): ?int

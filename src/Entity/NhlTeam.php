@@ -6,176 +6,108 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlTeamRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlTeamRepository::class)]
 class NhlTeam
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlReg", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlReg::class, mappedBy: 'team')]
     private $nhlRegs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayOff", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlPlayOff::class, mappedBy: 'team')]
     private $nhlPlayOffs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlMatch", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlMatch::class, mappedBy: 'team')]
     private $nhlMatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NflMatch", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NflMatch::class, mappedBy: 'team')]
     private $nflMatches;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $translit;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlTable", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlTable::class, mappedBy: 'team')]
     private $nhlTables;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $winsreg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $nichreg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $porazhreg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mzreg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mpreg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $scorereg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $winspo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $nichpo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $porazhpo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mzpo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mppo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $scorepo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $wins = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $nich = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $porazh = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mz = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mp = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $score = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $gamereg = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $gamepo = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $game = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayersTeam", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlPlayersTeam::class, mappedBy: 'team')]
     private $nhlPlayersTeams;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $image = '';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $image2 = '';
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private ?int $matches = 0;
 
     public function __construct()

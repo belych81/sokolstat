@@ -7,36 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=PeriodRepository::class)
- */
+#[ORM\Entity(repositoryClass: \App\Repository\PeriodRepository::class)]
 class Period
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Transfer::class, mappedBy="period", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'period', orphanRemoval: true)]
     private $transfers;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $translit;
 
-    /**
-     * @ORM\OneToOne(targetEntity=News::class, inversedBy="period", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: News::class, inversedBy: 'period', cascade: ['persist', 'remove'])]
     private $news;
 
     public function __construct()

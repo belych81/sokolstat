@@ -8,200 +8,128 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\TeamRepository::class)]
 class Team
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @Groups({"team:list", "team:item"})
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @Groups({"team:list", "team:item"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @Groups({"team:list", "team:item"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $translit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="teams")
-     * @ORM\JoinColumn(nullable=false)
      *
      * @Groups({"team:list", "team:item"})
      */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'teams')]
     private $country;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cup::class, mappedBy: 'team')]
     private $cups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Tour::class, mappedBy: 'team')]
     private $tours;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Rfplmatch::class, mappedBy: 'team')]
     private $rfplmatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Eurocup::class, mappedBy: 'team')]
     private $eurocups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shipplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shipplayer::class, mappedBy: 'team')]
     private $shipplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationSupercup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationSupercup::class, mappedBy: 'team')]
     private $nationSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RusSupercup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\RusSupercup::class, mappedBy: 'team')]
     private $rusSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationCup::class, mappedBy: 'team')]
     private $nationCups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UefaSupercup", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\UefaSupercup::class, mappedBy: 'team')]
     private $uefaSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gamers", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Gamers::class, mappedBy: 'team')]
     private $gamers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Fnlplayer::class, mappedBy: 'team')]
     private $fnlplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shiptable::class, mappedBy: 'team')]
     private $shiptables;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Playersteam", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Playersteam::class, mappedBy: 'team')]
     private $playersteams;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cupplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cupplayer::class, mappedBy: 'team')]
     private $cupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ectable::class, mappedBy: 'team')]
     private $ectables;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Lchplayer::class, mappedBy: 'team')]
     private $lchplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ecplayer::class, mappedBy: 'team')]
     private $ecplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Supercupplayer", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Supercupplayer::class, mappedBy: 'team')]
     private $supercupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sostav::class, mappedBy: 'team')]
     private $sostavs;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $image = "-";
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $image2 = "-";
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $game = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $wins = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $nich = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $porazh = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mz = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mp = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $score = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Transfer::class, mappedBy="old")
-     */
+    #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'old')]
     private $transfers;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CupLeague::class, mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: CupLeague::class, mappedBy: 'team')]
     private $cupLeagues;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="team")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'team')]
     private $games;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="teams")
-     */
+    #[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'teams')]
     private $city;
 
     public function __construct()

@@ -4,44 +4,30 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlPlayOffRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlPlayOffRepository::class)]
 class NhlPlayOff
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlSeason", inversedBy="nhlPlayOffs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlSeason::class, inversedBy: 'nhlPlayOffs')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nhlPlayOffs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class, inversedBy: 'nhlPlayOffs')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlPlayer", inversedBy="nhlPlayOffs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlPlayer::class, inversedBy: 'nhlPlayOffs')]
     private $player;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $assist;
 
     public function getId(): ?int

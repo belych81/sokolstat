@@ -6,169 +6,109 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PlayerRepository")
- */
+
+#[ORM\Entity(repositoryClass: \App\Repository\PlayerRepository::class)]
 class Player
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Amplua", inversedBy="players")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Amplua::class, inversedBy: 'players')]
     private $amplua;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="players")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'players')]
     private $country;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name = '';
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: 'date')]
     private $born;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $goal = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $lch_game = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $lch_goal = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $translit;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image = "-";
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $cup = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $supercup = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $eurocup = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $sum = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Rfplmatch::class, mappedBy: 'player')]
     private $rfplmatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shipplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shipplayer::class, mappedBy: 'player')]
     private $shipplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rusplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Rusplayer::class, mappedBy: 'player')]
     private $rusplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gamers", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Gamers::class, mappedBy: 'player')]
     private $gamers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Fnlplayer::class, mappedBy: 'player')]
     private $fnlplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Playersteam", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Playersteam::class, mappedBy: 'player')]
     private $playersteams;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cupplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cupplayer::class, mappedBy: 'player')]
     private $cupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Lchplayer::class, mappedBy: 'player')]
     private $lchplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ecplayer::class, mappedBy: 'player')]
     private $ecplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Supercupplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Supercupplayer::class, mappedBy: 'player')]
     private $supercupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sbplayer", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sbplayer::class, mappedBy: 'player')]
     private $sbplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sostav::class, mappedBy: 'player')]
     private $sostavs;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $insertdate;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $game = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $sbornie = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="player")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'player')]
     private $games;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $viewed = 0;
+
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: AchieveItems::class)]
+    private Collection $achieveItems;
 
     public function __construct()
     {
@@ -185,6 +125,7 @@ class Player
         $this->sbplayers = new ArrayCollection();
         $this->sostavs = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->achieveItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -799,6 +740,36 @@ class Player
     public function setViewed(?int $viewed): self
     {
         $this->viewed = $viewed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AchieveItems>
+     */
+    public function getAchieveItems(): Collection
+    {
+        return $this->achieveItems;
+    }
+
+    public function addAchieveItem(AchieveItems $achieveItem): static
+    {
+        if (!$this->achieveItems->contains($achieveItem)) {
+            $this->achieveItems->add($achieveItem);
+            $achieveItem->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchieveItem(AchieveItems $achieveItem): static
+    {
+        if ($this->achieveItems->removeElement($achieveItem)) {
+            // set the owning side to null (unless already changed)
+            if ($achieveItem->getPlayer() === $this) {
+                $achieveItem->setPlayer(null);
+            }
+        }
 
         return $this;
     }

@@ -6,31 +6,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlDivisionRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlDivisionRepository::class)]
 class NhlDivision
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlConf", inversedBy="nhlDivisions")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlConf::class, inversedBy: 'nhlDivisions')]
     private $conf;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlTable", mappedBy="division")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlTable::class, mappedBy: 'division')]
     private $nhlTables;
 
     public function __construct()

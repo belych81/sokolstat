@@ -7,48 +7,30 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-/**
- * @ORM\Entity(repositoryClass=NewsRepository::class)
- * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity("translit")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NewsRepository::class)]
 class News
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $translit;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $text;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $active;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Period::class, mappedBy="news", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: Period::class, mappedBy: 'news', cascade: ['persist', 'remove'])]
     private $period;
 
     public function getId(): ?int
@@ -111,9 +93,7 @@ class News
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function setDataValue()
     {
         $this->data = new \DateTime();

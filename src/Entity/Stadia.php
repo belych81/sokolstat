@@ -6,41 +6,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\StadiaRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\StadiaRepository::class)]
 class Stadia
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $alias;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cup::class, mappedBy: 'stadia')]
     private $cups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Eurocup::class, mappedBy: 'stadia')]
     private $eurocups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationCup::class, mappedBy: 'stadia')]
     private $nationCups;
 
     public function __construct()
@@ -183,14 +169,10 @@ class Stadia
 
     private $stadia_matches_2;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ectable::class, mappedBy: 'stadia')]
     private $ectables;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'stadia')]
     private $mundials;
 
     public function setStadiaMatches(array $matches)
@@ -225,24 +207,16 @@ class Stadia
 
     private $stadia_table = false;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $rank;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: MundialTable::class, mappedBy: 'stadia')]
     private $mundialTables;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CupLeague::class, mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: CupLeague::class, mappedBy: 'stadia')]
     private $cupLeagues;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="stadia")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'stadia')]
     private $games;
 
     public function setStadiaTable($table)

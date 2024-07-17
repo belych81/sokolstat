@@ -4,71 +4,45 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlTableRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlTableRepository::class)]
 class NhlTable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="nhlTables")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'nhlTables')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nhlTables")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class, inversedBy: 'nhlTables')]
     private $team;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $wins = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $nich = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $porazh = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mz = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mp = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $score = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlDivision", inversedBy="nhlTables")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlDivision::class, inversedBy: 'nhlTables')]
     private $division;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private ?int $winst = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private ?int $porazht = 0;
 
     public function getId(): ?int

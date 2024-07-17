@@ -6,51 +6,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CityRepository::class)]
 class City
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="city")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'city')]
     private $mundials;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Rfplmatch::class, mappedBy="city")
-     */
+    #[ORM\OneToMany(targetEntity: Rfplmatch::class, mappedBy: 'city')]
     private $rfplmatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Ecsostav::class, mappedBy="city")
-     */
+    #[ORM\OneToMany(targetEntity: Ecsostav::class, mappedBy: 'city')]
     private $ecsostavs;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="city")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'city')]
     private $games;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Team::class, mappedBy="city")
-     */
+    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'city')]
     private $teams;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="cities")
-     */
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'cities')]
     private $country;
 
     public function __construct()

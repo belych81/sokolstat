@@ -5,116 +5,72 @@ namespace App\Entity;
 use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=GameRepository::class)
- */
+#[ORM\Entity(repositoryClass: \App\Repository\GameRepository::class)]
 class Game
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Seasons::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Seasons::class, inversedBy: 'games')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'games')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class)]
     private $team2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class, inversedBy: 'games')]
     private $player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Player::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Player::class)]
     private $player2;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $tour = 1;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $data;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $goal1 = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $goal2 = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $bomb = '-';
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $status;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'games')]
     private $city;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Referee::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Referee::class, inversedBy: 'games')]
     private $referee;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $zriteli = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $penalty = '-';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $game = '-';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $game2 = '-';
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Turnir::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Turnir::class, inversedBy: 'games')]
     private $turnir;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Stadia::class, inversedBy="games")
-     */
+    #[ORM\ManyToOne(targetEntity: Stadia::class, inversedBy: 'games')]
     private $stadia;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $score = '0-0';
 
     public function getId(): ?int

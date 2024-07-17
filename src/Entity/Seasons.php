@@ -7,161 +7,107 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SeasonsRepository")
- */
+
+#[ORM\Entity(repositoryClass: \App\Repository\SeasonsRepository::class)]
 class Seasons
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name = '2020-21';
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cup::class, mappedBy: 'season')]
     private $cups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tour", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Tour::class, mappedBy: 'season')]
     private $tours;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rfplmatch", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Rfplmatch::class, mappedBy: 'season')]
     private $rfplmatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlReg", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlReg::class, mappedBy: 'season')]
     private $nhlRegs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Eurocup::class, mappedBy: 'season')]
     private $eurocups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shipplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shipplayer::class, mappedBy: 'season')]
     private $shipplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationSupercup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationSupercup::class, mappedBy: 'season')]
     private $nationSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RusSupercup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\RusSupercup::class, mappedBy: 'season')]
     private $rusSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NationCup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NationCup::class, mappedBy: 'season')]
     private $nationCups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UefaSupercup", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\UefaSupercup::class, mappedBy: 'season')]
     private $uefaSupercups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gamers", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Gamers::class, mappedBy: 'season')]
     private $gamers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Fnlplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Fnlplayer::class, mappedBy: 'season')]
     private $fnlplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Shiptable", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Shiptable::class, mappedBy: 'season')]
     private $shiptables;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cupplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Cupplayer::class, mappedBy: 'season')]
     private $cupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ectable::class, mappedBy: 'season')]
     private $ectables;
 
     private $laststadia = 'final';
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lchplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Lchplayer::class, mappedBy: 'season')]
     private $lchplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ecplayer::class, mappedBy: 'season')]
     private $ecplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Supercupplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Supercupplayer::class, mappedBy: 'season')]
     private $supercupplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sbplayer", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sbplayer::class, mappedBy: 'season')]
     private $sbplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'season')]
     private $mundials;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sostav", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sostav::class, mappedBy: 'season')]
     private $sostavs;
 
     private $season_matches;
 
     private $season_cup_matches;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlTable", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlTable::class, mappedBy: 'season')]
     private $nhlTables;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CupLeague::class, mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: CupLeague::class, mappedBy: 'season')]
     private $cupLeagues;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'season')]
     private $games;
 
     #[ORM\OneToMany(mappedBy: 'season', targetEntity: NflMatch::class)]
     private Collection $nflMatches;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $lastdate = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private ?int $lastId = null;
+
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: AchieveItems::class)]
+    private Collection $achieveItems;
 
     public function __construct()
     {
@@ -189,6 +135,7 @@ class Seasons
         $this->cupLeagues = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->nflMatches = new ArrayCollection();
+        $this->achieveItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1010,6 +957,36 @@ class Seasons
     public function setLastId(?int $lastId): static
     {
         $this->lastId = $lastId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AchieveItems>
+     */
+    public function getAchieveItems(): Collection
+    {
+        return $this->achieveItems;
+    }
+
+    public function addAchieveItem(AchieveItems $achieveItem): static
+    {
+        if (!$this->achieveItems->contains($achieveItem)) {
+            $this->achieveItems->add($achieveItem);
+            $achieveItem->setSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchieveItem(AchieveItems $achieveItem): static
+    {
+        if ($this->achieveItems->removeElement($achieveItem)) {
+            // set the owning side to null (unless already changed)
+            if ($achieveItem->getSeason() === $this) {
+                $achieveItem->setSeason(null);
+            }
+        }
 
         return $this;
     }

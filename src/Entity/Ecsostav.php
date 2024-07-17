@@ -4,47 +4,31 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EcsostavRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\EcsostavRepository::class)]
 class Ecsostav
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Eurocup", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: \App\Entity\Eurocup::class, cascade: ['persist', 'remove'])]
     private $eurocup;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $team;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $team2;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="ecsostavs")
-     */
+    #[ORM\ManyToOne(targetEntity: City::class, inversedBy: 'ecsostavs')]
     private $city;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $zriteli;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Referee::class, inversedBy="ecsostavs")
-     */
+    #[ORM\ManyToOne(targetEntity: Referee::class, inversedBy: 'ecsostavs')]
     private $referee;
 
     public function getId(): ?int

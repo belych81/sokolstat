@@ -5,37 +5,26 @@ namespace App\Entity;
 use App\Repository\NflMatchRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NflMatchRepository")
- */
+
+#[ORM\Entity(repositoryClass: \App\Repository\NflMatchRepository::class)]
 class NflMatch
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam", inversedBy="nflMatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class, inversedBy: 'nflMatches')]
     private $team = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\NhlTeam")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\NhlTeam::class)]
     private $team2 = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Seasons", inversedBy="nflMatches")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Seasons::class, inversedBy: 'nflMatches')]
     private ?Seasons $season = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private ?bool $status = false;
 
     public function getId(): ?int

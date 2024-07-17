@@ -5,56 +5,36 @@ namespace App\Entity;
 use App\Repository\CupLeagueRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CupLeagueRepository::class)
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CupLeagueRepository::class)]
 class CupLeague
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Seasons::class, inversedBy="cupLeagues")
-     */
+    #[ORM\ManyToOne(targetEntity: Seasons::class, inversedBy: 'cupLeagues')]
     private $season;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Stadia::class, inversedBy="cupLeagues")
-     */
+    #[ORM\ManyToOne(targetEntity: Stadia::class, inversedBy: 'cupLeagues')]
     private $stadia;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="cupLeagues")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'cupLeagues')]
     private $team;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="cupLeagues")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'cupLeagues')]
     private $team2;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $data;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $score = '0-0';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $bomb = '-';
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $status;
 
     public function getId(): ?int

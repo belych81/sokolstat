@@ -6,36 +6,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlSeasonRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlSeasonRepository::class)]
 class NhlSeason
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlReg", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlReg::class, mappedBy: 'season')]
     private $nhlRegs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlPlayOff", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlPlayOff::class, mappedBy: 'season')]
     private $nhlPlayOffs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlMatch", mappedBy="season")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlMatch::class, mappedBy: 'season')]
     private $matches;
 
     public function __construct()

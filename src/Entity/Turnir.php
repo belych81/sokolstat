@@ -6,61 +6,39 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TurnirRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\TurnirRepository::class)]
 class Turnir
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $alias;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Eurocup", mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Eurocup::class, mappedBy: 'turnir')]
     private $eurocups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ectable", mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ectable::class, mappedBy: 'turnir')]
     private $ectables;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $russianalias;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ecplayer", mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Ecplayer::class, mappedBy: 'turnir')]
     private $ecplayers;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'turnir')]
     private $mundials;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MundialTable::class, mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: MundialTable::class, mappedBy: 'turnir')]
     private $mundialTables;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="turnir")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'turnir')]
     private $games;
 
     public function __construct()

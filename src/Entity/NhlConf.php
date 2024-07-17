@@ -6,26 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NhlConfRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\NhlConfRepository::class)]
 class NhlConf
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\NhlDivision", mappedBy="conf")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\NhlDivision::class, mappedBy: 'conf')]
     private $nhlDivisions;
 
     public function __construct()

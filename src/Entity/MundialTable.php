@@ -5,71 +5,45 @@ namespace App\Entity;
 use App\Repository\MundialTableRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=MundialTableRepository::class)
- */
+#[ORM\Entity(repositoryClass: \App\Repository\MundialTableRepository::class)]
 class MundialTable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $year;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Turnir::class, inversedBy="mundialTables")
-     */
+    #[ORM\ManyToOne(targetEntity: Turnir::class, inversedBy: 'mundialTables')]
     private $turnir;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="mundialTables")
-     */
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'mundialTables')]
     private $country;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $wins = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $nich = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $porazh = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mz = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $mp = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $score = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $seat = 1;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Stadia::class, inversedBy="mundialTables")
-     */
+    #[ORM\ManyToOne(targetEntity: Stadia::class, inversedBy: 'mundialTables')]
     private $stadia;
 
     public function getId(): ?int

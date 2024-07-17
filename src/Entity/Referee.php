@@ -6,47 +6,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\RefereeRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\RefereeRepository::class)]
 class Referee
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="referees")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Country::class, inversedBy: 'referees')]
     private $country;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mundial", mappedBy="referee")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Mundial::class, mappedBy: 'referee')]
     private $mundials;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Rfplmatch::class, mappedBy="referee")
-     */
+    #[ORM\OneToMany(targetEntity: Rfplmatch::class, mappedBy: 'referee')]
     private $rfplmatches;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Ecsostav::class, mappedBy="referee")
-     */
+    #[ORM\OneToMany(targetEntity: Ecsostav::class, mappedBy: 'referee')]
     private $ecsostavs;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="referee")
-     */
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'referee')]
     private $games;
 
     public function __construct()
