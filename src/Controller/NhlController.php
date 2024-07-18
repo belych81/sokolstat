@@ -40,7 +40,7 @@ class NhlController extends AbstractController
 {
   private EntityManagerInterface $entityManager;
 
-  const NFL_MATCHES_LIMIT = 60;
+  const NFL_MATCHES_LIMIT = 80;
 
   public function __construct(EntityManagerInterface $entityManager)
   {
@@ -204,7 +204,7 @@ class NhlController extends AbstractController
   public function champ(Request $request, ResizeImage $resize, Nfl $nfl, $season)
   {
     $isUpload = $request->query->get('upload', false);
-    $isMetro = strpos($season, 'metro') !== false;
+    $isMetro = strpos($season, 'hockey') !== false;
 
     if($isUpload){
       $lines = $nfl->getMatchesByFile('nfl2022.txt');
