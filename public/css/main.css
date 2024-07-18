@@ -2064,3 +2064,8 @@ align-items: center;
   display: flex;
   justify-content: space-between;
 }
+.calendar .calendar_score {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}

@@ -41,7 +41,7 @@
               {{ ymatch.country2.name }}
           {% endif %}
         </div>
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 calendar_score">
           <a href="{{ route }}" class="spiski">
             {% if (ymatch.status == 0) %}
                   {% if (arTurnir|length == 1 and arTurnir[0] != 'fnl') or (arTurnir|length == 2 and ymatch.score and arTurnir[1] != 'champ' ) %}
