@@ -350,7 +350,7 @@ class NhlController extends AbstractController
             }
         }
         $arTeams = array_unique($arTeams);
-        $res = $em->getRepository(NhlTeam::class)->getNextTeam($arTeams);
+        $res = $em->getRepository(NhlTeam::class)->getNextTeam($arTeams, $season);
         $json = json_encode($res);
         $arRes = json_decode($json, true);
         $arGame = [];
@@ -362,11 +362,11 @@ class NhlController extends AbstractController
               if(($key = array_search($match->getTeam()->getId(), array_column($arRes, 'id'))) !== false){
                     $arGame[$k]['img1'] = "/images/" . $arRes[$key]['image'];
                     $arGame[$k]['img2'] = $image;
-                    $arGame[$k]['matches'] = $arRes[$key]['matches'];
+                    $arGame[$k]['matches'] = $arRes[$key]['wins'] + $arRes[$key]['nich'] + $arRes[$key]['porazh'] + $arRes[$key]['winst'] + $arRes[$key]['porazht'];
                 } elseif(($key2 = array_search($match->getTeam2()->getId(), array_column($arRes, 'id'))) !== false) {
                     $arGame[$k]['img2'] = "/images/" . $arRes[$key2]['image'];
                     $arGame[$k]['img1'] = $image;
-                    $arGame[$k]['matches'] = $arRes[$key2]['matches'];
+                    $arGame[$k]['matches'] = $arRes[$key]['wins'] + $arRes[$key]['nich'] + $arRes[$key]['porazh'] + $arRes[$key]['winst'] + $arRes[$key]['porazht'];
                 }
             }
         }

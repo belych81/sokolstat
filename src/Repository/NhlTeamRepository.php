@@ -37,19 +37,23 @@ class NhlTeamRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
                     ->select('t.id', 't.image', 't.name')
                     ->where('t.id IN (:ids)')
-                    ->setParameter('ids', $ids)                 
+                    ->setParameter('ids', $ids)                
                     ->getQuery()
                     ->getResult();
     }
 
-    public function getNextTeam(array $ids) 
+    public function getNextTeam(array $ids, $season) 
     {
         return $this->createQueryBuilder('t')
-                    ->select('t.id', 't.image', 't.name', 't.matches')
+                    ->select('t.id', 't.image', 't.name', 't.matches', 'tb.wins', 'tb.nich', 'tb.porazh', 'tb.winst', 'tb.porazht')
+                    ->leftJoin('t.nhlTables', 'tb')
+                    ->join('tb.season', 's')
                     ->where('t.id IN (:ids)')
                     ->setParameter('ids', $ids)
+                    ->andWhere("s.name = :season")
+                    ->setParameter('season', $season) 
                     ->orderBy('t.matches', 'ASC')
-                    ->setMaxResults(3)
+                    ->setMaxResults(4)
                     ->getQuery()
                     ->getResult();
     }

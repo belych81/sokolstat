@@ -386,8 +386,8 @@
          $(document).on("click", ".nflEnd", function(){
             let th = $(this);
             let season = $("#nfl_search_team [name='season']").val();
-            let id = $(".nfl_matches_items .item.selected").data('matchid');
-            let data = $(".nfl_matches_items .item.selected").data('date');
+            let id = th.closest('.nfl_matches').find(".nfl_matches_items .item.selected").data('matchid');
+            let data = th.closest('.nfl_matches').find(".nfl_matches_items .item.selected").data('date');
             $.ajax({
                type: 'post',
                url: Routing.generate('nhl_nfl_end'),

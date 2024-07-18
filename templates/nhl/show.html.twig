@@ -46,7 +46,9 @@
                   <th>&nbsp;</th>
                   <th class="winsTable">И</th>
                   <th class="winsTable">В</th>
+                  <th class="winsTable">ВО</th>
                   <th class="winsTable">Н</th>
+                  <th class="winsTable">ПО</th>
                   <th class="winsTable">П</th>
                   <th class="goalsTable">M</th>
                   <th class="winsTable">О</th>
@@ -58,9 +60,11 @@
               {% if entity.team.name == club.name %}
                 <tr class="odd">
                     <td class="player-position">{{ loop.index }}</td>
-                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                    <td>{{ entity.wins+entity.nich+entity.porazh+entity.winst+entity.porazht }}</td>
                     <td>{{ entity.wins }}</td>
+                    <td>{{ entity.winst }}</td>
                     <td>{{ entity.nich }}</td>
+                    <td>{{ entity.porazht }}</td>
                     <td>{{ entity.porazh }}</td>
                     <td>{{ entity.mz }}-{{ entity.mp }}</td>
                     <td class="table-score">{{ entity.score }}</td>
@@ -87,7 +91,9 @@
                   <th>&nbsp;</th>
                   <th class="winsTable">И</th>
                   <th class="winsTable">В</th>
+                  <th class="winsTable">ВО</th>
                   <th class="winsTable">Н</th>
+                  <th class="winsTable">ПО</th>
                   <th class="winsTable">П</th>
                   <th class="goalsTable">M</th>
                   <th class="winsTable">О</th>
@@ -99,9 +105,11 @@
               {% if entity.team.name == club.name %}
                 <tr class="odd">
                     <td class="player-position">{{ loop.index }}</td>
-                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                    <td>{{ entity.wins+entity.nich+entity.porazh+entity.winst+entity.porazht }}</td>
                     <td>{{ entity.wins }}</td>
+                    <td>{{ entity.winst }}</td>
                     <td>{{ entity.nich }}</td>
+                    <td>{{ entity.porazht }}</td>
                     <td>{{ entity.porazh }}</td>
                     <td>{{ entity.mz }}-{{ entity.mp }}</td>
                     <td class="table-score">{{ entity.score }}</td>
