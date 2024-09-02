@@ -40,7 +40,7 @@ class NhlController extends AbstractController
 {
   private EntityManagerInterface $entityManager;
 
-  const NFL_MATCHES_LIMIT = 80;
+  const NFL_MATCHES_LIMIT = 200;
 
   public function __construct(EntityManagerInterface $entityManager)
   {
