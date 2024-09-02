@@ -366,7 +366,7 @@ class NhlController extends AbstractController
                 } elseif(($key2 = array_search($match->getTeam2()->getId(), array_column($arRes, 'id'))) !== false) {
                     $arGame[$k]['img2'] = "/images/" . $arRes[$key2]['image'];
                     $arGame[$k]['img1'] = $image;
-                    $arGame[$k]['matches'] = $arRes[$key]['wins'] + $arRes[$key]['nich'] + $arRes[$key]['porazh'] + $arRes[$key]['winst'] + $arRes[$key]['porazht'];
+                    $arGame[$k]['matches'] = $arRes[$key2]['wins'] + $arRes[$key2]['nich'] + $arRes[$key2]['porazh'] + $arRes[$key2]['winst'] + $arRes[$key2]['porazht'];
                 }
             }
         }
