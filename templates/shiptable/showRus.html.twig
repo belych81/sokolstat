@@ -22,54 +22,15 @@
         </a>
     {% endfor %}
   </div>
-  <h1>{{ club.name }}</h1>
   <div class="team-show-image">
     <div>
-
+      <div class="team_color" style="background: #{{ club.color1 }}"></div>
+      <div class="team_color" style="background: #{{ club.color2 }}"></div>
+      <h1 {% if club.color3 %}style="color: #{{ club.color3 }}; -webkit-text-stroke: 1px #{{ club.color4 }};"{% endif %}>{{ club.name }}</h1>
       {% if club.image %}
       <img src="{{ club.image }}"
         alt="{{ club.name }}" title="{{ club.name }}" />
       {% endif %}
-      <table class="shipTable showTeam">
-          <thead>
-              <tr class="shipTableTitle">
-                  <th>&nbsp;</th>
-                  <th class="winsTable">И</th>
-                  <th class="winsTable">В</th>
-                  <th class="winsTable">Н</th>
-                  <th class="winsTable">П</th>
-                  <th class="goalsTable">M</th>
-                  <th class="winsTable">О</th>
-
-              </tr>
-          </thead>
-          <tbody>
-            {% for entity in shiptable %}
-              {% if entity.team.name == club.name %}
-                <tr class="odd">
-                    <td class="player-position">{{ loop.index }}</td>
-                    <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                    <td>{{ entity.wins }}</td>
-                    <td>{{ entity.nich }}</td>
-                    <td>{{ entity.porazh }}</td>
-                    <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                    <td class="table-score">{{ entity.score }}</td>
-                </tr>
-              {% endif %}
-            {% endfor %}
-          </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="team-show-image-mobile">
-    <div>
-      {% if club.image %}
-      <img src="{{ asset('images/clubs/') }}{{ club.image }}"
-        alt="{{ club.name }}" title="{{ club.name }}" />
-      {% endif %}
-    </div>
-    <div>
       <table class="shipTable showTeam">
           <thead>
               <tr class="shipTableTitle">

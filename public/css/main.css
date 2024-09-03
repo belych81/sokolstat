@@ -44,8 +44,7 @@ header,
 }
 @media screen and (max-width: 1400px) {
   .container-fluid {
-    max-width: 1600px;
-    width: auto;
+    max-width: 100%;
   }
 }
 .dropdown:hover > .dropdown-menu {
@@ -1385,10 +1384,6 @@ display: inline-block; /* Выстраиваем по горизонтали */
 {
   width: 25px;
 }
-.showTeam{
-  display: inline-table;
-  margin-bottom: 10px;
-}
 .stadia-name {
     font-weight: bold;
     font-size: 14px;
@@ -1915,7 +1910,10 @@ th.sorted[data-order="1"]::after {
 .shipTable
 {
  max-width: 500px;   
- margin: 0 auto 15px;
+ margin: 15px auto;
+}
+.seasons_list {
+
 }
 .glyphicon-log-in {
   padding-right: 5px;

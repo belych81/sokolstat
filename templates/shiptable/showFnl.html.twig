@@ -16,10 +16,12 @@
       </a>
   {% endfor %}
 </div>
-<h1>{{ club.name }}</h1>
+
 <div class="team-show-image">
   <div>
-
+      <div class="team_color" style="background: #{{ club.color1 }}"></div>
+      <div class="team_color" style="background: #{{ club.color2 }}"></div>
+      <h1 {% if club.color3 %}style="color: #{{ club.color3 }}; -webkit-text-stroke: 1px #{{ club.color4 }};"{% endif %}>{{ club.name }}</h1>
     {% if club.image %}
     <img src="{{ club.image }}"
       alt="{{ club.name }}" title="{{ club.name }}" />

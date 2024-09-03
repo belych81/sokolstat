@@ -110,6 +110,18 @@ class NhlTeam
     #[ORM\Column(type: 'integer')]
     private ?int $matches = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color1 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color3 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color4 = null;
+
     public function __construct()
     {
         $this->nhlRegs = new ArrayCollection();
@@ -624,6 +636,54 @@ class NhlTeam
     public function setMatches(?int $matches): static
     {
         $this->matches = $matches;
+
+        return $this;
+    }
+
+    public function getColor1(): ?string
+    {
+        return $this->color1;
+    }
+
+    public function setColor1(?string $color1): static
+    {
+        $this->color1 = $color1;
+
+        return $this;
+    }
+
+    public function getColor2(): ?string
+    {
+        return $this->color2;
+    }
+
+    public function setColor2(?string $color2): static
+    {
+        $this->color2 = $color2;
+
+        return $this;
+    }
+
+    public function getColor3(): ?string
+    {
+        return $this->color3;
+    }
+
+    public function setColor3(?string $color3): static
+    {
+        $this->color3 = $color3;
+
+        return $this;
+    }
+
+    public function getColor4(): ?string
+    {
+        return $this->color4;
+    }
+
+    public function setColor4(?string $color4): static
+    {
+        $this->color4 = $color4;
 
         return $this;
     }
