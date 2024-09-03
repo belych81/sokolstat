@@ -1474,7 +1474,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
 }
 .team-show-image h1 {
   position: absolute;
-  top: 8px;
+  top: 10px;
   text-transform: uppercase;
   width: 100%;
   margin: 0 auto;
