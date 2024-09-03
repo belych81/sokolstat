@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240903072914 extends AbstractMigration
+final class Version20240903093607 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,8 +20,7 @@ final class Version20240903072914 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-       //  $this->addSql('ALTER TABLE team ADD color1 VARCHAR(255) DEFAULT NULL, ADD color2 VARCHAR(255) DEFAULT NULL, ADD color3 VARCHAR(255) DEFAULT NULL');
-        
+        $this->addSql('ALTER TABLE team ADD color4 VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -184,7 +183,7 @@ final class Version20240903072914 extends AbstractMigration
         $this->addSql('ALTER TABLE stadia CHANGE id id INT NOT NULL, CHANGE rank rank INT DEFAULT 1');
         $this->addSql('ALTER TABLE supercupplayer CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE season_id season_id INT DEFAULT NULL, CHANGE team_id team_id INT DEFAULT NULL, CHANGE player_id player_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE task CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE title title VARCHAR(255) CHARACTER SET utf8mb3 NOT NULL COLLATE `utf8mb3_general_ci`, CHANGE description description VARCHAR(255) CHARACTER SET utf8mb3 NOT NULL COLLATE `utf8mb3_general_ci`, CHANGE dataend dataend DATETIME DEFAULT NULL');
-        $this->addSql('ALTER TABLE team DROP color1, DROP color2, DROP color3, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE city_id city_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL, CHANGE wins wins INT DEFAULT 0 NOT NULL, CHANGE nich nich INT DEFAULT 0 NOT NULL, CHANGE porazh porazh INT DEFAULT 0 NOT NULL, CHANGE mz mz INT DEFAULT 0 NOT NULL, CHANGE mp mp INT DEFAULT 0 NOT NULL, CHANGE score score INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE team DROP color4, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE country_id country_id INT DEFAULT NULL, CHANGE city_id city_id INT DEFAULT NULL, CHANGE game game INT DEFAULT 0 NOT NULL, CHANGE wins wins INT DEFAULT 0 NOT NULL, CHANGE nich nich INT DEFAULT 0 NOT NULL, CHANGE porazh porazh INT DEFAULT 0 NOT NULL, CHANGE mz mz INT DEFAULT 0 NOT NULL, CHANGE mp mp INT DEFAULT 0 NOT NULL, CHANGE score score INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C039E6FA16');
         $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C0BD06B3B3');
         $this->addSql('ALTER TABLE transfer DROP FOREIGN KEY FK_4034A3C0EC8B7ADE');

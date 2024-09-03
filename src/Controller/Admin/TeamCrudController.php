@@ -38,6 +38,7 @@ class TeamCrudController extends AbstractCrudController
             TextField::new('color1')->onlyOnForms(),
             TextField::new('color2')->onlyOnForms(),
             TextField::new('color3')->onlyOnForms(),
+            TextField::new('color4')->onlyOnForms(),
         ];
     }
 
