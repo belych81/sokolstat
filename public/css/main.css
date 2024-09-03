@@ -1483,7 +1483,6 @@ display: inline-block; /* Выстраиваем по горизонтали */
   text-transform: uppercase;
   width: 100%;
   margin: 0 auto;
-  -webkit-text-stroke: 1px #000;
 }
 .team-show-image-mobile{
   display: none;
