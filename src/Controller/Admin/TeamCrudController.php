@@ -35,6 +35,9 @@ class TeamCrudController extends AbstractCrudController
             IdField::new('mp')->onlyOnForms(),
             IdField::new('score')->onlyOnForms(),
             AssociationField::new('city'),
+            TextField::new('color1')->onlyOnForms(),
+            TextField::new('color2')->onlyOnForms(),
+            TextField::new('color3')->onlyOnForms(),
         ];
     }
 

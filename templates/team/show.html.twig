@@ -17,6 +17,8 @@
 <div class="go-all-clubs"><a href="{{ path('team') }}">Все клубы</a></div>
 <div class="team-show-image">
   <div>
+    <div class="team_color" style="background: #{{ team.color1 }}"></div>
+    <div class="team_color" style="background: #{{ team.color2 }}"></div>
     <h1>{{ team.name }}</h1>
     {% if team.image %}
       <img src="{{ team.image }}"

@@ -21,11 +21,11 @@ final class Version20240702154648 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         
-        $this->addSql('CREATE TABLE achieve (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE achieve_items (id INT AUTO_INCREMENT NOT NULL, player_id VARCHAR(255) DEFAULT NULL, achieve_id INT DEFAULT NULL, season_id VARCHAR(255) DEFAULT NULL, INDEX IDX_3B9938AA99E6F5DF (player_id), INDEX IDX_3B9938AA1E3298F4 (achieve_id), INDEX IDX_3B9938AA4EC001D1 (season_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA99E6F5DF FOREIGN KEY (player_id) REFERENCES player (id)');
-        $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA1E3298F4 FOREIGN KEY (achieve_id) REFERENCES achieve (id)');
-        $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA4EC001D1 FOREIGN KEY (season_id) REFERENCES seasons (id)');
+        // $this->addSql('CREATE TABLE achieve (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        // $this->addSql('CREATE TABLE achieve_items (id INT AUTO_INCREMENT NOT NULL, player_id VARCHAR(255) DEFAULT NULL, achieve_id INT DEFAULT NULL, season_id VARCHAR(255) DEFAULT NULL, INDEX IDX_3B9938AA99E6F5DF (player_id), INDEX IDX_3B9938AA1E3298F4 (achieve_id), INDEX IDX_3B9938AA4EC001D1 (season_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        // $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA99E6F5DF FOREIGN KEY (player_id) REFERENCES player (id)');
+        // $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA1E3298F4 FOREIGN KEY (achieve_id) REFERENCES achieve (id)');
+        // $this->addSql('ALTER TABLE achieve_items ADD CONSTRAINT FK_3B9938AA4EC001D1 FOREIGN KEY (season_id) REFERENCES seasons (id)');
         
     }
 
