@@ -1498,6 +1498,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
   max-height: 60px;
   position: absolute;
   top: 0;
+  background: #faf9e6;
 }
 .team_color {
   height: 30px;
