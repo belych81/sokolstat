@@ -1470,7 +1470,7 @@ display: inline-block; /* Выстраиваем по горизонтали */
 }
 .team-show-image{
   display: flex;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 .team-show-image h1 {
   position: absolute;
@@ -1494,6 +1494,9 @@ display: inline-block; /* Выстраиваем по горизонтали */
   position: absolute;
   top: 0;
   background: #faf9e6;
+}
+.shipTable.eurocup_table {
+  margin: 15px 0;
 }
 .team_color {
   height: 30px;
