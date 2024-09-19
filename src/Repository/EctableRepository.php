@@ -34,7 +34,7 @@ class EctableRepository extends ServiceEntityRepository
                     'season' => $season,
                     'stadia' => $stadia
                         ])
-              ->orderBy('et.score DESC, et.wins DESC, et.mz DESC, et.id')
+              ->orderBy('et.score DESC, et.wins DESC, et.mz DESC, et.mp')
               ->getQuery()
               ->getResult();
     }
