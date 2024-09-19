@@ -136,6 +136,7 @@
           <thead>
             <tr class="shipTableTitle">
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
                 <th>И</th>
                 <th>В</th>
                 <th>Н</th>
@@ -147,6 +148,7 @@
           <tbody>
              {% for ectable in ectables %}
                 <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                  <td class="player-position">{{ loop.index }}</td>
                   <td class="tableLeft"><a href="{{ path('eurocup_show', {'id': ectable.team.translit,
                       'season': app.request.get('season'), 'turnir': app.request.get('turnir')}) }}"
                           class="shipTableTeam">

@@ -337,8 +337,9 @@ class PlayerRepository extends ServiceEntityRepository
 
         $props = new Props();
         $tops = $props->getTops();
+        $noTops = $props->getNoTops();
 
-        if(empty($country) || in_array($country, $tops)) {
+        if(empty($country) || in_array($country, $tops) || in_array($country, $noTops)) {
           $relation = 'shipplayers';
         } elseif($country == 'Россия') {
           $relation = 'gamers';
@@ -416,8 +417,9 @@ class PlayerRepository extends ServiceEntityRepository
 
         $props = new Props();
         $tops = $props->getTops();
+        $noTops = $props->getNoTops();
 
-        if(empty($country) || in_array($country, $tops)) {
+        if(empty($country) || in_array($country, $tops) || in_array($country, $noTops)) {
           $relation = 'shipplayers';
         } elseif($country == 'Россия') {
           $relation = 'gamers';
