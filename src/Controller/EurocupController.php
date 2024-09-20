@@ -447,8 +447,7 @@ class EurocupController extends AbstractController
             $em->persist($entity);
             $em->flush();
             return $this->redirect($this->generateUrl('eurocup', [
-              'turnir' => $turnir, 'season' => $season,
-                'stadia' => $stadia]));
+              'turnir' => $turnir, 'season' => $season]));
         }
 
         $menu = $serviceMenu->generateEurocup($season);

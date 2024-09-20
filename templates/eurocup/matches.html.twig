@@ -1,4 +1,10 @@
 {% for entity in entities %}
+  {% if dateMatch is not defined or dateMatch != entity.data | date('d.m') %}
+  <tr class="shipTableTitle">
+    <td colspan="4" class="tableGoal matches-number-title">{{ entity.data | date('d.m') }}</td>
+  </tr>
+  {% endif %}
+  {% set dateMatch = entity.data | date('d.m') %}
   <tr class="odd">
       <td class="ec-date">
           <div class="">
