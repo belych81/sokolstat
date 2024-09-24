@@ -32,7 +32,11 @@
 
 <div class="team-show-image">
   <div>
-    <h1>Кубок России {{ app.request.get('season') }}. {{ club.name }}</h1>
+    <div class="team_color" style="background: #{{ club.color1 }}"></div>
+    <div class="team_color" style="background: #{{ club.color2 }}"></div>
+    <h1 {% if club.color3 %}style="color: #{{ club.color3 }}; -webkit-text-stroke: 1px #{{ club.color4 }};"{% endif %}>
+      Кубок России {{ app.request.get('season') }}. {{ club.name }}
+    </h1>
     {% if logo %}
     <img src="{{ logo }}"
       alt="{{ club.name }}" title="{{ club.name }}" />
@@ -45,7 +49,7 @@
   {% endif %}
 
 {% block playersTeam %}
-<div class="champ-teams-list">
+<div class="champ-teams-list cup_players">
     <table>
         <thead>
             <tr class="shipTableTitle">

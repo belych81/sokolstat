@@ -22,13 +22,19 @@
     {% endfor %}
 </div>
 
-  <h1>{{ sborn.name }}</h1>
-  <div class="team-show-image">
+<div class="team-show-image">
+  <div>
+    <div class="team_color"></div>
+    <div class="team_color"></div>
+    <h1>
+      {{ sborn.name }}
+    </h1>
     {% if sbornImage %}
       <img src="{{ sbornImage }}"
         alt="{{ sborn.name }}" title="{{ sborn.name }}" />
     {% endif %}
   </div>
+</div>
   {% if is_granted("ROLE_ADMIN") %}
     <a href="{{ path('file_form', {'year': app.request.get('year'),
                     'country': app.request.get('country'), 'turnir': app.request.get('turnir')}) }}"

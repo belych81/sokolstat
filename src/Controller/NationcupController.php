@@ -12,6 +12,7 @@ use App\Entity\Turnir;
 use App\Form\NationCupType;
 use App\Form\NationCup2Type;
 use App\Service\Menu;
+use App\Service\Props;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +27,10 @@ class NationcupController extends AbstractController
         $this->entityManager = $entityManager;
     }
     
-    public function index(Menu $serviceMenu, $country, $season)
+    public function index(Menu $serviceMenu, Props $props, $country, $season)
     {
         $rusCountry = $this->entityManager->getRepository(Shiptable::class)
-                        ->translateCountry($country)['rusCountry'];
+                        ->translateCountry($country, $props)['rusCountry'];
         $seasons = $this->entityManager->getRepository(Game::class)
           ->getSeasons($country."-cup");
         $stadies = $this->entityManager->getRepository(Stadia::class)
