@@ -309,7 +309,7 @@ championships_create:
     path:  /championships/admin/create/{id}
     controller: App\Controller\ShiptableController::create
     requirements: { _method: post }
-    
+
 championships_newSeason:
     path:  /championships/admin/season/{country}
     controller: App\Controller\ShiptableController::newSeason
@@ -887,7 +887,7 @@ playeradmin_updatePlayerTurnirs:
     requirements: { _method: post|put }
 
 playeradmin_editNation:
-    path:  /playeradmin/admin/{id}/editNation/{season}/{team}/{change}
+    path:  /playeradmin/admin/{id}/editNation/{season}/{team}/{change}/{turnir}
     controller: App\Controller\PlayerController::editNation
     requirements:
         change: minusGame|plusGame|plusGoal|minusGoal|plus|minus

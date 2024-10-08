@@ -142,6 +142,7 @@
                         data-path="playeradmin_editNation"
                         data-id="{{ player.id }}"
                         data-season="{{ app.request.get('season') }}"
+                        data-turnir="{{ app.request.get('country') }}"
                         data-team="{{ app.request.get('id') }}">-</span>
                         <span data-id="{{ player.id }}" data-param="game">
                           {{ player.game }}
@@ -151,6 +152,7 @@
                             data-path="playeradmin_editNation"
                             data-id="{{ player.id }}"
                             data-season="{{ app.request.get('season') }}"
+                            data-turnir="{{ app.request.get('country') }}"
                             data-team="{{ app.request.get('id') }}">+</span>
                         <input type="text" class="shipplayer-input" value="0"
                           data-id="{{ player.id }}"
@@ -166,6 +168,7 @@
                           data-path="playeradmin_editNation"
                           data-id="{{ player.id }}"
                           data-season="{{ app.request.get('season') }}"
+                          data-turnir="{{ app.request.get('country') }}"
                           data-team="{{ app.request.get('id') }}">-</span>
                           <span data-id="{{ player.id }}" data-param="goal">
                             {{ player.goal }}
@@ -175,6 +178,7 @@
                             data-path="playeradmin_editNation"
                             data-id="{{ player.id }}"
                             data-season="{{ app.request.get('season') }}"
+                            data-turnir="{{ app.request.get('country') }}"
                             data-team="{{ app.request.get('id') }}">+</span>
                         {% else %}
                         {{ player.goal }}

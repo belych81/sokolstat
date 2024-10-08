@@ -578,22 +578,26 @@ class PlayerController extends AbstractController
             ]);
     }
 
-    public function editNation(SessionInterface $session, $id, $season, $team, $change)
+    public function editNation(SessionInterface $session, $id, $season, $team, $change, $turnir)
     {
         $this->entityManager->getRepository(Shipplayer::class)
           ->updateShipplayerGoal($id, $change);
         $player = $this->entityManager->getRepository(Shipplayer::class)->find($id);
-        $player_id = $player->getPlayer()->getId();
-        if($change == 'plusGame' || $change == 'minusGame')
-        {
-          $this->entityManager->getRepository(Player::class)
-            ->updatePlayerGame($player_id, $change);
+
+        if($turnir && strpos($turnir, "underleague-") === false){
+            $player_id = $player->getPlayer()->getId();
+            if($change == 'plusGame' || $change == 'minusGame')
+            {
+            $this->entityManager->getRepository(Player::class)
+                ->updatePlayerGame($player_id, $change);
+            }
+            else
+            {
+            $this->entityManager->getRepository(Player::class)
+                ->updatePlayerTotalGoal($player_id, $change, 1);
+            }
         }
-        else
-        {
-          $this->entityManager->getRepository(Player::class)
-            ->updatePlayerTotalGoal($player_id, $change, 1);
-        }
+
         $session->set('lastPlayer', $player->getPlayer()->getName());
 
         $response = json_encode([
@@ -741,10 +745,14 @@ class PlayerController extends AbstractController
             $eurocup = $entity->getEurocup();
             $em->getRepository(Shipplayer::class)
                ->updateShipplayerSum($id, $goal, $cup, $supercup, $eurocup);
-            $em->getRepository(Player::class)
-               ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
-               $em->getRepository(Player::class)
+            
+            if(strpos($country, "underleague-") === false){
+                $em->getRepository(Player::class)
+                    ->updatePlayerGoal($player_id, false, $goal, $cup, $supercup, $eurocup);
+                $em->getRepository(Player::class)
                   ->updatePlayerGame($player_id, false, $game);
+            }
+            
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => $country,

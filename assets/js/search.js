@@ -356,7 +356,7 @@ $(document).on('click', '.tour_js', function(){
     var route = $(this).data('path');
 		var turnir = $(this).data('turnir');
 		var $this = $(this);
-		var params = {'id': id, 'season': season, 'change': change};
+		var params = {'id': id, 'season': season, 'change': change, 'turnir': turnir};
 		$(".loading[data-id="+id+"]").css('display', 'inline-block');
 		if(turnir != undefined){
 			params['turnir'] = turnir;
