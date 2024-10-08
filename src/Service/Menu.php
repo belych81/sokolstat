@@ -69,10 +69,14 @@ class Menu
                 'name' => 'Cуперкубок',
                 'url' => $this->router->generate('supercup', ['country' => $country])
         ];
+        $menu[3] = [
+            'name' => 'Подэлитный дивизион',
+            'url' => $this->router->generate('championships', ['country' => 'underleague-' . $country, 'season' => $season])
+        ];
       }
 
       if ($country == 'england') {
-        $menu[3] = [
+        $menu[4] = [
                 'name' => 'Кубок Лиги',
                 'url' => $this->router->generate('cup_league', ['season' => $season])
         ];

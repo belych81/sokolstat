@@ -22,6 +22,8 @@ class ShiptableType extends AbstractType
       $country = $options['country'];
         if($country == 'fnl'){
           $country = 'russia';
+        } elseif(strpos($country, 'underleague-') !== false){
+            $country = str_replace("underleague-", "", $country);
         }
         $builder
             ->add('season')

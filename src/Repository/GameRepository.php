@@ -59,7 +59,7 @@ class GameRepository extends ServiceEntityRepository
 
     public function getMaxTour($country, $season)
     {
-        if($country != 'fnl'){
+        if($country != 'fnl' && strpos($country, "underleague-") === false){
           $country .= '-champ';
         }
 
@@ -85,10 +85,10 @@ class GameRepository extends ServiceEntityRepository
 
     public function getMatches($country, $season, $tour)
     {
-      if($country != 'fnl'){
+      if($country != 'fnl' && strpos($country, "underleague-") === false){
         $country .= '-champ';
       }
-
+      
       return $this->createQueryBuilder('t')
               ->select('t')
               ->join('t.turnir', 'c')

@@ -49,8 +49,15 @@ class ShiptableController extends AbstractController
 
     public function index(Menu $serviceMenu, Functions $functions, Props $props, ResizeImage $resize, $country, $season, $tour)
     {
-        $strana = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country, $props)['country'];
+        $isUnderLeague = strpos($country, 'underleague-') !== false;
+
+        if($isUnderLeague){
+          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country)->getName();
+        } else {
+          $arStrana = $this->entityManager->getRepository(Shiptable::class)->translateCountry($country, $props);
+          $strana = $arStrana['country'];
+          $rusCountry = $arStrana['rusCountry'];
+        }
 
         $entities = $this->entityManager->getRepository(Shiptable::class)
                 ->getTable($strana, $season);
@@ -88,8 +95,6 @@ class ShiptableController extends AbstractController
             $match->getTeam2()->setImage($resize->ResizeImageGet($img2, ['width' => 80, 'height' => 80]));
           }
         }
-        $rusCountry = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country, $props)['rusCountry'];
 
         $isNoTop = key_exists($country, $props->getNoTops());
         if($country == 'russia'){
@@ -98,7 +103,7 @@ class ShiptableController extends AbstractController
         } elseif($country == 'fnl'){
           $bombs = $this->entityManager->getRepository(Fnlplayer::class)
                     ->getBomb5($season, $strana);
-        } elseif(key_exists($country, $props->getTops()) || $isNoTop){
+        } elseif(key_exists($country, $props->getTops()) || $isNoTop || $isUnderLeague){
           $bombs = $this->entityManager->getRepository(Shipplayer::class)
                     ->getBomb5($season, $strana);
         }
@@ -116,8 +121,11 @@ class ShiptableController extends AbstractController
           $scoreSum = $functions->getBombSum($bombs, 20, 'score');
         }
 
+        if($isUnderLeague){
+          $country = str_replace("underleague-", "", $country);
+        }
         $menu = $serviceMenu->generate($country, $season);
-
+        
         return $this->render('shiptable/index.html.twig', [
             'entities' => $entities,
             'seasons' => $seasons,
@@ -187,8 +195,16 @@ class ShiptableController extends AbstractController
           return $this->redirect($this->generateUrl('championships', [
               'season' => $season, 'country' => $country]));
         }
-        $strana = $this->entityManager->getRepository(Shiptable::class)
-                ->translateCountry($country, $props)['country'];
+
+        $isUnderLeague = strpos($country, 'underleague-') !== false;
+
+        if($isUnderLeague){
+          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country)->getName();
+        } else {
+          $arStrana = $this->entityManager->getRepository(Shiptable::class)->translateCountry($country, $props);
+          $strana = $arStrana['country'];
+        }
+
         $seasons = $this->entityManager->getRepository(Shiptable::class)
                 ->getSeasons($strana, $id);
         $shiptable = $this->entityManager->getRepository(Shiptable::class)
@@ -241,8 +257,7 @@ class ShiptableController extends AbstractController
 
         $lastMatches = $this->entityManager->getRepository(Game::class)
                       ->getLastMatchesByTeam($season, $id, $cntLastMatches);
-        $strana = $this->entityManager->getRepository(Shiptable::class)
-                     ->translateCountry($country, $props)['country'];
+
         $teams = $this->entityManager->getRepository(Shiptable::class)
           ->getTeams($season, $strana);
 
@@ -250,6 +265,10 @@ class ShiptableController extends AbstractController
           if($team['image']){
             $team['image'] = $resize->ResizeImageGet($team['image'], ['width' => 80, 'height' => 80]);
           }
+        }
+
+        if($isUnderLeague){
+          $country = str_replace("underleague-", "", $country);
         }
         $menu = $serviceMenu->generate($country, $season);
 
@@ -271,7 +290,7 @@ class ShiptableController extends AbstractController
         } elseif ($country == 'fnl') {
            return $this->render('shiptable/showFnl.html.twig', $arParams);
         } else {
-        return $this->render('shiptable/show.html.twig', $arParams);
+          return $this->render('shiptable/show.html.twig', $arParams);
         }
     }
 
@@ -294,14 +313,14 @@ class ShiptableController extends AbstractController
 
     public function createMatch(Request $request, Menu $serviceMenu, $country, $season)
     {
+        $turnir = $country;
         if($country == 'fnl'){
           $turnir = 'fnl';
-        } else {
+        } elseif(strpos($country, "underleague-") === false) {
           $turnir = $country."-champ";
         }
         $ent = TourMatchType::class;
         $entity  = new Game();
-
         $year = $this->entityManager->getRepository(Seasons::class)->findOneByName($season);
         $obTurnir = $this->entityManager->getRepository(Turnir::class)->findOneByAlias($turnir);
 
@@ -451,9 +470,12 @@ class ShiptableController extends AbstractController
             $team2 = $entity->getTeam2()->getId();
             $seas = $entity->getSeason()->getId();
             $turnir = $entity->getTurnir()->getAlias();
+
+            $country = $turnir;
+
             if($turnir == 'fnl') {
               $country = 'fnl';
-            } else {
+            } elseif(strpos($turnir, "underleague-") === false) {
               $arTurnir = explode('-', $turnir);
               $country = $arTurnir[0];
             }

@@ -25,6 +25,7 @@ class GameCrudController extends AbstractCrudController
         return [
             Field::new('id')->hideOnForm(),
             AssociationField::new('turnir'),
+            AssociationField::new('season'),
             Field::new('tour'),
             Field::new('data'),
             AssociationField::new('team'),

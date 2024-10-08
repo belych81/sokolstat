@@ -301,32 +301,6 @@ stat:
     requirements:
         country: russia|england|spain|italy|germany|france|fnl
 
-championships:
-    path:  /championships/{country}/{season}/{tour}
-    controller: App\Controller\ShiptableController::index
-    defaults:
-        tour: false
-    requirements:
-        country: russia|england|spain|italy|germany|france|holland|portugal|greece|turkey|belgium|fnl
-        tour: \d+
-    options:
-        expose: true
-
-championships_tour:
-    path:  /championships/tour/{country}/{season}/{tour}/
-    controller: App\Controller\ShiptableController::tour
-    requirements:
-        country: russia|england|spain|italy|germany|france|holland|portugal|greece|turkey|belgium|fnl
-        tour: \d+
-    options:
-        expose: true
-
-championships_show:
-    path:  /championships/{country}/{season}/{id}
-    controller: App\Controller\ShiptableController::show
-    requirements:
-        country: russia|england|spain|italy|germany|france|fnl|holland|portugal|greece|turkey|belgium|leagueChampions
-
 championships_new:
     path:  /championships/admin/{id}
     controller: App\Controller\ShiptableController::new
@@ -335,6 +309,37 @@ championships_create:
     path:  /championships/admin/create/{id}
     controller: App\Controller\ShiptableController::create
     requirements: { _method: post }
+    
+championships_newSeason:
+    path:  /championships/admin/season/{country}
+    controller: App\Controller\ShiptableController::newSeason
+
+championships_createSeason:
+    path:  /championships/admin/season/create/{country}
+    controller: App\Controller\ShiptableController::createSeason
+    requirements: { _method: post }
+
+championships:
+    path:  /championships/{country}/{season}/{tour}
+    controller: App\Controller\ShiptableController::index
+    defaults:
+        tour: false
+    requirements:
+        tour: \d+
+    options:
+        expose: true
+
+championships_tour:
+    path:  /championships/tour/{country}/{season}/{tour}/
+    controller: App\Controller\ShiptableController::tour
+    requirements:
+        tour: \d+
+    options:
+        expose: true
+
+championships_show:
+    path:  /championships/{country}/{season}/{id}
+    controller: App\Controller\ShiptableController::show
 
 championships_newMatch:
     path:  /championships/admin/newMatch/{season}/{country}/
@@ -365,15 +370,6 @@ championships_confirm_delete:
 championships_delete:
     path:  /championships/admin/delete/{id}/{country}
     controller: App\Controller\ShiptableController::delete
-    requirements: { _method: post }
-
-championships_newSeason:
-    path:  /championships/admin/season/{country}
-    controller: App\Controller\ShiptableController::newSeason
-
-championships_createSeason:
-    path:  /championships/admin/season/create/{country}
-    controller: App\Controller\ShiptableController::createSeason
     requirements: { _method: post }
 
 championships_newrus:
