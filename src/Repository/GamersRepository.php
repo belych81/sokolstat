@@ -118,21 +118,21 @@ class GamersRepository extends ServiceEntityRepository
                 if(!$onlyTotal){
                   $changeParam = 'g.goal';
                   $changeParam2 = 'g.goal+1';
+                  $changeParam5 = 'g.score';
+                  $changeParam6 = 'g.score+1';
                 }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal+1';
-                $changeParam5 = 'g.score';
-                $changeParam6 = 'g.score+1';
                 break;
             case 'minusGoal' :
                 if(!$onlyTotal){
                   $changeParam = 'g.goal';
                   $changeParam2 = 'g.goal-1';
+                  $changeParam5 = 'g.score';
+                  $changeParam6 = 'g.score-1';
                 }
                 $changeParam3 = 'g.totalgoal';
                 $changeParam4 = 'g.totalgoal-1';
-                $changeParam5 = 'g.score';
-                $changeParam6 = 'g.score-1';
                 break;
             case 'plusAssist' :
                 $changeParam = 'g.assist';
