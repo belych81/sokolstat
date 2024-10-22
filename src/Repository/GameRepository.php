@@ -39,7 +39,7 @@ class GameRepository extends ServiceEntityRepository
 
     public function getTours($country, $season)
     {
-      if($country != 'fnl'){
+      if($country != 'fnl' && strpos($country, "underleague-") === false){
         $country .= '-champ';
       }
 
