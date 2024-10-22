@@ -70,7 +70,7 @@ class ShiptableController extends AbstractController
                 ->getSeasons($strana);
 
         $maxTour = $this->entityManager->getRepository(Game::class)
-                         ->getMaxTour($country, $season); var_dump($maxTour);
+                         ->getMaxTour($country, $season);
         if(!$tour) {
            $matches = $this->entityManager->getRepository(Game::class)
                       ->getMatches($country, $season, $maxTour);
