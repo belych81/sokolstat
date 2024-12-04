@@ -43,9 +43,10 @@ class MenuBuilder
             if(key_exists('child', $item)){
                 if($item['child'] == 'country'){
                     foreach($arCountry as $code => $name){
+                        $season = $code == 'underleague-usa' ? $this->params['seasonMls'] : $this->params['season'];
                         $menu[$item['name']]->addChild($name, [
                             'route' => $route,
-                            'routeParameters' => ['country' => $code, 'season' => $this->params['season']]
+                            'routeParameters' => ['country' => $code, 'season' => $season]
                         ]);
                     }
                 } else {
