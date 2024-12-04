@@ -25,6 +25,7 @@ class ShiptableType extends AbstractType
         } elseif(strpos($country, 'underleague-') !== false){
             $country = str_replace("underleague-", "", $country);
         }
+        
         $builder
             ->add('season')
             ->add('team', EntityType::class, [

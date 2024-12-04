@@ -94,6 +94,7 @@ function init($team, $numbPot, $n, $arResult, $arSelected, $seats)
         }
     }
     file_put_contents(__DIR__."/logDraw.txt", 'drawed - ' . var_export($drawed, 1) . "\n", FILE_APPEND);
+    file_put_contents(__DIR__."/logDraw.txt", 'seats_old - ' . var_export($seats, 1) . "\n", FILE_APPEND);
     foreach($pots as $numb => $pot){
         if($numbPot == $numb){
             unset($pot[$n]);
@@ -174,9 +175,48 @@ function init($team, $numbPot, $n, $arResult, $arSelected, $seats)
         file_put_contents(__DIR__."/logDraw.txt", 'pot - ' . var_export($pot, 1) . "\n", FILE_APPEND);
         file_put_contents(__DIR__."/logDraw.txt", 'cntDraw - ' . var_export($cntDraw, 1) . "\n", FILE_APPEND);
         if($cntDraw > 0){
-            $randTeams = (array)array_rand($pot, $cntDraw);
-            foreach($randTeams as $k){
-                $teams[] = $pot[$k];
+            $randTeamsKeys = [];
+            $randTeams = [];
+            $rtKey1 = array_rand($pot, 1);
+            $seatsKey1 = $numb * 2;
+            if(is_array($seats[$seatsKey1]) && in_array($pot[$rtKey1], $seats[$seatsKey1])){
+                file_put_contents(__DIR__."/logDraw.txt", 'in_array - ' . var_export($pot[$rtKey1], 1) . "\n", FILE_APPEND);
+                file_put_contents(__DIR__."/logDraw.txt", 'seatsKey1 - ' . var_export($seatsKey1, 1) . "\n", FILE_APPEND);
+                unset($pot[$rtKey1]);
+                $rtKey1 = array_rand($pot, 1);
+            }
+            $randTeams[] = $pot[$rtKey1];
+            unset($pot[$rtKey1]);
+            $randTeamsKeys[] = $rtKey1;
+
+            if($cntDraw == 2){
+                $rtKey2 = array_rand($pot, 1);
+                $seatsKey2 = $numb * 2 + 1;
+                if(is_array($seats[$seatsKey2]) && in_array($pot[$rtKey2], $seats[$seatsKey2])){
+                    file_put_contents(__DIR__."/logDraw.txt", 'in_array - ' . var_export($pot[$rtKey2], 1) . "\n", FILE_APPEND);
+                    file_put_contents(__DIR__."/logDraw.txt", 'seatsKey2 - ' . var_export($seatsKey2, 1) . "\n", FILE_APPEND);
+                    unset($pot[$rtKey2]);
+                    $rtKey2 = array_rand($pot, 1);
+                }
+                $randTeams[] = $pot[$rtKey2];
+                $randTeamsKeys[] = $rtKey2;
+            }
+            //$randTeamsKeys = (array)array_rand($pot, $cntDraw);
+            $cntDrawTeams = count($teams);
+            file_put_contents(__DIR__."/logDraw.txt", 'randTeams - ' . var_export($randTeams, 1) . "\n", FILE_APPEND);
+            foreach($randTeams as $krt => $itemRt){
+                if(!empty($seats) && in_array($itemRt, $seats[$cntDrawTeams + $krt])){
+                    if($krt == 0){
+                        $teams[$cntDrawTeams + 1] = $itemRt;
+                        $teams[$cntDrawTeams] = $randTeams[1];
+                    } else {
+                        $teams[$cntDrawTeams] = $itemRt;
+                        $teams[$cntDrawTeams + 1] = $randTeams[0];
+                    }
+                    break 1;
+                } else {
+                    $teams[] = $itemRt;
+                }
             }
         }
     }
@@ -187,10 +227,9 @@ function init($team, $numbPot, $n, $arResult, $arSelected, $seats)
 
     $ar1 = [0, 2, 4, 6];
     $ar2 = [1, 3, 5, 7];
-    file_put_contents(__DIR__."/logDraw.txt", 'seats_old - ' . var_export($seats, 1) . "\n", FILE_APPEND);
     file_put_contents(__DIR__."/logDraw.txt", 'allTeams - ' . var_export($allTeams, 1) . "\n", FILE_APPEND);
-    /*foreach($allTeams as $kat => $tat){
-        if($seats[$kat] && in_array($tat, $seats[$kat])){
+    foreach($allTeams as $kat => $tat){
+        /*if($seats[$kat] && in_array($tat, $seats[$kat])){
             if(in_array($kat, $ar1)){
                 $allTeams[$kat] = $allTeams[$kat+1];
                 $allTeams[$kat+1] = $tat;
@@ -200,10 +239,10 @@ function init($team, $numbPot, $n, $arResult, $arSelected, $seats)
                 $allTeams[$kat-1] = $tat;
                 $seats[$kat][] = $allTeams[$kat-1];
             }
-        } else {
+        } else {*/
             $seats[$kat][] = $tat;
-        }
-    }*/
+        //}
+    }
     file_put_contents(__DIR__."/logDraw.txt", 'seats - ' . var_export($seats, 1) . "\n", FILE_APPEND);
     $result = [];
     $result['team'] = $team;
@@ -353,6 +392,7 @@ if($_POST['team']){
                 dataType: "json",
                 data: {team: team, pot: pot, n: n, arResult: JSON.stringify(arResult), arSelected: JSON.stringify(arSelected), seats: JSON.stringify(seats)},
                 success: function(response){
+                    console.log('success', response);
                     $(".current_result h2").text(response.team)
                     $(".current_result ol").html('');
                     response.all_teams.forEach((element, i) => setTimeout(() => $(".current_result ol").append("<li>" + element + "</li>"), i * 400));
@@ -377,15 +417,40 @@ if($_POST['team']){
                         ];
                     }
                     let replaceSeat = [1, 0, 3, 2, 5, 4, 7, 6];
+                    let isReplace = false;
+                    let oldTeamSeat = '';
                     response.teams.forEach((element, i) => setTimeout(() => {
                         $(".all_results [data-team='"+ response.team +"'] .team_results td").each(function(index){
                             if($(this).text() == ''){
-                                $(".all_results .team_results td[data-n="+index+"]").each(function(index){
+                                isReplace = false; 
+                                oldTeamSeat = '';
+                                /*$(".all_results .team_results td[data-n="+index+"]").each(function(ind){
                                     if($(this).text() == element){
-
+                                        console.log('element', element)
+                                        console.log('index', index)
+                                        console.log('ind', ind)
+                                        $(".all_results [data-team='"+ response.team +"'] .team_results td").each(function(i){
+                                            if(i == replaceSeat[index]){
+                                                if($(this).text() != ''){
+                                                    oldTeamSeat = $(this).text();
+                                                }
+                                                $(this).text(element);
+                                            }
+                                        });
+                                        if(oldTeamSeat != ''){
+                                            $(".all_results [data-team='"+ response.team +"'] .team_results td").each(function(i){
+                                                if(i == index){
+                                                    $(this).text(oldTeamSeat);
+                                                    oldTeamSeat = '';
+                                                }
+                                            });
+                                        }
+                                        isReplace = true;
                                     }
-                                });
-                                $(this).text(element);
+                                });*/
+                                if(!isReplace){
+                                    $(this).text(element);
+                                }
                                 teamsTd[element] = index;
                                 return false;
                             }
@@ -404,7 +469,6 @@ if($_POST['team']){
                     arSelected = response.arSelected;
                     seats = response.seats;
 
-                    console.log('success', response);
                 },
                 error: function(xhr, status, text){
                     console.log('xhr', xhr);

@@ -20,6 +20,12 @@ class TourMatchType extends AbstractType
       $country = $options['country'];
         $season = $options['season'];
 
+        if($country == 'fnl'){
+            $country = 'russia';
+        } elseif($country == 'underleague-usa'){
+            $country = 'usa';
+        }
+        
         $builder
             ->add('tour')
             ->add('data', null, ['data' => new \DateTime(), 'years' => range(1991, date('Y')+1)])

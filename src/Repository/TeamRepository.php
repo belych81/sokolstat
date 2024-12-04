@@ -141,13 +141,23 @@ class TeamRepository extends ServiceEntityRepository
           return $query = $this->createQueryBuilder('t')
                   ->orderBy('t.name');
         }
-        return $query = $this->createQueryBuilder('t')
-                ->join('t.country', 'c')
-                ->where("c.translit = :country")
-                ->setParameters([
+        $query = $this->createQueryBuilder('t')
+                ->join('t.country', 'c');
+
+        if($country == 'usa'){
+            $query->where("c.translit = :country OR c.translit = :country2")
+                  ->setParameters([
+                    'country' => $country,
+                    'country2' => 'canada'
+                  ]);
+        } else {
+            $query->where("c.translit = :country")
+                  ->setParameters([
                     'country' => $country
-                        ])
-                ->orderBy('t.name');
+                        ]);
+        }
+        
+        return $query->orderBy('t.name');
     }
 
     public function queryTeamsForEc($turnir, $season)

@@ -105,6 +105,20 @@ class GameRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function getMatchesByDate($curDate, $season)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('t')
+              ->join('t.season', 's')
+              ->join('t.team', 'tm')
+              ->andWhere("t.data LIKE '%$curDate%'")
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->orderBy('t.data', 'ASC')
+              ->getQuery()
+              ->getResult();
+    }
+
     public function getCurMatches()
     {
       return $this->createQueryBuilder('r')
@@ -335,6 +349,21 @@ class GameRepository extends ServiceEntityRepository
           ->getQuery()
           ->getResult()
       ;
+    }
+
+    public function getDates($season, $turnir)
+    {
+      return $this->createQueryBuilder('t')
+              ->select('DISTINCT DATE(t.data)')
+              ->join('t.season', 's')
+              ->join('t.turnir', 'tr')
+              ->andWhere("s.name = :season")
+              ->setParameter('season', $season)
+              ->andWhere("tr.alias = :turnir")
+              ->setParameter('turnir', $turnir)
+              ->orderBy('DATE(t.data)', 'ASC')
+              ->getQuery()
+              ->getResult();
     }
 
 }

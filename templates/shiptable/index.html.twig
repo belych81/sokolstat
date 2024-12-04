@@ -52,27 +52,49 @@
  {% endblock %}
 
 {% block content %}
-<div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
+    <div><h1>Чемпионат {{ rusCountry }} {{ app.request.get('season') }}</h1></div>
+    
     <div class="row shiptable_root">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
-            <div class="champ-tours">Туры:
-                {% for tour in tours %}
-                        <span class="spiski tour_js {% if app.request.get('tour') == tour.tour %}active{% endif %}"
-                            data-season="{{ app.request.get('season') }}"
-                            data-tour="{{ tour.tour }}"
-                            data-country="{{ app.request.get('country') }}"
-                            >
-                            {{ tour.tour }}</span>
-                {% endfor %}
-                <div class="tour_text"><span>{% if app.request.get('tour') == false %}
-                            {{ maxTour }}
-                        {% else %}
-                            {{ app.request.get('tour') }}
-                        {% endif %}</span>-й тур</div>
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
-                                'season': app.request.get('season')}) }}">Добавить матч</a></p>
-                    {% endif %}
+            <div class="champ-tours">
+                {% if tours is defined %}
+                    Туры:
+                    {% for tour in tours %}
+                            <span class="spiski tour_js {% if app.request.get('tour') == tour.tour %}active{% endif %}"
+                                data-season="{{ app.request.get('season') }}"
+                                data-tour="{{ tour.tour }}"
+                                data-country="{{ app.request.get('country') }}"
+                                >
+                                {{ tour.tour }}</span>
+                    {% endfor %}
+                {% else %}
+                    <div class="nhl-dates">
+                        {% if prevDate %}
+                            <span data-date="{{ prevDate | date('Y-m-d') }}">{{ prevDate | date('j F') }}</span>
+                        {% endif %}
+                        <span class="active">{{ curDate | date('j F') }}</span>
+                        {% if nextDate %}
+                            <span data-date="{{ nextDate | date('Y-m-d') }}">{{ nextDate | date('j F') }}</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if tours is defined %}
+                    <div class="tour_text">
+                        <span>{% if app.request.get('tour') == false %}
+                                {{ maxTour }}
+                            {% else %}
+                                {{ app.request.get('tour') }}
+                            {% endif %}
+                        </span>-й тур
+                    </div>
+                {% endif %}
+
+                {% if is_granted("ROLE_ADMIN") %}
+                    <p><a href="{{ path('championships_newMatch', {'country': app.request.get('country'),
+                            'season': app.request.get('season')}) }}">Добавить матч</a></p>
+                {% endif %}
+
                 <table class="table champship-table">
                     <tbody>
                         {{ include('shiptable/tour.html.twig', { 'matches': matches }) }}
@@ -80,49 +102,52 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
-            <div class="champ-table">
-                <p class="champ-title">Турнирная таблица</p>
-                <table class="shipTable">
-                    <thead>
-                    <tr class="shipTableTitle">
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                        <th class="winsTable">И</th>
-                        <th class="winsTable">В</th>
-                        <th class="winsTable">Н</th>
-                        <th class="winsTable">П</th>
-                        <th class="goalsTable">M</th>
-                        <th class="winsTable">О</th>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for entity in entities %}
-                        {% set link = path('championships_show', {
-                                'id': entity.team.translit, 'season': app.request.get('season'),
-                                'country': app.request.get('country')}) %}
-                        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                            <td class="player-position">{{ loop.index }}</td>
-                            <td class="tableLeft">
-                                <a href="{{ link }}" class="shipTableTeam">
-                                    {{ entity.team.name }}
-                                </a>
-                            </td>
-                            <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
-                            <td>{{ entity.wins }}</td>
-                            <td>{{ entity.nich }}</td>
-                            <td>{{ entity.porazh }}</td>
-                            <td>{{ entity.mz }}-{{ entity.mp }}</td>
-                            <td class="table-score">{{ entity.score }}</td>
+        {% if entities is defined %}
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
+                <div class="champ-table">
+                    <p class="champ-title">Турнирная таблица</p>
+                    <table class="shipTable">
+                        <thead>
+                        <tr class="shipTableTitle">
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th class="winsTable">И</th>
+                            <th class="winsTable">В</th>
+                            <th class="winsTable">Н</th>
+                            <th class="winsTable">П</th>
+                            <th class="goalsTable">M</th>
+                            <th class="winsTable">О</th>
 
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            {% set link = path('championships_show', {
+                                    'id': entity.team.translit, 'season': app.request.get('season'),
+                                    'country': app.request.get('country')}) %}
+                            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+                                <td class="player-position">{{ loop.index }}</td>
+                                <td class="tableLeft">
+                                    <a href="{{ link }}" class="shipTableTeam">
+                                        {{ entity.team.name }}
+                                    </a>
+                                </td>
+                                <td>{{ entity.wins+entity.nich+entity.porazh }}</td>
+                                <td>{{ entity.wins }}</td>
+                                <td>{{ entity.nich }}</td>
+                                <td>{{ entity.porazh }}</td>
+                                <td>{{ entity.mz }}-{{ entity.mp }}</td>
+                                <td class="table-score">{{ entity.score }}</td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        
+        {% endif %}
+
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 shiptable_block">
             <div class="champ-bombs">
                 <p class="champ-title">Бомбардиры</p>

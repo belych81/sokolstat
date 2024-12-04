@@ -209,6 +209,16 @@ nhl_date:
     options:
         expose: true
 
+champs_date:
+    path:  /championships/date/{country}/{season}/{tour}
+    controller: App\Controller\ShiptableController::index
+    defaults:
+        tour: false
+    requirements:
+        tour: \d+
+    options:
+        expose: true
+
 nhl_show:
     path:  /nhl/{season}/{id}/
     controller: App\Controller\NhlController::show

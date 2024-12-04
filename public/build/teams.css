@@ -1,0 +1,81 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./assets/js/components/TeamChamp.vue?vue&type=style&index=0&id=428755de&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+
+.team-champ[data-v-428755de] {
+  min-width: 330px;
+}
+.team-champ-season[data-v-428755de] {
+  width: 60px;
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/resolve-url-loader/index.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./assets/js/components/TeamCup.vue?vue&type=style&index=0&id=4d5861e0&scoped=true&lang=scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@media (min-width: 992px) {
+.odd .match-stadia[data-v-4d5861e0] {
+    width: 10.33333333%;
+}
+.odd .match-date[data-v-4d5861e0] {
+    width: 6.33333333%;
+}
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-13.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/resolve-url-loader/index.js??clonedRuleSet-13.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-13.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./assets/js/components/TeamEurocup.vue?vue&type=style&index=0&id=23cfbe83&scoped=true&lang=scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@media (max-width: 991px) {
+.match-bomb[data-v-23cfbe83] {
+    text-align: right;
+}
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./assets/js/pages/teams.vue?vue&type=style&index=0&id=2b73ded3&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************/
+
+.tabs {
+  margin-bottom: 10px;
+}
+.tab-title {
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-bottom: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.activeTab {
+  background-color: #993366;
+  color: #fff;
+}
+.champTableTitle {
+  background-color: #6fbd90;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+.col-lg-1 {
+  padding-left: 5px;
+}
+.match-score {
+  text-align: center;
+  color: #003399;
+  font-weight: bold;
+}
+.match-teams {
+  text-align: center;
+  font-size: 14px;
+  color: #128746;
+}
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.odd {
+  padding-bottom: 10px;
+}
+
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGVhbXMuY3NzIiwibWFwcGluZ3MiOiI7Ozs7QUEwQ0E7RUFDRSxnQkFBZ0I7QUFDbEI7QUFDQTtFQUNFLFdBQVc7QUFDYjs7Ozs7QUM5Q0E7QUFDRTtJQUVJLG1CQUFtQjtBQUR2QjtBQURBO0lBS0ksa0JBQWtCO0FBRHRCO0FBQ0Y7Ozs7O0FDTkE7QUFDRTtJQUNFLGlCQUFpQjtBQUFuQjtBQUNGOzs7Ozs7QUMyRkE7RUFDRSxtQkFBbUI7QUFDckI7QUFDQTtFQUNFLGdCQUFnQjtFQUNoQixpQkFBaUI7RUFDakIsa0JBQWtCO0VBQ2xCLG1CQUFtQjtFQUNuQixpQkFBaUI7RUFDakIsZUFBZTtFQUNmLGtCQUFrQjtBQUNwQjtBQUNBO0VBQ0UseUJBQXlCO0VBQ3pCLFdBQVc7QUFDYjtBQUNBO0VBQ0UseUJBQXlCO0VBQ3pCLGtCQUFrQjtFQUNsQixlQUFlO0VBQ2YsaUJBQWlCO0FBQ25CO0FBQ0E7RUFDRSxpQkFBaUI7QUFDbkI7QUFDQTtFQUNFLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsaUJBQWlCO0FBQ25CO0FBQ0E7RUFDRSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGNBQWM7QUFDaEI7QUFDQTtFQUNFLGNBQWM7RUFDZCxlQUFlO0FBQ2pCO0FBQ0E7RUFDRSxvQkFBb0I7QUFDdEIiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9hc3NldHMvanMvY29tcG9uZW50cy9UZWFtQ2hhbXAudnVlIiwid2VicGFjazovLy8uL2Fzc2V0cy9qcy9jb21wb25lbnRzL1RlYW1DdXAudnVlIiwid2VicGFjazovLy8uL2Fzc2V0cy9qcy9jb21wb25lbnRzL1RlYW1FdXJvY3VwLnZ1ZSIsIndlYnBhY2s6Ly8vLi9hc3NldHMvanMvcGFnZXMvdGVhbXMudnVlIl0sInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cbiAgPGRpdiBjbGFzcz1cInRlYW0tY2hhbXBcIj5cbiAgICA8dGFibGUgY2xhc3M9XCJzaGlwVGFibGUgc2hvd1RlYW1cIj5cbiAgICAgIDx0aGVhZD5cbiAgICAgIDx0ciBjbGFzcz1cInNoaXBUYWJsZVRpdGxlXCI+XG4gICAgICAgIDx0aD4mbmJzcDs8L3RoPlxuICAgICAgICA8dGggY2xhc3M9XCJ3aW5zVGFibGVcIj7QmDwvdGg+XG4gICAgICAgIDx0aCBjbGFzcz1cIndpbnNUYWJsZVwiPtCSPC90aD5cbiAgICAgICAgPHRoIGNsYXNzPVwid2luc1RhYmxlXCI+0J08L3RoPlxuICAgICAgICA8dGggY2xhc3M9XCJ3aW5zVGFibGVcIj7QnzwvdGg+XG4gICAgICAgIDx0aCBjbGFzcz1cImdvYWxzVGFibGVcIj5NPC90aD5cbiAgICAgICAgPHRoIGNsYXNzPVwid2luc1RhYmxlXCI+0J48L3RoPlxuICAgICAgPC90cj5cbiAgICAgIDwvdGhlYWQ+XG4gICAgICA8dGJvZHk+XG4gICAgICA8dHIgY2xhc3M9XCJvZGRcIiB2LWZvcj1cImNoYW1wIGluIHNoaXB0YWJsZXNcIj5cbiAgICAgICAgPHRkIGNsYXNzPVwicGxheWVyLXBvc2l0aW9uIHRlYW0tY2hhbXAtc2Vhc29uXCI+e3sgY2hhbXAuc2Vhc29uIH19PC90ZD5cbiAgICAgICAgPHRkPnt7IGNoYW1wLndpbnMrY2hhbXAubmljaCtjaGFtcC5wb3JhemggfX08L3RkPlxuICAgICAgICA8dGQ+e3sgY2hhbXAud2lucyB9fTwvdGQ+XG4gICAgICAgIDx0ZD57eyBjaGFtcC5uaWNoIH19PC90ZD5cbiAgICAgICAgPHRkPnt7IGNoYW1wLnBvcmF6aCB9fTwvdGQ+XG4gICAgICAgIDx0ZD57eyBjaGFtcC5teiB9fS17eyBjaGFtcC5tcCB9fTwvdGQ+XG4gICAgICAgIDx0ZCBjbGFzcz1cInRhYmxlLXNjb3JlXCI+e3sgY2hhbXAuc2NvcmUgfX08L3RkPlxuICAgICAgPC90cj5cbiAgICAgIDwvdGJvZHk+XG4gICAgPC90YWJsZT5cbiAgPC9kaXY+XG48L3RlbXBsYXRlPlxuXG48c2NyaXB0PlxuZXhwb3J0IGRlZmF1bHQge1xuICBuYW1lOiBcIlRlYW1DaGFtcFwiLFxuICBwcm9wczoge1xuICAgIHNoaXB0YWJsZXM6IHtcbiAgICAgIHR5cGU6IEFycmF5LFxuICAgICAgcmVxdWlyZWQ6IHRydWVcbiAgICB9XG4gIH0sXG59XG48L3NjcmlwdD5cblxuPHN0eWxlIHNjb3BlZD5cbi50ZWFtLWNoYW1wIHtcbiAgbWluLXdpZHRoOiAzMzBweDtcbn1cbi50ZWFtLWNoYW1wLXNlYXNvbiB7XG4gIHdpZHRoOiA2MHB4O1xufVxuPC9zdHlsZT4iLCJcbkBtZWRpYSAobWluLXdpZHRoOiA5OTJweCkge1xuICAub2RkIHtcbiAgICAubWF0Y2gtc3RhZGlhIHtcbiAgICAgIHdpZHRoOiAxMC4zMzMzMzMzMyU7XG4gICAgfVxuICAgIC5tYXRjaC1kYXRlIHtcbiAgICAgIHdpZHRoOiA2LjMzMzMzMzMzJTtcbiAgICB9XG4gIH1cbn1cbiIsIlxuQG1lZGlhIChtYXgtd2lkdGg6IDk5MXB4KSB7XG4gIC5tYXRjaC1ib21iIHtcbiAgICB0ZXh0LWFsaWduOiByaWdodDtcbiAgfVxufVxuIiwiPHRlbXBsYXRlPlxuICA8ZGl2IGNsYXNzPVwiY29udGFpbmVyXCI+XG4gICAgPGRpdiBjbGFzcz1cInJvdyB0YWJzXCI+XG4gICAgICA8c3BhbiBjbGFzcz1cInRhYi10aXRsZVwiIDpjbGFzcz1cInsgYWN0aXZlVGFiOiBzZWxlY3RlZFRhYiA9PT0gdGFifVwiXG4gICAgICAgICAgICB2LWZvcj1cIih0YWIsIGluZGV4KSBpbiB0YWJzXCJcbiAgICAgICAgICAgIDprZXk9XCJpbmRleFwiXG4gICAgICAgICAgICBAY2xpY2s9XCJzZWxlY3RUYWIodGFiKVwiPlxuICAgICAgICB7eyB0YWIgfX1cbiAgICAgIDwvc3Bhbj5cbiAgICA8L2Rpdj5cblxuXG4gICAgPGRpdiB2LXNob3c9XCJzZWxlY3RlZFRhYiA9PT0gJ9Cn0LXQvNC/0LjQvtC90LDRgidcIj5cbiAgICAgIDx0ZWFtLWNoYW1wLWNvbXBvbmVudCA6c2hpcHRhYmxlcz1cInNoaXB0YWJsZXNcIiAvPlxuICAgIDwvZGl2PlxuICAgIDxkaXYgdi1zaG93PVwic2VsZWN0ZWRUYWIgPT09ICfQmtGD0LHQvtC6J1wiPlxuICAgICAgPHRlYW0tY3VwLWNvbXBvbmVudCA6Y3Vwcz1cImN1cHNcIiAvPlxuICAgIDwvZGl2PlxuICAgIDxkaXYgdi1zaG93PVwic2VsZWN0ZWRUYWIgPT09ICfQldCy0YDQvtC60YPQsdC60LgnXCI+XG4gICAgICA8dGVhbS1ldXJvY3VwLWNvbXBvbmVudCA6ZXVyb2N1cHM9XCJldXJvY3Vwc1wiIC8+XG4gICAgPC9kaXY+XG5cbiAgPC9kaXY+XG48L3RlbXBsYXRlPlxuXG48c2NyaXB0PlxuaW1wb3J0IFRlYW1DaGFtcENvbXBvbmVudCBmcm9tICcuLi9jb21wb25lbnRzL1RlYW1DaGFtcCc7XG5pbXBvcnQgVGVhbUN1cENvbXBvbmVudCBmcm9tICcuLi9jb21wb25lbnRzL1RlYW1DdXAnO1xuaW1wb3J0IFRlYW1FdXJvY3VwQ29tcG9uZW50IGZyb20gJy4uL2NvbXBvbmVudHMvVGVhbUV1cm9jdXAnO1xuaW1wb3J0IGF4aW9zIGZyb20gJ2F4aW9zJ1xuXG5leHBvcnQgZGVmYXVsdCB7XG4gIG5hbWU6IFwidGVhbXNcIixcbiAgZGF0YSgpIHtcbiAgICByZXR1cm4ge1xuICAgICAgc2hpcHRhYmxlczogW10sXG4gICAgICBjdXBzOiBbXSxcbiAgICAgIGV1cm9jdXBzOiBbXSxcbiAgICAgIHNlbGVjdGVkVGFiOiAnJ1xuICAgIH07XG4gIH0sXG4gIGNvbXB1dGVkOiB7XG4gICAgdGVhbUNvZGUoKSB7XG4gICAgICByZXR1cm4gd2luZG93LnRlYW1Db2RlO1xuICAgIH0sXG4gICAgdGFicygpIHtcbiAgICAgIGxldCBhcnJUYWJzID0gW107XG4gICAgICBpZih0aGlzLnNoaXB0YWJsZXMubGVuZ3RoID4gMCkge1xuICAgICAgICBhcnJUYWJzLnB1c2goJ9Cn0LXQvNC/0LjQvtC90LDRgicpO1xuICAgICAgICBpZih0aGlzLnNlbGVjdGVkVGFiID09ICcnKSB7XG4gICAgICAgIC8vdGhpcy5zZWxlY3RlZFRhYiA9ICfQp9C10LzQv9C40L7QvdCw0YInO1xuICAgICAgICB9XG4gICAgICB9XG4gICAgICBpZih0aGlzLmN1cHMubGVuZ3RoID4gMCkge1xuICAgICAgICBhcnJUYWJzLnB1c2goJ9Ca0YPQsdC+0LonKTtcbiAgICAgICAgaWYodGhpcy5zZWxlY3RlZFRhYiA9PSAnJyl7XG4gICAgICAgICAgdGhpcy5zZWxlY3RlZFRhYiA9ICfQmtGD0LHQvtC6JztcbiAgICAgICAgfVxuICAgICAgfVxuICAgICAgY29uc29sZS5sb2codGhpcy5ldXJvY3Vwcy5sZW5ndGgpXG4gICAgICBpZih0aGlzLmV1cm9jdXBzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgYXJyVGFicy5wdXNoKCfQldCy0YDQvtC60YPQsdC60LgnKTtcbiAgICAgICAgaWYodGhpcy5zZWxlY3RlZFRhYiA9PSAnJyl7XG4gICAgICAgICAgdGhpcy5zZWxlY3RlZFRhYiA9ICfQldCy0YDQvtC60YPQsdC60LgnO1xuICAgICAgICB9XG4gICAgICAgIGNvbnNvbGUubG9nKHRoaXMuc2VsZWN0ZWRUYWIpXG4gICAgICB9XG4gICAgICByZXR1cm4gYXJyVGFicztcbiAgICB9XG4gIH0sXG4gIG1ldGhvZHM6IHtcbiAgICBzZWxlY3RUYWI6IGZ1bmN0aW9uKHRhYil7XG4gICAgICB0aGlzLnNlbGVjdGVkVGFiID0gdGFiXG4gICAgfVxuICB9LFxuICBjb21wb25lbnRzOiB7XG4gICAgVGVhbUNoYW1wQ29tcG9uZW50LFxuICAgIFRlYW1DdXBDb21wb25lbnQsXG4gICAgVGVhbUV1cm9jdXBDb21wb25lbnRcbiAgfSxcbiAgYXN5bmMgY3JlYXRlZCAoKSB7XG4gICAgYXdhaXQgYXhpb3MuZ2V0KCcvYXBpL3RlYW0vY2hhbXAvJyArIHRlYW1Db2RlKS50aGVuKChyZXNwb25zZSkgPT4ge1xuICAgICAgdGhpcy5zaGlwdGFibGVzID0gcmVzcG9uc2UuZGF0YVxuICAgIH0pO1xuICAgIGF3YWl0IGF4aW9zLmdldCgnL2FwaS90ZWFtL2N1cC8nICsgdGVhbUNvZGUpLnRoZW4oKHJlc3BvbnNlKSA9PiB7XG4gICAgICB0aGlzLmN1cHMgPSByZXNwb25zZS5kYXRhXG4gICAgfSk7XG4gICAgYXdhaXQgYXhpb3MuZ2V0KCcvYXBpL3RlYW0vZXVyb2N1cC8nICsgdGVhbUNvZGUpLnRoZW4oKHJlc3BvbnNlKSA9PiB7XG4gICAgICB0aGlzLmV1cm9jdXBzID0gcmVzcG9uc2UuZGF0YVxuICAgIH0pO1xuICB9XG59XG48L3NjcmlwdD5cblxuPHN0eWxlPlxuLnRhYnMge1xuICBtYXJnaW4tYm90dG9tOiAxMHB4O1xufVxuLnRhYi10aXRsZSB7XG4gIGJhY2tncm91bmQ6ICNmZmY7XG4gIHBhZGRpbmc6IDVweCAxMHB4O1xuICBib3JkZXItcmFkaXVzOiA1cHg7XG4gIGJvcmRlci1ib3R0b206IG5vbmU7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIG1hcmdpbi1yaWdodDogMTBweDtcbn1cbi5hY3RpdmVUYWIge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjOTkzMzY2O1xuICBjb2xvcjogI2ZmZjtcbn1cbi5jaGFtcFRhYmxlVGl0bGUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjNmZiZDkwO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGZvbnQtc2l6ZTogMTVweDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG59XG4uY29sLWxnLTEge1xuICBwYWRkaW5nLWxlZnQ6IDVweDtcbn1cbi5tYXRjaC1zY29yZSB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgY29sb3I6ICMwMDMzOTk7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuLm1hdGNoLXRlYW1zIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBmb250LXNpemU6IDE0cHg7XG4gIGNvbG9yOiAjMTI4NzQ2O1xufVxuLnJvdyB7XG4gIG1hcmdpbi1sZWZ0OiAwO1xuICBtYXJnaW4tcmlnaHQ6IDA7XG59XG4ub2RkIHtcbiAgcGFkZGluZy1ib3R0b206IDEwcHg7XG59XG48L3N0eWxlPiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==*/

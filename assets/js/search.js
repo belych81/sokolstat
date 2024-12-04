@@ -442,9 +442,14 @@ $(document).on('click', '.tour_js', function(){
       window.location.search = newArr.join('&');
   });
 
-  $("body").on("click", ".nhl-dates span[data-date]", function(){
+  $(document).on("click", ".nhl-matches .nhl-dates span[data-date]", function(){
     var data = $(this).data('date');
     $(".nhl-matches.champs").load("/nhl/date/" + data + " .nhl-matches.champs");
+  });
+
+  $(document).on("click", ".champ-tours .nhl-dates span[data-date]", function(){
+    var data = $(this).data('date');
+    $(".champ-tours").load("/championships/date/underleague-usa/" + data + " .champ-tours");
   });
 
   $("#datepicker").datepicker();

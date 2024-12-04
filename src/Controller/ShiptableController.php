@@ -47,42 +47,107 @@ class ShiptableController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function index(Menu $serviceMenu, Functions $functions, Props $props, ResizeImage $resize, $country, $season, $tour)
+    public function index(Request $request, Menu $serviceMenu, Functions $functions, Props $props, ResizeImage $resize, $country, $season, $tour)
     {
         $isUnderLeague = strpos($country, 'underleague-') !== false;
+        $isTours = $country != 'underleague-usa';
+        $routeName = $request->attributes->get('_route');
 
         if($isUnderLeague){
-          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country)->getName();
+          $countryName = $country;
+          if($country == 'underleague-usa'){
+            $countryName = 'usa';
+          }
+          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($countryName)->getName();
         } else {
           $arStrana = $this->entityManager->getRepository(Shiptable::class)->translateCountry($country, $props);
           $strana = $arStrana['country'];
           $rusCountry = $arStrana['rusCountry'];
         }
 
-        $entities = $this->entityManager->getRepository(Shiptable::class)
-                ->getTable($strana, $season);
+        if($routeName == 'championships'){
+          $entities = $this->entityManager->getRepository(Shiptable::class)
+                  ->getTable($strana, $season);
 
-        if(!$entities){
-          throw $this->createNotFoundException('The season does not exist');
+          if(!$entities){
+            throw $this->createNotFoundException('The season does not exist');
+          }
         }
 
         $seasons = $this->entityManager->getRepository(Shiptable::class)
                 ->getSeasons($strana);
 
-        $maxTour = $this->entityManager->getRepository(Game::class)
-                         ->getMaxTour($country, $season);
-        if(!$tour) {
-           $matches = $this->entityManager->getRepository(Game::class)
-                      ->getMatches($country, $season, $maxTour);
-         } else {
-             $matches = $this->entityManager->getRepository(Game::class)
-                            ->getMatches($country, $season, $tour);
-         }
-        $numberTour = $this->entityManager->getRepository(Game::class)
-                         ->getTours($country, $season);
+        if(!$isTours){
+          $dates = [];
 
-        if(!$matches){
-          throw $this->createNotFoundException('The tour does not exist');
+          if($routeName != 'championships'){
+            $date = \DateTime::createFromFormat('Y-m-d', $season);
+            $month = $date->format('n');
+            $year1 = $date->format('Y');
+            if($month > 7){
+              $year2 = $year1 + 1;
+              $seasonName = $year1 . '-' . substr($year2, 2, 2);
+            } else {
+              $year2 = $year1 - 1;
+              $seasonName = $year2 . '-' . substr($year1, 2, 2);
+            }
+          } else {
+            $seasonName = $season;
+          }
+          $obDates = $this->entityManager->getRepository(Game::class)
+              ->getDates($seasonName, $country);
+
+          $keyLast = 0;
+          
+          if($routeName == 'championships'){
+            $keyLast = array_key_last($obDates);
+          } else {
+            foreach ($obDates as $key => $arr) {
+              if($arr[1] == $season){
+                $keyLast = $key;
+                break;
+              }
+            }
+          }
+          
+          $obNextDate = false;
+          $obPrevDate = false;
+          $obCurDate = false;
+          $dates = [];
+          if($keyLast || $keyLast === 0){
+              $prevKey = $keyLast - 1;
+              $curDate = $obDates[$keyLast][1];
+              $nextKey = $keyLast + 1;
+              if(key_exists($prevKey, $obDates)){
+                $obPrevDate = new \DateTime($obDates[$prevKey][1]);
+              }
+              if(key_exists($nextKey, $obDates)){
+                $obNextDate = new \DateTime($obDates[$nextKey][1]);
+              }
+              $obCurDate = new \DateTime($curDate);
+              $matches = $this->entityManager->getRepository(Game::class)
+                  ->getMatchesByDate($curDate, $seasonName);
+              foreach ($matches as $key => $match) {
+                $obData = $match->getData();
+                $dates[$obData->format("d.m")][] = $match;
+              }
+          }
+        } else {
+          $maxTour = $this->entityManager->getRepository(Game::class)
+                          ->getMaxTour($country, $season);
+          if(!$tour) {
+            $matches = $this->entityManager->getRepository(Game::class)
+                        ->getMatches($country, $season, $maxTour);
+          } else {
+              $matches = $this->entityManager->getRepository(Game::class)
+                              ->getMatches($country, $season, $tour);
+          }
+          $numberTour = $this->entityManager->getRepository(Game::class)
+                          ->getTours($country, $season);
+
+          if(!$matches){
+            throw $this->createNotFoundException('The tour does not exist');
+          }
         }
 
         foreach($matches as &$match){
@@ -126,19 +191,32 @@ class ShiptableController extends AbstractController
         }
         $menu = $serviceMenu->generate($country, $season);
         
-        return $this->render('shiptable/index.html.twig', [
-            'entities' => $entities,
+        $arResponse = [
             'seasons' => $seasons,
             'bombs' => $bombSum,
             'matches' => $matches,
-            'tours' => $numberTour,
             'rusCountry' => $rusCountry,
-            'maxTour' => $maxTour,
             'menu' => $menu,
             'strana' => $strana,
             'assistSum' => $assistSum,
             'scoreSum' => $scoreSum
-        ]);
+        ];
+
+        if($routeName == 'championships'){
+          $arResponse['entities'] = $entities;
+        }
+
+        if($isTours){
+            $arResponse['tours'] = $numberTour;
+            $arResponse['maxTour'] = $maxTour;
+        } else {
+          $arResponse['dates'] = $dates;
+          $arResponse['prevDate'] = $obPrevDate;
+          $arResponse['curDate'] = $obCurDate;
+          $arResponse['nextDate'] = $obNextDate;
+        }
+
+        return $this->render('shiptable/index.html.twig', $arResponse);
     }
 
     public function stat(Menu $serviceMenu, Props $props, $country)
@@ -197,9 +275,12 @@ class ShiptableController extends AbstractController
         }
 
         $isUnderLeague = strpos($country, 'underleague-') !== false;
-
+        
         if($isUnderLeague){
-          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($country)->getName();
+          if($country == 'underleague-usa'){
+            $countryName = 'usa';
+          }
+          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($countryName)->getName();
         } else {
           $arStrana = $this->entityManager->getRepository(Shiptable::class)->translateCountry($country, $props);
           $strana = $arStrana['country'];
@@ -369,8 +450,9 @@ class ShiptableController extends AbstractController
 
             $ent = ShiptableType::class;
             $entity  = new Shiptable();
+            $champ = str_replace("underleague-", "", $country);
             $strana = $this->entityManager->getRepository(Country::class)
-              ->findOneByTranslit($country);
+              ->findOneByTranslit($champ);
             $entity->setCountry($strana);
 
 
