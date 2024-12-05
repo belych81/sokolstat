@@ -51,7 +51,7 @@ class Menu
         $menu = [
           [
             'name' => 'Регулярный чемпионат',
-            'url' => $this->router->generate('championships', ['country' => $country, 'season' => $season])
+            'url' => $this->router->generate('championships', ['country' => 'underleague-usa', 'season' => $season])
           ]
         ];
       } elseif(key_exists($country, $this->props->getNoTops())) {
