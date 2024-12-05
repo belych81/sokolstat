@@ -55,10 +55,17 @@ class ShiptableController extends AbstractController
 
         if($isUnderLeague){
           $countryName = $country;
+
           if($country == 'underleague-usa'){
             $countryName = 'usa';
+            $rusCountry = 'МЛС';
           }
-          $strana = $rusCountry = $this->entityManager->getRepository(Country::class)->findOneByTranslit($countryName)->getName();
+
+          $strana = $this->entityManager->getRepository(Country::class)->findOneByTranslit($countryName)->getName();
+
+          if($country != 'underleague-usa'){
+            $rusCountry = $strana;
+          }
         } else {
           $arStrana = $this->entityManager->getRepository(Shiptable::class)->translateCountry($country, $props);
           $strana = $arStrana['country'];
