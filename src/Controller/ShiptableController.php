@@ -90,14 +90,7 @@ class ShiptableController extends AbstractController
           if($routeName != 'championships'){
             $date = \DateTime::createFromFormat('Y-m-d', $season);
             $month = $date->format('n');
-            $year1 = $date->format('Y');
-            if($month > 7){
-              $year2 = $year1 + 1;
-              $seasonName = $year1 . '-' . substr($year2, 2, 2);
-            } else {
-              $year2 = $year1 - 1;
-              $seasonName = $year2 . '-' . substr($year1, 2, 2);
-            }
+            $seasonName = $date->format('Y');
           } else {
             $seasonName = $season;
           }
