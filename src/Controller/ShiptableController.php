@@ -277,6 +277,7 @@ class ShiptableController extends AbstractController
         $isUnderLeague = strpos($country, 'underleague-') !== false;
         
         if($isUnderLeague){
+          $countryName = $country;
           if($country == 'underleague-usa'){
             $countryName = 'usa';
           }

@@ -246,7 +246,7 @@ class DefaultController extends AbstractController
     $teamsRating = [];
     foreach ($matches as $key => $match) {
       if(strpos($match->getTurnir()->getAlias(), 'underleague-') !== false) continue;
-      
+
       $arScore = explode("-", $match->getScore());
       
       if(count($arScore) == 2 && $match->getScore() != '0-0'){
@@ -267,7 +267,7 @@ class DefaultController extends AbstractController
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
       $addMonth = $rating->getAddMonth($diffDate, $monthSec);
-      $differ = $goal1 - $goal2;
+      $differ = intval($goal1) - intval($goal2);
       $arScores = $rating->getScore($differ);
       $score1 = $arScores[0];
       $score2 = $arScores[1];
@@ -284,8 +284,8 @@ class DefaultController extends AbstractController
         if(array_key_exists($team, $teamsRating)){
           $teamsRating[$team]['sum'] += $score1 * $addMonth * $coef;
           $teamsRating[$team]['matches'] += 1;
-          $teamsRating[$team]['mz'] += $goal1;
-          $teamsRating[$team]['mp'] += $goal2;
+          $teamsRating[$team]['mz'] += intval($goal1);
+          $teamsRating[$team]['mp'] += intval($goal2);
           if($differ > 0){
             $teamsRating[$team]['wins'] += 1;
           } elseif($differ < 0){
@@ -317,8 +317,8 @@ class DefaultController extends AbstractController
         if(array_key_exists($team2, $teamsRating)){
           $teamsRating[$team2]['sum'] += $score2 * $addMonth * $coef2;
           $teamsRating[$team2]['matches'] += 1;
-          $teamsRating[$team2]['mz'] += $goal2;
-          $teamsRating[$team2]['mp'] += $goal1;
+          $teamsRating[$team2]['mz'] += intval($goal2);
+          $teamsRating[$team2]['mp'] += intval($goal1);
           if($differ < 0){
             $teamsRating[$team2]['wins'] += 1;
           } elseif($differ > 0){
