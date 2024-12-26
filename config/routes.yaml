@@ -501,7 +501,7 @@ eurocup:
     defaults:
       turnir: leagueChampions
     requirements:
-        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league|russia-cup
+        turnir: leagueChampions|leagueEuropa|supercup|worldCupClub|conference-league|russia-cup|intercontinental-cup
 
 eurocup_show:
     path:  /eurocup/{turnir}/{season}/{id}/show

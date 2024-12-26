@@ -245,6 +245,8 @@ class DefaultController extends AbstractController
 
     $teamsRating = [];
     foreach ($matches as $key => $match) {
+      if(strpos($match->getTurnir()->getAlias(), 'underleague-') !== false) continue;
+      
       $arScore = explode("-", $match->getScore());
       
       if(count($arScore) == 2 && $match->getScore() != '0-0'){
@@ -261,7 +263,6 @@ class DefaultController extends AbstractController
         $stadia = $match->getStadia()->getId();
         if(in_array($stadia, $notStadia)) continue;
       }
-      
       $data = strtotime($match->getData()->format('d.m.Y'));
       $diffDate = strtotime('now') - $data;
       $monthSec = 30*24*60*60;
