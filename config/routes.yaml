@@ -452,7 +452,7 @@ nationcup:
     controller: App\Controller\NationcupController::index
 
 nationcup_new:
-    path:  /nationcup/admin/{id}/{country}
+    path:  /nationcup/admin/update/{id}/{country}
     controller: App\Controller\NationcupController::new
     requirements:
         id: \d+
