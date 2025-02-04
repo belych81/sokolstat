@@ -458,7 +458,7 @@ nationcup_new:
         id: \d+
 
 nationcup_create:
-    path:  /nationcup/admin/create/{id}/{country}
+    path:  /nationcup/admin/update/create/{id}/{country}
     controller: App\Controller\NationcupController::create
     requirements:
       _method: post
