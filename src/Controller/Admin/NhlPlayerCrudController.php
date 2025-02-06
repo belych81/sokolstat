@@ -31,7 +31,20 @@ class NhlPlayerCrudController extends AbstractCrudController
             Field::new('goalSum'),
             Field::new('assistSum'),
             Field::new('scoreSum'),
+            Field::new('gameSum'),
+            Field::new('missedSum'),
+            Field::new('zeroSum'),
+            Field::new('scoreReg'),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('country')
+            ->add('name')
+            ->add('amplua')
+        ;
     }
     
 }
