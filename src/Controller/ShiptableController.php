@@ -379,7 +379,7 @@ class ShiptableController extends AbstractController
     public function newMatch(Menu $serviceMenu, $country, $season)
     {
         $entity = new Game();
-
+        
         $form   = $this->createForm(TourMatchType::class, $entity, [
             'country' => $country,
             'season' => $season

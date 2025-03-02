@@ -1,4 +1,7 @@
 <?php
+echo rand(1, 6);
+return;
+
 $pot1 = [
     'москва',
     'спб',

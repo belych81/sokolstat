@@ -21,7 +21,7 @@ class TourMatchType extends AbstractType
         $season = $options['season'];
 
         if($country == 'fnl'){
-            $country = 'russia';
+            //$country = 'russia';
         } elseif($country == 'underleague-usa'){
             $country = 'usa';
         }
