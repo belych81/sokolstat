@@ -450,9 +450,16 @@ class NhlController extends AbstractController
 
       $limit = 30;
       $champs32 = $props->getChamps32();
+      $champs28 = $props->getChamps28();
       foreach($champs32 as $champ){
         if(strpos($season, $champ) !== false){
           $limit = 32;
+          break;
+        }
+      }
+      foreach($champs28 as $champ){
+        if(strpos($season, $champ) !== false){
+          $limit = 28;
           break;
         }
       }

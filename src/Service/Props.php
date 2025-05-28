@@ -66,6 +66,11 @@ class Props
         return $this->yaml['nfl']['champs_32'];
     }
 
+    public function getChamps28(): array
+    {
+        return $this->yaml['nfl']['champs_28'];
+    }
+
     public function getTopEmblem(): array
     {
         return $this->topEmblem;
