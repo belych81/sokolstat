@@ -214,6 +214,27 @@
           </div>
         </div>
       </div>
+
+      {% if app.request.cookies.get('site_cookie') != 'y' %}
+          <dialog data-modal-name="modal-cookie" class="modal-cookie" open="">
+            <div class="container">
+
+              <div class="cookie-data-warning js-cookie-data-warning ">
+
+
+                <div class="cookie-data-warning__wrap">
+                  <span class="cookie-data-warning__text">
+                      Сайт использует cookie-файлы — небольшие текстовые файлы, размещаемые на вашем компьютере с целью анализа пользовательской активности, чтобы сделать ваше пребывание на нем максимально удобным.<br>
+Более                 подробная информация доступна в нашей <a href="/soglasie/" style="text-decoration:underline;">Политике и согласии на обработку персональных данных</a>.					
+                  </span>
+                  <button class="btn btn-success form__submit-btn btn-bord js-cookie-data-warning__close registerLink btn-sign">Принять</button>
+                </div>
+              </div>
+
+            </div>
+          </dialog>
+      {% endif %}
+
       {% block javascripts %}
           <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
           <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

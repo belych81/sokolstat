@@ -809,7 +809,7 @@ __webpack_require__.r(__webpack_exports__);
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_s-6657b7","vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-8ced14"], () => (__webpack_exec__("./assets/js/teams.js")));
+/******/ __webpack_require__.O(0, ["vendors-node_modules_core-js_modules_es_object_define-property_js-node_modules_core-js_module-38e327","vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-1087ed"], () => (__webpack_exec__("./assets/js/teams.js")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
