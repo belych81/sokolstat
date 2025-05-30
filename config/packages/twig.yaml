@@ -5,6 +5,7 @@ twig:
     exception_controller: null
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
-        season: 2023-24
+        season: 2024-25
         stadia: groupA
         newspaper_number: 6
+        path_public: ''

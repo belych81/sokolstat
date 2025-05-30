@@ -2,6 +2,7 @@
 
 {% block title %}
     {{ rus_turnir.russianalias }} {{ app.request.get('season') }}
+    {{ rus_turnir.russianalias }} {{ app.request.get('season') }}
 {% endblock %}
 
 {% block description %}
@@ -31,6 +32,8 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% block content %}
 
 {% block seasons %}
     {% for season in seasons %}
@@ -134,6 +137,14 @@
 
 
     </table>
+    <br/>
+    {% if is_granted("ROLE_ADMIN") %}
+      <p><a href="{{ path('eurocup_newSeason', {'turnir': app.request.get('turnir'),
+      'season': app.request.get('season')
+      }) }}">Добавить сезон</a></p>
+    {% endif %}
+
+
     <br/>
     {% if is_granted("ROLE_ADMIN") %}
       <p><a href="{{ path('eurocup_newSeason', {'turnir': app.request.get('turnir'),

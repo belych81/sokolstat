@@ -1,8 +1,0 @@
-User-Agent: *
-Disallow: /admin/
-Disallow: /login/
-Disallow: /register
-Disallow: /soglasie/
-Disallow: /newspaper-data/
-
-Host: https://sokolstat.ru/

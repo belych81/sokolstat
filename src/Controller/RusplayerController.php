@@ -75,6 +75,8 @@ class RusplayerController extends AbstractController
             'totalPlayers' => $totalPlayers,
             'country' => $countries,
             'strana' => $country,
+            'country' => $countries,
+            'strana' => $country,
             'teams' => $teams,
             'club' => isset($kom) ? $kom->getName() : ''
             ]);

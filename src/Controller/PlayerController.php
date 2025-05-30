@@ -538,6 +538,8 @@ class PlayerController extends AbstractController
             'entity' => $entity,
             'maxId' => $maxId,
             'menu' => $menu,
+            'maxId' => $maxId,
+            'menu' => $menu,
             'form'   => $form->createView()
         ));
     }
@@ -561,6 +563,16 @@ class PlayerController extends AbstractController
                 $em->persist($rusplayer);
                 $em->flush();
             }
+            $routeParams = [
+              'id' => $team,
+              'season' => $season
+            ];
+            if($route == 'championships_show'){
+              $routeParams['country'] = $country;
+            } elseif($route == 'eurocup_show'){
+              $routeParams['turnir'] = $country;
+            }
+            return $this->redirect($this->generateUrl($route, $routeParams));
             $routeParams = [
               'id' => $team,
               'season' => $season
@@ -723,6 +735,9 @@ class PlayerController extends AbstractController
         $form = $this->createForm(ShipplayerType::class, $entity, [
           'season' => $season, 'team' => $team, 'flag' => $flag, 'club' => $club,
           'country' => $country]);
+        $form = $this->createForm(ShipplayerType::class, $entity, [
+          'season' => $season, 'team' => $team, 'flag' => $flag, 'club' => $club,
+          'country' => $country]);
 
         $form->handleRequest($request);
 
@@ -739,6 +754,7 @@ class PlayerController extends AbstractController
             $id = $entity->getId();
             $player_id = $entity->getPlayer()->getId();
             $goal = $entity->getGoal();
+            $game = $entity->getGame();
             $game = $entity->getGame();
             $cup = $entity->getCup();
             $supercup = $entity->getSupercup();
@@ -887,6 +903,26 @@ class PlayerController extends AbstractController
               $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player,
                 $game, $goal);
             }
+            $game= $editForm['game']->getData();
+            $goal= $editForm['goal']->getData();
+            if($country != 'fnl')
+            {
+              $cup= $editForm['cup']->getData();
+              $eurocup= $editForm['eurocup']->getData();
+              $supercup= $editForm['supercup']->getData();
+              $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
+                $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
+                $teamOb->getId());
+              $em->getRepository(Player::class)
+               ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
+            }
+            else
+            {
+              $em->getRepository(Fnlplayer::class)->updateFullFnlplayer($player,
+                $game, $goal, $seasonOb->getId(), $teamOb->getId());
+              $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player,
+                $game, $goal);
+            }
             return $this->redirect($this->generateUrl('championships_show', [
                 'id' => $team,
                 'country' => $country,
@@ -908,6 +944,13 @@ class PlayerController extends AbstractController
         $playerId = $entity->getPlayer()->getId();
         $this->entityManager->getRepository(Rusplayer::class)
           ->updateRusplayerFnl($playerId, $change);
+        $session->set('lastPlayer', $entity->getPlayer()->getName());
+        $response = json_encode([
+            'name' => $entity->getPlayer()->getName(),
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
         $session->set('lastPlayer', $entity->getPlayer()->getName());
         $response = json_encode([
             'name' => $entity->getPlayer()->getName(),
@@ -952,6 +995,9 @@ class PlayerController extends AbstractController
             $em->flush();
             $player = $entity->getPlayer();
             $goal = $entity->getGoal();
+            $game = $entity->getGame();
+            $em->getRepository(Rusplayer::class)
+              ->updateRusplayerTotalFnl($player, $game, $goal);
             $game = $entity->getGame();
             $em->getRepository(Rusplayer::class)
               ->updateRusplayerTotalFnl($player, $game, $goal);
@@ -1056,6 +1102,7 @@ class PlayerController extends AbstractController
             $player = $entity->getPlayer()->getId();
             $goal = $entity->getGoal();
             $em->getRepository(Rusplayer::class)->updateRusplayerCup($player, $goal);
+            $em->getRepository(Rusplayer::class)->updateRusplayerCup($player, $goal);
             $em->getRepository(Playersteam::class)->updatePlayersteam($player, $club, $goal);
             return $this->redirect($this->generateUrl('cup_show', [
                 'id' => $team,
@@ -1078,11 +1125,20 @@ class PlayerController extends AbstractController
         $playerId = $entity->getPlayer()->getId();
         $player = $entity->getPlayer();
         $playerName = $player->getName();
+        $playerName = $player->getName();
         $teamOb = $entity->getTeam();
         $gamerId = $em->getRepository(Gamers::class)->getGamerByPlayerAndTeamAndSeason($player->getId(), $teamOb->getId(), $season);
         $em->getRepository(Gamers::class)->updateGamer($gamerId, $change, true);
         $em->getRepository(Rusplayer::class)->updateRusplayer($playerId, $change, true);
         $em->getRepository(Playersteam::class)->updatePlayersteam($player, $teamOb, $change);
+        $session->set('lastPlayer', $playerName);
+
+        $response = json_encode([
+            'name' => $playerName,
+            'game' => $entity->getGame(),
+            'goal' => $entity->getGoal()
+        ]);
+        return new Response($response);
         $session->set('lastPlayer', $playerName);
 
         $response = json_encode([
@@ -1164,7 +1220,10 @@ class PlayerController extends AbstractController
             $em->flush();
             $player = $entity->getPlayer()->getId();
             $game = $entity->getGame();
+            $game = $entity->getGame();
             $goal = $entity->getGoal();
+            $em->getRepository(Player::class)
+              ->updatePlayerLch($player, $game, $goal);
             $em->getRepository(Player::class)
               ->updatePlayerLch($player, $game, $goal);
             /*$em->getRepository('SteamFbstatBundle:Rusplayer')

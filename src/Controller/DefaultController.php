@@ -234,6 +234,25 @@ class DefaultController extends AbstractController
       return $this->render('default/soglasie.html.twig', []);
   }
 
+  public function search(Request $request)
+  {
+      $query = htmlspecialchars($request->request->get('query'));
+      $arQuery = explode(" ", $query);
+      $em = $this->getDoctrine()->getManager();
+
+      $responsePlayer = $em->getRepository(Player::class)->searchPlayers($arQuery);
+      $responseTeam = $em->getRepository(Team::class)->searchTeams($arQuery);
+      $player = [];
+      foreach($responsePlayer as $val){
+          $player['player/'.$val->getTranslit().'/'] = $val->getName();
+      }
+      $team = [];
+      foreach($responseTeam as $val){
+          $team['team/'.$val->getTranslit()] = $val->getName();
+      }
+      return new JsonResponse(array_merge($player, $team));
+  }
+
   public function rating(Rating $rating)
   {
     $fromDate = new \DateTime('now');

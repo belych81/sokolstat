@@ -42,6 +42,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.game) }}</th>
+                    <td>
+                        {{ form_errors(form.game) }}
+                        {{ form_widget(form.game) }}
+                    </td>
+                </tr>
+                <tr>
                     <th>{{ form_label(form.goal) }}</th>
                     <td>
                         {{ form_errors(form.goal) }}

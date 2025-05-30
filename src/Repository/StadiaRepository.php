@@ -117,6 +117,7 @@ class StadiaRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult()
               ;
+              ;
     }
 
     public function queryGroupStadia()

@@ -194,6 +194,7 @@ class ShiptableController extends AbstractController
         $arResponse = [
             'seasons' => $seasons,
             'bombs' => $bombSum,
+            'bombs' => $bombSum,
             'matches' => $matches,
             'rusCountry' => $rusCountry,
             'menu' => $menu,
@@ -371,6 +372,7 @@ class ShiptableController extends AbstractController
            return $this->render('shiptable/showRus.html.twig', $arParams);
         } elseif ($country == 'fnl') {
            return $this->render('shiptable/showFnl.html.twig', $arParams);
+           return $this->render('shiptable/showFnl.html.twig', $arParams);
         } else {
           return $this->render('shiptable/show.html.twig', $arParams);
         }
@@ -388,6 +390,7 @@ class ShiptableController extends AbstractController
 
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'menu' => $menu,
             'form'   => $form->createView(),
         ));
@@ -424,6 +427,7 @@ class ShiptableController extends AbstractController
             //return $this->redirect($this->generateUrl('championships', ['country' => $country, 'season' => $season]));
         }
         $menu = $serviceMenu->generate($country, $season);
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('shiptable/newMatch.html.twig', array(
             'entity' => $entity,
@@ -441,6 +445,7 @@ class ShiptableController extends AbstractController
 
         return $this->render('shiptable/newSeason.html.twig', array(
             'entity' => $entity,
+            'menu' => $menu,
             'form'   => $form->createView(),
         ));
     }

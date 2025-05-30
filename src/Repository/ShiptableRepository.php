@@ -169,6 +169,7 @@ class ShiptableRepository extends ServiceEntityRepository
         {
             $qb = $this->_em->createQueryBuilder('Shiptable', 'st')
                 ->update('App\Entity\Shiptable', 'st')
+                ->update('App\Entity\Shiptable', 'st')
                 ->set('st.nich', 'st.nich+1')
                 ->set('st.mz', 'st.mz+?1')
                 ->set('st.mp', 'st.mp+?2')

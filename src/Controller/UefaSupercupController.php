@@ -72,6 +72,7 @@ class UefaSupercupController extends AbstractController
         }
 
 
+
         return $this->render('uefasupercup/show.html.twig', [
             'entity'      => $entity,
             'rus_country' => $rus_country,

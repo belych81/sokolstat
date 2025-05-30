@@ -65,6 +65,7 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.3",
         "symfony/stopwatch": "6.3.*",
+        "symfony/test-pack": "*",
         "symfony/web-profiler-bundle": "6.3.*"
     },
     "config": {
@@ -111,7 +112,11 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
+<<<<<<< HEAD
             "require": "6.3.*"
+=======
+            "require": "5.1.*"
+>>>>>>> a752eb576764ff49a4135a9493f7a4e3268e829a
         }
     }
 }

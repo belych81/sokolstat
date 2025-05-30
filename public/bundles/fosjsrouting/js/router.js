@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (function (root, factory) {
     var routing = factory();
     if (typeof define === 'function' && define.amd) {
@@ -280,4 +281,4 @@ exports["default"] = exports.Routing;
 
 
     return { Router: exports.Router, Routing: exports.Routing };
-}));
+}));

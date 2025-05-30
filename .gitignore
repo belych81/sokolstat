@@ -6,8 +6,16 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/config/packages/twig.yaml
+/public/dompdf-tagged-pdf/
+/public/images/
+/public/oop/
+/public/file.pdf
+/public/newspaper.php
+/public/nfl.php
 /var/
 /vendor/
+/bin/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -41,3 +49,5 @@ yarn-error.log
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+/robots.txt
