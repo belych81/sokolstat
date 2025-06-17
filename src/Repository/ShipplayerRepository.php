@@ -255,17 +255,6 @@ class ShipplayerRepository extends ServiceEntityRepository
                 ->andWhere('s.team = :team')
                 ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'season'=>$season, 'team'=>$team,
                 'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
-                ->set('s.game', 's.game+:game')
-                ->set('s.goal', 's.goal+:goal')
-                ->set('s.cup', 's.cup+:cup')
-                ->set('s.eurocup', 's.eurocup+:eurocup')
-                ->set('s.supercup', 's.supercup+:supercup')
-                ->set('s.sum', 's.sum+:sum')
-                ->where('s.player = :player')
-                ->andWhere('s.season = :season')
-                ->andWhere('s.team = :team')
-                ->setParameters(['player'=>$player_id, 'cup'=>$cup, 'eurocup'=>$eurocup, 'supercup'=>$supercup, 'season'=>$season, 'team'=>$team,
-                'sum'=>$sum, 'game'=>$game, 'goal'=>$goal])
                 ->getQuery();
 
             $qb->execute();
