@@ -1,0 +1,97 @@
+body {
+    background: #b5a1a1;
+}
+html, body {
+    height: 100%;
+}
+.wrapper {
+    display: flex;
+    height: 100%;
+}
+img {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #5c7c8c;
+    background: #b8dbd9;
+    border-radius: 6px;
+}
+.form_add_player {
+    display: flex;
+    align-items: center;
+    
+}
+.search_result, .player_search_result
+{
+    width: 270px;
+}
+.teams-list div
+{
+    display: inline-block;
+    cursor: pointer;
+}
+.search_team {
+  background: url("../images/searchH2.png") 10px 50% no-repeat transparent;
+    background-color: transparent;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding-left: 35px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  height: 30px;
+  width: 190px;
+  border: 0;
+}
+.match_images
+{
+    display: grid;
+    justify-content: center;
+}
+.match_images img
+{
+ height: 130px;   
+}
+.match_images div
+{
+ display: flex;  
+ align-items: center;
+}
+.ok_btn
+{
+    display: flex;
+    justify-content: center;
+}
+.ok_btn button
+{
+    width: 150px;
+    height: 50px;
+    background: #0a0;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+.matches-tour
+{
+    position: absolute;
+    left: 5px;
+    top: 400px;
+    display: flex;
+    max-height: 550px;
+    flex-wrap: wrap;
+    padding: 0;
+    flex-direction: column;
+}
+.matches-tour-images
+{
+    /*width: 250px;*/
+    /*height: 80px;*/
+    padding: 10px;
+    display: flex;
+}
+.matches-tour-images img
+{
+    height: 70px;
+    margin: 1px;
+}

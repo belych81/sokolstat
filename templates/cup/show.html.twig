@@ -54,7 +54,6 @@
         <thead>
             <tr class="shipTableTitle">
                 <th rowspan="2">&nbsp;</th>
-                <th rowspan="2">&nbsp;</th>
                 <th rowspan="2" class="teamStatPlayer">&nbsp;</th>
                 <th colspan="2">{{ app.request.get('season') }}</th>
                 <th colspan="2">Всего за клуб</th>
@@ -76,17 +75,9 @@
                 <td class="player-position">
                   {{ loop.index }}
                 </td>
-                <td class="player-position">
-                  {{ loop.index }}
-                </td>
                 <td>
                     <a href="{{ path('player_show', {'id': player.player.translit}) }}" class="spiski">
                         {{ player.player.name }}</a>
-                    {% if is_granted("ROLE_ADMIN") %}
-                      <a href="{{ path('shipplayer_confirm_delete',
-                        {'id': player.id, 'type' : 'Cupplayer', 'country' : 'russia'}) }}">
-                         x</a>
-                    {% endif %}
                     {% if is_granted("ROLE_ADMIN") %}
                       <a href="{{ path('shipplayer_confirm_delete',
                         {'id': player.id, 'type' : 'Cupplayer', 'country' : 'russia'}) }}">
@@ -114,25 +105,7 @@
                       data-team="{{ app.request.get('id') }}">+</span>
                   {% endif %}
 				        </td>
-				          {% if is_granted("ROLE_ADMIN") %}
-                    <span class="changeGameGoalPlayer"
-                      data-change="minusGame"
-                      data-path="playeradmin_editCup"
-                      data-id="{{ player.id }}"
-                      data-season="{{ app.request.get('season') }}"
-                      data-team="{{ app.request.get('id') }}">-</span>
-                  {% endif %}
-                  <span data-id="{{ player.id }}" data-param="game">
-                    {{ player.game }}
-                  </span>
-					        {% if is_granted("ROLE_ADMIN") %}
-                    <span class="changeGameGoalPlayer"
-                      data-change="plusGame"
-                      data-path="playeradmin_editCup"
-                      data-id="{{ player.id }}"
-                      data-season="{{ app.request.get('season') }}"
-                      data-team="{{ app.request.get('id') }}">+</span>
-                  {% endif %}
+				         
 				        </td>
                 <td class="tableGoal">
                     {% if is_granted("ROLE_ADMIN") %}
@@ -142,23 +115,7 @@
                         data-id="{{ player.id }}"
                         data-season="{{ app.request.get('season') }}"
                         data-team="{{ app.request.get('id') }}">-</span>
-                      <span class="changeGameGoalPlayer"
-                        data-change="minusGoal"
-                        data-path="playeradmin_editCup"
-                        data-id="{{ player.id }}"
-                        data-season="{{ app.request.get('season') }}"
-                        data-team="{{ app.request.get('id') }}">-</span>
                     {% endif %}
-                    <span data-id="{{ player.id }}" data-param="goal">
-                      {{ player.goal }}
-                    </span>
-                    {% if is_granted("ROLE_ADMIN") %}
-                      <span class="changeGameGoalPlayer"
-                        data-change="plusGoal"
-                        data-path="playeradmin_editCup"
-                        data-id="{{ player.id }}"
-                        data-season="{{ app.request.get('season') }}"
-                        data-team="{{ app.request.get('id') }}">+</span>
                     <span data-id="{{ player.id }}" data-param="goal">
                       {{ player.goal }}
                     </span>
@@ -175,7 +132,7 @@
                 <td class="tableGoal">{{ player.goalTeam }}</td>
                 <td class="tableGoal">{{ player.player.rusplayers.0.totalgame }}</td>
                 <td class="tableGoal">{{ player.player.rusplayers.0.totalgoal }}</td>
-                </tr>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
@@ -196,23 +153,8 @@
         <a href="{{ path('player_newPlayer', {'country': 'russia', 'route': 'cup_show',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a>
-            Добавить игрока</a> |
-        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'cup_show',
-            'country': 'cup', 'team': app.request.get('id'), 'isTeam': true}) }}">
-                Добавить последнего игрока команды</a> |
-        <a href="{{ path('player_newPlayersteam', {'season': app.request.get('season'),
-        'team': app.request.get('id'), 'turnir':'cup'}) }}">
-            Добавить игрока в команду</a> |
-        <a href="{{ path('player_newRusplayer', {'country': 'russia', 'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Добавить нового игрока</a> |
-        <a href="{{ path('player_newChampLast', {'season': app.request.get('season'), 'route': 'cup_show',
-            'country': 'cup', 'team': app.request.get('id')}) }}">
-                Добавить последнего игрока</a> |
-        <a href="{{ path('player_newPlayer', {'country': 'russia', 'route': 'cup_show',
-        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Создать игрока</a>
+            
 	{% endif %}
   </div>
-  </div>
 {% endblock %}
-    {% endblock %}
+{% endblock %}

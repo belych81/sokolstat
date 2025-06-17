@@ -315,8 +315,8 @@ class DefaultController extends AbstractController
         } else {
           $teamsRating[$team]['sum'] = $score1 * $addMonth * $coef;
           $teamsRating[$team]['matches'] = 1;
-          $teamsRating[$team]['mz'] = $goal1;
-          $teamsRating[$team]['mp'] = $goal2;
+          $teamsRating[$team]['mz'] = intval($goal1);
+          $teamsRating[$team]['mp'] = intval($goal2);
           if($differ > 0){
             $teamsRating[$team]['wins'] = 1;
             $teamsRating[$team]['porazh'] = 0;
@@ -348,8 +348,8 @@ class DefaultController extends AbstractController
         } else {
           $teamsRating[$team2]['sum'] = $score2 * $addMonth * $coef2;
           $teamsRating[$team2]['matches'] = 1;
-          $teamsRating[$team2]['mz'] = $goal2;
-          $teamsRating[$team2]['mp'] = $goal1;
+          $teamsRating[$team2]['mz'] = intval($goal2);
+          $teamsRating[$team2]['mp'] = intval($goal1);
           if($differ < 0){
             $teamsRating[$team2]['wins'] = 1;
             $teamsRating[$team2]['porazh'] = 0;

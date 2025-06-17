@@ -33,8 +33,6 @@
 {% endif %}
 {% endblock %}
 
-{% block content %}
-
 {% block seasons %}
     {% for season in seasons %}
         {% if app.request.get('season') == season.name %}

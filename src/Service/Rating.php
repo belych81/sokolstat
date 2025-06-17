@@ -163,6 +163,7 @@ class Rating
 
     public function getCoef($score, $country)
     {
+        $coef = 5;
       if($score > 0){
         switch ($country) {
           case 'Англия' :

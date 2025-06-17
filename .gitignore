@@ -51,3 +51,6 @@ phpstan.neon
 ###< phpstan/phpstan ###
 
 /robots.txt
+/composer-setup.php
+/composer.phar
+/www.sokolstat.ru
