@@ -2,11 +2,9 @@
 
 {% block title %}
    {{ club.name }} - состав команды  в сезоне {{ app.request.get('season') }}, показатели игроков
-   {{ club.name }} - состав команды  в сезоне {{ app.request.get('season') }}, показатели игроков
 {% endblock %}
 
 {% block description %}
-    <meta name="description" content="{{ club.name }} {{ app.request.get('season') }},
     <meta name="description" content="{{ club.name }} {{ app.request.get('season') }},
           авторы забитых мячей">
 {% endblock %}
@@ -330,12 +328,6 @@
           Добавить последнего игрока</a> |
             <a href="{{ path('playeradmin_editPlayerTurnirs', {'season': app.request.get('season'),
         'country': app.request.get('country'), 'team': app.request.get('id')}) }}">
-            Обновить игрока</a> |
-        <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),'route' : 'championships_show',
-        'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
-            Создать игрока</a> |
-        <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5">
-            Обновить игроков</a>
             Обновить игрока</a> |
         <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),'route' : 'championships_show',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">

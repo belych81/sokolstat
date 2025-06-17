@@ -834,31 +834,33 @@ class PlayerController extends AbstractController
         return $this->redirect($this->generateUrl($route, $routeParams));
     }
 
-    public function editPlayerTurnirs($season, $team, $country)
+    public function editPlayerTurnirs(Menu $serviceMenu, $season, $team, $country)
     {
-      if($country == 'fnl')
-      {
-        $entity = new Fnlplayer();
+        if($country == 'fnl')
+        {
+            $entity = new Fnlplayer();
 
-        $editForm = $this->createForm(FnlplayerUpdateType::class, $entity,
-                ['season' => $season, 'team' => $team]);
-      }
-      else
-      {
-        $entity = new Shipplayer();
+            $editForm = $this->createForm(FnlplayerUpdateType::class, $entity,
+                    ['season' => $season, 'team' => $team]);
+        }
+        else
+        {
+            $entity = new Shipplayer();
 
-        $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
-                ['season' => $season, 'team' => $team]);
-      }
+            $editForm = $this->createForm(ShipplayerUpdateType::class, $entity,
+                    ['season' => $season, 'team' => $team]);
+        }
 
+        $menu = $serviceMenu->generate($country, $season);
 
         return $this->render('rusplayer/editPlayerTurnirs.html.twig', array(
             'entity'      => $entity,
+            'menu'        => $menu,
             'edit_form'   => $editForm->createView()
         ));
     }
 
-    public function updatePlayerTurnirs(Request $request, $season, $team, $country)
+    public function updatePlayerTurnirs(Menu $serviceMenu, Request $request, $season, $team, $country)
     {
       $teamOb = $this->entityManager->getRepository(Team::class)
         ->findOneByTranslit($team);
@@ -885,6 +887,7 @@ class PlayerController extends AbstractController
             $player = $editForm["player"]->getData()->getId();
             $game= $editForm['game']->getData();
             $goal= $editForm['goal']->getData();
+            
             if($country != 'fnl')
             {
               $cup= $editForm['cup']->getData();
@@ -893,28 +896,11 @@ class PlayerController extends AbstractController
               $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
                 $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
                 $teamOb->getId());
-              $em->getRepository(Player::class)
-               ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
-            }
-            else
-            {
-              $em->getRepository(Fnlplayer::class)->updateFullFnlplayer($player,
-                $game, $goal, $seasonOb->getId(), $teamOb->getId());
-              $em->getRepository(Rusplayer::class)->updateRusplayerTotalFnl($player,
-                $game, $goal);
-            }
-            $game= $editForm['game']->getData();
-            $goal= $editForm['goal']->getData();
-            if($country != 'fnl')
-            {
-              $cup= $editForm['cup']->getData();
-              $eurocup= $editForm['eurocup']->getData();
-              $supercup= $editForm['supercup']->getData();
-              $em->getRepository(Shipplayer::class)->updatePlayerTurnirs($player,
-                $game, $goal, $cup, $eurocup, $supercup, $seasonOb->getId(),
-                $teamOb->getId());
-              $em->getRepository(Player::class)
-               ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
+                
+                if (strpos($country, 'underleague-') === false) {
+                    $em->getRepository(Player::class)
+                       ->updatePlayerTurnirs($player, $game, $goal, $cup, $eurocup, $supercup);
+                }
             }
             else
             {
@@ -930,8 +916,11 @@ class PlayerController extends AbstractController
                     ]));
         }
 
+        $menu = $serviceMenu->generate($country, $season);
+
         return $this->render('rusplayer/editPlayerTurnirs.html.twig', [
             'entity'      => $entity,
+            'menu'        => $menu,
             'edit_form'   => $editForm->createView()
             ]);
     }
