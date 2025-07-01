@@ -7,22 +7,18 @@
     {% if ymatch.turnir %}
       {% set arTurnir = ymatch.turnir.alias | split('-') %}
       {% if arTurnir.1 is defined and arTurnir.1 == 'champ' %}
-        {% set route = path('championships', {'country':arTurnir[0],
-        'season': ymatch.season.name, 'tour': ymatch.tour }) %}
+        {% set route = path('championships', {'country':arTurnir[0], 'season': ymatch.season.name, 'tour': ymatch.tour }) %}
       {% elseif arTurnir.1 is defined and arTurnir[0] == 'underleague' %}
-        {% set route = path('championships', {'country': ymatch.turnir.alias,
-        'season': ymatch.season.name, 'tour': ymatch.tour }) %}
+        {% set route = path('championships', {'country': ymatch.turnir.alias, 'season': ymatch.season.name, 'tour': ymatch.tour }) %}
       {% elseif ymatch.turnir.alias == 'fnl' %}
-          {% set route = path('championships', {'country':'fnl',
-          'season': ymatch.season.name}) %}
+          {% set route = path('championships', {'country':'fnl', 'season': ymatch.season.name}) %}
       {% elseif ymatch.turnir.alias == 'russia-cup' %}
         {% set route = path('cup', {'season': ymatch.season.name}) %}
       {% elseif ymatch.turnir.alias == 'league-cup' %}
         {% set route = path('cup_league', {'season': ymatch.season.name}) %}
       {% elseif arTurnir.1 is defined and arTurnir[1] == 'cup' %}
-        {% set route = path('nationcup', {'season': ymatch.season.name,
-        'country': arTurnir[0]}) %}
-      {% elseif ymatch.turnir.alias == 'leagueChampions' or ymatch.turnir.alias == 'leagueEuropa' or ymatch.turnir.alias == 'conference-league' %}
+        {% set route = path('nationcup', {'season': ymatch.season.name, 'country': arTurnir[0]}) %}
+      {% elseif ymatch.turnir.alias == 'leagueChampions' or ymatch.turnir.alias == 'leagueEuropa' or ymatch.turnir.alias == 'conference-league' or ymatch.turnir.alias == 'worldCupClub' %}
            {% set route = path('eurocup', {'season': ymatch.season.name, 'turnir': ymatch.turnir.alias }) %}
       {% elseif arTurnir.1 is defined and arTurnir[1] == 'supercup' %}
         {% set route = path('supercup', {'country':arTurnir[0] }) %}

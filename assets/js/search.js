@@ -189,6 +189,7 @@ $(document).on('click', '.tour_js', function(){
   $(document).on('click', "#shipplayersUpdate", function(){
     var arGames = [];
 		var champ = $(this).data('champ');
+    let under = $(this).data('under');
     $(".shipplayer-input").each(function(){
       var game = $(this).val();
       if(game != 0){
@@ -202,7 +203,7 @@ $(document).on('click', '.tour_js', function(){
     $.ajax({
         type: 'post',
         url: Routing.generate('shipplayers_update'),
-        data: {query: arGames, champ: champ},
+        data: {query: arGames, champ: champ, under: under},
         dataType: 'json',
         success: function(response){
           var arr = JSON.parse(response);

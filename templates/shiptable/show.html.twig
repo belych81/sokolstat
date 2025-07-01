@@ -332,7 +332,7 @@
         <a href="{{ path('player_newPlayer', {'country': app.request.get('country'),'route' : 'championships_show',
         'season': app.request.get('season'), 'team': app.request.get('id')}) }}">
             Создать игрока</a> |
-        <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5">
+        <a href="javascript:void(0)" id="shipplayersUpdate" data-champ="top5" data-under="{{ isUnderLeague }}">
             Обновить игроков</a>
         {% endif %}
   </div>

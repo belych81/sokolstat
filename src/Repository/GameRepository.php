@@ -105,12 +105,15 @@ class GameRepository extends ServiceEntityRepository
               ->getResult();
     }
 
-    public function getMatchesByDate($curDate, $season)
+    public function getMatchesByDate($curDate, $season, $country)
     {
       return $this->createQueryBuilder('t')
               ->select('t')
               ->join('t.season', 's')
               ->join('t.team', 'tm')
+              ->join('t.turnir', 'c')
+              ->where("c.alias = :country")
+              ->setParameter('country', $country)
               ->andWhere("t.data LIKE '%$curDate%'")
               ->andWhere("s.name = :season")
               ->setParameter('season', $season)
