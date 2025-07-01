@@ -126,7 +126,7 @@ class ShiptableController extends AbstractController
               }
               $obCurDate = new \DateTime($curDate);
               $matches = $this->entityManager->getRepository(Game::class)
-                  ->getMatchesByDate($curDate, $seasonName);
+                  ->getMatchesByDate($curDate, $seasonName, $country);
               foreach ($matches as $key => $match) {
                 $obData = $match->getData();
                 $dates[$obData->format("d.m")][] = $match;
@@ -365,7 +365,8 @@ class ShiptableController extends AbstractController
          'lastPlayer' => $lastPlayer,
          'lastMatches' => $lastMatches,
          'shiptable' => $shiptable,
-         'menu' => $menu
+         'menu' => $menu,
+         'isUnderLeague' => $isUnderLeague,
        ];
 
         if ($country == 'russia') {
@@ -667,12 +668,17 @@ class ShiptableController extends AbstractController
       $all = $request->getPayload()->all();
       $query = $all['query'];
       $champ = $all['champ'];
+      $under = $all['under'];
+
       $em = $this->entityManager;
       $param = [];
+
       foreach ($query as $val) {
         if($champ == 'top5'){
           $em->getRepository(Shipplayer::class)->updateShipplayers($val);
-          $em->getRepository(Player::class)->updateShipplayerSumGame($val);
+          if (!$under) {
+            $em->getRepository(Player::class)->updateShipplayerSumGame($val);
+          }
           $player = $this->entityManager->getRepository(Shipplayer::class)
             ->find($val[0]);
         } else {
